@@ -1,0 +1,9 @@
+{
+  "name": "@cnml/cnml-types",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "gen": "node --experimental-strip-types --no-warnings ../../scripts/generate-types.ts"
+  }
+}

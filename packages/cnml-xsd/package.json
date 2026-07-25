@@ -1,0 +1,9 @@
+{
+  "name": "@cnml/cnml-xsd",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/cnml-1.0.xsd",
+    "./cnml-1.0.xsd": "./src/cnml-1.0.xsd"
+  }
+}

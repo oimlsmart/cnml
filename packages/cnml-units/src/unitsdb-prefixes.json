@@ -1,0 +1,134 @@
+[
+  {
+    "symbol": "d",
+    "unit_id": "p:deci"
+  },
+  {
+    "symbol": "p",
+    "unit_id": "p:pico"
+  },
+  {
+    "symbol": "f",
+    "unit_id": "p:femto"
+  },
+  {
+    "symbol": "a",
+    "unit_id": "p:atto"
+  },
+  {
+    "symbol": "c",
+    "unit_id": "p:centi"
+  },
+  {
+    "symbol": "z",
+    "unit_id": "p:zepto"
+  },
+  {
+    "symbol": "y",
+    "unit_id": "p:yocto"
+  },
+  {
+    "symbol": "r",
+    "unit_id": "p:ronto"
+  },
+  {
+    "symbol": "m",
+    "unit_id": "p:milli"
+  },
+  {
+    "symbol": "q",
+    "unit_id": "p:quecto"
+  },
+  {
+    "symbol": "μ",
+    "unit_id": "p:micro"
+  },
+  {
+    "symbol": "u",
+    "unit_id": "p:micro"
+  },
+  {
+    "symbol": "n",
+    "unit_id": "p:nano"
+  },
+  {
+    "symbol": "da",
+    "unit_id": "p:deka"
+  },
+  {
+    "symbol": "T",
+    "unit_id": "p:tera"
+  },
+  {
+    "symbol": "P",
+    "unit_id": "p:peta"
+  },
+  {
+    "symbol": "E",
+    "unit_id": "p:exa"
+  },
+  {
+    "symbol": "h",
+    "unit_id": "p:hecto"
+  },
+  {
+    "symbol": "Z",
+    "unit_id": "p:zetta"
+  },
+  {
+    "symbol": "Y",
+    "unit_id": "p:yotta"
+  },
+  {
+    "symbol": "R",
+    "unit_id": "p:ronna"
+  },
+  {
+    "symbol": "k",
+    "unit_id": "p:kilo"
+  },
+  {
+    "symbol": "Q",
+    "unit_id": "p:quetta"
+  },
+  {
+    "symbol": "M",
+    "unit_id": "p:mega"
+  },
+  {
+    "symbol": "G",
+    "unit_id": "p:giga"
+  },
+  {
+    "symbol": "Ki",
+    "unit_id": "p:kibi"
+  },
+  {
+    "symbol": "Mi",
+    "unit_id": "p:mebi"
+  },
+  {
+    "symbol": "Gi",
+    "unit_id": "p:gibi"
+  },
+  {
+    "symbol": "Ti",
+    "unit_id": "p:tebi"
+  },
+  {
+    "symbol": "Pi",
+    "unit_id": "p:pebi"
+  },
+  {
+    "symbol": "Ei",
+    "unit_id": "p:exbi"
+  },
+  {
+    "symbol": "Zi",
+    "unit_id": "p:zebi"
+  },
+  {
+    "symbol": "Yi",
+    "unit_id": "p:yobi"
+  }
+]

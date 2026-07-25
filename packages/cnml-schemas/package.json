@@ -1,0 +1,17 @@
+{
+  "name": "@cnml/cnml-schemas",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*",
+    "./core": "./src/_core.yaml",
+    "./units": "./src/_units.yaml",
+    "./units-local": "./src/_units_local.yaml",
+    "./modules/*": "./src/modules/*.yaml",
+    "./samples/*": "./src/samples/*.yaml",
+    "./schemas/*": "./src/schemas/*",
+    "./R*": "./src/schemas/R*.yaml"
+  }
+}

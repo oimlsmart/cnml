@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  CNML — Certificat Numérique de Métrologie Légale
+  Core XML Schema for OIML Digital Certificates.
+
+  Mirrors the OIML CORE certificate model (oiml-cs-certificates/schema/_core.yaml)
+  with UnitsML for measurement units and XMLDSig for signatures.
+
+  Namespace: https://oimlsmart.org/schemas/cnml/1.0
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:cnml="https://oimlsmart.org/schemas/cnml/1.0"
+           xmlns:unitsml="https://unitsml.org/ns/unitsml"
+           xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           targetNamespace="https://oimlsmart.org/schemas/cnml/1.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="1.0">
+
+  <xs:import namespace="https://unitsml.org/ns/unitsml" schemaLocation="https://unitsml.org/schemas/unitsml.xsd"/>
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="https://www.w3.org/TR/xmldsig-core/xmldsig-core-schema.xsd"/>
+
+  <!-- ─── Root element ──────────────────────────────────────────── -->
+
+  <xs:element name="certificatNumeriqueMetrologieLegale" type="cnml:CNMLType"/>
+
+  <xs:complexType name="CNMLType">
+    <xs:sequence>
+      <xs:element name="administrativeData" type="cnml:AdministrativeDataType"/>
+      <xs:element name="measurementResults" type="cnml:MeasurementResultsType"/>
+      <xs:element ref="ds:Signature" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="schemaVersion" type="xs:string" fixed="1.0" use="required"/>
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+  </xs:complexType>
+
+  <!-- ─── Administrative data ───────────────────────────────────── -->
+
+  <xs:complexType name="AdministrativeDataType">
+    <xs:sequence>
+      <xs:element name="cnmlSoftware" type="cnml:SoftwareType"/>
+      <xs:element name="coreData" type="cnml:CoreDataType"/>
+      <xs:element name="issuingAuthority" type="cnml:PartyType"/>
+      <xs:element name="applicants" type="cnml:PartyListType" minOccurs="0"/>
+      <xs:element name="manufacturers" type="cnml:PartyListType" minOccurs="0"/>
+      <xs:element name="certifiedType" type="cnml:CertifiedTypeType"/>
+      <xs:element name="revisionHistory" type="cnml:RevisionHistoryType" minOccurs="0"/>
+      <xs:element name="testReports" type="cnml:TestReportListType" minOccurs="0"/>
+      <xs:element name="footnotes" type="cnml:FootnoteListType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SoftwareType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="version" type="xs:string"/>
+      <xs:element name="hash" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="language" type="xs:language" default="en"/>
+  </xs:complexType>
+
+  <xs:complexType name="CoreDataType">
+    <xs:sequence>
+      <xs:element name="identifications" type="cnml:IdentificationsType"/>
+      <xs:element name="recommendation" type="cnml:RecommendationType"/>
+      <xs:element name="scheme" type="cnml:SchemeType"/>
+      <xs:element name="accuracyClasses" type="cnml:AccuracyClassesType" minOccurs="0"/>
+      <xs:element name="dateOfIssue" type="xs:date"/>
+      <xs:element name="pageTotal" type="xs:positiveInteger" minOccurs="0"/>
+      <xs:element name="oimlIssuerId" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="memberState" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="IdentificationsType">
+    <xs:sequence>
+      <xs:element name="oimlNumber" type="xs:string"/>
+      <xs:element name="projectNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RecommendationType">
+    <xs:attribute name="ref" type="xs:string" use="required"/>
+    <xs:attribute name="edition" type="xs:gYear" use="required"/>
+    <xs:attribute name="amendment" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="SchemeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="A"/>
+      <xs:enumeration value="B"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="AccuracyClassesType">
+    <xs:sequence>
+      <xs:element name="class" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ─── Party (issuing authority, applicant, manufacturer) ────── -->
+
+  <xs:complexType name="PartyType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="addressLines" type="cnml:AddressLinesType" minOccurs="0"/>
+      <xs:element name="personResponsible" type="xs:string" minOccurs="0"/>
+      <xs:element name="personTitle" type="xs:string" minOccurs="0"/>
+      <xs:element name="phone" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:element name="website" type="xs:string" minOccurs="0"/>
+      <xs:element name="oimlIssuerId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PartyListType">
+    <xs:sequence>
+      <xs:element name="party" type="cnml:PartyType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AddressLinesType">
+    <xs:sequence>
+      <xs:element name="line" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ─── Certified type ────────────────────────────────────────── -->
+
+  <xs:complexType name="CertifiedTypeType">
+    <xs:sequence>
+      <xs:element name="category" type="xs:string"/>
+      <xs:element name="typeDesignations" type="cnml:TypeDesignationsType"/>
+      <xs:element name="moduleDesignation" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TypeDesignationsType">
+    <xs:sequence>
+      <xs:element name="designation" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ─── Measurement results (characteristics) ────────────────── -->
+
+  <xs:complexType name="MeasurementResultsType">
+    <xs:sequence>
+      <xs:element name="characteristic" type="cnml:CharacteristicType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="layer" type="cnml:LayerType" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="LayerType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="type_level"/>
+      <xs:enumeration value="model_level"/>
+      <xs:enumeration value="config_level"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="CharacteristicType">
+    <xs:sequence>
+      <xs:element name="value" type="cnml:ValueType"/>
+      <xs:element name="footnoteMarkers" type="cnml:FootnoteMarkersType" minOccurs="0"/>
+      <xs:element name="note" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="unitKind" type="xs:string" use="optional"/>
+    <xs:attribute name="model" type="xs:string" use="optional"/>
+    <xs:attribute name="condition" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="ValueType">
+    <xs:choice>
+      <xs:element name="scalar" type="cnml:ScalarValueType"/>
+      <xs:element name="range" type="cnml:RangeValueType"/>
+      <xs:element name="list" type="cnml:ListValueType"/>
+      <xs:element name="structuredQuantity" type="cnml:StructuredQuantityType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="ScalarValueType">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="text" type="xs:string"/>
+        <xs:element name="number" type="xs:decimal"/>
+        <xs:element name="boolean" type="xs:boolean"/>
+      </xs:choice>
+      <xs:element ref="unitsml:units" minOccurs="0"/>
+      <xs:element name="qualifier" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RangeValueType">
+    <xs:sequence>
+      <xs:element name="min">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="number" type="xs:decimal"/>
+            <xs:element name="na" type="cnml:EmptyType"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="max">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="number" type="xs:decimal"/>
+            <xs:element name="na" type="cnml:EmptyType"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element ref="unitsml:units" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListValueType">
+    <xs:sequence>
+      <xs:element name="item" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="text" type="xs:string"/>
+            <xs:element name="number" type="xs:decimal"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StructuredQuantityType">
+    <xs:sequence>
+      <xs:element name="quantity" type="cnml:QuantityType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QuantityType">
+    <xs:sequence>
+      <xs:element name="numeral" type="xs:decimal"/>
+      <xs:element ref="unitsml:units"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EmptyType"/>
+
+  <xs:complexType name="FootnoteMarkersType">
+    <xs:sequence>
+      <xs:element name="marker" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ─── Revision history ──────────────────────────────────────── -->
+
+  <xs:complexType name="RevisionHistoryType">
+    <xs:sequence>
+      <xs:element name="revision" type="cnml:RevisionEntryType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RevisionEntryType">
+    <xs:sequence>
+      <xs:element name="revisionNumber" type="xs:string"/>
+      <xs:element name="date" type="xs:date"/>
+      <xs:element name="changes" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ─── Test reports ──────────────────────────────────────────── -->
+
+  <xs:complexType name="TestReportListType">
+    <xs:sequence>
+      <xs:element name="testReport" type="cnml:TestReportType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TestReportType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="date" type="xs:date" minOccurs="0"/>
+      <xs:element name="pages" type="xs:positiveInteger" minOccurs="0"/>
+      <xs:element name="role" type="cnml:TestReportRoleType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="TestReportRoleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="type_evaluation_report"/>
+      <xs:enumeration value="test_report"/>
+      <xs:enumeration value="documentation_file"/>
+      <xs:enumeration value="evaluation_report"/>
+      <xs:enumeration value="pattern_evaluation_checklist"/>
+      <xs:enumeration value="pattern_evaluation_report"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ─── Footnotes ─────────────────────────────────────────────── -->
+
+  <xs:complexType name="FootnoteListType">
+    <xs:sequence>
+      <xs:element name="footnote" type="cnml:FootnoteType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FootnoteType">
+    <xs:sequence>
+      <xs:element name="marker" type="xs:string"/>
+      <xs:element name="text" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

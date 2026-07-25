@@ -1,0 +1,4014 @@
+[
+  {
+    "symbol": "meter",
+    "unit_id": "u:meter"
+  },
+  {
+    "symbol": "m",
+    "unit_id": "u:meter"
+  },
+  {
+    "symbol": "meter_per_second",
+    "unit_id": "u:meter_per_second"
+  },
+  {
+    "symbol": "m·s⁻¹",
+    "unit_id": "u:meter_per_second"
+  },
+  {
+    "symbol": "m*s^-1",
+    "unit_id": "u:meter_per_second"
+  },
+  {
+    "symbol": "meter_per_second_squared",
+    "unit_id": "u:meter_per_second_squared"
+  },
+  {
+    "symbol": "m·s⁻²",
+    "unit_id": "u:meter_per_second_squared"
+  },
+  {
+    "symbol": "m*s^-2",
+    "unit_id": "u:meter_per_second_squared"
+  },
+  {
+    "symbol": "steradian",
+    "unit_id": "u:steradian"
+  },
+  {
+    "symbol": "sr",
+    "unit_id": "u:steradian"
+  },
+  {
+    "symbol": "rem",
+    "unit_id": "u:rem"
+  },
+  {
+    "symbol": "year_365",
+    "unit_id": "u:year_365"
+  },
+  {
+    "symbol": "a",
+    "unit_id": "u:year_365"
+  },
+  {
+    "symbol": "a_year",
+    "unit_id": "u:year_365"
+  },
+  {
+    "symbol": "foot_per_minute",
+    "unit_id": "u:foot_per_minute"
+  },
+  {
+    "symbol": "ft·min⁻¹",
+    "unit_id": "u:foot_per_minute"
+  },
+  {
+    "symbol": "ft*min^-1",
+    "unit_id": "u:foot_per_minute"
+  },
+  {
+    "symbol": "foot_per_second",
+    "unit_id": "u:foot_per_second"
+  },
+  {
+    "symbol": "ft·s⁻¹",
+    "unit_id": "u:foot_per_second"
+  },
+  {
+    "symbol": "ft*s^-1",
+    "unit_id": "u:foot_per_second"
+  },
+  {
+    "symbol": "inch_per_second",
+    "unit_id": "u:inch_per_second"
+  },
+  {
+    "symbol": "in·s⁻¹",
+    "unit_id": "u:inch_per_second"
+  },
+  {
+    "symbol": "in*s^-1",
+    "unit_id": "u:inch_per_second"
+  },
+  {
+    "symbol": "newton",
+    "unit_id": "u:newton"
+  },
+  {
+    "symbol": "N",
+    "unit_id": "u:newton"
+  },
+  {
+    "symbol": "newton_meter",
+    "unit_id": "u:newton_meter"
+  },
+  {
+    "symbol": "N·m",
+    "unit_id": "u:newton_meter"
+  },
+  {
+    "symbol": "N*m",
+    "unit_id": "u:newton_meter"
+  },
+  {
+    "symbol": "newton_meter_second",
+    "unit_id": "u:newton_meter_second"
+  },
+  {
+    "symbol": "N·m·s",
+    "unit_id": "u:newton_meter_second"
+  },
+  {
+    "symbol": "N*m*s",
+    "unit_id": "u:newton_meter_second"
+  },
+  {
+    "symbol": "newton_per_meter",
+    "unit_id": "u:newton_per_meter"
+  },
+  {
+    "symbol": "N/m",
+    "unit_id": "u:newton_per_meter"
+  },
+  {
+    "symbol": "N*m^-1",
+    "unit_id": "u:newton_per_meter"
+  },
+  {
+    "symbol": "newton_meter_squared_per_kilogram_squared",
+    "unit_id": "u:newton_meter_squared_per_kilogram_squared"
+  },
+  {
+    "symbol": "N·m²/kg²",
+    "unit_id": "u:newton_meter_squared_per_kilogram_squared"
+  },
+  {
+    "symbol": "N*m^2*kg^-2",
+    "unit_id": "u:newton_meter_squared_per_kilogram_squared"
+  },
+  {
+    "symbol": "newton_second",
+    "unit_id": "u:newton_second"
+  },
+  {
+    "symbol": "N·s",
+    "unit_id": "u:newton_second"
+  },
+  {
+    "symbol": "N*s",
+    "unit_id": "u:newton_second"
+  },
+  {
+    "symbol": "mile_per_hour",
+    "unit_id": "u:mile_per_hour"
+  },
+  {
+    "symbol": "mi·h⁻¹",
+    "unit_id": "u:mile_per_hour"
+  },
+  {
+    "symbol": "mi*h^-1",
+    "unit_id": "u:mile_per_hour"
+  },
+  {
+    "symbol": "mile_per_minute",
+    "unit_id": "u:mile_per_minute"
+  },
+  {
+    "symbol": "mi·min⁻¹",
+    "unit_id": "u:mile_per_minute"
+  },
+  {
+    "symbol": "mi*min^-1",
+    "unit_id": "u:mile_per_minute"
+  },
+  {
+    "symbol": "mile_per_second",
+    "unit_id": "u:mile_per_second"
+  },
+  {
+    "symbol": "mi·s⁻¹",
+    "unit_id": "u:mile_per_second"
+  },
+  {
+    "symbol": "mi*s^-1",
+    "unit_id": "u:mile_per_second"
+  },
+  {
+    "symbol": "stere",
+    "unit_id": "u:stere"
+  },
+  {
+    "symbol": "st",
+    "unit_id": "u:stere"
+  },
+  {
+    "symbol": "gamma",
+    "unit_id": "u:gamma"
+  },
+  {
+    "symbol": "γ",
+    "unit_id": "u:gamma"
+  },
+  {
+    "symbol": "ec_therm",
+    "unit_id": "u:ec_therm"
+  },
+  {
+    "symbol": "thm (EC)",
+    "unit_id": "u:ec_therm"
+  },
+  {
+    "symbol": "roentgen",
+    "unit_id": "u:roentgen"
+  },
+  {
+    "symbol": "R",
+    "unit_id": "u:roentgen"
+  },
+  {
+    "symbol": "gauss",
+    "unit_id": "u:gauss"
+  },
+  {
+    "symbol": "Gs",
+    "unit_id": "u:gauss"
+  },
+  {
+    "symbol": "G",
+    "unit_id": "u:gauss"
+  },
+  {
+    "symbol": "pascal",
+    "unit_id": "u:pascal"
+  },
+  {
+    "symbol": "Pa",
+    "unit_id": "u:pascal"
+  },
+  {
+    "symbol": "pascal_second",
+    "unit_id": "u:pascal_second"
+  },
+  {
+    "symbol": "Pa·s",
+    "unit_id": "u:pascal_second"
+  },
+  {
+    "symbol": "Pa*s",
+    "unit_id": "u:pascal_second"
+  },
+  {
+    "symbol": "pascal_per_kelvin",
+    "unit_id": "u:pascal_per_kelvin"
+  },
+  {
+    "symbol": "Pa/K",
+    "unit_id": "u:pascal_per_kelvin"
+  },
+  {
+    "symbol": "Pa*K^-1",
+    "unit_id": "u:pascal_per_kelvin"
+  },
+  {
+    "symbol": "kayser",
+    "unit_id": "u:kayser"
+  },
+  {
+    "symbol": "K",
+    "unit_id": "u:kayser"
+  },
+  {
+    "symbol": "centistokes",
+    "unit_id": "u:centistokes"
+  },
+  {
+    "symbol": "cSt",
+    "unit_id": "u:centistokes"
+  },
+  {
+    "symbol": "micron",
+    "unit_id": "u:micron"
+  },
+  {
+    "symbol": "μ",
+    "unit_id": "u:micron"
+  },
+  {
+    "symbol": "mil (length)",
+    "unit_id": "u:mil (length)"
+  },
+  {
+    "symbol": "mil",
+    "unit_id": "u:mil (length)"
+  },
+  {
+    "symbol": "thou",
+    "unit_id": "u:mil (length)"
+  },
+  {
+    "symbol": "stilb",
+    "unit_id": "u:stilb"
+  },
+  {
+    "symbol": "sb",
+    "unit_id": "u:stilb"
+  },
+  {
+    "symbol": "kilogram_force_second_squared_per_meter",
+    "unit_id": "u:kilogram_force_second_squared_per_meter"
+  },
+  {
+    "symbol": "kgf·s²m⁻¹",
+    "unit_id": "u:kilogram_force_second_squared_per_meter"
+  },
+  {
+    "symbol": "kgf*s^2/m",
+    "unit_id": "u:kilogram_force_second_squared_per_meter"
+  },
+  {
+    "symbol": "kilogram_force_meter",
+    "unit_id": "u:kilogram_force_meter"
+  },
+  {
+    "symbol": "kgf·m",
+    "unit_id": "u:kilogram_force_meter"
+  },
+  {
+    "symbol": "kgf*m",
+    "unit_id": "u:kilogram_force_meter"
+  },
+  {
+    "symbol": "electric_horsepower",
+    "unit_id": "u:electric_horsepower"
+  },
+  {
+    "symbol": "hp",
+    "unit_id": "u:electric_horsepower"
+  },
+  {
+    "symbol": "hp_electric",
+    "unit_id": "u:electric_horsepower"
+  },
+  {
+    "symbol": "poise",
+    "unit_id": "u:poise"
+  },
+  {
+    "symbol": "P",
+    "unit_id": "u:poise"
+  },
+  {
+    "symbol": "rhe",
+    "unit_id": "u:rhe"
+  },
+  {
+    "symbol": "pascal_to_the_power_minus_one",
+    "unit_id": "u:pascal_to_the_power_minus_one"
+  },
+  {
+    "symbol": "Pa⁻¹",
+    "unit_id": "u:pascal_to_the_power_minus_one"
+  },
+  {
+    "symbol": "Pa^-1",
+    "unit_id": "u:pascal_to_the_power_minus_one"
+  },
+  {
+    "symbol": "joule",
+    "unit_id": "u:joule"
+  },
+  {
+    "symbol": "J",
+    "unit_id": "u:joule"
+  },
+  {
+    "symbol": "joule_per_cubic_meter",
+    "unit_id": "u:joule_per_cubic_meter"
+  },
+  {
+    "symbol": "J/m³",
+    "unit_id": "u:joule_per_cubic_meter"
+  },
+  {
+    "symbol": "J*m^-3",
+    "unit_id": "u:joule_per_cubic_meter"
+  },
+  {
+    "symbol": "joule_per_kilogram",
+    "unit_id": "u:joule_per_kilogram"
+  },
+  {
+    "symbol": "J/kg",
+    "unit_id": "u:joule_per_kilogram"
+  },
+  {
+    "symbol": "J*kg^-1",
+    "unit_id": "u:joule_per_kilogram"
+  },
+  {
+    "symbol": "joule_per_kilogram_kelvin",
+    "unit_id": "u:joule_per_kilogram_kelvin"
+  },
+  {
+    "symbol": "J/(kg·K)",
+    "unit_id": "u:joule_per_kilogram_kelvin"
+  },
+  {
+    "symbol": "J*kg^-1*K^-1",
+    "unit_id": "u:joule_per_kilogram_kelvin"
+  },
+  {
+    "symbol": "joule_second",
+    "unit_id": "u:joule_second"
+  },
+  {
+    "symbol": "J·s",
+    "unit_id": "u:joule_second"
+  },
+  {
+    "symbol": "J*s",
+    "unit_id": "u:joule_second"
+  },
+  {
+    "symbol": "joule_per_kelvin",
+    "unit_id": "u:joule_per_kelvin"
+  },
+  {
+    "symbol": "J/K",
+    "unit_id": "u:joule_per_kelvin"
+  },
+  {
+    "symbol": "J*K^-1",
+    "unit_id": "u:joule_per_kelvin"
+  },
+  {
+    "symbol": "joule_per_mole",
+    "unit_id": "u:joule_per_mole"
+  },
+  {
+    "symbol": "J/mol",
+    "unit_id": "u:joule_per_mole"
+  },
+  {
+    "symbol": "J*mol^-1",
+    "unit_id": "u:joule_per_mole"
+  },
+  {
+    "symbol": "joule_per_mole_kelvin",
+    "unit_id": "u:joule_per_mole_kelvin"
+  },
+  {
+    "symbol": "J/(mol·K)",
+    "unit_id": "u:joule_per_mole_kelvin"
+  },
+  {
+    "symbol": "J*mol^-1*K^-1",
+    "unit_id": "u:joule_per_mole_kelvin"
+  },
+  {
+    "symbol": "liter",
+    "unit_id": "u:liter"
+  },
+  {
+    "symbol": "l",
+    "unit_id": "u:liter"
+  },
+  {
+    "symbol": "L",
+    "unit_id": "u:liter"
+  },
+  {
+    "symbol": "nautical_mile",
+    "unit_id": "u:nautical_mile"
+  },
+  {
+    "symbol": "M",
+    "unit_id": "u:nautical_mile"
+  },
+  {
+    "symbol": "degree_Fahrenheit",
+    "unit_id": "u:degree_Fahrenheit"
+  },
+  {
+    "symbol": "°F",
+    "unit_id": "u:degree_Fahrenheit"
+  },
+  {
+    "symbol": "degF",
+    "unit_id": "u:degree_Fahrenheit"
+  },
+  {
+    "symbol": "standard_atmosphere",
+    "unit_id": "u:standard_atmosphere"
+  },
+  {
+    "symbol": "atm",
+    "unit_id": "u:standard_atmosphere"
+  },
+  {
+    "symbol": "technical_atmosphere",
+    "unit_id": "u:technical_atmosphere"
+  },
+  {
+    "symbol": "at",
+    "unit_id": "u:technical_atmosphere"
+  },
+  {
+    "symbol": "watt",
+    "unit_id": "u:watt"
+  },
+  {
+    "symbol": "W",
+    "unit_id": "u:watt"
+  },
+  {
+    "symbol": "watt_per_steradian",
+    "unit_id": "u:watt_per_steradian"
+  },
+  {
+    "symbol": "W/sr",
+    "unit_id": "u:watt_per_steradian"
+  },
+  {
+    "symbol": "W*sr^-1",
+    "unit_id": "u:watt_per_steradian"
+  },
+  {
+    "symbol": "watt_per_meter_kelvin",
+    "unit_id": "u:watt_per_meter_kelvin"
+  },
+  {
+    "symbol": "W/(m·K)",
+    "unit_id": "u:watt_per_meter_kelvin"
+  },
+  {
+    "symbol": "W*m^-1*K^-1",
+    "unit_id": "u:watt_per_meter_kelvin"
+  },
+  {
+    "symbol": "watt_per_square_meter",
+    "unit_id": "u:watt_per_square_meter"
+  },
+  {
+    "symbol": "W/m²",
+    "unit_id": "u:watt_per_square_meter"
+  },
+  {
+    "symbol": "W*m^-2",
+    "unit_id": "u:watt_per_square_meter"
+  },
+  {
+    "symbol": "watt_per_square_meter_steradian",
+    "unit_id": "u:watt_per_square_meter_steradian"
+  },
+  {
+    "symbol": "W/(m²·sr)",
+    "unit_id": "u:watt_per_square_meter_steradian"
+  },
+  {
+    "symbol": "W*m^-2*sr^-1",
+    "unit_id": "u:watt_per_square_meter_steradian"
+  },
+  {
+    "symbol": "watt_second",
+    "unit_id": "u:watt_second"
+  },
+  {
+    "symbol": "W·s",
+    "unit_id": "u:watt_second"
+  },
+  {
+    "symbol": "W*s",
+    "unit_id": "u:watt_second"
+  },
+  {
+    "symbol": "stokes",
+    "unit_id": "u:stokes"
+  },
+  {
+    "symbol": "St",
+    "unit_id": "u:stokes"
+  },
+  {
+    "symbol": "gal",
+    "unit_id": "u:gal"
+  },
+  {
+    "symbol": "Gal",
+    "unit_id": "u:gal"
+  },
+  {
+    "symbol": "oersted",
+    "unit_id": "u:oersted"
+  },
+  {
+    "symbol": "Oe",
+    "unit_id": "u:oersted"
+  },
+  {
+    "symbol": "arc_minute",
+    "unit_id": "u:arc_minute"
+  },
+  {
+    "symbol": "′",
+    "unit_id": "u:arc_minute"
+  },
+  {
+    "symbol": "'",
+    "unit_id": "u:arc_minute"
+  },
+  {
+    "symbol": "prime",
+    "unit_id": "u:arc_minute"
+  },
+  {
+    "symbol": "arc_second",
+    "unit_id": "u:arc_second"
+  },
+  {
+    "symbol": "″",
+    "unit_id": "u:arc_second"
+  },
+  {
+    "symbol": "\"",
+    "unit_id": "u:arc_second"
+  },
+  {
+    "symbol": "dprime",
+    "unit_id": "u:arc_second"
+  },
+  {
+    "symbol": "as",
+    "unit_id": "u:arc_second"
+  },
+  {
+    "symbol": "arc_degree",
+    "unit_id": "u:arc_degree"
+  },
+  {
+    "symbol": "º",
+    "unit_id": "u:arc_degree"
+  },
+  {
+    "symbol": "deg",
+    "unit_id": "u:arc_degree"
+  },
+  {
+    "symbol": "coulomb",
+    "unit_id": "u:coulomb"
+  },
+  {
+    "symbol": "C",
+    "unit_id": "u:coulomb"
+  },
+  {
+    "symbol": "coulomb_per_square_meter",
+    "unit_id": "u:coulomb_per_square_meter"
+  },
+  {
+    "symbol": "C/m²",
+    "unit_id": "u:coulomb_per_square_meter"
+  },
+  {
+    "symbol": "C*m^-2",
+    "unit_id": "u:coulomb_per_square_meter"
+  },
+  {
+    "symbol": "coulomb_per_cubic_meter",
+    "unit_id": "u:coulomb_per_cubic_meter"
+  },
+  {
+    "symbol": "C/m³",
+    "unit_id": "u:coulomb_per_cubic_meter"
+  },
+  {
+    "symbol": "C*m^-3",
+    "unit_id": "u:coulomb_per_cubic_meter"
+  },
+  {
+    "symbol": "coulomb_per_kilogram",
+    "unit_id": "u:coulomb_per_kilogram"
+  },
+  {
+    "symbol": "C/kg",
+    "unit_id": "u:coulomb_per_kilogram"
+  },
+  {
+    "symbol": "C*kg^-1",
+    "unit_id": "u:coulomb_per_kilogram"
+  },
+  {
+    "symbol": "knot",
+    "unit_id": "u:knot"
+  },
+  {
+    "symbol": "kn",
+    "unit_id": "u:knot"
+  },
+  {
+    "symbol": "neper",
+    "unit_id": "u:neper"
+  },
+  {
+    "symbol": "Np",
+    "unit_id": "u:neper"
+  },
+  {
+    "symbol": "bel",
+    "unit_id": "u:bel"
+  },
+  {
+    "symbol": "B",
+    "unit_id": "u:bel"
+  },
+  {
+    "symbol": "bel_B",
+    "unit_id": "u:bel"
+  },
+  {
+    "symbol": "decibel",
+    "unit_id": "u:decibel"
+  },
+  {
+    "symbol": "dB",
+    "unit_id": "u:decibel"
+  },
+  {
+    "symbol": "mm_Hg",
+    "unit_id": "u:mm_Hg"
+  },
+  {
+    "symbol": "mmHg",
+    "unit_id": "u:mm_Hg"
+  },
+  {
+    "symbol": "darcy",
+    "unit_id": "u:darcy"
+  },
+  {
+    "symbol": "d",
+    "unit_id": "u:darcy"
+  },
+  {
+    "symbol": "D",
+    "unit_id": "u:darcy"
+  },
+  {
+    "symbol": "Darcy",
+    "unit_id": "u:darcy"
+  },
+  {
+    "symbol": "gon",
+    "unit_id": "u:gon"
+  },
+  {
+    "symbol": "volt",
+    "unit_id": "u:volt"
+  },
+  {
+    "symbol": "V",
+    "unit_id": "u:volt"
+  },
+  {
+    "symbol": "volt_per_meter",
+    "unit_id": "u:volt_per_meter"
+  },
+  {
+    "symbol": "V/m",
+    "unit_id": "u:volt_per_meter"
+  },
+  {
+    "symbol": "V*m^-1",
+    "unit_id": "u:volt_per_meter"
+  },
+  {
+    "symbol": "kilometer_per_hour",
+    "unit_id": "u:kilometer_per_hour"
+  },
+  {
+    "symbol": "km/h",
+    "unit_id": "u:kilometer_per_hour"
+  },
+  {
+    "symbol": "neper_per_second",
+    "unit_id": "u:neper_per_second"
+  },
+  {
+    "symbol": "Np/s",
+    "unit_id": "u:neper_per_second"
+  },
+  {
+    "symbol": "Np*s^-1",
+    "unit_id": "u:neper_per_second"
+  },
+  {
+    "symbol": "square_yard",
+    "unit_id": "u:square_yard"
+  },
+  {
+    "symbol": "yd²",
+    "unit_id": "u:square_yard"
+  },
+  {
+    "symbol": "yd^2",
+    "unit_id": "u:square_yard"
+  },
+  {
+    "symbol": "square_mile",
+    "unit_id": "u:square_mile"
+  },
+  {
+    "symbol": "mi²",
+    "unit_id": "u:square_mile"
+  },
+  {
+    "symbol": "mi^2",
+    "unit_id": "u:square_mile"
+  },
+  {
+    "symbol": "tons_of_tnt",
+    "unit_id": "u:tons_of_tnt"
+  },
+  {
+    "symbol": "ton",
+    "unit_id": "u:tons_of_tnt"
+  },
+  {
+    "symbol": "ton_TNT",
+    "unit_id": "u:tons_of_tnt"
+  },
+  {
+    "symbol": "foot_per_second_squared",
+    "unit_id": "u:foot_per_second_squared"
+  },
+  {
+    "symbol": "ft/s²",
+    "unit_id": "u:foot_per_second_squared"
+  },
+  {
+    "symbol": "ft*s^-2",
+    "unit_id": "u:foot_per_second_squared"
+  },
+  {
+    "symbol": "cubic_inch",
+    "unit_id": "u:cubic_inch"
+  },
+  {
+    "symbol": "in³",
+    "unit_id": "u:cubic_inch"
+  },
+  {
+    "symbol": "in^3",
+    "unit_id": "u:cubic_inch"
+  },
+  {
+    "symbol": "cubic_foot",
+    "unit_id": "u:cubic_foot"
+  },
+  {
+    "symbol": "ft³",
+    "unit_id": "u:cubic_foot"
+  },
+  {
+    "symbol": "ft^3",
+    "unit_id": "u:cubic_foot"
+  },
+  {
+    "symbol": "farad",
+    "unit_id": "u:farad"
+  },
+  {
+    "symbol": "F",
+    "unit_id": "u:farad"
+  },
+  {
+    "symbol": "farad_per_meter",
+    "unit_id": "u:farad_per_meter"
+  },
+  {
+    "symbol": "F/m",
+    "unit_id": "u:farad_per_meter"
+  },
+  {
+    "symbol": "F*m^-1",
+    "unit_id": "u:farad_per_meter"
+  },
+  {
+    "symbol": "cubic_yard",
+    "unit_id": "u:cubic_yard"
+  },
+  {
+    "symbol": "yd³",
+    "unit_id": "u:cubic_yard"
+  },
+  {
+    "symbol": "yd^3",
+    "unit_id": "u:cubic_yard"
+  },
+  {
+    "symbol": "imperial_gallon",
+    "unit_id": "u:imperial_gallon"
+  },
+  {
+    "symbol": "gal (UK)",
+    "unit_id": "u:imperial_gallon"
+  },
+  {
+    "symbol": "imperial_pint",
+    "unit_id": "u:imperial_pint"
+  },
+  {
+    "symbol": "pt (UK)",
+    "unit_id": "u:imperial_pint"
+  },
+  {
+    "symbol": "imperial_ounce",
+    "unit_id": "u:imperial_ounce"
+  },
+  {
+    "symbol": "fl oz (UK)",
+    "unit_id": "u:imperial_ounce"
+  },
+  {
+    "symbol": "us_gallon",
+    "unit_id": "u:us_gallon"
+  },
+  {
+    "symbol": "gal (US)",
+    "unit_id": "u:us_gallon"
+  },
+  {
+    "symbol": "us_pint",
+    "unit_id": "u:us_pint"
+  },
+  {
+    "symbol": "liq pint (US)",
+    "unit_id": "u:us_pint"
+  },
+  {
+    "symbol": "us_fluid_ounce",
+    "unit_id": "u:us_fluid_ounce"
+  },
+  {
+    "symbol": "fl oz (US)",
+    "unit_id": "u:us_fluid_ounce"
+  },
+  {
+    "symbol": "petro_barrel",
+    "unit_id": "u:petro_barrel"
+  },
+  {
+    "symbol": "bbl (US)",
+    "unit_id": "u:petro_barrel"
+  },
+  {
+    "symbol": "us_bushel",
+    "unit_id": "u:us_bushel"
+  },
+  {
+    "symbol": "bu (US)",
+    "unit_id": "u:us_bushel"
+  },
+  {
+    "symbol": "ohm",
+    "unit_id": "u:ohm"
+  },
+  {
+    "symbol": "Ω",
+    "unit_id": "u:ohm"
+  },
+  {
+    "symbol": "Ohm",
+    "unit_id": "u:ohm"
+  },
+  {
+    "symbol": "us_dry_pint",
+    "unit_id": "u:us_dry_pint"
+  },
+  {
+    "symbol": "dry pt (US)",
+    "unit_id": "u:us_dry_pint"
+  },
+  {
+    "symbol": "light_year",
+    "unit_id": "u:light_year"
+  },
+  {
+    "symbol": "l.y.",
+    "unit_id": "u:light_year"
+  },
+  {
+    "symbol": "astronomical_unit",
+    "unit_id": "u:astronomical_unit"
+  },
+  {
+    "symbol": "ua",
+    "unit_id": "u:astronomical_unit"
+  },
+  {
+    "symbol": "parsec",
+    "unit_id": "u:parsec"
+  },
+  {
+    "symbol": "pc",
+    "unit_id": "u:parsec"
+  },
+  {
+    "symbol": "meter_to_the_power_four",
+    "unit_id": "u:meter_to_the_power_four"
+  },
+  {
+    "symbol": "m⁴",
+    "unit_id": "u:meter_to_the_power_four"
+  },
+  {
+    "symbol": "m^4",
+    "unit_id": "u:meter_to_the_power_four"
+  },
+  {
+    "symbol": "kilogram_per_liter",
+    "unit_id": "u:kilogram_per_liter"
+  },
+  {
+    "symbol": "kg/l",
+    "unit_id": "u:kilogram_per_liter"
+  },
+  {
+    "symbol": "kg*l^-1",
+    "unit_id": "u:kilogram_per_liter"
+  },
+  {
+    "symbol": "metric_ton_per_cubic_meter",
+    "unit_id": "u:metric_ton_per_cubic_meter"
+  },
+  {
+    "symbol": "t/m³",
+    "unit_id": "u:metric_ton_per_cubic_meter"
+  },
+  {
+    "symbol": "t*m^-3",
+    "unit_id": "u:metric_ton_per_cubic_meter"
+  },
+  {
+    "symbol": "siemens",
+    "unit_id": "u:siemens"
+  },
+  {
+    "symbol": "S",
+    "unit_id": "u:siemens"
+  },
+  {
+    "symbol": "gram_force",
+    "unit_id": "u:gram_force"
+  },
+  {
+    "symbol": "gf",
+    "unit_id": "u:gram_force"
+  },
+  {
+    "symbol": "meter_to_the_power_minus_one",
+    "unit_id": "u:meter_to_the_power_minus_one"
+  },
+  {
+    "symbol": "m⁻¹",
+    "unit_id": "u:meter_to_the_power_minus_one"
+  },
+  {
+    "symbol": "m^-1",
+    "unit_id": "u:meter_to_the_power_minus_one"
+  },
+  {
+    "symbol": "meter_to_the_power_minus_two",
+    "unit_id": "u:meter_to_the_power_minus_two"
+  },
+  {
+    "symbol": "m⁻²",
+    "unit_id": "u:meter_to_the_power_minus_two"
+  },
+  {
+    "symbol": "m^-2",
+    "unit_id": "u:meter_to_the_power_minus_two"
+  },
+  {
+    "symbol": "meter_to_the_power_minus_two_per_second",
+    "unit_id": "u:meter_to_the_power_minus_two_per_second"
+  },
+  {
+    "symbol": "m⁻²·s⁻¹",
+    "unit_id": "u:meter_to_the_power_minus_two_per_second"
+  },
+  {
+    "symbol": "m^-2*s^-1",
+    "unit_id": "u:meter_to_the_power_minus_two_per_second"
+  },
+  {
+    "symbol": "square_meter",
+    "unit_id": "u:square_meter"
+  },
+  {
+    "symbol": "m²",
+    "unit_id": "u:square_meter"
+  },
+  {
+    "symbol": "m^2",
+    "unit_id": "u:square_meter"
+  },
+  {
+    "symbol": "meter_squared_per_second",
+    "unit_id": "u:meter_squared_per_second"
+  },
+  {
+    "symbol": "m²/s",
+    "unit_id": "u:meter_squared_per_second"
+  },
+  {
+    "symbol": "m^2*s^-1",
+    "unit_id": "u:meter_squared_per_second"
+  },
+  {
+    "symbol": "cubic_meter",
+    "unit_id": "u:cubic_meter"
+  },
+  {
+    "symbol": "m³",
+    "unit_id": "u:cubic_meter"
+  },
+  {
+    "symbol": "m^3",
+    "unit_id": "u:cubic_meter"
+  },
+  {
+    "symbol": "cubic_meter_per_kilogram",
+    "unit_id": "u:cubic_meter_per_kilogram"
+  },
+  {
+    "symbol": "m³·kg",
+    "unit_id": "u:cubic_meter_per_kilogram"
+  },
+  {
+    "symbol": "m^3*kg",
+    "unit_id": "u:cubic_meter_per_kilogram"
+  },
+  {
+    "symbol": "cubic_meter_per_second",
+    "unit_id": "u:cubic_meter_per_second"
+  },
+  {
+    "symbol": "m³/s",
+    "unit_id": "u:cubic_meter_per_second"
+  },
+  {
+    "symbol": "m^3*s^-1",
+    "unit_id": "u:cubic_meter_per_second"
+  },
+  {
+    "symbol": "kilogram",
+    "unit_id": "u:kilogram"
+  },
+  {
+    "symbol": "kg",
+    "unit_id": "u:kilogram"
+  },
+  {
+    "symbol": "weber",
+    "unit_id": "u:weber"
+  },
+  {
+    "symbol": "Wb",
+    "unit_id": "u:weber"
+  },
+  {
+    "symbol": "av_pound",
+    "unit_id": "u:av_pound"
+  },
+  {
+    "symbol": "lb",
+    "unit_id": "u:av_pound"
+  },
+  {
+    "symbol": "av_ounce",
+    "unit_id": "u:av_ounce"
+  },
+  {
+    "symbol": "oz",
+    "unit_id": "u:av_ounce"
+  },
+  {
+    "symbol": "gross_hundredweight",
+    "unit_id": "u:gross_hundredweight"
+  },
+  {
+    "symbol": "cwt (UK)",
+    "unit_id": "u:gross_hundredweight"
+  },
+  {
+    "symbol": "pound_per_cubic_foot",
+    "unit_id": "u:pound_per_cubic_foot"
+  },
+  {
+    "symbol": "lb/ft³",
+    "unit_id": "u:pound_per_cubic_foot"
+  },
+  {
+    "symbol": "lb*ft^-3",
+    "unit_id": "u:pound_per_cubic_foot"
+  },
+  {
+    "symbol": "pound_force",
+    "unit_id": "u:pound_force"
+  },
+  {
+    "symbol": "lbf",
+    "unit_id": "u:pound_force"
+  },
+  {
+    "symbol": "foot_pound_force",
+    "unit_id": "u:foot_pound_force"
+  },
+  {
+    "symbol": "ft·lbf",
+    "unit_id": "u:foot_pound_force"
+  },
+  {
+    "symbol": "ft*lbf",
+    "unit_id": "u:foot_pound_force"
+  },
+  {
+    "symbol": "pound_force_per_square_inch",
+    "unit_id": "u:pound_force_per_square_inch"
+  },
+  {
+    "symbol": "psi",
+    "unit_id": "u:pound_force_per_square_inch"
+  },
+  {
+    "symbol": "lbf*in^-2",
+    "unit_id": "u:pound_force_per_square_inch"
+  },
+  {
+    "symbol": "lbf/in²",
+    "unit_id": "u:pound_force_per_square_inch"
+  },
+  {
+    "symbol": "inch_to_the_fourth_power",
+    "unit_id": "u:inch_to_the_fourth_power"
+  },
+  {
+    "symbol": "in⁴",
+    "unit_id": "u:inch_to_the_fourth_power"
+  },
+  {
+    "symbol": "in^4",
+    "unit_id": "u:inch_to_the_fourth_power"
+  },
+  {
+    "symbol": "inch_cubed",
+    "unit_id": "u:inch_cubed"
+  },
+  {
+    "symbol": "in³",
+    "unit_id": "u:inch_cubed"
+  },
+  {
+    "symbol": "in^3",
+    "unit_id": "u:inch_cubed"
+  },
+  {
+    "symbol": "in^3_section_modulus",
+    "unit_id": "u:inch_cubed"
+  },
+  {
+    "symbol": "tesla",
+    "unit_id": "u:tesla"
+  },
+  {
+    "symbol": "T",
+    "unit_id": "u:tesla"
+  },
+  {
+    "symbol": "foot_squared_per_second",
+    "unit_id": "u:foot_squared_per_second"
+  },
+  {
+    "symbol": "ft²/s",
+    "unit_id": "u:foot_squared_per_second"
+  },
+  {
+    "symbol": "ft^2*s^-1",
+    "unit_id": "u:foot_squared_per_second"
+  },
+  {
+    "symbol": "foot_pound_force_per_second",
+    "unit_id": "u:foot_pound_force_per_second"
+  },
+  {
+    "symbol": "ft·lbf/2",
+    "unit_id": "u:foot_pound_force_per_second"
+  },
+  {
+    "symbol": "ft*lbf*s^-1",
+    "unit_id": "u:foot_pound_force_per_second"
+  },
+  {
+    "symbol": "carat",
+    "unit_id": "u:carat"
+  },
+  {
+    "symbol": "ct",
+    "unit_id": "u:carat"
+  },
+  {
+    "symbol": "tex",
+    "unit_id": "u:tex"
+  },
+  {
+    "symbol": "torr",
+    "unit_id": "u:torr"
+  },
+  {
+    "symbol": "Torr",
+    "unit_id": "u:torr"
+  },
+  {
+    "symbol": "mm_water",
+    "unit_id": "u:mm_water"
+  },
+  {
+    "symbol": "mmH₂O",
+    "unit_id": "u:mm_water"
+  },
+  {
+    "symbol": "mmH_2O",
+    "unit_id": "u:mm_water"
+  },
+  {
+    "symbol": "thermo_btu",
+    "unit_id": "u:thermo_btu"
+  },
+  {
+    "symbol": "Btu_th",
+    "unit_id": "u:thermo_btu"
+  },
+  {
+    "symbol": "kilogram_force_meter_per_second",
+    "unit_id": "u:kilogram_force_meter_per_second"
+  },
+  {
+    "symbol": "kgf·m/s",
+    "unit_id": "u:kilogram_force_meter_per_second"
+  },
+  {
+    "symbol": "kgf*m*s^-1",
+    "unit_id": "u:kilogram_force_meter_per_second"
+  },
+  {
+    "symbol": "metric_horsepower",
+    "unit_id": "u:metric_horsepower"
+  },
+  {
+    "symbol": "hp",
+    "unit_id": "u:metric_horsepower"
+  },
+  {
+    "symbol": "hp_metric",
+    "unit_id": "u:metric_horsepower"
+  },
+  {
+    "symbol": "henry",
+    "unit_id": "u:henry"
+  },
+  {
+    "symbol": "H",
+    "unit_id": "u:henry"
+  },
+  {
+    "symbol": "henry_per_meter",
+    "unit_id": "u:henry_per_meter"
+  },
+  {
+    "symbol": "H/m",
+    "unit_id": "u:henry_per_meter"
+  },
+  {
+    "symbol": "H*m^-1",
+    "unit_id": "u:henry_per_meter"
+  },
+  {
+    "symbol": "watt_per_square_meter_kelvin",
+    "unit_id": "u:watt_per_square_meter_kelvin"
+  },
+  {
+    "symbol": "W/(m²·K)",
+    "unit_id": "u:watt_per_square_meter_kelvin"
+  },
+  {
+    "symbol": "W*m^-2*K^-1",
+    "unit_id": "u:watt_per_square_meter_kelvin"
+  },
+  {
+    "symbol": "lambert",
+    "unit_id": "u:lambert"
+  },
+  {
+    "symbol": "L",
+    "unit_id": "u:lambert"
+  },
+  {
+    "symbol": "Lambert",
+    "unit_id": "u:lambert"
+  },
+  {
+    "symbol": "gilbert",
+    "unit_id": "u:gilbert"
+  },
+  {
+    "symbol": "Gi",
+    "unit_id": "u:gilbert"
+  },
+  {
+    "symbol": "debye",
+    "unit_id": "u:debye"
+  },
+  {
+    "symbol": "D",
+    "unit_id": "u:debye"
+  },
+  {
+    "symbol": "abwatt",
+    "unit_id": "u:abwatt"
+  },
+  {
+    "symbol": "aW",
+    "unit_id": "u:abwatt"
+  },
+  {
+    "symbol": "aW (Cardelli)",
+    "unit_id": "u:abwatt"
+  },
+  {
+    "symbol": "slug",
+    "unit_id": "u:slug"
+  },
+  {
+    "symbol": "thermo_calorie",
+    "unit_id": "u:thermo_calorie"
+  },
+  {
+    "symbol": "cal_th",
+    "unit_id": "u:thermo_calorie"
+  },
+  {
+    "symbol": "cal",
+    "unit_id": "u:thermo_calorie"
+  },
+  {
+    "symbol": "short_ton",
+    "unit_id": "u:short_ton"
+  },
+  {
+    "symbol": "t",
+    "unit_id": "u:short_ton"
+  },
+  {
+    "symbol": "ton",
+    "unit_id": "u:short_ton"
+  },
+  {
+    "symbol": "ton_short",
+    "unit_id": "u:short_ton"
+  },
+  {
+    "symbol": "long_ton",
+    "unit_id": "u:long_ton"
+  },
+  {
+    "symbol": "t",
+    "unit_id": "u:long_ton"
+  },
+  {
+    "symbol": "ton",
+    "unit_id": "u:long_ton"
+  },
+  {
+    "symbol": "ton_long",
+    "unit_id": "u:long_ton"
+  },
+  {
+    "symbol": "degree_Celsius",
+    "unit_id": "u:degree_Celsius"
+  },
+  {
+    "symbol": "°C",
+    "unit_id": "u:degree_Celsius"
+  },
+  {
+    "symbol": "degC",
+    "unit_id": "u:degree_Celsius"
+  },
+  {
+    "symbol": "hundredweight",
+    "unit_id": "u:hundredweight"
+  },
+  {
+    "symbol": "cwt (US)",
+    "unit_id": "u:hundredweight"
+  },
+  {
+    "symbol": "troy_ounce",
+    "unit_id": "u:troy_ounce"
+  },
+  {
+    "symbol": "oz",
+    "unit_id": "u:troy_ounce"
+  },
+  {
+    "symbol": "oz_troy",
+    "unit_id": "u:troy_ounce"
+  },
+  {
+    "symbol": "troy_pound",
+    "unit_id": "u:troy_pound"
+  },
+  {
+    "symbol": "lb",
+    "unit_id": "u:troy_pound"
+  },
+  {
+    "symbol": "lb_troy",
+    "unit_id": "u:troy_pound"
+  },
+  {
+    "symbol": "pennyweight",
+    "unit_id": "u:pennyweight"
+  },
+  {
+    "symbol": "dwt (troy)",
+    "unit_id": "u:pennyweight"
+  },
+  {
+    "symbol": "apothecaries_dram",
+    "unit_id": "u:apothecaries_dram"
+  },
+  {
+    "symbol": "dr",
+    "unit_id": "u:apothecaries_dram"
+  },
+  {
+    "symbol": "scruple",
+    "unit_id": "u:scruple"
+  },
+  {
+    "symbol": "scr (ap.)",
+    "unit_id": "u:scruple"
+  },
+  {
+    "symbol": "poundal",
+    "unit_id": "u:poundal"
+  },
+  {
+    "symbol": "pdl",
+    "unit_id": "u:poundal"
+  },
+  {
+    "symbol": "kip",
+    "unit_id": "u:kip"
+  },
+  {
+    "symbol": "ton_force",
+    "unit_id": "u:ton_force"
+  },
+  {
+    "symbol": "ton-force (2000 lb)",
+    "unit_id": "u:ton_force"
+  },
+  {
+    "symbol": "barye",
+    "unit_id": "u:barye"
+  },
+  {
+    "symbol": "electronvolt",
+    "unit_id": "u:electronvolt"
+  },
+  {
+    "symbol": "eV",
+    "unit_id": "u:electronvolt"
+  },
+  {
+    "symbol": "unified_atomic_mass_unit",
+    "unit_id": "u:unified_atomic_mass_unit"
+  },
+  {
+    "symbol": "u",
+    "unit_id": "u:unified_atomic_mass_unit"
+  },
+  {
+    "symbol": "natural_unit_of_velocity",
+    "unit_id": "u:natural_unit_of_velocity"
+  },
+  {
+    "symbol": "𝑐₀",
+    "unit_id": "u:natural_unit_of_velocity"
+  },
+  {
+    "symbol": "c_0",
+    "unit_id": "u:natural_unit_of_velocity"
+  },
+  {
+    "symbol": "𝑐",
+    "unit_id": "u:natural_unit_of_velocity"
+  },
+  {
+    "symbol": "c",
+    "unit_id": "u:natural_unit_of_velocity"
+  },
+  {
+    "symbol": "natural_unit_of_action",
+    "unit_id": "u:natural_unit_of_action"
+  },
+  {
+    "symbol": "ℏ",
+    "unit_id": "u:natural_unit_of_action"
+  },
+  {
+    "symbol": "h-bar",
+    "unit_id": "u:natural_unit_of_action"
+  },
+  {
+    "symbol": "natural_unit_of_mass",
+    "unit_id": "u:natural_unit_of_mass"
+  },
+  {
+    "symbol": "𝑚ₑ",
+    "unit_id": "u:natural_unit_of_mass"
+  },
+  {
+    "symbol": "m_e",
+    "unit_id": "u:natural_unit_of_mass"
+  },
+  {
+    "symbol": "natural_unit_of_time",
+    "unit_id": "u:natural_unit_of_time"
+  },
+  {
+    "symbol": "ℏ/𝑚ₑ𝑐²",
+    "unit_id": "u:natural_unit_of_time"
+  },
+  {
+    "symbol": "h-bar*(m_e*c^2)",
+    "unit_id": "u:natural_unit_of_time"
+  },
+  {
+    "symbol": "atomic_unit_of_charge",
+    "unit_id": "u:atomic_unit_of_charge"
+  },
+  {
+    "symbol": "𝑒",
+    "unit_id": "u:atomic_unit_of_charge"
+  },
+  {
+    "symbol": "e",
+    "unit_id": "u:atomic_unit_of_charge"
+  },
+  {
+    "symbol": "atomic_unit_of_mass",
+    "unit_id": "u:atomic_unit_of_mass"
+  },
+  {
+    "symbol": "𝑚ₑ",
+    "unit_id": "u:atomic_unit_of_mass"
+  },
+  {
+    "symbol": "m_e",
+    "unit_id": "u:atomic_unit_of_mass"
+  },
+  {
+    "symbol": "m_e_atomic",
+    "unit_id": "u:atomic_unit_of_mass"
+  },
+  {
+    "symbol": "atomic_unit_of_action",
+    "unit_id": "u:atomic_unit_of_action"
+  },
+  {
+    "symbol": "ℏ",
+    "unit_id": "u:atomic_unit_of_action"
+  },
+  {
+    "symbol": "h-bar",
+    "unit_id": "u:atomic_unit_of_action"
+  },
+  {
+    "symbol": "h-bar_atomic",
+    "unit_id": "u:atomic_unit_of_action"
+  },
+  {
+    "symbol": "atomic_unit_of_length",
+    "unit_id": "u:atomic_unit_of_length"
+  },
+  {
+    "symbol": "𝑎₀",
+    "unit_id": "u:atomic_unit_of_length"
+  },
+  {
+    "symbol": "a_0",
+    "unit_id": "u:atomic_unit_of_length"
+  },
+  {
+    "symbol": "becquerel",
+    "unit_id": "u:becquerel"
+  },
+  {
+    "symbol": "Bq",
+    "unit_id": "u:becquerel"
+  },
+  {
+    "symbol": "atomic_unit_of_energy",
+    "unit_id": "u:atomic_unit_of_energy"
+  },
+  {
+    "symbol": "𝐸ₕ",
+    "unit_id": "u:atomic_unit_of_energy"
+  },
+  {
+    "symbol": "E_h",
+    "unit_id": "u:atomic_unit_of_energy"
+  },
+  {
+    "symbol": "atomic_unit_of_time",
+    "unit_id": "u:atomic_unit_of_time"
+  },
+  {
+    "symbol": "ℏ/𝐸ₕ",
+    "unit_id": "u:atomic_unit_of_time"
+  },
+  {
+    "symbol": "h-bar/E_h",
+    "unit_id": "u:atomic_unit_of_time"
+  },
+  {
+    "symbol": "atomic_unit_of_magnetizability",
+    "unit_id": "u:atomic_unit_of_magnetizability"
+  },
+  {
+    "symbol": "𝑒²𝑎₀²/𝑚ₑ",
+    "unit_id": "u:atomic_unit_of_magnetizability"
+  },
+  {
+    "symbol": "e^2*a_0^2*m_e-1",
+    "unit_id": "u:atomic_unit_of_magnetizability"
+  },
+  {
+    "symbol": "atomic_unit_of_magnetic_flux_density",
+    "unit_id": "u:atomic_unit_of_magnetic_flux_density"
+  },
+  {
+    "symbol": "ℏ/𝑒𝑎₀²",
+    "unit_id": "u:atomic_unit_of_magnetic_flux_density"
+  },
+  {
+    "symbol": "h-bar*(e*a_0^2)-1",
+    "unit_id": "u:atomic_unit_of_magnetic_flux_density"
+  },
+  {
+    "symbol": "atomic_unit_of_magnetic_dipole_moment",
+    "unit_id": "u:atomic_unit_of_magnetic_dipole_moment"
+  },
+  {
+    "symbol": "ℏ𝑒/𝑚ₑ",
+    "unit_id": "u:atomic_unit_of_magnetic_dipole_moment"
+  },
+  {
+    "symbol": "h-bar*e*(m_e)-1",
+    "unit_id": "u:atomic_unit_of_magnetic_dipole_moment"
+  },
+  {
+    "symbol": "atomic_unit_of_momentum",
+    "unit_id": "u:atomic_unit_of_momentum"
+  },
+  {
+    "symbol": "ℏ/𝑎₀",
+    "unit_id": "u:atomic_unit_of_momentum"
+  },
+  {
+    "symbol": "h-bar*(a_0)-1",
+    "unit_id": "u:atomic_unit_of_momentum"
+  },
+  {
+    "symbol": "atomic_unit_of_charge_density",
+    "unit_id": "u:atomic_unit_of_charge_density"
+  },
+  {
+    "symbol": "𝑒𝑎₀³",
+    "unit_id": "u:atomic_unit_of_charge_density"
+  },
+  {
+    "symbol": "e*(a_0^3)",
+    "unit_id": "u:atomic_unit_of_charge_density"
+  },
+  {
+    "symbol": "atomic_unit_of_current",
+    "unit_id": "u:atomic_unit_of_current"
+  },
+  {
+    "symbol": "𝑒𝐸ₕ/ℏ",
+    "unit_id": "u:atomic_unit_of_current"
+  },
+  {
+    "symbol": "eE_h*h-bar^-1",
+    "unit_id": "u:atomic_unit_of_current"
+  },
+  {
+    "symbol": "atomic_unit_of_electric_dipole_moment",
+    "unit_id": "u:atomic_unit_of_electric_dipole_moment"
+  },
+  {
+    "symbol": "𝑒𝑎₀",
+    "unit_id": "u:atomic_unit_of_electric_dipole_moment"
+  },
+  {
+    "symbol": "e*a_0",
+    "unit_id": "u:atomic_unit_of_electric_dipole_moment"
+  },
+  {
+    "symbol": "atomic_unit_of_electric_field",
+    "unit_id": "u:atomic_unit_of_electric_field"
+  },
+  {
+    "symbol": "𝐸ₕ/𝑒𝑎₀",
+    "unit_id": "u:atomic_unit_of_electric_field"
+  },
+  {
+    "symbol": "E_h*(e*a_0)",
+    "unit_id": "u:atomic_unit_of_electric_field"
+  },
+  {
+    "symbol": "fermi",
+    "unit_id": "u:fermi"
+  },
+  {
+    "symbol": "atomic_unit_of_electric_field_gradient",
+    "unit_id": "u:atomic_unit_of_electric_field_gradient"
+  },
+  {
+    "symbol": "𝐸ₕ/𝑒𝑎₀²",
+    "unit_id": "u:atomic_unit_of_electric_field_gradient"
+  },
+  {
+    "symbol": "E_h*(e*a_0^2)",
+    "unit_id": "u:atomic_unit_of_electric_field_gradient"
+  },
+  {
+    "symbol": "atomic_unit_of_electric_potential",
+    "unit_id": "u:atomic_unit_of_electric_potential"
+  },
+  {
+    "symbol": "𝐸ₕ/𝑒",
+    "unit_id": "u:atomic_unit_of_electric_potential"
+  },
+  {
+    "symbol": "E_h*e-1",
+    "unit_id": "u:atomic_unit_of_electric_potential"
+  },
+  {
+    "symbol": "atomic_unit_of_force",
+    "unit_id": "u:atomic_unit_of_force"
+  },
+  {
+    "symbol": "𝐸ₕ/𝑎₀",
+    "unit_id": "u:atomic_unit_of_force"
+  },
+  {
+    "symbol": "E_h*(a_0)-1",
+    "unit_id": "u:atomic_unit_of_force"
+  },
+  {
+    "symbol": "atomic_unit_of_electric_quadrupole_moment",
+    "unit_id": "u:atomic_unit_of_electric_quadrupole_moment"
+  },
+  {
+    "symbol": "𝑒𝑎₀²",
+    "unit_id": "u:atomic_unit_of_electric_quadrupole_moment"
+  },
+  {
+    "symbol": "e*a_0^2",
+    "unit_id": "u:atomic_unit_of_electric_quadrupole_moment"
+  },
+  {
+    "symbol": "atomic_unit_of_electric_polarizability",
+    "unit_id": "u:atomic_unit_of_electric_polarizability"
+  },
+  {
+    "symbol": "𝑒²𝑎₀²/𝐸ₕ",
+    "unit_id": "u:atomic_unit_of_electric_polarizability"
+  },
+  {
+    "symbol": "e^2*a_0^2*(E_h)^-1",
+    "unit_id": "u:atomic_unit_of_electric_polarizability"
+  },
+  {
+    "symbol": "statohm",
+    "unit_id": "u:statohm"
+  },
+  {
+    "symbol": "statfarad",
+    "unit_id": "u:statfarad"
+  },
+  {
+    "symbol": "statF",
+    "unit_id": "u:statfarad"
+  },
+  {
+    "symbol": "statampere",
+    "unit_id": "u:statampere"
+  },
+  {
+    "symbol": "statA",
+    "unit_id": "u:statampere"
+  },
+  {
+    "symbol": "statvolt",
+    "unit_id": "u:statvolt"
+  },
+  {
+    "symbol": "statV",
+    "unit_id": "u:statvolt"
+  },
+  {
+    "symbol": "stathenry",
+    "unit_id": "u:stathenry"
+  },
+  {
+    "symbol": "statH",
+    "unit_id": "u:stathenry"
+  },
+  {
+    "symbol": "gram",
+    "unit_id": "u:gram"
+  },
+  {
+    "symbol": "g",
+    "unit_id": "u:gram"
+  },
+  {
+    "symbol": "statmho",
+    "unit_id": "u:statmho"
+  },
+  {
+    "symbol": "statcoulomb",
+    "unit_id": "u:statcoulomb"
+  },
+  {
+    "symbol": "statweber",
+    "unit_id": "u:statweber"
+  },
+  {
+    "symbol": "statWb",
+    "unit_id": "u:statweber"
+  },
+  {
+    "symbol": "stattesla",
+    "unit_id": "u:stattesla"
+  },
+  {
+    "symbol": "statT",
+    "unit_id": "u:stattesla"
+  },
+  {
+    "symbol": "statwatt",
+    "unit_id": "u:statwatt"
+  },
+  {
+    "symbol": "av_dram",
+    "unit_id": "u:av_dram"
+  },
+  {
+    "symbol": "dr (avdp)",
+    "unit_id": "u:av_dram"
+  },
+  {
+    "symbol": "footcandle",
+    "unit_id": "u:footcandle"
+  },
+  {
+    "symbol": "ft.c",
+    "unit_id": "u:footcandle"
+  },
+  {
+    "symbol": "footlambert",
+    "unit_id": "u:footlambert"
+  },
+  {
+    "symbol": "ft.L",
+    "unit_id": "u:footlambert"
+  },
+  {
+    "symbol": "computer_pica",
+    "unit_id": "u:computer_pica"
+  },
+  {
+    "symbol": "pc",
+    "unit_id": "u:computer_pica"
+  },
+  {
+    "symbol": "pica_computer",
+    "unit_id": "u:computer_pica"
+  },
+  {
+    "symbol": "printers_pica",
+    "unit_id": "u:printers_pica"
+  },
+  {
+    "symbol": "pc",
+    "unit_id": "u:printers_pica"
+  },
+  {
+    "symbol": "pica_printer",
+    "unit_id": "u:printers_pica"
+  },
+  {
+    "symbol": "kilogram_meter_per_second",
+    "unit_id": "u:kilogram_meter_per_second"
+  },
+  {
+    "symbol": "N·m/s",
+    "unit_id": "u:kilogram_meter_per_second"
+  },
+  {
+    "symbol": "kg*m*s^-1",
+    "unit_id": "u:kilogram_meter_per_second"
+  },
+  {
+    "symbol": "kilogram_per_meter",
+    "unit_id": "u:kilogram_per_meter"
+  },
+  {
+    "symbol": "kg/m",
+    "unit_id": "u:kilogram_per_meter"
+  },
+  {
+    "symbol": "kg*m^-1",
+    "unit_id": "u:kilogram_per_meter"
+  },
+  {
+    "symbol": "kilogram_per_square_meter",
+    "unit_id": "u:kilogram_per_square_meter"
+  },
+  {
+    "symbol": "kg/m²",
+    "unit_id": "u:kilogram_per_square_meter"
+  },
+  {
+    "symbol": "kg*m^-2",
+    "unit_id": "u:kilogram_per_square_meter"
+  },
+  {
+    "symbol": "kilogram_per_cubic_meter",
+    "unit_id": "u:kilogram_per_cubic_meter"
+  },
+  {
+    "symbol": "kg·m⁻³",
+    "unit_id": "u:kilogram_per_cubic_meter"
+  },
+  {
+    "symbol": "kg*m^-3",
+    "unit_id": "u:kilogram_per_cubic_meter"
+  },
+  {
+    "symbol": "kilogram_meter_squared",
+    "unit_id": "u:kilogram_meter_squared"
+  },
+  {
+    "symbol": "kg·m²",
+    "unit_id": "u:kilogram_meter_squared"
+  },
+  {
+    "symbol": "kg*m^2",
+    "unit_id": "u:kilogram_meter_squared"
+  },
+  {
+    "symbol": "kilogram_meter_squared_per_second",
+    "unit_id": "u:kilogram_meter_squared_per_second"
+  },
+  {
+    "symbol": "kg·m²/s",
+    "unit_id": "u:kilogram_meter_squared_per_second"
+  },
+  {
+    "symbol": "kg*m^2*s^-1",
+    "unit_id": "u:kilogram_meter_squared_per_second"
+  },
+  {
+    "symbol": "kilogram_per_second",
+    "unit_id": "u:kilogram_per_second"
+  },
+  {
+    "symbol": "kg/s",
+    "unit_id": "u:kilogram_per_second"
+  },
+  {
+    "symbol": "kg*s^-1",
+    "unit_id": "u:kilogram_per_second"
+  },
+  {
+    "symbol": "gray",
+    "unit_id": "u:gray"
+  },
+  {
+    "symbol": "Gy",
+    "unit_id": "u:gray"
+  },
+  {
+    "symbol": "gray_per_second",
+    "unit_id": "u:gray_per_second"
+  },
+  {
+    "symbol": "Gy/s",
+    "unit_id": "u:gray_per_second"
+  },
+  {
+    "symbol": "Gy*s^-1",
+    "unit_id": "u:gray_per_second"
+  },
+  {
+    "symbol": "computer_point",
+    "unit_id": "u:computer_point"
+  },
+  {
+    "symbol": "pt",
+    "unit_id": "u:computer_point"
+  },
+  {
+    "symbol": "pt_computer",
+    "unit_id": "u:computer_point"
+  },
+  {
+    "symbol": "us_survey_rod",
+    "unit_id": "u:us_survey_rod"
+  },
+  {
+    "symbol": "rd",
+    "unit_id": "u:us_survey_rod"
+  },
+  {
+    "symbol": "us_survey_fathom",
+    "unit_id": "u:us_survey_fathom"
+  },
+  {
+    "symbol": "fath",
+    "unit_id": "u:us_survey_fathom"
+  },
+  {
+    "symbol": "circular_mil",
+    "unit_id": "u:circular_mil"
+  },
+  {
+    "symbol": "cmil",
+    "unit_id": "u:circular_mil"
+  },
+  {
+    "symbol": "horsepower",
+    "unit_id": "u:horsepower"
+  },
+  {
+    "symbol": "hp",
+    "unit_id": "u:horsepower"
+  },
+  {
+    "symbol": "boiler_horsepower",
+    "unit_id": "u:boiler_horsepower"
+  },
+  {
+    "symbol": "hp",
+    "unit_id": "u:boiler_horsepower"
+  },
+  {
+    "symbol": "hp_boiler",
+    "unit_id": "u:boiler_horsepower"
+  },
+  {
+    "symbol": "water_horsepower",
+    "unit_id": "u:water_horsepower"
+  },
+  {
+    "symbol": "hp",
+    "unit_id": "u:water_horsepower"
+  },
+  {
+    "symbol": "hp_water",
+    "unit_id": "u:water_horsepower"
+  },
+  {
+    "symbol": "uk_horsepower",
+    "unit_id": "u:uk_horsepower"
+  },
+  {
+    "symbol": "hp",
+    "unit_id": "u:uk_horsepower"
+  },
+  {
+    "symbol": "hp_UK",
+    "unit_id": "u:uk_horsepower"
+  },
+  {
+    "symbol": "degree_Rankine",
+    "unit_id": "u:degree_Rankine"
+  },
+  {
+    "symbol": "°R",
+    "unit_id": "u:degree_Rankine"
+  },
+  {
+    "symbol": "degR",
+    "unit_id": "u:degree_Rankine"
+  },
+  {
+    "symbol": "dalton",
+    "unit_id": "u:dalton"
+  },
+  {
+    "symbol": "Da",
+    "unit_id": "u:dalton"
+  },
+  {
+    "symbol": "sievert",
+    "unit_id": "u:sievert"
+  },
+  {
+    "symbol": "Sv",
+    "unit_id": "u:sievert"
+  },
+  {
+    "symbol": "natural_unit_of_length",
+    "unit_id": "u:natural_unit_of_length"
+  },
+  {
+    "symbol": "ƛ_C",
+    "unit_id": "u:natural_unit_of_length"
+  },
+  {
+    "symbol": "lambda-bar_C",
+    "unit_id": "u:natural_unit_of_length"
+  },
+  {
+    "symbol": "atomic_unit_of_1st_hyperpolarizability",
+    "unit_id": "u:atomic_unit_of_1st_hyperpolarizability"
+  },
+  {
+    "symbol": "𝑒³𝑎₀³𝐸ₕ³",
+    "unit_id": "u:atomic_unit_of_1st_hyperpolarizability"
+  },
+  {
+    "symbol": "e^3a_0^3*(E_h^3)",
+    "unit_id": "u:atomic_unit_of_1st_hyperpolarizability"
+  },
+  {
+    "symbol": "atomic_unit_of_2nd_hyperpolarizability",
+    "unit_id": "u:atomic_unit_of_2nd_hyperpolarizability"
+  },
+  {
+    "symbol": "𝑒⁴𝑎₀⁴𝐸ₕ⁴",
+    "unit_id": "u:atomic_unit_of_2nd_hyperpolarizability"
+  },
+  {
+    "symbol": "e^4a_0^4*(E_h^3)",
+    "unit_id": "u:atomic_unit_of_2nd_hyperpolarizability"
+  },
+  {
+    "symbol": "atomic_unit_of_permittivity",
+    "unit_id": "u:atomic_unit_of_permittivity"
+  },
+  {
+    "symbol": "𝑒²/𝑎₀𝐸ₕ",
+    "unit_id": "u:atomic_unit_of_permittivity"
+  },
+  {
+    "symbol": "e^2*(a_0*E_h)-1",
+    "unit_id": "u:atomic_unit_of_permittivity"
+  },
+  {
+    "symbol": "atomic_unit_of_velocity",
+    "unit_id": "u:atomic_unit_of_velocity"
+  },
+  {
+    "symbol": "𝑎₀𝐸ₕ/ℏ",
+    "unit_id": "u:atomic_unit_of_velocity"
+  },
+  {
+    "symbol": "a_0*E_h*h-bar-1",
+    "unit_id": "u:atomic_unit_of_velocity"
+  },
+  {
+    "symbol": "natural_unit_of_energy",
+    "unit_id": "u:natural_unit_of_energy"
+  },
+  {
+    "symbol": "𝑚ₑ𝑐²",
+    "unit_id": "u:natural_unit_of_energy"
+  },
+  {
+    "symbol": "m_e*c^2",
+    "unit_id": "u:natural_unit_of_energy"
+  },
+  {
+    "symbol": "natural_unit_of_momentum",
+    "unit_id": "u:natural_unit_of_momentum"
+  },
+  {
+    "symbol": "𝑚ₑ𝑐",
+    "unit_id": "u:natural_unit_of_momentum"
+  },
+  {
+    "symbol": "m_e*c",
+    "unit_id": "u:natural_unit_of_momentum"
+  },
+  {
+    "symbol": "natural_unit_of_action_in_eV_s",
+    "unit_id": "u:natural_unit_of_action_in_eV_s"
+  },
+  {
+    "symbol": "ℏ",
+    "unit_id": "u:natural_unit_of_action_in_eV_s"
+  },
+  {
+    "symbol": "h-bar",
+    "unit_id": "u:natural_unit_of_action_in_eV_s"
+  },
+  {
+    "symbol": "h-bar_eV_s",
+    "unit_id": "u:natural_unit_of_action_in_eV_s"
+  },
+  {
+    "symbol": "natural_unit_of_energy_in_MeV",
+    "unit_id": "u:natural_unit_of_energy_in_MeV"
+  },
+  {
+    "symbol": "𝑚ₑ𝑐²",
+    "unit_id": "u:natural_unit_of_energy_in_MeV"
+  },
+  {
+    "symbol": "m_e*c^2",
+    "unit_id": "u:natural_unit_of_energy_in_MeV"
+  },
+  {
+    "symbol": "m_e*c^2_MeV",
+    "unit_id": "u:natural_unit_of_energy_in_MeV"
+  },
+  {
+    "symbol": "natural_unit_of_momentum_in_MeV_per_c",
+    "unit_id": "u:natural_unit_of_momentum_in_MeV_per_c"
+  },
+  {
+    "symbol": "𝑚ₑ𝑐",
+    "unit_id": "u:natural_unit_of_momentum_in_MeV_per_c"
+  },
+  {
+    "symbol": "m_e*c",
+    "unit_id": "u:natural_unit_of_momentum_in_MeV_per_c"
+  },
+  {
+    "symbol": "m_e*c_MeV/C",
+    "unit_id": "u:natural_unit_of_momentum_in_MeV_per_c"
+  },
+  {
+    "symbol": "second",
+    "unit_id": "u:second"
+  },
+  {
+    "symbol": "s",
+    "unit_id": "u:second"
+  },
+  {
+    "symbol": "″",
+    "unit_id": "u:second"
+  },
+  {
+    "symbol": "\"",
+    "unit_id": "u:second"
+  },
+  {
+    "symbol": "\"_s",
+    "unit_id": "u:second"
+  },
+  {
+    "symbol": "dprime_s",
+    "unit_id": "u:second"
+  },
+  {
+    "symbol": "katal",
+    "unit_id": "u:katal"
+  },
+  {
+    "symbol": "kat",
+    "unit_id": "u:katal"
+  },
+  {
+    "symbol": "katal_per_cubic_meter",
+    "unit_id": "u:katal_per_cubic_meter"
+  },
+  {
+    "symbol": "kat/m³",
+    "unit_id": "u:katal_per_cubic_meter"
+  },
+  {
+    "symbol": "kat*m^-3",
+    "unit_id": "u:katal_per_cubic_meter"
+  },
+  {
+    "symbol": "imperial_quart",
+    "unit_id": "u:imperial_quart"
+  },
+  {
+    "symbol": "qt (UK)",
+    "unit_id": "u:imperial_quart"
+  },
+  {
+    "symbol": "us_dry_quart",
+    "unit_id": "u:us_dry_quart"
+  },
+  {
+    "symbol": "dry qt (US)",
+    "unit_id": "u:us_dry_quart"
+  },
+  {
+    "symbol": "us_quart",
+    "unit_id": "u:us_quart"
+  },
+  {
+    "symbol": "liq qt (US)",
+    "unit_id": "u:us_quart"
+  },
+  {
+    "symbol": "us_teaspoon",
+    "unit_id": "u:us_teaspoon"
+  },
+  {
+    "symbol": "tsp",
+    "unit_id": "u:us_teaspoon"
+  },
+  {
+    "symbol": "us_tablespoon",
+    "unit_id": "u:us_tablespoon"
+  },
+  {
+    "symbol": "tbsp",
+    "unit_id": "u:us_tablespoon"
+  },
+  {
+    "symbol": "us_label_tablespoon",
+    "unit_id": "u:us_label_tablespoon"
+  },
+  {
+    "symbol": "tbsp",
+    "unit_id": "u:us_label_tablespoon"
+  },
+  {
+    "symbol": "tbsp_label",
+    "unit_id": "u:us_label_tablespoon"
+  },
+  {
+    "symbol": "us_label_teaspoon",
+    "unit_id": "u:us_label_teaspoon"
+  },
+  {
+    "symbol": "tsp",
+    "unit_id": "u:us_label_teaspoon"
+  },
+  {
+    "symbol": "tsp_label",
+    "unit_id": "u:us_label_teaspoon"
+  },
+  {
+    "symbol": "us_label_cup",
+    "unit_id": "u:us_label_cup"
+  },
+  {
+    "symbol": "cup",
+    "unit_id": "u:us_label_cup"
+  },
+  {
+    "symbol": "cup_label",
+    "unit_id": "u:us_label_cup"
+  },
+  {
+    "symbol": "us_label_fluid_ounce",
+    "unit_id": "u:us_label_fluid_ounce"
+  },
+  {
+    "symbol": "fl oz (US label)",
+    "unit_id": "u:us_label_fluid_ounce"
+  },
+  {
+    "symbol": "us_label_ounce",
+    "unit_id": "u:us_label_ounce"
+  },
+  {
+    "symbol": "oz (US label)",
+    "unit_id": "u:us_label_ounce"
+  },
+  {
+    "symbol": "hertz",
+    "unit_id": "u:hertz"
+  },
+  {
+    "symbol": "Hz",
+    "unit_id": "u:hertz"
+  },
+  {
+    "symbol": "us_survey_chain",
+    "unit_id": "u:us_survey_chain"
+  },
+  {
+    "symbol": "ch",
+    "unit_id": "u:us_survey_chain"
+  },
+  {
+    "symbol": "us_survey_link",
+    "unit_id": "u:us_survey_link"
+  },
+  {
+    "symbol": "lnk",
+    "unit_id": "u:us_survey_link"
+  },
+  {
+    "symbol": "us_survey_furlong",
+    "unit_id": "u:us_survey_furlong"
+  },
+  {
+    "symbol": "fur",
+    "unit_id": "u:us_survey_furlong"
+  },
+  {
+    "symbol": "us_survey_mile",
+    "unit_id": "u:us_survey_mile"
+  },
+  {
+    "symbol": "mi",
+    "unit_id": "u:us_survey_mile"
+  },
+  {
+    "symbol": "mi_US_survey",
+    "unit_id": "u:us_survey_mile"
+  },
+  {
+    "symbol": "us_survey_yard",
+    "unit_id": "u:us_survey_yard"
+  },
+  {
+    "symbol": "yd",
+    "unit_id": "u:us_survey_yard"
+  },
+  {
+    "symbol": "yd_US_survey",
+    "unit_id": "u:us_survey_yard"
+  },
+  {
+    "symbol": "us_survey_foot",
+    "unit_id": "u:us_survey_foot"
+  },
+  {
+    "symbol": "ft",
+    "unit_id": "u:us_survey_foot"
+  },
+  {
+    "symbol": "ft_US_survey",
+    "unit_id": "u:us_survey_foot"
+  },
+  {
+    "symbol": "us_survey_inch",
+    "unit_id": "u:us_survey_inch"
+  },
+  {
+    "symbol": "in",
+    "unit_id": "u:us_survey_inch"
+  },
+  {
+    "symbol": "in_US_survey",
+    "unit_id": "u:us_survey_inch"
+  },
+  {
+    "symbol": "us_acre",
+    "unit_id": "u:us_acre"
+  },
+  {
+    "symbol": "ac",
+    "unit_id": "u:us_acre"
+  },
+  {
+    "symbol": "cm_Hg",
+    "unit_id": "u:cm_Hg"
+  },
+  {
+    "symbol": "cmHg",
+    "unit_id": "u:cm_Hg"
+  },
+  {
+    "symbol": "0C_cm_Hg",
+    "unit_id": "u:0C_cm_Hg"
+  },
+  {
+    "symbol": "cmHg",
+    "unit_id": "u:0C_cm_Hg"
+  },
+  {
+    "symbol": "cmHg_0degC",
+    "unit_id": "u:0C_cm_Hg"
+  },
+  {
+    "symbol": "lumen",
+    "unit_id": "u:lumen"
+  },
+  {
+    "symbol": "lm",
+    "unit_id": "u:lumen"
+  },
+  {
+    "symbol": "4C_cm_water",
+    "unit_id": "u:4C_cm_water"
+  },
+  {
+    "symbol": "cmH₂O",
+    "unit_id": "u:4C_cm_water"
+  },
+  {
+    "symbol": "cmH_2O",
+    "unit_id": "u:4C_cm_water"
+  },
+  {
+    "symbol": "cmH_2O_4degC",
+    "unit_id": "u:4C_cm_water"
+  },
+  {
+    "symbol": "cm_water",
+    "unit_id": "u:cm_water"
+  },
+  {
+    "symbol": "cmH₂O",
+    "unit_id": "u:cm_water"
+  },
+  {
+    "symbol": "cmH_2O",
+    "unit_id": "u:cm_water"
+  },
+  {
+    "symbol": "in_water",
+    "unit_id": "u:in_water"
+  },
+  {
+    "symbol": "inH₂O",
+    "unit_id": "u:in_water"
+  },
+  {
+    "symbol": "inH_2O",
+    "unit_id": "u:in_water"
+  },
+  {
+    "symbol": "39F_in_water",
+    "unit_id": "u:39F_in_water"
+  },
+  {
+    "symbol": "inH₂O",
+    "unit_id": "u:39F_in_water"
+  },
+  {
+    "symbol": "inH_2O",
+    "unit_id": "u:39F_in_water"
+  },
+  {
+    "symbol": "inH_2O_39degF",
+    "unit_id": "u:39F_in_water"
+  },
+  {
+    "symbol": "60F_in_water",
+    "unit_id": "u:60F_in_water"
+  },
+  {
+    "symbol": "inH₂O",
+    "unit_id": "u:60F_in_water"
+  },
+  {
+    "symbol": "inH_2O",
+    "unit_id": "u:60F_in_water"
+  },
+  {
+    "symbol": "inH_2O_60degF",
+    "unit_id": "u:60F_in_water"
+  },
+  {
+    "symbol": "ft_water",
+    "unit_id": "u:ft_water"
+  },
+  {
+    "symbol": "ftH₂O",
+    "unit_id": "u:ft_water"
+  },
+  {
+    "symbol": "ftH_2O",
+    "unit_id": "u:ft_water"
+  },
+  {
+    "symbol": "39F_ft_water",
+    "unit_id": "u:39F_ft_water"
+  },
+  {
+    "symbol": "ftH₂O",
+    "unit_id": "u:39F_ft_water"
+  },
+  {
+    "symbol": "ftH_2O",
+    "unit_id": "u:39F_ft_water"
+  },
+  {
+    "symbol": "ftH_2O_39degF",
+    "unit_id": "u:39F_ft_water"
+  },
+  {
+    "symbol": "32F_in_Hg",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "inHg",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "inHg_32degF",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "″Hg",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "\"Hg",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "\"Hg_32degF",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "dprime_Hg_32degF",
+    "unit_id": "u:32F_in_Hg"
+  },
+  {
+    "symbol": "60F_in_Hg",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "inHg",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "inHg_60degF",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "″Hg",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "\"Hg",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "\"Hg_60degF",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "dprime_Hg_60degF",
+    "unit_id": "u:60F_in_Hg"
+  },
+  {
+    "symbol": "in_Hg",
+    "unit_id": "u:in_Hg"
+  },
+  {
+    "symbol": "inHg",
+    "unit_id": "u:in_Hg"
+  },
+  {
+    "symbol": "″Hg",
+    "unit_id": "u:in_Hg"
+  },
+  {
+    "symbol": "\"Hg",
+    "unit_id": "u:in_Hg"
+  },
+  {
+    "symbol": "dprime_Hg",
+    "unit_id": "u:in_Hg"
+  },
+  {
+    "symbol": "lux",
+    "unit_id": "u:lux"
+  },
+  {
+    "symbol": "lx",
+    "unit_id": "u:lux"
+  },
+  {
+    "symbol": "ft_Hg",
+    "unit_id": "u:ft_Hg"
+  },
+  {
+    "symbol": "ftHg",
+    "unit_id": "u:ft_Hg"
+  },
+  {
+    "symbol": "′Hg",
+    "unit_id": "u:ft_Hg"
+  },
+  {
+    "symbol": "'Hg",
+    "unit_id": "u:ft_Hg"
+  },
+  {
+    "symbol": "prime_Hg",
+    "unit_id": "u:ft_Hg"
+  },
+  {
+    "symbol": "us_therm",
+    "unit_id": "u:us_therm"
+  },
+  {
+    "symbol": "thm (US)",
+    "unit_id": "u:us_therm"
+  },
+  {
+    "symbol": "pH",
+    "unit_id": "u:pH"
+  },
+  {
+    "symbol": "table_btu",
+    "unit_id": "u:table_btu"
+  },
+  {
+    "symbol": "Btu",
+    "unit_id": "u:table_btu"
+  },
+  {
+    "symbol": "mean_btu",
+    "unit_id": "u:mean_btu"
+  },
+  {
+    "symbol": "Btu",
+    "unit_id": "u:mean_btu"
+  },
+  {
+    "symbol": "Btu_mean",
+    "unit_id": "u:mean_btu"
+  },
+  {
+    "symbol": "39F_btu",
+    "unit_id": "u:39F_btu"
+  },
+  {
+    "symbol": "Btu",
+    "unit_id": "u:39F_btu"
+  },
+  {
+    "symbol": "Btu_39degF",
+    "unit_id": "u:39F_btu"
+  },
+  {
+    "symbol": "59F_btu",
+    "unit_id": "u:59F_btu"
+  },
+  {
+    "symbol": "Btu",
+    "unit_id": "u:59F_btu"
+  },
+  {
+    "symbol": "Btu_59degF",
+    "unit_id": "u:59F_btu"
+  },
+  {
+    "symbol": "60F_btu",
+    "unit_id": "u:60F_btu"
+  },
+  {
+    "symbol": "Btu",
+    "unit_id": "u:60F_btu"
+  },
+  {
+    "symbol": "Btu_60degF",
+    "unit_id": "u:60F_btu"
+  },
+  {
+    "symbol": "tropical_year",
+    "unit_id": "u:tropical_year"
+  },
+  {
+    "symbol": "a",
+    "unit_id": "u:tropical_year"
+  },
+  {
+    "symbol": "a_tropical_year",
+    "unit_id": "u:tropical_year"
+  },
+  {
+    "symbol": "sidereal_year",
+    "unit_id": "u:sidereal_year"
+  },
+  {
+    "symbol": "a",
+    "unit_id": "u:sidereal_year"
+  },
+  {
+    "symbol": "a_sidereal_year",
+    "unit_id": "u:sidereal_year"
+  },
+  {
+    "symbol": "sidereal_day",
+    "unit_id": "u:sidereal_day"
+  },
+  {
+    "symbol": "d",
+    "unit_id": "u:sidereal_day"
+  },
+  {
+    "symbol": "d_sidereal",
+    "unit_id": "u:sidereal_day"
+  },
+  {
+    "symbol": "sidereal_hour",
+    "unit_id": "u:sidereal_hour"
+  },
+  {
+    "symbol": "h",
+    "unit_id": "u:sidereal_hour"
+  },
+  {
+    "symbol": "h_sidereal",
+    "unit_id": "u:sidereal_hour"
+  },
+  {
+    "symbol": "sidereal_minute",
+    "unit_id": "u:sidereal_minute"
+  },
+  {
+    "symbol": "min",
+    "unit_id": "u:sidereal_minute"
+  },
+  {
+    "symbol": "min_sidereal",
+    "unit_id": "u:sidereal_minute"
+  },
+  {
+    "symbol": "sidereal_second",
+    "unit_id": "u:sidereal_second"
+  },
+  {
+    "symbol": "s",
+    "unit_id": "u:sidereal_second"
+  },
+  {
+    "symbol": "s_sidereal",
+    "unit_id": "u:sidereal_second"
+  },
+  {
+    "symbol": "printers_point",
+    "unit_id": "u:printers_point"
+  },
+  {
+    "symbol": "pt",
+    "unit_id": "u:printers_point"
+  },
+  {
+    "symbol": "pt_printer",
+    "unit_id": "u:printers_point"
+  },
+  {
+    "symbol": "shake",
+    "unit_id": "u:shake"
+  },
+  {
+    "symbol": "denier",
+    "unit_id": "u:denier"
+  },
+  {
+    "symbol": "den",
+    "unit_id": "u:denier"
+  },
+  {
+    "symbol": "nato_mil",
+    "unit_id": "u:nato_mil"
+  },
+  {
+    "symbol": "mil",
+    "unit_id": "u:nato_mil"
+  },
+  {
+    "symbol": "mil_nato",
+    "unit_id": "u:nato_mil"
+  },
+  {
+    "symbol": "pound_mole",
+    "unit_id": "u:pound_mole"
+  },
+  {
+    "symbol": "lbmol",
+    "unit_id": "u:pound_mole"
+  },
+  {
+    "symbol": "ton_refrigeration",
+    "unit_id": "u:ton_refrigeration"
+  },
+  {
+    "symbol": "ton",
+    "unit_id": "u:ton_refrigeration"
+  },
+  {
+    "symbol": "bit",
+    "unit_id": "u:bit"
+  },
+  {
+    "symbol": "byte",
+    "unit_id": "u:byte"
+  },
+  {
+    "symbol": "B",
+    "unit_id": "u:byte"
+  },
+  {
+    "symbol": "byte_B",
+    "unit_id": "u:byte"
+  },
+  {
+    "symbol": "us_peck",
+    "unit_id": "u:us_peck"
+  },
+  {
+    "symbol": "pk",
+    "unit_id": "u:us_peck"
+  },
+  {
+    "symbol": "us_minim",
+    "unit_id": "u:us_minim"
+  },
+  {
+    "symbol": "min",
+    "unit_id": "u:us_minim"
+  },
+  {
+    "symbol": "minim",
+    "unit_id": "u:us_minim"
+  },
+  {
+    "symbol": "us_cup",
+    "unit_id": "u:us_cup"
+  },
+  {
+    "symbol": "cup",
+    "unit_id": "u:us_cup"
+  },
+  {
+    "symbol": "us_fluid_dram",
+    "unit_id": "u:us_fluid_dram"
+  },
+  {
+    "symbol": "fl dr",
+    "unit_id": "u:us_fluid_dram"
+  },
+  {
+    "symbol": "us_gill",
+    "unit_id": "u:us_gill"
+  },
+  {
+    "symbol": "gi",
+    "unit_id": "u:us_gill"
+  },
+  {
+    "symbol": "imperial_gill",
+    "unit_id": "u:imperial_gill"
+  },
+  {
+    "symbol": "gi",
+    "unit_id": "u:imperial_gill"
+  },
+  {
+    "symbol": "gi_imperial",
+    "unit_id": "u:imperial_gill"
+  },
+  {
+    "symbol": "cubic_foot_per_minute",
+    "unit_id": "u:cubic_foot_per_minute"
+  },
+  {
+    "symbol": "ft³min",
+    "unit_id": "u:cubic_foot_per_minute"
+  },
+  {
+    "symbol": "ft^3*min^-1",
+    "unit_id": "u:cubic_foot_per_minute"
+  },
+  {
+    "symbol": "cubic_foot_per_second",
+    "unit_id": "u:cubic_foot_per_second"
+  },
+  {
+    "symbol": "ft³sec",
+    "unit_id": "u:cubic_foot_per_second"
+  },
+  {
+    "symbol": "ft^3*sec^-1",
+    "unit_id": "u:cubic_foot_per_second"
+  },
+  {
+    "symbol": "minute",
+    "unit_id": "u:minute"
+  },
+  {
+    "symbol": "min",
+    "unit_id": "u:minute"
+  },
+  {
+    "symbol": "′",
+    "unit_id": "u:minute"
+  },
+  {
+    "symbol": "'",
+    "unit_id": "u:minute"
+  },
+  {
+    "symbol": "'_min",
+    "unit_id": "u:minute"
+  },
+  {
+    "symbol": "prime_min",
+    "unit_id": "u:minute"
+  },
+  {
+    "symbol": "cubic_inch_per_minute",
+    "unit_id": "u:cubic_inch_per_minute"
+  },
+  {
+    "symbol": "in³min",
+    "unit_id": "u:cubic_inch_per_minute"
+  },
+  {
+    "symbol": "in^3*min^-1",
+    "unit_id": "u:cubic_inch_per_minute"
+  },
+  {
+    "symbol": "microinch",
+    "unit_id": "u:microinch"
+  },
+  {
+    "symbol": "μin",
+    "unit_id": "u:microinch"
+  },
+  {
+    "symbol": "uin",
+    "unit_id": "u:microinch"
+  },
+  {
+    "symbol": "millibar",
+    "unit_id": "u:millibar"
+  },
+  {
+    "symbol": "mbar",
+    "unit_id": "u:millibar"
+  },
+  {
+    "symbol": "mile_per_gallon",
+    "unit_id": "u:mile_per_gallon"
+  },
+  {
+    "symbol": "mpg",
+    "unit_id": "u:mile_per_gallon"
+  },
+  {
+    "symbol": "mi/gal",
+    "unit_id": "u:mile_per_gallon"
+  },
+  {
+    "symbol": "gallon_per_minute",
+    "unit_id": "u:gallon_per_minute"
+  },
+  {
+    "symbol": "gal/min",
+    "unit_id": "u:gallon_per_minute"
+  },
+  {
+    "symbol": "gpm",
+    "unit_id": "u:gallon_per_minute"
+  },
+  {
+    "symbol": "gal*min^-1",
+    "unit_id": "u:gallon_per_minute"
+  },
+  {
+    "symbol": "milliliter",
+    "unit_id": "u:milliliter"
+  },
+  {
+    "symbol": "mL",
+    "unit_id": "u:milliliter"
+  },
+  {
+    "symbol": "ml",
+    "unit_id": "u:milliliter"
+  },
+  {
+    "symbol": "mole_per_liter",
+    "unit_id": "u:mole_per_liter"
+  },
+  {
+    "symbol": "mol/l",
+    "unit_id": "u:mole_per_liter"
+  },
+  {
+    "symbol": "mol*l^-1",
+    "unit_id": "u:mole_per_liter"
+  },
+  {
+    "symbol": "mol/L",
+    "unit_id": "u:mole_per_liter"
+  },
+  {
+    "symbol": "mol*L^-1",
+    "unit_id": "u:mole_per_liter"
+  },
+  {
+    "symbol": "hour",
+    "unit_id": "u:hour"
+  },
+  {
+    "symbol": "h",
+    "unit_id": "u:hour"
+  },
+  {
+    "symbol": "light_week",
+    "unit_id": "u:light_week"
+  },
+  {
+    "symbol": "l.w.",
+    "unit_id": "u:light_week"
+  },
+  {
+    "symbol": "light_hour",
+    "unit_id": "u:light_hour"
+  },
+  {
+    "symbol": "l.h.",
+    "unit_id": "u:light_hour"
+  },
+  {
+    "symbol": "light_minute",
+    "unit_id": "u:light_minute"
+  },
+  {
+    "symbol": "l.m.",
+    "unit_id": "u:light_minute"
+  },
+  {
+    "symbol": "light_second",
+    "unit_id": "u:light_second"
+  },
+  {
+    "symbol": "l.s.",
+    "unit_id": "u:light_second"
+  },
+  {
+    "symbol": "day",
+    "unit_id": "u:day"
+  },
+  {
+    "symbol": "d",
+    "unit_id": "u:day"
+  },
+  {
+    "symbol": "kilometer_per_liter",
+    "unit_id": "u:kilometer_per_liter"
+  },
+  {
+    "symbol": "km/l",
+    "unit_id": "u:kilometer_per_liter"
+  },
+  {
+    "symbol": "km/L",
+    "unit_id": "u:kilometer_per_liter"
+  },
+  {
+    "symbol": "decibel_milliwatt",
+    "unit_id": "u:decibel_milliwatt"
+  },
+  {
+    "symbol": "dBm",
+    "unit_id": "u:decibel_milliwatt"
+  },
+  {
+    "symbol": "dB_mW",
+    "unit_id": "u:decibel_milliwatt"
+  },
+  {
+    "symbol": "relative_humidity",
+    "unit_id": "u:relative_humidity"
+  },
+  {
+    "symbol": "RH",
+    "unit_id": "u:relative_humidity"
+  },
+  {
+    "symbol": "rh",
+    "unit_id": "u:relative_humidity"
+  },
+  {
+    "symbol": "%rh",
+    "unit_id": "u:relative_humidity"
+  },
+  {
+    "symbol": "rh_percent",
+    "unit_id": "u:relative_humidity"
+  },
+  {
+    "symbol": "octave",
+    "unit_id": "u:octave"
+  },
+  {
+    "symbol": "oct",
+    "unit_id": "u:octave"
+  },
+  {
+    "symbol": "decade",
+    "unit_id": "u:decade"
+  },
+  {
+    "symbol": "dec",
+    "unit_id": "u:decade"
+  },
+  {
+    "symbol": "erlang",
+    "unit_id": "u:erlang"
+  },
+  {
+    "symbol": "E",
+    "unit_id": "u:erlang"
+  },
+  {
+    "symbol": "E_erlang",
+    "unit_id": "u:erlang"
+  },
+  {
+    "symbol": "baud",
+    "unit_id": "u:baud"
+  },
+  {
+    "symbol": "Bd",
+    "unit_id": "u:baud"
+  },
+  {
+    "symbol": "shannon",
+    "unit_id": "u:shannon"
+  },
+  {
+    "symbol": "Sh",
+    "unit_id": "u:shannon"
+  },
+  {
+    "symbol": "hartley",
+    "unit_id": "u:hartley"
+  },
+  {
+    "symbol": "Hart",
+    "unit_id": "u:hartley"
+  },
+  {
+    "symbol": "angstrom",
+    "unit_id": "u:angstrom"
+  },
+  {
+    "symbol": "Å",
+    "unit_id": "u:angstrom"
+  },
+  {
+    "symbol": "Aring",
+    "unit_id": "u:angstrom"
+  },
+  {
+    "symbol": "second_to_the_power_minus_one",
+    "unit_id": "u:second_to_the_power_minus_one"
+  },
+  {
+    "symbol": "s⁻¹",
+    "unit_id": "u:second_to_the_power_minus_one"
+  },
+  {
+    "symbol": "s^-1",
+    "unit_id": "u:second_to_the_power_minus_one"
+  },
+  {
+    "symbol": "ampere",
+    "unit_id": "u:ampere"
+  },
+  {
+    "symbol": "A",
+    "unit_id": "u:ampere"
+  },
+  {
+    "symbol": "ampere_per_meter",
+    "unit_id": "u:ampere_per_meter"
+  },
+  {
+    "symbol": "A·m⁻¹",
+    "unit_id": "u:ampere_per_meter"
+  },
+  {
+    "symbol": "A*m^-1",
+    "unit_id": "u:ampere_per_meter"
+  },
+  {
+    "symbol": "ampere_per_square_meter",
+    "unit_id": "u:ampere_per_square_meter"
+  },
+  {
+    "symbol": "A·m⁻²",
+    "unit_id": "u:ampere_per_square_meter"
+  },
+  {
+    "symbol": "A*m^-2",
+    "unit_id": "u:ampere_per_square_meter"
+  },
+  {
+    "symbol": "parts_per_million",
+    "unit_id": "u:parts_per_million"
+  },
+  {
+    "symbol": "ppm",
+    "unit_id": "u:parts_per_million"
+  },
+  {
+    "symbol": "var",
+    "unit_id": "u:var"
+  },
+  {
+    "symbol": "are",
+    "unit_id": "u:are"
+  },
+  {
+    "symbol": "a",
+    "unit_id": "u:are"
+  },
+  {
+    "symbol": "barn",
+    "unit_id": "u:barn"
+  },
+  {
+    "symbol": "b",
+    "unit_id": "u:barn"
+  },
+  {
+    "symbol": "hectare",
+    "unit_id": "u:hectare"
+  },
+  {
+    "symbol": "ha",
+    "unit_id": "u:hectare"
+  },
+  {
+    "symbol": "square_foot",
+    "unit_id": "u:square_foot"
+  },
+  {
+    "symbol": "ft²",
+    "unit_id": "u:square_foot"
+  },
+  {
+    "symbol": "ft^2",
+    "unit_id": "u:square_foot"
+  },
+  {
+    "symbol": "square_inch",
+    "unit_id": "u:square_inch"
+  },
+  {
+    "symbol": "in²",
+    "unit_id": "u:square_inch"
+  },
+  {
+    "symbol": "in^2",
+    "unit_id": "u:square_inch"
+  },
+  {
+    "symbol": "abampere",
+    "unit_id": "u:abampere"
+  },
+  {
+    "symbol": "abA",
+    "unit_id": "u:abampere"
+  },
+  {
+    "symbol": "abcoulomb",
+    "unit_id": "u:abcoulomb"
+  },
+  {
+    "symbol": "abC",
+    "unit_id": "u:abcoulomb"
+  },
+  {
+    "symbol": "abfarad",
+    "unit_id": "u:abfarad"
+  },
+  {
+    "symbol": "abF",
+    "unit_id": "u:abfarad"
+  },
+  {
+    "symbol": "kelvin",
+    "unit_id": "u:kelvin"
+  },
+  {
+    "symbol": "K",
+    "unit_id": "u:kelvin"
+  },
+  {
+    "symbol": "°K",
+    "unit_id": "u:kelvin"
+  },
+  {
+    "symbol": "degK",
+    "unit_id": "u:kelvin"
+  },
+  {
+    "symbol": "abhenry",
+    "unit_id": "u:abhenry"
+  },
+  {
+    "symbol": "abH",
+    "unit_id": "u:abhenry"
+  },
+  {
+    "symbol": "abmho",
+    "unit_id": "u:abmho"
+  },
+  {
+    "symbol": "(abΩ)⁻¹",
+    "unit_id": "u:abmho"
+  },
+  {
+    "symbol": "abS",
+    "unit_id": "u:abmho"
+  },
+  {
+    "symbol": "abohm",
+    "unit_id": "u:abohm"
+  },
+  {
+    "symbol": "abΩ",
+    "unit_id": "u:abohm"
+  },
+  {
+    "symbol": "abvolt",
+    "unit_id": "u:abvolt"
+  },
+  {
+    "symbol": "abV",
+    "unit_id": "u:abvolt"
+  },
+  {
+    "symbol": "ampere_hour",
+    "unit_id": "u:ampere_hour"
+  },
+  {
+    "symbol": "A·h",
+    "unit_id": "u:ampere_hour"
+  },
+  {
+    "symbol": "A*h",
+    "unit_id": "u:ampere_hour"
+  },
+  {
+    "symbol": "biot",
+    "unit_id": "u:biot"
+  },
+  {
+    "symbol": "Bi",
+    "unit_id": "u:biot"
+  },
+  {
+    "symbol": "us_survey_acre_foot",
+    "unit_id": "u:us_survey_acre_foot"
+  },
+  {
+    "symbol": "ac·ft",
+    "unit_id": "u:us_survey_acre_foot"
+  },
+  {
+    "symbol": "ac*ft",
+    "unit_id": "u:us_survey_acre_foot"
+  },
+  {
+    "symbol": "maxwell",
+    "unit_id": "u:maxwell"
+  },
+  {
+    "symbol": "Mx",
+    "unit_id": "u:maxwell"
+  },
+  {
+    "symbol": "kelvin_to_the_power_minus_one",
+    "unit_id": "u:kelvin_to_the_power_minus_one"
+  },
+  {
+    "symbol": "K⁻¹",
+    "unit_id": "u:kelvin_to_the_power_minus_one"
+  },
+  {
+    "symbol": "K^-1",
+    "unit_id": "u:kelvin_to_the_power_minus_one"
+  },
+  {
+    "symbol": "mole",
+    "unit_id": "u:mole"
+  },
+  {
+    "symbol": "mol",
+    "unit_id": "u:mole"
+  },
+  {
+    "symbol": "mole_per_cubic_meter",
+    "unit_id": "u:mole_per_cubic_meter"
+  },
+  {
+    "symbol": "mol·m⁻³",
+    "unit_id": "u:mole_per_cubic_meter"
+  },
+  {
+    "symbol": "mol*m^-3",
+    "unit_id": "u:mole_per_cubic_meter"
+  },
+  {
+    "symbol": "mole_per_kilogram",
+    "unit_id": "u:mole_per_kilogram"
+  },
+  {
+    "symbol": "mol/kg",
+    "unit_id": "u:mole_per_kilogram"
+  },
+  {
+    "symbol": "mol*kg^-1",
+    "unit_id": "u:mole_per_kilogram"
+  },
+  {
+    "symbol": "table_calorie",
+    "unit_id": "u:table_calorie"
+  },
+  {
+    "symbol": "cal_IT",
+    "unit_id": "u:table_calorie"
+  },
+  {
+    "symbol": "one",
+    "unit_id": "u:one"
+  },
+  {
+    "symbol": "1",
+    "unit_id": "u:one"
+  },
+  {
+    "symbol": "erg",
+    "unit_id": "u:erg"
+  },
+  {
+    "symbol": "table_kg_calorie",
+    "unit_id": "u:table_kg_calorie"
+  },
+  {
+    "symbol": "kcal_IT",
+    "unit_id": "u:table_kg_calorie"
+  },
+  {
+    "symbol": "thermo_kg_calorie",
+    "unit_id": "u:thermo_kg_calorie"
+  },
+  {
+    "symbol": "kcal_th",
+    "unit_id": "u:thermo_kg_calorie"
+  },
+  {
+    "symbol": "kilowatt_hour",
+    "unit_id": "u:kilowatt_hour"
+  },
+  {
+    "symbol": "kW·h",
+    "unit_id": "u:kilowatt_hour"
+  },
+  {
+    "symbol": "kW*h",
+    "unit_id": "u:kilowatt_hour"
+  },
+  {
+    "symbol": "watt_hour",
+    "unit_id": "u:watt_hour"
+  },
+  {
+    "symbol": "W·h",
+    "unit_id": "u:watt_hour"
+  },
+  {
+    "symbol": "W*h",
+    "unit_id": "u:watt_hour"
+  },
+  {
+    "symbol": "candela",
+    "unit_id": "u:candela"
+  },
+  {
+    "symbol": "cd",
+    "unit_id": "u:candela"
+  },
+  {
+    "symbol": "candela_per_square_meter",
+    "unit_id": "u:candela_per_square_meter"
+  },
+  {
+    "symbol": "cd·m⁻²",
+    "unit_id": "u:candela_per_square_meter"
+  },
+  {
+    "symbol": "cd*m^-2",
+    "unit_id": "u:candela_per_square_meter"
+  },
+  {
+    "symbol": "dyne",
+    "unit_id": "u:dyne"
+  },
+  {
+    "symbol": "dyn",
+    "unit_id": "u:dyne"
+  },
+  {
+    "symbol": "kilogram_force",
+    "unit_id": "u:kilogram_force"
+  },
+  {
+    "symbol": "kgf",
+    "unit_id": "u:kilogram_force"
+  },
+  {
+    "symbol": "kilopond",
+    "unit_id": "u:kilopond"
+  },
+  {
+    "symbol": "kp",
+    "unit_id": "u:kilopond"
+  },
+  {
+    "symbol": "calorie_th_per_second",
+    "unit_id": "u:calorie_th_per_second"
+  },
+  {
+    "symbol": "cal_th/s",
+    "unit_id": "u:calorie_th_per_second"
+  },
+  {
+    "symbol": "cal_th*s^-1",
+    "unit_id": "u:calorie_th_per_second"
+  },
+  {
+    "symbol": "kilocalorie_th_per_second",
+    "unit_id": "u:kilocalorie_th_per_second"
+  },
+  {
+    "symbol": "kcal_th/s",
+    "unit_id": "u:kilocalorie_th_per_second"
+  },
+  {
+    "symbol": "kcal_th*s^-1",
+    "unit_id": "u:kilocalorie_th_per_second"
+  },
+  {
+    "symbol": "foot",
+    "unit_id": "u:foot"
+  },
+  {
+    "symbol": "ft",
+    "unit_id": "u:foot"
+  },
+  {
+    "symbol": "′",
+    "unit_id": "u:foot"
+  },
+  {
+    "symbol": "'",
+    "unit_id": "u:foot"
+  },
+  {
+    "symbol": "'_ft",
+    "unit_id": "u:foot"
+  },
+  {
+    "symbol": "prime_ft",
+    "unit_id": "u:foot"
+  },
+  {
+    "symbol": "inch",
+    "unit_id": "u:inch"
+  },
+  {
+    "symbol": "in",
+    "unit_id": "u:inch"
+  },
+  {
+    "symbol": "″",
+    "unit_id": "u:inch"
+  },
+  {
+    "symbol": "\"",
+    "unit_id": "u:inch"
+  },
+  {
+    "symbol": "\"_in",
+    "unit_id": "u:inch"
+  },
+  {
+    "symbol": "dprime_in",
+    "unit_id": "u:inch"
+  },
+  {
+    "symbol": "mile",
+    "unit_id": "u:mile"
+  },
+  {
+    "symbol": "mi",
+    "unit_id": "u:mile"
+  },
+  {
+    "symbol": "yard",
+    "unit_id": "u:yard"
+  },
+  {
+    "symbol": "yd",
+    "unit_id": "u:yard"
+  },
+  {
+    "symbol": "phot",
+    "unit_id": "u:phot"
+  },
+  {
+    "symbol": "ph",
+    "unit_id": "u:phot"
+  },
+  {
+    "symbol": "grain",
+    "unit_id": "u:grain"
+  },
+  {
+    "symbol": "gr",
+    "unit_id": "u:grain"
+  },
+  {
+    "symbol": "metric_ton",
+    "unit_id": "u:metric_ton"
+  },
+  {
+    "symbol": "t",
+    "unit_id": "u:metric_ton"
+  },
+  {
+    "symbol": "erg_per_second",
+    "unit_id": "u:erg_per_second"
+  },
+  {
+    "symbol": "erg·s⁻¹",
+    "unit_id": "u:erg_per_second"
+  },
+  {
+    "symbol": "erg*s^-1",
+    "unit_id": "u:erg_per_second"
+  },
+  {
+    "symbol": "radian",
+    "unit_id": "u:radian"
+  },
+  {
+    "symbol": "rad",
+    "unit_id": "u:radian"
+  },
+  {
+    "symbol": "radian_per_meter",
+    "unit_id": "u:radian_per_meter"
+  },
+  {
+    "symbol": "rad/m",
+    "unit_id": "u:radian_per_meter"
+  },
+  {
+    "symbol": "rad*m^-1",
+    "unit_id": "u:radian_per_meter"
+  },
+  {
+    "symbol": "radian_per_second",
+    "unit_id": "u:radian_per_second"
+  },
+  {
+    "symbol": "rad/s",
+    "unit_id": "u:radian_per_second"
+  },
+  {
+    "symbol": "rad*s^-1",
+    "unit_id": "u:radian_per_second"
+  },
+  {
+    "symbol": "radian_per_second_squared",
+    "unit_id": "u:radian_per_second_squared"
+  },
+  {
+    "symbol": "rad/s²",
+    "unit_id": "u:radian_per_second_squared"
+  },
+  {
+    "symbol": "rad*s^-2",
+    "unit_id": "u:radian_per_second_squared"
+  },
+  {
+    "symbol": "bar",
+    "unit_id": "u:bar"
+  },
+  {
+    "symbol": "dyne_per_square_centimeter",
+    "unit_id": "u:dyne_per_square_centimeter"
+  },
+  {
+    "symbol": "dyn·cm⁻²",
+    "unit_id": "u:dyne_per_square_centimeter"
+  },
+  {
+    "symbol": "dyn*cm^-2",
+    "unit_id": "u:dyne_per_square_centimeter"
+  },
+  {
+    "symbol": "gram_force_per_square_centimeter",
+    "unit_id": "u:gram_force_per_square_centimeter"
+  },
+  {
+    "symbol": "gf·cm⁻²",
+    "unit_id": "u:gram_force_per_square_centimeter"
+  },
+  {
+    "symbol": "gf*cm^-2",
+    "unit_id": "u:gram_force_per_square_centimeter"
+  },
+  {
+    "symbol": "kilogram_force_per_square_centimeter",
+    "unit_id": "u:kilogram_force_per_square_centimeter"
+  },
+  {
+    "symbol": "kgf·cm⁻²",
+    "unit_id": "u:kilogram_force_per_square_centimeter"
+  },
+  {
+    "symbol": "kgf*cm^-2",
+    "unit_id": "u:kilogram_force_per_square_centimeter"
+  },
+  {
+    "symbol": "kilogram_force_per_square_meter",
+    "unit_id": "u:kilogram_force_per_square_meter"
+  },
+  {
+    "symbol": "kgf·m⁻²",
+    "unit_id": "u:kilogram_force_per_square_meter"
+  },
+  {
+    "symbol": "kgf*m^-2",
+    "unit_id": "u:kilogram_force_per_square_meter"
+  },
+  {
+    "symbol": "kilogram_force_per_square_millimeter",
+    "unit_id": "u:kilogram_force_per_square_millimeter"
+  },
+  {
+    "symbol": "kgf·mm⁻²",
+    "unit_id": "u:kilogram_force_per_square_millimeter"
+  },
+  {
+    "symbol": "kgf*mm^-2",
+    "unit_id": "u:kilogram_force_per_square_millimeter"
+  },
+  {
+    "symbol": "centipoise",
+    "unit_id": "u:centipoise"
+  },
+  {
+    "symbol": "cP",
+    "unit_id": "u:centipoise"
+  },
+  {
+    "symbol": "curie",
+    "unit_id": "u:curie"
+  },
+  {
+    "symbol": "Ci",
+    "unit_id": "u:curie"
+  },
+  {
+    "symbol": "rad",
+    "unit_id": "u:rad"
+  },
+  {
+    "symbol": "rad_radiation",
+    "unit_id": "u:rad"
+  }
+]

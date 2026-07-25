@@ -1,0 +1,186 @@
+<cnml:certificatNumeriqueMetrologieLegale xmlns:unitsml="https://unitsml.org/ns/unitsml" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" schemaVersion="1.0" xmlns:cnml="https://oimlsmart.org/schemas/cnml/1.0">
+  <cnml:administrativeData>
+    <cnml:cnmlSoftware language="en">
+      <cnml:name>cnml-web</cnml:name>
+      <cnml:version>0.1.0</cnml:version></cnml:cnmlSoftware>
+      <cnml:coreData memberState="The Netherlands">
+        <cnml:identifications>
+          <cnml:oimlNumber>R117/2019-A-NL1-21.08 Rev. 1</cnml:oimlNumber>
+          <cnml:projectNumber>2502536</cnml:projectNumber></cnml:identifications>
+          <cnml:recommendation ref="R117" edition="2019"/>
+          <cnml:scheme>A</cnml:scheme>
+          <cnml:accuracyClasses>
+            <cnml:class>0.5</cnml:class></cnml:accuracyClasses>
+            <cnml:dateOfIssue>2023-05-04</cnml:dateOfIssue>
+            <cnml:pageTotal>7</cnml:pageTotal>
+            <cnml:oimlIssuerId>NL1</cnml:oimlIssuerId></cnml:coreData>
+            <cnml:issuingAuthority>
+              <cnml:name>NMi Certin B.V.</cnml:name>
+              <cnml:personResponsible>M.Ph.D. Schmidt</cnml:personResponsible>
+              <cnml:oimlIssuerId>NL1</cnml:oimlIssuerId></cnml:issuingAuthority>
+              <cnml:applicants>
+                <cnml:party>
+                  <cnml:name>CZAR Metric System Private Limited</cnml:name>
+                  <cnml:addressLines>
+                    <cnml:line>Plot No. A-451 MIDC Industrial Area, Mahape</cnml:line>
+                    <cnml:line>Navi Mumbai 400710</cnml:line>
+                    <cnml:line>Maharashtra, India</cnml:line></cnml:addressLines></cnml:party></cnml:applicants>
+                    <cnml:manufacturers>
+                      <cnml:party>
+                        <cnml:name>CZAR Metric System Private Limited</cnml:name>
+                        <cnml:addressLines>
+                          <cnml:line>Plot No. A-451 MIDC Industrial Area, Mahape</cnml:line>
+                          <cnml:line>Navi Mumbai 400710</cnml:line>
+                          <cnml:line>Maharashtra, India</cnml:line></cnml:addressLines></cnml:party></cnml:manufacturers>
+                          <cnml:certifiedType>
+                            <cnml:category>Fuel dispenser (liquids other than water)</cnml:category>
+                            <cnml:typeDesignations>
+                              <cnml:designation>CZF-*******</cnml:designation></cnml:typeDesignations>
+                              <cnml:description>A fuel dispenser for various liquids including gasoline, diesel, biodiesel, kerosene, and AdBlue/DEF. Where "*" can be a number or a letter for representing different configurations of the dispenser.</cnml:description></cnml:certifiedType>
+                              <cnml:revisionHistory>
+                                <cnml:revision>
+                                  <cnml:revisionNumber>0</cnml:revisionNumber>
+                                  <cnml:date>2021-10-27</cnml:date>
+                                  <cnml:changes>Initial issue.</cnml:changes></cnml:revision>
+                                  <cnml:revision>
+                                    <cnml:revisionNumber>1</cnml:revisionNumber>
+                                    <cnml:date>2023-05-04</cnml:date>
+                                    <cnml:changes>Approved printer mounted on the dispenser as a mandatory ancillary device.</cnml:changes></cnml:revision></cnml:revisionHistory>
+                                    <cnml:testReports>
+                                      <cnml:testReport>
+                                        <cnml:id>NMi-2502536-01</cnml:id>
+                                        <cnml:date>2021-10-27</cnml:date>
+                                        <cnml:pages>119</cnml:pages>
+                                        <cnml:role>type_evaluation_report</cnml:role></cnml:testReport>
+                                        <cnml:testReport>
+                                          <cnml:id>NMi-2502536-03</cnml:id>
+                                          <cnml:date>2023-05-04</cnml:date>
+                                          <cnml:pages>34</cnml:pages>
+                                          <cnml:role>test_report</cnml:role></cnml:testReport></cnml:testReports>
+                                          <cnml:footnotes>
+                                            <cnml:footnote>
+                                              <cnml:marker>1)</cnml:marker>
+                                              <cnml:text>Where "*" can be a number or a letter for representing different configurations of the dispenser.</cnml:text></cnml:footnote>
+                                              <cnml:footnote>
+                                                <cnml:marker>2)</cnml:marker>
+                                                <cnml:text>The Qmin flowrate through each individual flow meters in the parallel configuration shall not be smaller than the Qmin of the individual meter (2 L/min); The Qmax flowrate through each individual flow meters in the parallel configuration shall not be greater than the Qmax of the individual meter (80 L/min).</cnml:text></cnml:footnote></cnml:footnotes></cnml:administrativeData>
+                                                <cnml:measurementResults>
+                                                  <cnml:characteristic name="accuracy_class" layer="type_level">
+                                                    <cnml:value>
+                                                      <cnml:scalar>
+                                                        <cnml:text>0.5</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                        <cnml:characteristic name="instrument_type" layer="type_level">
+                                                          <cnml:value>
+                                                            <cnml:scalar>
+                                                              <cnml:text>Fuel dispenser (Liquid other than water)</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                              <cnml:characteristic name="essential_parts" layer="type_level">
+                                                                <cnml:value>
+                                                                  <cnml:scalar>
+                                                                    <cnml:text>Electronic calculating and indicating device: CZ series; Pulser CZ-MGE-XX; Measurement transducer: Piston meter CZ-FM120 (for fuel and AdBlue); Gas separator in combination with the pumping unit: Vane suction pump CZ-VP080</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                    <cnml:characteristic name="approved_liquid_products" layer="type_level">
+                                                                      <cnml:value>
+                                                                        <cnml:scalar>
+                                                                          <cnml:text>Gasoline; Blended Gasoline with up to 100% ethanol or 20% methanol or 20% MTBE; Diesel, Biodiesel (up to 100% fame B100); Blended Bio-Diesel 10%~60%, Kerosene and AdBlue/DEF (Diesel Exhaust Fuel).</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                          <cnml:characteristic name="environment_classes" layer="type_level">
+                                                                            <cnml:value>
+                                                                              <cnml:scalar>
+                                                                                <cnml:text>E1/H3/M2</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                <cnml:characteristic name="ambient_temperature_range" layer="type_level">
+                                                                                  <cnml:value>
+                                                                                    <cnml:range>
+                                                                                      <cnml:min>
+                                                                                        <cnml:number>-25</cnml:number></cnml:min>
+                                                                                        <cnml:max>
+                                                                                          <cnml:number>55</cnml:number></cnml:max>
+                                                                                          <unitsml:units unitsml:id="u:degree_Celsius" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:range></cnml:value></cnml:characteristic>
+                                                                                          <cnml:characteristic name="liquid_temperature_range" layer="type_level">
+                                                                                            <cnml:value>
+                                                                                              <cnml:range>
+                                                                                                <cnml:min>
+                                                                                                  <cnml:number>-5</cnml:number></cnml:min>
+                                                                                                  <cnml:max>
+                                                                                                    <cnml:number>35</cnml:number></cnml:max>
+                                                                                                    <unitsml:units unitsml:id="u:degree_Celsius" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:range></cnml:value></cnml:characteristic>
+                                                                                                    <cnml:characteristic name="approved_density_range" layer="type_level">
+                                                                                                      <cnml:value>
+                                                                                                        <cnml:range>
+                                                                                                          <cnml:min>
+                                                                                                            <cnml:number>710</cnml:number></cnml:min>
+                                                                                                            <cnml:max>
+                                                                                                              <cnml:number>1200</cnml:number></cnml:max>
+                                                                                                              <unitsml:units unitsml:id="u:kilogram_per_cubic_meter" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:range></cnml:value></cnml:characteristic>
+                                                                                                              <cnml:characteristic name="maximum_pressure" layer="type_level">
+                                                                                                                <cnml:value>
+                                                                                                                  <cnml:scalar>
+                                                                                                                    <cnml:number>3.5</cnml:number>
+                                                                                                                    <unitsml:units unitsml:id="u:bar" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                    <cnml:characteristic name="electrical_power" layer="type_level">
+                                                                                                                      <cnml:value>
+                                                                                                                        <cnml:scalar>
+                                                                                                                          <cnml:text>230 VAC / 50 Hz</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                          <cnml:characteristic name="maximum_number_of_nozzles" layer="type_level">
+                                                                                                                            <cnml:value>
+                                                                                                                              <cnml:scalar>
+                                                                                                                                <cnml:number>8</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                <cnml:characteristic name="maximum_number_of_main_indicating_device" layer="type_level">
+                                                                                                                                  <cnml:value>
+                                                                                                                                    <cnml:scalar>
+                                                                                                                                      <cnml:number>4</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                      <cnml:characteristic name="maximum_number_of_nozzles_connected_to_each_indicating_device" layer="type_level">
+                                                                                                                                        <cnml:value>
+                                                                                                                                          <cnml:scalar>
+                                                                                                                                            <cnml:number>4</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                            <cnml:characteristic name="minimum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                              <cnml:value>
+                                                                                                                                                <cnml:scalar>
+                                                                                                                                                  <cnml:number>2</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                  <cnml:characteristic name="minimum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                    <cnml:value>
+                                                                                                                                                      <cnml:scalar>
+                                                                                                                                                        <cnml:number>2</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                        <cnml:characteristic name="minimum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                          <cnml:value>
+                                                                                                                                                            <cnml:scalar>
+                                                                                                                                                              <cnml:number>5</cnml:number></cnml:scalar></cnml:value>
+                                                                                                                                                              <cnml:footnoteMarkers>
+                                                                                                                                                                <cnml:marker>2)</cnml:marker></cnml:footnoteMarkers></cnml:characteristic>
+                                                                                                                                                                <cnml:characteristic name="minimum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                                  <cnml:value>
+                                                                                                                                                                    <cnml:scalar>
+                                                                                                                                                                      <cnml:number>4</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                      <cnml:characteristic name="maximum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                                        <cnml:value>
+                                                                                                                                                                          <cnml:scalar>
+                                                                                                                                                                            <cnml:number>40</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                            <cnml:characteristic name="maximum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                                              <cnml:value>
+                                                                                                                                                                                <cnml:scalar>
+                                                                                                                                                                                  <cnml:number>80</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                                  <cnml:characteristic name="maximum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                                                    <cnml:value>
+                                                                                                                                                                                      <cnml:scalar>
+                                                                                                                                                                                        <cnml:number>130</cnml:number></cnml:scalar></cnml:value>
+                                                                                                                                                                                        <cnml:footnoteMarkers>
+                                                                                                                                                                                          <cnml:marker>2)</cnml:marker></cnml:footnoteMarkers></cnml:characteristic>
+                                                                                                                                                                                          <cnml:characteristic name="maximum_flow_rate" layer="model_level" model="N/A">
+                                                                                                                                                                                            <cnml:value>
+                                                                                                                                                                                              <cnml:scalar>
+                                                                                                                                                                                                <cnml:number>40</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                                                <cnml:characteristic name="mmq" layer="model_level" model="N/A">
+                                                                                                                                                                                                  <cnml:value>
+                                                                                                                                                                                                    <cnml:scalar>
+                                                                                                                                                                                                      <cnml:number>2</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                                                      <cnml:characteristic name="mmq" layer="model_level" model="N/A">
+                                                                                                                                                                                                        <cnml:value>
+                                                                                                                                                                                                          <cnml:scalar>
+                                                                                                                                                                                                            <cnml:number>2</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                                                            <cnml:characteristic name="mmq" layer="model_level" model="N/A">
+                                                                                                                                                                                                              <cnml:value>
+                                                                                                                                                                                                                <cnml:scalar>
+                                                                                                                                                                                                                  <cnml:number>5</cnml:number></cnml:scalar></cnml:value>
+                                                                                                                                                                                                                  <cnml:footnoteMarkers>
+                                                                                                                                                                                                                    <cnml:marker>2)</cnml:marker></cnml:footnoteMarkers></cnml:characteristic>
+                                                                                                                                                                                                                    <cnml:characteristic name="mmq" layer="model_level" model="N/A">
+                                                                                                                                                                                                                      <cnml:value>
+                                                                                                                                                                                                                        <cnml:scalar>
+                                                                                                                                                                                                                          <cnml:number>2</cnml:number></cnml:scalar></cnml:value></cnml:characteristic></cnml:measurementResults><ds:Signature Id="cnml-signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>1vdg7wpD9zCrFjU5CVyoA1tXioygu7Jhln03l1TXfgc=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>h/J4YYhhTXlyIKdTMzn2g6bfyuxpSH0tIasBAJd9jh51NtCoExXOptpBJ9K7H80qHy1NGLZqy108w4jzsEjEABBhbm7aAw/eJq8iJwE1wgXMSYmnyCh5RgbFAQviDJrxY+UbGbfCMC6V1ePcvw4gyIG25cBedX+117Hp3882q2ij7DbwaSOosaIpvKzVVZl5j280btzjO/9IgtdFHV7fQQG/kqd1qu/6cTbUXxkQm9MP5/8ys3YjrMuMz64cVHURIzoIVjlBhLcFG4/+rbVZRfADaTD9YwotDLr6iYRNbibm3FurwaZUcj2TRPJmhUBIp5Qf3a1qYPu/Vc7WumVitg==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDDzCCAfmgAwIBAwIRALDepuVIklvbcsDAXrMJpdAwCwYJKoZIhvcNAQELMEUxQzAYBgNVBAoMEUNOTUwgVGVzdCBWZWN0b3JzMBwGA1UEAwwVQ05NTCBUZXN0IFNpZ25lciAyMDI2MAkGA1UEBgwCTkwwHhcNMjYwNzIzMTEwNzA2WhcNMzYwNzIwMTEwNzA2WjBFMUMwGAYDVQQKDBFDTk1MIFRlc3QgVmVjdG9yczAcBgNVBAMMFUNOTUwgVGVzdCBTaWduZXIgMjAyNjAJBgNVBAYMAk5MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmhjtBGMCf0kv3pxDU77h9XiZUPWMFMAeO/DjBA63/GP3UxJlnMm81e9ReV8JMuxY3PMj+NCv3HEpbOLq8arRF/7IVuExVOCFNt1IqPhqH7zhjx7xas5mVH0YtDmuvnhG02XdgEq1pUzX/UubjCrDkc/3H0gkOWFtLXbskhVTvShrbIgW41k4SE78RiZ896jMsZzLzLjXgXdh74+nIbECqyFdpb4eDyI2kTq6XLdWmTYwN4CwQBgitf/AfWLCxGNXOQTvZxTGsWcnKrkB3bz8vh2LUXeTIb+9Kktay8cAyEdMV24/JHijWiSeC/AxR8HNkrkpeYqtmp/seaOiDSc56QIDAQABMAsGCSqGSIb3DQEBCwOCAQEAQN5jNpUavPpEIFQUjZgJO8QaAPoyJ0GmHYut6oJemSmBCaEcnvo+rcO0kWGNQcGGiKUqLjwvNT21Ca0O+CN886649czZFtlDocvpoZ7KFOu+Z7Vp2jx9D708GG48sS41hic14PiwNwzQ9joayuGmcRD9dqT+RtWaebTtZ2VzLwPJL8FBlGI5Oz5Z3bzy3LbDbb46ANQQ6BQbef1xwPgXhnDxCXgSzXT2mR/GoKPouI4g8VwBWqtBwGvMPEAll1+jgI3hoLq6WMLvsaLzJ2Rfvmm3Z43K0ZSj+n1qTY8MW7wn4qZiD8Tc190dih59MJED/yVjgdvDmevXwRDlmtqY2g==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></cnml:certificatNumeriqueMetrologieLegale>

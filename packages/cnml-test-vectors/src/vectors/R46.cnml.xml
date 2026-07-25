@@ -1,0 +1,19 @@
+<cnml:certificatNumeriqueMetrologieLegale xmlns:unitsml="https://unitsml.org/ns/unitsml" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" schemaVersion="1.0" xmlns:cnml="https://oimlsmart.org/schemas/cnml/1.0">
+  <cnml:administrativeData>
+    <cnml:cnmlSoftware language="en">
+      <cnml:name>cnml-web</cnml:name>
+      <cnml:version>0.1.0</cnml:version></cnml:cnmlSoftware>
+      <cnml:coreData>
+        <cnml:identifications>
+          <cnml:oimlNumber>R46/TEST-A-XX1-26.0</cnml:oimlNumber></cnml:identifications>
+          <cnml:recommendation ref="R46" edition="2020"/>
+          <cnml:scheme>A</cnml:scheme>
+          <cnml:dateOfIssue>2026-07-23</cnml:dateOfIssue></cnml:coreData>
+          <cnml:issuingAuthority>
+            <cnml:name>CNML Test Issuer</cnml:name>
+            <cnml:personResponsible>Test Signer</cnml:personResponsible></cnml:issuingAuthority>
+            <cnml:certifiedType>
+              <cnml:category>OIML R46 (Active Electrical Energy Meters) Certificate Schema</cnml:category>
+              <cnml:typeDesignations>
+                <cnml:designation>TEST-MODEL</cnml:designation></cnml:typeDesignations></cnml:certifiedType></cnml:administrativeData>
+                <cnml:measurementResults/><ds:Signature Id="cnml-signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>CjPSkmYvVKZeprU53lsvr1LANUfvQsmcrmLFYCHeKqw=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>bJA7vFw93lArHcTMihGsAw8LGhJ6Xu5jhRoYtP/MfbEOVZheoM4oUjtq6t+e7LyfB9VjqgbXgKsNgUrXjaTHEw2l7A9z+Gyp3VCVwy8AoJ05FQdfmEYTRkViX87jwcsAQg2fRrLVFtRhmVentOLx52DzxBvJDgiQS3XbU6HWXR/54TFypFiz2qzgWM3sNSuBXi2AdsxVYQFrpu9XsgXJ+MlLgnQJFLQ/QnfAawQlhId5JhGMM1TVLHop/THFxkSluXWh3voyBRlX5gT8ck1WPStBSy6GwCROhfJxHltHqTdnfLjwnGqphovKeZTZ0A2a34h1kt5Eh1fLDDI/4tiCPA==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDDzCCAfmgAwIBAwIRALDepuVIklvbcsDAXrMJpdAwCwYJKoZIhvcNAQELMEUxQzAYBgNVBAoMEUNOTUwgVGVzdCBWZWN0b3JzMBwGA1UEAwwVQ05NTCBUZXN0IFNpZ25lciAyMDI2MAkGA1UEBgwCTkwwHhcNMjYwNzIzMTEwNzA2WhcNMzYwNzIwMTEwNzA2WjBFMUMwGAYDVQQKDBFDTk1MIFRlc3QgVmVjdG9yczAcBgNVBAMMFUNOTUwgVGVzdCBTaWduZXIgMjAyNjAJBgNVBAYMAk5MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmhjtBGMCf0kv3pxDU77h9XiZUPWMFMAeO/DjBA63/GP3UxJlnMm81e9ReV8JMuxY3PMj+NCv3HEpbOLq8arRF/7IVuExVOCFNt1IqPhqH7zhjx7xas5mVH0YtDmuvnhG02XdgEq1pUzX/UubjCrDkc/3H0gkOWFtLXbskhVTvShrbIgW41k4SE78RiZ896jMsZzLzLjXgXdh74+nIbECqyFdpb4eDyI2kTq6XLdWmTYwN4CwQBgitf/AfWLCxGNXOQTvZxTGsWcnKrkB3bz8vh2LUXeTIb+9Kktay8cAyEdMV24/JHijWiSeC/AxR8HNkrkpeYqtmp/seaOiDSc56QIDAQABMAsGCSqGSIb3DQEBCwOCAQEAQN5jNpUavPpEIFQUjZgJO8QaAPoyJ0GmHYut6oJemSmBCaEcnvo+rcO0kWGNQcGGiKUqLjwvNT21Ca0O+CN886649czZFtlDocvpoZ7KFOu+Z7Vp2jx9D708GG48sS41hic14PiwNwzQ9joayuGmcRD9dqT+RtWaebTtZ2VzLwPJL8FBlGI5Oz5Z3bzy3LbDbb46ANQQ6BQbef1xwPgXhnDxCXgSzXT2mR/GoKPouI4g8VwBWqtBwGvMPEAll1+jgI3hoLq6WMLvsaLzJ2Rfvmm3Z43K0ZSj+n1qTY8MW7wn4qZiD8Tc190dih59MJED/yVjgdvDmevXwRDlmtqY2g==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></cnml:certificatNumeriqueMetrologieLegale>
