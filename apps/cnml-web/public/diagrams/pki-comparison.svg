@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="IBM Plex Sans, system-ui, sans-serif">
+  <defs>
+    <marker id="arr-tls" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9CA3AF"/>
+    </marker>
+    <marker id="arr-cnml" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#004996"/>
+    </marker>
+  </defs>
+
+  <style>
+    .h1 { font-size: 22px; font-weight: 600; fill: #0a1628; }
+    .h2 { font-size: 16px; font-weight: 600; fill: #004996; }
+    .lbl { font-size: 13px; fill: #0a1628; }
+    .lbl-sm { font-size: 11px; fill: #3a4a63; }
+    .lbl-mono { font-size: 11px; fill: #3a4a63; font-family: IBM Plex Mono, monospace; }
+    .note { font-size: 11px; fill: #6b7a92; font-style: italic; }
+    .box-tls { fill: #F3F4F6; stroke: #9CA3AF; stroke-width: 1.5; }
+    .box-cnml { fill: #FAF6EE; stroke: #004996; stroke-width: 1.5; }
+    .box-hl-tls { fill: #FEF3C7; stroke: #92400E; stroke-width: 1.5; }
+    .box-hl-cnml { fill: #DBEAF3; stroke: #004996; stroke-width: 1.5; }
+    .arrow-tls { stroke: #9CA3AF; stroke-width: 1.5; fill: none; }
+    .arrow-cnml { stroke: #004996; stroke-width: 1.5; fill: none; }
+  </style>
+
+  <text x="600" y="32" text-anchor="middle" class="h1">PKI architecture: typical web TLS vs CNML</text>
+  <text x="600" y="52" text-anchor="middle" class="note">Two completely different threat models, despite using the same X.509 primitives</text>
+
+  <!-- ============ Left side: typical TLS ============ -->
+  <text x="270" y="92" text-anchor="middle" class="h2">Typical web PKI (TLS)</text>
+
+  <!-- Browser -->
+  <rect x="60" y="110" width="180" height="70" rx="6" class="box-tls"/>
+  <text x="150" y="135" text-anchor="middle" class="lbl">Browser</text>
+  <text x="150" y="155" text-anchor="middle" class="lbl-sm">(millions of clients)</text>
+
+  <!-- TLS cert -->
+  <rect x="60" y="220" width="180" height="70" rx="6" class="box-tls"/>
+  <text x="150" y="245" text-anchor="middle" class="lbl">TLS certificate</text>
+  <text x="150" y="265" text-anchor="middle" class="lbl-mono">example.com</text>
+  <text x="150" y="280" text-anchor="middle" class="lbl-sm">90-day lifetime</text>
+
+  <!-- ACME / cloud CA -->
+  <rect x="60" y="330" width="180" height="80" rx="6" class="box-tls"/>
+  <text x="150" y="355" text-anchor="middle" class="lbl">Cloud CA</text>
+  <text x="150" y="375" text-anchor="middle" class="lbl-sm">(Let's Encrypt, DigiCert)</text>
+  <text x="150" y="392" text-anchor="middle" class="lbl-sm">Automated ACME API</text>
+
+  <!-- OCSP / CT -->
+  <rect x="60" y="450" width="180" height="80" rx="6" class="box-hl-tls"/>
+  <text x="150" y="475" text-anchor="middle" class="lbl">OCSP responder</text>
+  <text x="150" y="495" text-anchor="middle" class="lbl-sm">+ CT logs</text>
+  <text x="150" y="512" text-anchor="middle" class="lbl-sm">(must be online)</text>
+
+  <!-- Browser root store -->
+  <rect x="60" y="570" width="180" height="80" rx="6" class="box-tls"/>
+  <text x="150" y="595" text-anchor="middle" class="lbl">Browser root store</text>
+  <text x="150" y="615" text-anchor="middle" class="lbl-sm">(Chrome, Firefox, etc.)</text>
+  <text x="150" y="632" text-anchor="middle" class="lbl-sm">~150 roots, vendor-controlled</text>
+
+  <!-- Arrows TLS -->
+  <path d="M 150 180 L 150 220" class="arrow-tls" marker-end="url(#arr-tls)"/>
+  <path d="M 150 290 L 150 330" class="arrow-tls" marker-end="url(#arr-tls)"/>
+  <path d="M 150 410 L 150 450" class="arrow-tls" marker-end="url(#arr-tls)"/>
+  <path d="M 150 530 L 150 570" class="arrow-tls" marker-end="url(#arr-tls)"/>
+
+  <text x="160" y="208" class="lbl-mono">validate</text>
+  <text x="160" y="318" class="lbl-mono">issue</text>
+  <text x="160" y="438" class="lbl-mono">revoke?</text>
+  <text x="160" y="558" class="lbl-mono">trust</text>
+
+  <!-- ============ Right side: CNML ============ -->
+  <text x="900" y="92" text-anchor="middle" class="h2">CNML PKI</text>
+
+  <!-- Browser (verifier / signer) -->
+  <rect x="810" y="110" width="180" height="70" rx="6" class="box-cnml"/>
+  <text x="900" y="135" text-anchor="middle" class="lbl">Browser</text>
+  <text x="900" y="155" text-anchor="middle" class="lbl-sm">(verifier OR signer)</text>
+
+  <!-- CNML doc -->
+  <rect x="810" y="220" width="180" height="70" rx="6" class="box-cnml"/>
+  <text x="900" y="245" text-anchor="middle" class="lbl">CNML document</text>
+  <text x="900" y="265" text-anchor="middle" class="lbl-mono">.cnml.xml</text>
+  <text x="900" y="280" text-anchor="middle" class="lbl-sm">2-5 year lifetime</text>
+
+  <!-- Air-gapped CA -->
+  <rect x="810" y="330" width="180" height="80" rx="6" class="box-hl-cnml"/>
+  <text x="900" y="355" text-anchor="middle" class="lbl">Air-gapped CA</text>
+  <text x="900" y="375" text-anchor="middle" class="lbl-sm">(Ruby, local)</text>
+  <text x="900" y="392" text-anchor="middle" class="lbl-sm">USB in/out only</text>
+
+  <!-- Trust anchors CDN -->
+  <rect x="810" y="450" width="180" height="80" rx="6" class="box-cnml"/>
+  <text x="900" y="475" text-anchor="middle" class="lbl">Trust anchors CDN</text>
+  <text x="900" y="495" text-anchor="middle" class="lbl-sm">+ CRLs</text>
+  <text x="900" y="512" text-anchor="middle" class="lbl-sm">(GitHub Pages, cacheable)</text>
+
+  <!-- OIML root in safe -->
+  <rect x="810" y="570" width="180" height="80" rx="6" class="box-cnml"/>
+  <text x="900" y="595" text-anchor="middle" class="lbl">OIML Root CA</text>
+  <text x="900" y="615" text-anchor="middle" class="lbl-sm">Yubikey/HSM in safe</text>
+  <text x="900" y="632" text-anchor="middle" class="lbl-sm">BIML-controlled</text>
+
+  <!-- Arrows CNML -->
+  <path d="M 900 180 L 900 220" class="arrow-cnml" marker-end="url(#arr-cnml)"/>
+  <path d="M 900 290 L 900 330" class="arrow-cnml" marker-end="url(#arr-cnml)"/>
+  <path d="M 900 410 L 900 450" class="arrow-cnml" marker-end="url(#arr-cnml)"/>
+  <path d="M 900 530 L 900 570" class="arrow-cnml" marker-end="url(#arr-cnml)"/>
+
+  <text x="910" y="208" class="lbl-mono">verify</text>
+  <text x="910" y="318" class="lbl-mono">sign</text>
+  <text x="910" y="438" class="lbl-mono">publish</text>
+  <text x="910" y="558" class="lbl-mono">trust</text>
+
+  <!-- USB transfer note (air-gap indicator) -->
+  <g transform="translate(990,360)">
+    <rect x="0" y="-12" width="36" height="24" rx="3" fill="#FAF6EE" stroke="#004996" stroke-width="1.5"/>
+    <text x="18" y="3" text-anchor="middle" class="lbl-mono">USB</text>
+    <path d="M 36 0 L 60 0" class="arrow-cnml" marker-end="url(#arr-cnml)"/>
+    <text x="62" y="20" class="note">manual</text>
+    <text x="62" y="33" class="note">transfer</text>
+  </g>
+
+  <!-- ============ Key differences footer ============ -->
+  <g transform="translate(60,690)">
+    <text x="0" y="0" class="h2">Key differences</text>
+    <text x="0" y="22" class="lbl-sm">→ <tspan fill="#004996" font-weight="600">CA offline</tspan> (no network attack surface)         → <tspan fill="#004996" font-weight="600">Document-signed</tspan> (not channel auth)</text>
+    <text x="0" y="40" class="lbl-sm">→ <tspan fill="#004996" font-weight="600">Manual issuance</tspan> (human approves every cert)   → <tspan fill="#004996" font-weight="600">CRLs</tspan> (offline verifiers can't reach OCSP)</text>
+    <text x="0" y="58" class="lbl-sm">→ <tspan fill="#004996" font-weight="600">Scope per Recommendation</tspan> (BIML governance)     → <tspan fill="#004996" font-weight="600">Static CDN</tspan> (no API, no DDoS surface)</text>
+  </g>
+</svg>

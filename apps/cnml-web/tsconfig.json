@@ -1,0 +1,13 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "strictNullChecks": true
+  },
+  "include": ["src/**/*", "*.d.ts"],
+  "exclude": ["dist"]
+}

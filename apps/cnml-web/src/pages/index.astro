@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+
+const actions = [
+  { href: '/create',  title: 'Create',       desc: 'Build a new OIML certificate from scratch',                  symbol: '+' },
+  { href: '/verify',  title: 'Verify',       desc: 'Check the signature and contents of an existing CNML',       symbol: '✓' },
+  { href: '/certs',   title: 'Certificates', desc: 'Browse real OIML-CS samples (3 per R, 59 total)',            symbol: '☰' },
+  { href: '/schemas', title: 'Schemas',      desc: 'Per-Recommendation JSON Schemas (draft-07)',                 symbol: '{ }' },
+  { href: '/keys',    title: 'Keys',         desc: 'Manage signing keys and trusted certificates',                symbol: '⚿' },
+  { href: '/docs',    title: 'Docs',         desc: 'How CNML works, the cryptography, the data model',           symbol: '?' },
+];
+
+const stats = [
+  { value: '22',      label: 'OIML Recommendations supported via per-R schemas' },
+  { value: 'UnitsML', label: 'Real units from UnitsDB — no fake syntax' },
+  { value: 'XMLDSig', label: 'W3C-standard signatures with Exclusive C14N, ECDSA P-256, X.509' },
+  { value: 'D-CoC',   label: 'FAIR-aligned RDF/XML output per NoBoMet V1.2' },
+];
+---
+
+<Base title="CNML — Home">
+  <section class="cnml-hero max-w-7xl mx-auto">
+    <span class="cnml-tag mb-4">OIML · Certificat Numérique de Métrologie Légale</span>
+    <h1 class="cnml-hero__title">
+      Issue and verify OIML certificates,<br/>cryptographically signed.
+    </h1>
+    <p class="cnml-hero__lede">
+      CNML is the OIML equivalent of PTB's DCC. Built on the OIML core certificate model,
+      UnitsML, UnitsDB, and FAIR-aligned D-CoC. Open source. Browser-based. Private keys
+      never leave your machine.
+    </p>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 pb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {actions.map(a => (
+        <a href={a.href} class="cnml-card cnml-card-hover block">
+          <div class="flex items-baseline justify-between gap-2 mb-3">
+            <span class="cnml-section-title cnml-section-title--sm">{a.title}</span>
+            <span class="font-mono text-lg text-[var(--ink-muted)]">{a.symbol}</span>
+          </div>
+          <div class="text-sm text-[var(--ink-soft)]">{a.desc}</div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+      {stats.map(s => (
+        <div class="cnml-stat">
+          <div class="cnml-stat__value">{s.value}</div>
+          <div class="cnml-stat__label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

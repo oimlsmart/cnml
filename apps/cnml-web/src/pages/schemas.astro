@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
+
+const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
+  const c = r.category;
+  if (!acc[c]) acc[c] = [];
+  acc[c].push(r);
+  return acc;
+}, {} as Record<string, typeof RECOMMENDATIONS>);
+
+const coreFiles = [
+  { name: '_core.yaml',          desc: 'Core OIML certificate model: Certificate, Party, StructuredValue, Footnote, TestReport, etc.' },
+  { name: '_units.yaml',         desc: 'Closed enums for UnitsDB quantities, prefixes, units (199 / 33 / 380).' },
+  { name: '_units_local.yaml',   desc: 'OIML-local compound units via root_units composition (mg/L, m/min, …).' },
+  { name: 'modules/d011_environmental.yaml', desc: 'D 11:2013 environmental classes + 36-test catalog.' },
+];
+---
+
+<Base title="Schemas">
+  <section class="max-w-7xl mx-auto px-6 py-12">
+    <h1 class="font-serif text-4xl font-semibold text-[var(--ink)] mb-2 tracking-tight">Schemas</h1>
+    <p class="text-[var(--ink-soft)] mb-10 max-w-3xl">
+      Every OIML CNML certificate validates against the layered JSON Schema stack: <strong>CORE</strong> →
+      <strong>shared modules</strong> → <strong>per-Recommendation</strong>. All schemas are draft-07 with proper
+      <code>$ref</code>, <code>allOf</code>, <code>if/then</code> rules. Browse any schema below to see the
+      exact fields, enums, and constraints encoded for that Recommendation.
+    </p>
+
+    <div class="flex items-baseline justify-between mb-4 pb-2 border-b border-[var(--rule)]">
+      <h2 class="font-serif text-xl font-semibold text-[var(--accent)]">Core + modules</h2>
+      <span class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)]">{coreFiles.length} files</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+      {coreFiles.map(f => (
+        <a href={`/schemas/${f.name}`} class="cnml-card cnml-card-hover block">
+          <div class="font-mono font-semibold text-[var(--accent)] text-sm">{f.name}</div>
+          <div class="text-sm text-[var(--ink-soft)] mt-2">{f.desc}</div>
+        </a>
+      ))}
+    </div>
+
+    {Object.entries(byCategory).map(([category, rs]) => (
+      <div class="mb-10">
+        <div class="flex items-baseline justify-between mb-4 pb-2 border-b border-[var(--rule)]">
+          <h2 class="font-serif text-xl font-semibold text-[var(--accent)]">{category}</h2>
+          <span class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)]">{rs.length} recommendations</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {rs.map(r => (
+            <a href={`/schemas/${r.id}.yaml`} class="cnml-card cnml-card-hover block">
+              <div class="flex items-baseline justify-between gap-2 mb-2">
+                <span class="font-mono font-semibold text-[var(--accent)] text-sm">{r.id}.yaml</span>
+                <span class="font-mono text-xs text-[var(--ink-muted)]">{r.certCount} certs</span>
+              </div>
+              <div class="text-sm text-[var(--ink-soft)]">{r.title}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</Base>

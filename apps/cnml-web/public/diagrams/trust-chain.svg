@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>CNML Trust Chain</title>
+  <desc>Cryptographic trust chain: OIML root cert → issuing authority cert → cert per CNML → user verification.</desc>
+
+  <defs>
+    <style>
+      .root   { fill: #fef2f2; stroke: #dc2626; }
+      .issuer { fill: #fefce8; stroke: #ca8a04; }
+      .signer { fill: #eff6ff; stroke: #2563eb; }
+      .doc    { fill: #f0fdf4; stroke: #15803d; }
+      .verifier { fill: #faf5ff; stroke: #7c3aed; }
+      .arrow     { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#arr5); }
+      .label     { fill: #0f172a; }
+      .muted     { fill: #64748b; font-size: 11px; }
+    </style>
+    <marker id="arr5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" class="label">CNML Trust Chain</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">PKI hierarchy: OIML root → issuing authority → per-cert signer → verifier</text>
+
+  <!-- Root -->
+  <g>
+    <rect x="350" y="80" width="200" height="70" rx="10" class="root"/>
+    <text x="450" y="105" text-anchor="middle" font-weight="700" class="label">OIML Root CA</text>
+    <text x="450" y="125" text-anchor="middle" class="muted">self-signed X.509</text>
+    <text x="450" y="142" text-anchor="middle" class="muted">published in OIML DoMC</text>
+  </g>
+
+  <!-- Issuer 1 -->
+  <g>
+    <rect x="80" y="200" width="220" height="80" rx="10" class="issuer"/>
+    <text x="190" y="225" text-anchor="middle" font-weight="700" class="label">NMi Certin B.V. (NL1)</text>
+    <text x="190" y="245" text-anchor="middle" class="muted">intermediate CA cert</text>
+    <text x="190" y="262" text-anchor="middle" class="muted">signed by OIML Root</text>
+    <text x="190" y="278" text-anchor="middle" class="muted">scope: R60, R76, R117, ...</text>
+  </g>
+
+  <!-- Issuer 2 -->
+  <g>
+    <rect x="340" y="200" width="220" height="80" rx="10" class="issuer"/>
+    <text x="450" y="225" text-anchor="middle" font-weight="700" class="label">PTB (DE1)</text>
+    <text x="450" y="245" text-anchor="middle" class="muted">intermediate CA cert</text>
+    <text x="450" y="262" text-anchor="middle" class="muted">signed by OIML Root</text>
+    <text x="450" y="278" text-anchor="middle" class="muted">scope: all R</text>
+  </g>
+
+  <!-- Issuer 3 -->
+  <g>
+    <rect x="600" y="200" width="220" height="80" rx="10" class="issuer"/>
+    <text x="710" y="225" text-anchor="middle" font-weight="700" class="label">NIM China (CN2)</text>
+    <text x="710" y="245" text-anchor="middle" class="muted">intermediate CA cert</text>
+    <text x="710" y="262" text-anchor="middle" class="muted">signed by OIML Root</text>
+    <text x="710" y="278" text-anchor="middle" class="muted">scope: R51, R117, ...</text>
+  </g>
+
+  <!-- Arrows from root to issuers -->
+  <path d="M 400 150 Q 200 175 190 200" class="arrow"/>
+  <path d="M 450 150 L 450 200" class="arrow"/>
+  <path d="M 500 150 Q 700 175 710 200" class="arrow"/>
+
+  <!-- Signer per cert -->
+  <g>
+    <rect x="200" y="340" width="500" height="60" rx="10" class="signer"/>
+    <text x="450" y="365" text-anchor="middle" font-weight="700" class="label">Per-Certificate Signer Key (in CNML issuer browser)</text>
+    <text x="450" y="385" text-anchor="middle" class="muted">private key signs the CNML XML; cert (X.509) is embedded in &lt;ds:KeyInfo&gt;</text>
+  </g>
+
+  <path d="M 190 280 Q 190 310 300 340" class="arrow"/>
+  <path d="M 450 280 L 450 340" class="arrow"/>
+  <path d="M 710 280 Q 710 310 600 340" class="arrow"/>
+
+  <!-- CNML document -->
+  <g>
+    <rect x="200" y="430" width="500" height="60" rx="10" class="doc"/>
+    <text x="450" y="455" text-anchor="middle" font-weight="700" class="label">Signed CNML Document (*.cnml.xml)</text>
+    <text x="450" y="475" text-anchor="middle" class="muted">contains: cert content + signature + X.509 cert chain</text>
+  </g>
+
+  <path d="M 450 400 L 450 430" class="arrow"/>
+  <text x="460" y="420" class="muted">emits</text>
+
+  <!-- Verifier note -->
+  <text x="450" y="510" text-anchor="middle" class="muted">Verifier rebuilds the chain from &lt;ds:KeyInfo&gt; up to a trusted root in their local trust store.</text>
+</svg>

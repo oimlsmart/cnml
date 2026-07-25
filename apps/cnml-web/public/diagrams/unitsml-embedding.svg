@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>UnitsML embedding in CNML XML</title>
+  <desc>How units from UnitsDB are encoded as unitsml:units elements in CNML XML, including compound units.</desc>
+
+  <defs>
+    <style>
+      .units-box  { fill: #eff6ff; stroke: #2563eb; }
+      .compound   { fill: #fef3c7; stroke: #b45309; }
+      .xml-snippet { fill: #f8fafc; stroke: #cbd5e1; }
+      .arrow      { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#arr6); }
+      .label      { fill: #0f172a; }
+      .muted      { fill: #64748b; font-size: 11px; }
+      .code       { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+    <marker id="arr6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" class="label">UnitsML Embedding in CNML XML</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">UnitsDB → unitsml:units element in CNML documents</text>
+
+  <!-- UnitsDB -->
+  <g>
+    <rect x="30" y="80" width="220" height="120" rx="10" class="units-box"/>
+    <text x="140" y="105" text-anchor="middle" font-weight="700" class="label">UnitsDB</text>
+    <text x="140" y="125" text-anchor="middle" class="muted">unitsdb Ruby gem</text>
+    <text x="140" y="155" text-anchor="middle" class="muted">380 units · 33 prefixes</text>
+    <text x="140" y="173" text-anchor="middle" class="muted">199 quantities</text>
+    <text x="140" y="190" text-anchor="middle" class="muted">root_units composition</text>
+  </g>
+
+  <!-- Simple unit example -->
+  <g>
+    <rect x="280" y="80" width="280" height="60" rx="10" class="xml-snippet"/>
+    <text x="290" y="98" class="muted">Simple unit (V):</text>
+    <text x="290" y="118" class="code">&lt;unitsml:units unitsml:id="u:volt"/&gt;</text>
+  </g>
+
+  <!-- Prefixed unit -->
+  <g>
+    <rect x="280" y="150" width="280" height="50" rx="10" class="xml-snippet"/>
+    <text x="290" y="168" class="muted">Prefixed (kPa):</text>
+    <text x="290" y="186" class="code">&lt;unitsml:units unitsml:id="u:pascal"</text>
+    <text x="290" y="198" class="code">  unitsml:prefix="p:kilo"/&gt;</text>
+  </g>
+
+  <path d="M 250 140 L 280 140" class="arrow"/>
+  <path d="M 250 175 L 280 175" class="arrow"/>
+
+  <!-- Compound unit -->
+  <g>
+    <rect x="600" y="80" width="280" height="120" rx="10" class="compound"/>
+    <text x="740" y="105" text-anchor="middle" font-weight="700" class="label">Compound (local)</text>
+    <text x="740" y="125" text-anchor="middle" class="muted">registered in _units_local.yaml</text>
+    <text x="610" y="148" class="code">&lt;unitsml:units unitsml:id="u:milligram_per_liter"&gt;</text>
+    <text x="610" y="162" class="code">  &lt;unitsml:rootUnits&gt;</text>
+    <text x="610" y="176" class="code">    &lt;unitsml:enumeratedRootUnit unit="gram"</text>
+    <text x="610" y="190" class="code">      prefix="milli" powerNumerator="1"/&gt;</text>
+    <text x="610" y="204" class="code">    &lt;unitsml:enumeratedRootUnit unit="liter"</text>
+    <text x="610" y="218" class="code">      powerNumerator="-1"/&gt;</text>
+  </g>
+
+  <!-- Full characteristic example -->
+  <g>
+    <rect x="30" y="230" width="840" height="230" rx="10" class="xml-snippet"/>
+    <text x="45" y="250" font-weight="700" class="label">Sample CNML characteristic with UnitsML</text>
+
+    <text x="45" y="275" class="code">&lt;cnml:characteristic name="maximum_capacity" layer="type_level"&gt;</text>
+    <text x="45" y="290" class="code">  &lt;cnml:value&gt;</text>
+    <text x="45" y="305" class="code">    &lt;cnml:range&gt;</text>
+    <text x="45" y="320" class="code">      &lt;cnml:min&gt;&lt;cnml:number&gt;15000&lt;/cnml:number&gt;&lt;/cnml:min&gt;</text>
+    <text x="45" y="335" class="code">      &lt;cnml:max&gt;&lt;cnml:number&gt;60000&lt;/cnml:number&gt;&lt;/cnml:max&gt;</text>
+    <text x="45" y="350" class="code">      &lt;unitsml:units unitsml:id="u:kilogram"/&gt;</text>
+    <text x="45" y="365" class="code">    &lt;/cnml:range&gt;</text>
+    <text x="45" y="380" class="code">  &lt;/cnml:value&gt;</text>
+    <text x="45" y="395" class="code">&lt;/cnml:characteristic&gt;</text>
+
+    <line x1="45" y1="410" x2="855" y2="410" stroke="#cbd5e1"/>
+    <text x="45" y="430" class="muted">Round-trip: CNML form builder reads schema (R60.yaml#TypeLevel.maximum_capacity) →</text>
+    <text x="45" y="445" class="muted">user enters value + picks unit from UnitsDB-backed picker → serialized as UnitsML element</text>
+  </g>
+</svg>

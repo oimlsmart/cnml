@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /keys
+Disallow: /csr
+
+Sitemap: https://cnml.oimlsmart.org/sitemap-index.xml

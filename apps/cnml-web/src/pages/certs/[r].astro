@@ -1,0 +1,122 @@
+---
+import Base from '../../layouts/Base.astro';
+import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
+import yaml from 'yaml';
+
+const here = fileURLToPath(import.meta.url);
+const certsDir = join(here, '..', '..', '..', '..', 'public', 'certs');
+
+export function getStaticPaths() {
+  return RECOMMENDATIONS.map((r) => ({ params: { r: r.id.toLowerCase() }, props: { recommendation: r } }));
+}
+
+const { recommendation } = Astro.props;
+const rId = recommendation.id;
+const prefix = `${rId.toLowerCase()}-sample-`;
+
+const sampleFiles = existsSync(certsDir)
+  ? readdirSync(certsDir)
+      .filter((f) => f.startsWith(prefix) && f.endsWith('.yaml'))
+      .sort()
+  : [];
+
+interface CertSummary {
+  filename: string;
+  number: string;
+  issuer: string;
+  date: string;
+  revision: string;
+  type_designations: string[];
+  category: string;
+  schema_typed_count: number;
+}
+
+const samples: CertSummary[] = [];
+const fullData: Record<string, any> = {};
+for (const f of sampleFiles) {
+  try {
+    const data = yaml.parse(readFileSync(join(certsDir, f), 'utf8')) as any;
+    samples.push({
+      filename: f,
+      number:           data?.certificate?.number ?? '(unnumbered)',
+      issuer:           data?.issuing_authority?.name ?? '?',
+      date:             data?.certificate?.date_issued ?? '',
+      revision:         (data?.revision_history?.[0]?.revision) ?? (data?._meta?.num?.match(/Rev\.\s*(\d+)/i)?.[1]) ?? '0',
+      type_designations: data?.certified_type?.type_designations ?? [],
+      category:         data?.certified_type?.category ?? recommendation.title,
+      schema_typed_count: Object.keys(data?.characteristics?.type_level ?? {}).length,
+    });
+    fullData[f] = data;
+  } catch { /* skip */ }
+}
+---
+
+<Base title={`${rId} certificates`}>
+  <section class="max-w-7xl mx-auto px-6 py-12">
+    <a href="/certs" class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← All certificates</a>
+    <div class="mt-4 mb-2 flex items-baseline justify-between flex-wrap gap-4">
+      <h1 class="font-serif text-3xl font-semibold text-[var(--accent)]">{rId} — {recommendation.title}</h1>
+      <span class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)]">{recommendation.category} · {samples.length} sample{samples.length === 1 ? '' : 's'}</span>
+    </div>
+
+    {samples.length === 0 ? (
+      <div class="cnml-card mt-8">
+        <p class="text-[var(--ink-soft)]">No bundled samples for {rId}.</p>
+        <a href={`/schemas/${rId}.yaml`} class="cnml-btn cnml-btn-secondary mt-4">View {rId} schema ↓</a>
+      </div>
+    ) : (
+      <div class="space-y-6 mt-8">
+        {samples.map((s, i) => {
+          const data = fullData[s.filename];
+          return (
+            <article class="cnml-card p-0 overflow-hidden">
+              <header class="px-5 py-4 border-b border-[var(--rule)] bg-[var(--paper-raised)] flex items-baseline justify-between gap-4 flex-wrap">
+                <div>
+                  <div class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)]">Sample {i + 1}</div>
+                  <div class="font-mono text-base text-[var(--accent)] mt-1 break-all">{s.number}</div>
+                  <div class="font-mono text-xs text-[var(--ink-muted)] mt-1">Rev. {s.revision} · {s.schema_typed_count} type_level characteristics</div>
+                </div>
+                <div class="flex gap-2">
+                  <a href={`/create/${rId.toLowerCase()}?sample=${s.filename}`} class="cnml-btn cnml-btn-primary">Load in form →</a>
+                  <a href={`/certs/${s.filename}`} download class="cnml-btn cnml-btn-secondary">YAML ↓</a>
+                </div>
+              </header>
+
+              <div class="px-5 py-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <div class="cnml-label">Issuer</div>
+                  <div class="text-[var(--ink)]">{s.issuer}</div>
+                </div>
+                <div>
+                  <div class="cnml-label">Date issued</div>
+                  <div class="text-[var(--ink)] font-mono">{s.date}</div>
+                </div>
+                <div>
+                  <div class="cnml-label">Type designations</div>
+                  <div class="text-[var(--ink)] font-mono">{s.type_designations.join(', ') || '—'}</div>
+                </div>
+                <div>
+                  <div class="cnml-label">Category</div>
+                  <div class="text-[var(--ink)]">{s.category}</div>
+                </div>
+              </div>
+
+              <details class="border-t border-[var(--rule)]">
+                <summary class="px-5 py-3 font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)] cursor-pointer hover:bg-[var(--paper-raised)]">Full YAML</summary>
+                <pre class="px-5 pb-5 text-xs overflow-x-auto whitespace-pre-wrap bg-[var(--paper)]">{JSON.stringify(data, null, 2)}</pre>
+              </details>
+            </article>
+          );
+        })}
+      </div>
+    )}
+
+    <div class="mt-10 flex gap-3 flex-wrap">
+      <a href={`/create/${rId.toLowerCase()}`} class="cnml-btn cnml-btn-primary">Create new {rId} →</a>
+      <a href={`/schemas/${rId}.yaml`} class="cnml-btn cnml-btn-secondary">View {rId} schema ↓</a>
+    </div>
+  </section>
+</Base>

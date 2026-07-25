@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
+
+// Derive the picker grouping from the schema metadata — no hardcoded R lists.
+const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
+  if (!acc[r.category]) acc[r.category] = [];
+  acc[r.category].push(r);
+  return acc;
+}, {} as Record<string, typeof RECOMMENDATIONS>);
+
+// Stable category order: picker shows categories in this canonical sequence,
+// then any new categories (introduced via schema metadata) appended after.
+const CATEGORY_ORDER = [
+  'Weighing',
+  'Fuel & Flow',
+  'Electricity',
+  'Water & Liquid',
+  'Length & Dimension',
+  'Other',
+];
+const seen = new Set<string>();
+const categories = [
+  ...CATEGORY_ORDER.filter((c) => byCategory[c]).map((name) => ({ name, rs: byCategory[name] })),
+  ...Object.entries(byCategory)
+    .filter(([name]) => !CATEGORY_ORDER.includes(name))
+    .map(([name, rs]) => {
+      if (seen.has(name)) return null;
+      seen.add(name);
+      return { name, rs };
+    })
+    .filter((x): x is { name: string; rs: typeof RECOMMENDATIONS } => x !== null),
+];
+---
+
+<Base title="Create · CNML">
+  <section class="mx-auto max-w-7xl px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">Create a new certificate</h1>
+    <p class="text-[var(--ink-muted)] mb-10">Pick the OIML Recommendation you're issuing under.</p>
+
+    <div class="mb-6">
+      <label for="r-search" class="cnml-label sr-only">Search recommendations</label>
+      <input
+        id="r-search"
+        type="search"
+        placeholder="Search recommendations…"
+        autocomplete="off"
+        class="cnml-input max-w-md"
+      />
+    </div>
+
+    {categories.map(cat => (
+      <div class="mb-10 r-category" data-name={cat.name.toLowerCase()}>
+        <h2 class="text-xs uppercase tracking-wider text-[var(--ink-muted)] font-semibold mb-3">{cat.name}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {cat.rs.map(r => (
+            <a href={`/create/${r.id.toLowerCase()}`}
+               class="cnml-card cnml-card-hover block r-card"
+               data-search={`${r.id} ${r.shortTitle} ${cat.name}`.toLowerCase()}>
+              <div class="flex items-center gap-3 mb-1">
+                <div class="text-sm font-mono font-semibold text-[var(--accent)]">{r.id}</div>
+                <div class="text-xs text-[var(--ink-muted)] ml-auto">{r.certCount} cert{r.certCount === 1 ? '' : 's'}</div>
+              </div>
+              <div class="text-sm text-[var(--ink)]">{r.shortTitle}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <script>
+    // Client-side filter for the recommendation picker.
+    const input = document.getElementById('r-search');
+    if (input) {
+      input.addEventListener('input', (e) => {
+        const q = (e.target as HTMLInputElement).value.trim().toLowerCase();
+        document.querySelectorAll<HTMLElement>('.r-card').forEach((card) => {
+          const haystack = card.dataset.search ?? '';
+          card.style.display = !q || haystack.includes(q) ? '' : 'none';
+        });
+        document.querySelectorAll<HTMLElement>('.r-category').forEach((cat) => {
+          const visible = cat.querySelectorAll('.r-card:not([style*="display: none"])').length;
+          cat.style.display = visible === 0 ? 'none' : '';
+        });
+      });
+    }
+  </script>
+</Base>

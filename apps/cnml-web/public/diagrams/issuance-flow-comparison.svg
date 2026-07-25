@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" font-family="IBM Plex Sans, system-ui, sans-serif">
+  <defs>
+    <marker id="arr2-tls" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9CA3AF"/>
+    </marker>
+    <marker id="arr2-cnml" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#004996"/>
+    </marker>
+  </defs>
+
+  <style>
+    .h1 { font-size: 22px; font-weight: 600; fill: #0a1628; }
+    .h2 { font-size: 16px; font-weight: 600; fill: #004996; }
+    .step { font-size: 12px; font-weight: 600; fill: #004996; font-family: IBM Plex Mono, monospace; }
+    .lbl { font-size: 12px; fill: #0a1628; }
+    .lbl-sm { font-size: 11px; fill: #3a4a63; }
+    .note { font-size: 11px; fill: #6b7a92; font-style: italic; }
+    .box-tls { fill: #F3F4F6; stroke: #9CA3AF; stroke-width: 1.5; }
+    .box-cnml { fill: #FAF6EE; stroke: #004996; stroke-width: 1.5; }
+    .arrow-tls { stroke: #9CA3AF; stroke-width: 1.5; fill: none; }
+    .arrow-cnml { stroke: #004996; stroke-width: 1.5; fill: none; }
+  </style>
+
+  <text x="600" y="32" text-anchor="middle" class="h1">Issuance flow: typical TLS vs CNML</text>
+  <text x="600" y="52" text-anchor="middle" class="note">A certificate is born. Time, actors, and verification differ dramatically.</text>
+
+  <!-- ============ Top: TLS flow ============ -->
+  <text x="600" y="92" text-anchor="middle" class="h2">TLS — automated, online, &lt;1 minute end-to-end</text>
+
+  <g transform="translate(0,115)">
+    <!-- Step 1 -->
+    <rect x="50" y="0" width="180" height="60" rx="6" class="box-tls"/>
+    <text x="60" y="18" class="step">1. SET UP</text>
+    <text x="140" y="38" text-anchor="middle" class="lbl">Server boots</text>
+    <text x="140" y="54" text-anchor="middle" class="lbl-sm">needs TLS cert</text>
+
+    <!-- Step 2 -->
+    <rect x="280" y="0" width="180" height="60" rx="6" class="box-tls"/>
+    <text x="290" y="18" class="step">2. ACME REQUEST</text>
+    <text x="370" y="38" text-anchor="middle" class="lbl">HTTP POST</text>
+    <text x="370" y="54" text-anchor="middle" class="lbl-sm">+ DNS challenge</text>
+
+    <!-- Step 3 -->
+    <rect x="510" y="0" width="180" height="60" rx="6" class="box-tls"/>
+    <text x="520" y="18" class="step">3. AUTO-ISSUE</text>
+    <text x="600" y="38" text-anchor="middle" class="lbl">CA validates</text>
+    <text x="600" y="54" text-anchor="middle" class="lbl-sm">+ signs (~10s)</text>
+
+    <!-- Step 4 -->
+    <rect x="740" y="0" width="180" height="60" rx="6" class="box-tls"/>
+    <text x="750" y="18" class="step">4. DEPLOY</text>
+    <text x="830" y="38" text-anchor="middle" class="lbl">Server uses cert</text>
+    <text x="830" y="54" text-anchor="middle" class="lbl-sm">for HTTPS</text>
+
+    <!-- Step 5 -->
+    <rect x="970" y="0" width="180" height="60" rx="6" class="box-tls"/>
+    <text x="980" y="18" class="step">5. ROTATE</text>
+    <text x="1060" y="38" text-anchor="middle" class="lbl">Repeat in 90d</text>
+    <text x="1060" y="54" text-anchor="middle" class="lbl-sm">(or auto-renew)</text>
+
+    <!-- Arrows -->
+    <path d="M 230 30 L 280 30" class="arrow-tls" marker-end="url(#arr2-tls)"/>
+    <path d="M 460 30 L 510 30" class="arrow-tls" marker-end="url(#arr2-tls)"/>
+    <path d="M 690 30 L 740 30" class="arrow-tls" marker-end="url(#arr2-tls)"/>
+    <path d="M 920 30 L 970 30" class="arrow-tls" marker-end="url(#arr2-tls)"/>
+  </g>
+
+  <text x="600" y="218" text-anchor="middle" class="note">Actor: a script. Time: 60 seconds. Human involvement: 0.</text>
+
+  <!-- Divider -->
+  <line x1="50" y1="245" x2="1150" y2="245" stroke="#ddd2bd" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- ============ Bottom: CNML flow ============ -->
+  <text x="600" y="280" text-anchor="middle" class="h2">CNML — manual, air-gapped, weeks to months end-to-end</text>
+
+  <g transform="translate(0,305)">
+    <!-- Step 1 -->
+    <rect x="50" y="0" width="180" height="70" rx="6" class="box-cnml"/>
+    <text x="60" y="18" class="step">1. TYPE TEST</text>
+    <text x="140" y="38" text-anchor="middle" class="lbl">Instrument tested</text>
+    <text x="140" y="54" text-anchor="middle" class="lbl-sm">per OIML R-doc</text>
+    <text x="140" y="68" text-anchor="middle" class="lbl-sm">(months of lab work)</text>
+
+    <!-- Step 2 -->
+    <rect x="280" y="0" width="180" height="70" rx="6" class="box-cnml"/>
+    <text x="290" y="18" class="step">2. ISSUER CREATES</text>
+    <text x="370" y="38" text-anchor="middle" class="lbl">Fill form (browser)</text>
+    <text x="370" y="54" text-anchor="middle" class="lbl-sm">Sign with browser key</text>
+    <text x="370" y="68" text-anchor="middle" class="lbl-sm">(XMLDSig)</text>
+
+    <!-- Step 3 -->
+    <rect x="510" y="0" width="180" height="70" rx="6" class="box-cnml"/>
+    <text x="520" y="18" class="step">3. HUMAN REVIEW</text>
+    <text x="600" y="38" text-anchor="middle" class="lbl">IA reviewer checks</text>
+    <text x="600" y="54" text-anchor="middle" class="lbl-sm">fields, accuracy,</text>
+    <text x="600" y="68" text-anchor="middle" class="lbl-sm">scope authorization</text>
+
+    <!-- Step 4 -->
+    <rect x="740" y="0" width="180" height="70" rx="6" class="box-cnml"/>
+    <text x="750" y="18" class="step">4. DISTRIBUTE</text>
+    <text x="830" y="38" text-anchor="middle" class="lbl">Send .cnml.xml to</text>
+    <text x="830" y="54" text-anchor="middle" class="lbl-sm">manufacturer + OIML</text>
+    <text x="830" y="68" text-anchor="middle" class="lbl-sm">DoMC registry</text>
+
+    <!-- Step 5 -->
+    <rect x="970" y="0" width="180" height="70" rx="6" class="box-cnml"/>
+    <text x="980" y="18" class="step">5. VERIFY ANYWHERE</text>
+    <text x="1060" y="38" text-anchor="middle" class="lbl">Customs, audit, court</text>
+    <text x="1060" y="54" text-anchor="middle" class="lbl-sm">drag-drop .cnml.xml</text>
+    <text x="1060" y="68" text-anchor="middle" class="lbl-sm">works offline</text>
+
+    <!-- Arrows -->
+    <path d="M 230 35 L 280 35" class="arrow-cnml" marker-end="url(#arr2-cnml)"/>
+    <path d="M 460 35 L 510 35" class="arrow-cnml" marker-end="url(#arr2-cnml)"/>
+    <path d="M 690 35 L 740 35" class="arrow-cnml" marker-end="url(#arr2-cnml)"/>
+    <path d="M 920 35 L 970 35" class="arrow-cnml" marker-end="url(#arr2-cnml)"/>
+  </g>
+
+  <text x="600" y="425" text-anchor="middle" class="note">Actors: lab engineer, IA reviewer, manufacturer, customs inspector. Time: weeks to months. Human involvement: every step.</text>
+
+  <!-- Air-gap callout -->
+  <g transform="translate(50,460)">
+    <rect x="0" y="0" width="1100" height="160" rx="8" fill="#FAF6EE" stroke="#004996" stroke-width="1.5"/>
+    <text x="20" y="28" class="h2">⚠ Air-gap boundary</text>
+    <text x="20" y="52" class="lbl">The CA operator's machine (where the root/intermediate private keys live) NEVER touches the internet.</text>
+    <text x="20" y="72" class="lbl">CSRs and signed certs cross the air-gap via <tspan font-family="IBM Plex Mono, monospace" fill="#004996">USB stick</tspan> — physical sneaker-net.</text>
+    <text x="20" y="92" class="lbl">The browser-side signer keys live in IndexedDB (encrypted). The signing operation happens locally with WebCrypto.</text>
+    <text x="20" y="112" class="lbl">Trust anchors (root + intermediate certs) are published via GitHub Pages CDN. Verifiers fetch once, cache forever.</text>
+    <text x="20" y="140" class="lbl-sm">→ An attacker who compromises the CDN gets read-only access to public material (already public).</text>
+    <text x="20" y="155" class="lbl-sm">→ An attacker who compromises a signer's browser gets ONE cert chain (revocable). Not the root.</text>
+  </g>
+</svg>

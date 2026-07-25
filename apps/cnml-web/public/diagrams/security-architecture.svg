@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="IBM Plex Sans, system-ui, sans-serif">
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#004996"/>
+    </marker>
+    <linearGradient id="layer-grad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#FAF6EE"/>
+      <stop offset="100%" stop-color="#F5EDE0"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .h1 { font-size: 22px; font-weight: 600; fill: #0a1628; }
+    .h2 { font-size: 15px; font-weight: 600; fill: #004996; }
+    .lbl { font-size: 12px; fill: #0a1628; }
+    .lbl-sm { font-size: 11px; fill: #3a4a63; }
+    .note { font-size: 11px; fill: #6b7a92; font-style: italic; }
+    .lbl-mono { font-size: 11px; fill: #004996; font-family: IBM Plex Mono, monospace; }
+    .layer { fill: url(#layer-grad); stroke: #004996; stroke-width: 1.5; }
+    .layer-strong { fill: #DBEAF3; stroke: #004996; stroke-width: 2; }
+    .layer-secure { fill: #F0FDF4; stroke: #15803D; stroke-width: 2; }
+    .threat-box { fill: #FEF2F2; stroke: #B91C1C; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .arrow { stroke: #004996; stroke-width: 1.5; fill: none; }
+  </style>
+
+  <text x="600" y="32" text-anchor="middle" class="h1">CNML Security Architecture — Defense in Depth</text>
+  <text x="600" y="52" text-anchor="middle" class="note">Six layers, each defending against different threat classes</text>
+
+  <!-- ============ Layer 1: Air-gapped CA ============ -->
+  <g transform="translate(60,80)">
+    <rect x="0" y="0" width="1080" height="100" rx="8" class="layer-secure"/>
+    <text x="20" y="22" class="h2">L1 · Air-gapped CA machine</text>
+    <text x="20" y="42" class="lbl-sm">Threats blocked: network exfiltration, remote exploitation, MITM</text>
+
+    <g transform="translate(180,55)">
+      <rect x="0" y="0" width="160" height="35" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="80" y="22" text-anchor="middle" class="lbl-mono">Ruby CA server</text>
+    </g>
+    <g transform="translate(380,55)">
+      <rect x="0" y="0" width="160" height="35" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="80" y="22" text-anchor="middle" class="lbl-mono">USB transfer only</text>
+    </g>
+    <g transform="translate(580,55)">
+      <rect x="0" y="0" width="160" height="35" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="80" y="22" text-anchor="middle" class="lbl-mono">Audit log (hash chain)</text>
+    </g>
+    <g transform="translate(780,55)">
+      <rect x="0" y="0" width="160" height="35" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="80" y="22" text-anchor="middle" class="lbl-mono">127.0.0.1 bind only</text>
+    </g>
+  </g>
+
+  <!-- ============ Layer 2: Hardware keys ============ -->
+  <g transform="translate(60,200)">
+    <rect x="0" y="0" width="1080" height="120" rx="8" class="layer-secure"/>
+    <text x="20" y="22" class="h2">L2 · Hardware-backed private keys</text>
+    <text x="20" y="42" class="lbl-sm">Threats blocked: host compromise (key is non-extractable from PKCS#11 device)</text>
+
+    <g transform="translate(80,55)">
+      <rect x="0" y="0" width="180" height="55" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="90" y="20" text-anchor="middle" class="lbl-mono">OIML Root</text>
+      <text x="90" y="35" text-anchor="middle" class="lbl-sm">Enterprise HSM</text>
+      <text x="90" y="48" text-anchor="middle" class="lbl-sm">FIPS 140-2 L3</text>
+    </g>
+    <g transform="translate(310,55)">
+      <rect x="0" y="0" width="180" height="55" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="90" y="20" text-anchor="middle" class="lbl-mono">IA Intermediate</text>
+      <text x="90" y="35" text-anchor="middle" class="lbl-sm">Yubikey 5 / Nitrokey</text>
+      <text x="90" y="48" text-anchor="middle" class="lbl-sm">PIV applet, slot 9a</text>
+    </g>
+    <g transform="translate(540,55)">
+      <rect x="0" y="0" width="180" height="55" rx="4" fill="#FFFFFF" stroke="#15803D"/>
+      <text x="90" y="20" text-anchor="middle" class="lbl-mono">Signer key</text>
+      <text x="90" y="35" text-anchor="middle" class="lbl-sm">Browser IndexedDB</text>
+      <text x="90" y="48" text-anchor="middle" class="lbl-sm">AES-256-GCM + PBKDF2</text>
+    </g>
+    <g transform="translate(770,55)">
+      <rect x="0" y="0" width="220" height="55" rx="4" fill="#FEF2F2" stroke="#B91C1C" stroke-dasharray="3 2"/>
+      <text x="110" y="20" text-anchor="middle" class="lbl-mono">FUTURE: WebAuthn</text>
+      <text x="110" y="35" text-anchor="middle" class="lbl-sm">Platform authenticator</text>
+      <text x="110" y="48" text-anchor="middle" class="lbl-sm">(TPM / Secure Enclave)</text>
+    </g>
+  </g>
+
+  <!-- ============ Layer 3: Scope governance ============ -->
+  <g transform="translate(60,340)">
+    <rect x="0" y="0" width="1080" height="100" rx="8" class="layer"/>
+    <text x="20" y="22" class="h2">L3 · Cryptographic scope governance</text>
+    <text x="20" y="42" class="lbl-sm">Threats blocked: out-of-scope signing by IA (PTB forging R117 fuel dispenser cert)</text>
+
+    <g transform="translate(140,55)">
+      <rect x="0" y="0" width="200" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="22" text-anchor="middle" class="lbl-mono">X.509 extension</text>
+    </g>
+    <g transform="translate(380,55)">
+      <rect x="0" y="0" width="200" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="22" text-anchor="middle" class="lbl-mono">ASN.1 SEQUENCE OF R-id</text>
+    </g>
+    <g transform="translate(620,55)">
+      <rect x="0" y="0" width="200" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="22" text-anchor="middle" class="lbl-mono">OID 1.3.6.1.4.1.&lt;PEN&gt;.1.1</text>
+    </g>
+    <g transform="translate(860,55)">
+      <rect x="0" y="0" width="180" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="90" y="22" text-anchor="middle" class="lbl-mono">Verify-time check</text>
+    </g>
+  </g>
+
+  <!-- ============ Layer 4: Signature pipeline ============ -->
+  <g transform="translate(60,460)">
+    <rect x="0" y="0" width="1080" height="100" rx="8" class="layer"/>
+    <text x="20" y="22" class="h2">L4 · Post-quantum-ready signatures</text>
+    <text x="20" y="42" class="lbl-sm">Threats blocked: quantum breakage (Shor's algorithm), algorithm obsolescence</text>
+
+    <g transform="translate(80,55)">
+      <rect x="0" y="0" width="180" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="90" y="22" text-anchor="middle" class="lbl-mono">XMLDSig + C14N Exc</text>
+    </g>
+    <g transform="translate(310,55)">
+      <rect x="0" y="0" width="180" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="90" y="22" text-anchor="middle" class="lbl-mono">ECDSA P-256 (today)</text>
+    </g>
+    <g transform="translate(540,55)">
+      <rect x="0" y="0" width="180" height="35" rx="4" fill="#FEF2F2" stroke="#B91C1C" stroke-dasharray="3 2"/>
+      <text x="90" y="22" text-anchor="middle" class="lbl-mono">+ Ed25519 (next)</text>
+    </g>
+    <g transform="translate(770,55)">
+      <rect x="0" y="0" width="220" height="35" rx="4" fill="#FEF2F2" stroke="#B91C1C" stroke-dasharray="3 2"/>
+      <text x="110" y="22" text-anchor="middle" class="lbl-mono">+ ML-DSA-65 (PQC, FIPS 204)</text>
+    </g>
+  </g>
+
+  <!-- ============ Layer 5: Timestamp + LTANS ============ -->
+  <g transform="translate(60,580)">
+    <rect x="0" y="0" width="1080" height="100" rx="8" class="layer"/>
+    <text x="20" y="22" class="h2">L5 · Blockchain-anchored timestamps + long-term archival</text>
+    <text x="20" y="42" class="lbl-sm">Threats blocked: back-dating forged signatures, algorithm deprecation over decades</text>
+
+    <g transform="translate(140,55)">
+      <rect x="0" y="0" width="200" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="22" text-anchor="middle" class="lbl-mono">OpenTimestamps proof</text>
+    </g>
+    <g transform="translate(380,55)">
+      <rect x="0" y="0" width="200" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="22" text-anchor="middle" class="lbl-mono">Anchored to Bitcoin block</text>
+    </g>
+    <g transform="translate(620,55)">
+      <rect x="0" y="0" width="200" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="22" text-anchor="middle" class="lbl-mono">Multi-signature migration</text>
+    </g>
+    <g transform="translate(860,55)">
+      <rect x="0" y="0" width="180" height="35" rx="4" fill="#FFFFFF" stroke="#004996"/>
+      <text x="90" y="22" text-anchor="middle" class="lbl-mono">50-year archival path</text>
+    </g>
+  </g>
+
+  <!-- ============ Layer 6: Distribution + verify ============ -->
+  <g transform="translate(60,700)">
+    <rect x="0" y="0" width="1080" height="80" rx="8" class="layer-strong"/>
+    <text x="20" y="22" class="h2">L6 · Static CDN distribution + offline-capable verification</text>
+    <text x="20" y="42" class="lbl-sm">Threats blocked: DDoS on verifier, network dependency, browser root store politics</text>
+
+    <g transform="translate(180,52)">
+      <rect x="0" y="0" width="200" height="22" rx="3" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="15" text-anchor="middle" class="lbl-mono">GitHub Pages CDN</text>
+    </g>
+    <g transform="translate(440,52)">
+      <rect x="0" y="0" width="200" height="22" rx="3" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="15" text-anchor="middle" class="lbl-mono">trust-anchors.json</text>
+    </g>
+    <g transform="translate(700,52)">
+      <rect x="0" y="0" width="200" height="22" rx="3" fill="#FFFFFF" stroke="#004996"/>
+      <text x="100" y="15" text-anchor="middle" class="lbl-mono">8-check verify (browser)</text>
+    </g>
+  </g>
+</svg>

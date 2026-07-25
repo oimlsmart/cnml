@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+
+const diagrams = [
+  { slug: 'architecture',                    title: 'System Architecture',                desc: 'CNML ecosystem: Ruby source, TS web app, keys, verifier' },
+  { slug: 'certificate-layers',              title: 'Certificate Model Layers',           desc: 'CORE → modules → per-R → instance' },
+  { slug: 'signing-flow',                    title: 'Signing Flow',                       desc: 'From form to downloadable signed CNML' },
+  { slug: 'verification-flow',               title: 'Verification Flow',                  desc: 'Four sequential checks' },
+  { slug: 'trust-chain',                     title: 'Trust Chain',                        desc: 'PKI hierarchy: root → issuer → cert' },
+  { slug: 'unitsml-embedding',               title: 'UnitsML Embedding',                  desc: 'How UnitsDB units are encoded in CNML XML' },
+  { slug: 'pki-comparison',                  title: 'PKI: typical TLS vs CNML',           desc: 'Side-by-side architecture comparison' },
+  { slug: 'issuance-flow-comparison',        title: 'Issuance flow comparison',           desc: 'ACME-automated vs human-reviewed, air-gapped' },
+  { slug: 'scope-governance-comparison',     title: 'Scope governance comparison',        desc: 'Why CNML cryptographically encodes per-CA authorization' },
+  { slug: 'security-architecture',           title: 'Security architecture (6 layers)',   desc: 'Defense-in-depth: air-gap, hardware keys, scope, PQ crypto, timestamps, CDN' },
+];
+---
+
+<Base title="Diagrams · CNML">
+  <section class="mx-auto max-w-7xl px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">Diagrams</h1>
+    <p class="text-[var(--ink-muted)] mb-10">Visual reference for CNML concepts. Click any diagram to view full-size.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {diagrams.map(d => (
+        <a href={`/diagrams/${d.slug}.svg`} class="block rounded-2xl border border-[var(--rule)] overflow-hidden hover:border-[var(--accent)]">
+          <div class="aspect-video bg-white p-4 grid place-items-center">
+            <img src={`/diagrams/${d.slug}.svg`} alt={d.title} class="max-w-full max-h-full" />
+          </div>
+          <div class="p-4 border-t border-[var(--rule)]">
+            <div class="font-semibold">{d.title}</div>
+            <div class="text-sm text-[var(--ink-muted)]">{d.desc}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

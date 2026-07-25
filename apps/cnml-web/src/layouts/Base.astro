@@ -1,0 +1,102 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'CNML', description = 'OIML Certificat Numérique de Métrologie Légale' } = Astro.props;
+const pageTitle = title === 'CNML' ? title : `${title} · CNML`;
+
+const navItems = [
+  { href: '/create',  label: 'Create' },
+  { href: '/verify',  label: 'Verify' },
+  { href: '/certs',   label: 'Certificates' },
+  { href: '/schemas', label: 'Schemas' },
+  { href: '/keys',    label: 'Keys' },
+  { href: '/docs',    label: 'Docs' },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  pathname === href || pathname.startsWith(`${href}/`);
+
+const FONT_URL =
+  'https://fonts.googleapis.com/css2?' +
+  'family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700' +
+  '&family=IBM+Plex+Sans:wght@400;500;600;700' +
+  '&family=IBM+Plex+Mono:wght@400;500;600' +
+  '&display=swap';
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Fonts: IBM Plex Sans/Mono + Fraunces (the design-system token stack) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={FONT_URL} />
+
+    <!-- Favicon + theme color (matches --accent: OIML blue #004996) -->
+    <link rel="icon" type="image/svg+xml" href="/img/oiml-logo.svg" />
+    <link rel="apple-touch-icon" href="/img/oiml-logo.svg" />
+    <meta name="theme-color" content="#004996" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Open Graph + Twitter Card -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="/img/oiml-logo.svg" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-[var(--ink)] focus:text-[var(--paper)]">
+      Skip to content
+    </a>
+    <header class="bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
+      <div class="cnml-header-bar max-w-7xl mx-auto">
+        <a href="/" class="cnml-brand" aria-label="CNML home">
+          <img src="/img/oiml-logo.svg" alt="OIML" class="cnml-brand__logo" />
+          <span>
+            <span class="block cnml-brand__title">CNML</span>
+            <span class="block cnml-brand__sub">Certificat Numérique · Métrologie Légale</span>
+          </span>
+        </a>
+        <nav class="cnml-nav" aria-label="Primary">
+          {navItems.map(item => (
+            <a href={item.href}
+               class="cnml-nav__link"
+               aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <footer class="border-t border-[var(--rule)] bg-[var(--paper-soft)]">
+      <div class="max-w-7xl mx-auto px-6 py-6 text-center">
+        <span class="font-mono text-xs text-[var(--ink-muted)] tracking-wide uppercase">
+          CNML · OIML Certificat Numérique de Métrologie Légale ·
+          <a href="https://github.com/oimlsmart/digital-certificates" class="text-[var(--accent)] underline">Source</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

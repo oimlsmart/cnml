@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import SchemaForm from '../../islands/forms/SchemaForm.vue';
+import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
+import yaml from 'yaml';
+
+export function getStaticPaths() {
+  const here = fileURLToPath(import.meta.url);
+  const certsDir = join(here, '..', '..', '..', '..', 'public', 'certs');
+
+  // Load ALL samples per R so the form can pick one at runtime via ?sample=<filename>.
+  const samplesByR: Record<string, { filename: string; data: any }[]> = {};
+  for (const r of RECOMMENDATIONS) {
+    const prefix = `${r.id.toLowerCase()}-sample-`;
+    const found: { filename: string; data: any }[] = [];
+    if (existsSync(certsDir)) {
+      for (const f of readdirSync(certsDir).filter((x) => x.startsWith(prefix) && x.endsWith('.yaml')).sort()) {
+        try {
+          found.push({ filename: f, data: yaml.parse(readFileSync(join(certsDir, f), 'utf8')) });
+        } catch { /* skip */ }
+      }
+    }
+    samplesByR[r.id] = found;
+  }
+
+  return RECOMMENDATIONS.map((rec) => ({
+    params: { r: rec.id.toLowerCase() },
+    props: {
+      recommendation: rec.id,
+      shortTitle: rec.shortTitle,
+      schema: rec.schema,
+      samples: samplesByR[rec.id] ?? [],
+    },
+  }));
+}
+
+const { recommendation, shortTitle, schema, samples } = Astro.props;
+const samplesJson = JSON.stringify(samples ?? []);
+---
+
+<Base title={`Create ${recommendation} — ${shortTitle}`}>
+  <section class="max-w-7xl mx-auto px-6 py-12">
+    <a href="/certs" class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← Back to certificates</a>
+    <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-4 mb-2">{recommendation} — {shortTitle}</h1>
+
+    <SchemaForm
+      client:load
+      schema={schema}
+      rId={recommendation}
+      shortTitle={shortTitle}
+      sample={samples[0]?.data ?? null}
+      samples={samplesJson}
+    />
+  </section>
+</Base>

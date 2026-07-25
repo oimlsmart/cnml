@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import KeyManager from '../islands/KeyManager.vue';
+---
+
+<Base title="Keys · CNML">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">Signing keys</h1>
+    <p class="text-[var(--ink-muted)] mb-8">
+      Manage your CNML signing keys. Keys are stored locally in your browser (encrypted in IndexedDB with PBKDF2-derived AES-GCM)
+      and never leave your device. Private keys are released to sign operations only after you enter the passphrase.
+    </p>
+
+    <KeyManager client:load />
+
+    <div class="mt-10 grid grid-cols-3 gap-4 text-xs text-[var(--ink-muted)]">
+      <div class="p-4 rounded-lg border border-[var(--rule)]">
+        <div class="font-medium mb-1">Algorithm</div>
+        ECDSA P-256 (SHA-256) today. Hybrid Ed25519 + ML-DSA-65 (post-quantum) coming.
+      </div>
+      <div class="p-4 rounded-lg border border-[var(--rule)]">
+        <div class="font-medium mb-1">At rest</div>
+        AES-GCM-256 with PBKDF2 (100k iters, SHA-256). Salt and IV are random per-key.
+      </div>
+      <div class="p-4 rounded-lg border border-[var(--rule)]">
+        <div class="font-medium mb-1">Fingerprint</div>
+        SHA-256 of SPKI public key (hex). Use to compare with recipients out-of-band.
+      </div>
+    </div>
+  </section>
+</Base>

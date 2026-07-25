@@ -1,0 +1,351 @@
+/* ════════════════════════════════════════════════════════════════════
+   CNML — design system entrypoint
+   ════════════════════════════════════════════════════════════════════
+   Imports the Metrological Blueprint design system used across all
+   oimlsmart properties (oimlsmart.github.io, g18-registry, branding),
+   then adds CNML-specific component classes.
+
+   Layers:
+     1. tailwindcss           — utility primitives
+     2. ./app.css             — @theme tokens (brand/teal/cream/amber,
+                                paper/ink/rule, fonts: IBM Plex Sans +
+                                Fraunces + IBM Plex Mono), .btn, .prose
+     3. ./blueprint.css       — engineering-drawing aesthetic
+                                (.bp-grid, .bp-ticks, .bp-annotation, etc.)
+     4. this file             — CNML component classes (.cnml-card,
+                                .cnml-input, .cnml-aside, etc.)
+   ════════════════════════════════════════════════════════════════════ */
+
+@import "tailwindcss";
+@import "./app.css";
+@import "./blueprint.css";
+
+/* ─── CNML component classes ────────────────────────────────────────── */
+@layer components {
+  /* Cards — sharp, technical, with subtle shadow */
+  .cnml-card {
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-md);
+    padding: 1.5rem;
+    transition:
+      transform var(--bp-transition) var(--bp-ease-bounce),
+      box-shadow var(--bp-transition),
+      border-color var(--bp-transition);
+  }
+  .cnml-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--bp-shadow-md);
+    border-color: var(--accent);
+  }
+  .cnml-card--raised {
+    background: var(--paper-raised);
+  }
+
+  /* Buttons — primary uses ink (dark) bg, never accent-on-accent */
+  .cnml-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--bp-radius-sm);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all var(--bp-transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .cnml-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .cnml-btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .cnml-btn-primary:hover:not(:disabled) {
+    background: var(--accent);
+  }
+  .cnml-btn-secondary {
+    background: var(--paper-soft);
+    color: var(--ink);
+    border-color: var(--rule);
+  }
+  .cnml-btn-secondary:hover:not(:disabled) {
+    background: var(--paper-raised);
+    border-color: var(--ink);
+  }
+  .cnml-btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+  }
+  .cnml-btn-ghost:hover:not(:disabled) {
+    color: var(--ink);
+    background: var(--accent-soft);
+  }
+
+  /* Form inputs — thin border, paper background, focus ring */
+  .cnml-input,
+  .cnml-select,
+  .cnml-textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-sm);
+    background: var(--paper-soft);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    transition: border-color var(--bp-transition-fast), box-shadow var(--bp-transition-fast);
+  }
+  .cnml-input:focus,
+  .cnml-select:focus,
+  .cnml-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--bp-shadow-glow);
+  }
+  .cnml-input::placeholder,
+  .cnml-textarea::placeholder {
+    color: var(--ink-muted);
+  }
+
+  /* Form labels — small caps, monospace tracking */
+  .cnml-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.375rem;
+  }
+
+  /* Section heading — serif, technical */
+  .cnml-section-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1rem;
+  }
+  /* Smaller variant for inline use inside cards / toolbars / sub-headings
+     where the full 1.25rem with bottom-border is too heavy. */
+  .cnml-section-title--sm {
+    font-size: 1.125rem;
+    padding-bottom: 0;
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  /* Stat / metric tile */
+  .cnml-stat {
+    background: var(--paper-soft);
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-md);
+    padding: 1.25rem 1.5rem;
+  }
+  .cnml-stat__value {
+    font-family: var(--font-serif);
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .cnml-stat__label {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+  }
+
+  /* Live preview / code pane */
+  .cnml-code-pane {
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-md);
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    overflow: auto;
+    max-height: 32rem;
+    color: var(--ink-soft);
+  }
+
+  /* Tag / pill */
+  .cnml-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--bp-radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  /* Status badges — paired background+foreground, theme-aware via tokens */
+  .cnml-badge-success { background: var(--badge-success-bg); color: var(--badge-success-fg); }
+  .cnml-badge-warning { background: var(--badge-warning-bg); color: var(--badge-warning-fg); }
+  .cnml-badge-danger  { background: var(--badge-danger-bg);  color: var(--badge-danger-fg); font-weight: 600; }
+  .cnml-badge-info    { background: var(--badge-info-bg);    color: var(--badge-info-fg); }
+
+  /* Inline text + callout boxes for status messaging */
+  .cnml-text-danger { color: var(--badge-danger-fg); }
+
+  .cnml-callout {
+    padding: 0.75rem;
+    border-radius: var(--bp-radius-sm);
+    border: 1px solid;
+    font-size: 0.875rem;
+  }
+  .cnml-callout--error   { background: var(--callout-error-bg);   color: var(--callout-error-fg);   border-color: var(--callout-error-border); }
+  .cnml-callout--success { background: var(--callout-success-bg); color: var(--callout-success-fg); border-color: var(--callout-success-border); }
+  .cnml-callout--warning { background: var(--callout-warning-bg); color: var(--callout-warning-fg); border-color: var(--callout-warning-border); }
+
+  /* Verification step tiles — bordered colored boxes */
+  .cnml-tile {
+    padding: 0.75rem;
+    border-radius: var(--bp-radius-md);
+    border: 1px solid;
+  }
+  .cnml-tile--pass { background: var(--callout-success-bg); border-color: var(--callout-success-border); }
+  .cnml-tile--fail { background: var(--callout-error-bg);   border-color: var(--callout-error-border); }
+  .cnml-tile--warn { background: var(--callout-warning-bg); border-color: var(--callout-warning-border); }
+
+  /* Header brand lockup */
+  .cnml-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+  .cnml-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--ink);
+  }
+  .cnml-brand:hover { text-decoration: none; }
+  .cnml-brand__logo {
+    height: 2.25rem;
+    width: auto;
+    display: block;
+  }
+  .cnml-brand__title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .cnml-brand__sub {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 0.125rem;
+  }
+
+  /* Top nav links */
+  .cnml-nav {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .cnml-nav__link {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color var(--bp-transition-fast), border-color var(--bp-transition-fast);
+  }
+  .cnml-nav__link:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    text-decoration: none;
+  }
+  .cnml-nav__link[aria-current="page"] {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Page hero */
+  .cnml-hero {
+    padding: 4rem 1.5rem 3rem;
+  }
+  .cnml-hero__title {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .cnml-hero__lede {
+    font-size: 1.125rem;
+    color: var(--ink-soft);
+    max-width: 48rem;
+    line-height: 1.6;
+  }
+
+  /* Demo / action toolbar */
+  .cnml-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-md);
+  }
+}
+
+/* ─── HTML element defaults ─────────────────────────────────────────── */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  body { line-height: 1.5; }
+  code {
+    font-family: var(--font-mono);
+    background: var(--accent-soft);
+    padding: 0.05em 0.35em;
+    border-radius: var(--bp-radius-sm);
+    font-size: 0.85em;
+  }
+  .badge-info    { background: #dbeaf3; color: #1a6fc2; }
+  .badge-warning { background: #fef3c7; color: #92400e; }
+  .badge-urgent  { background: #fee2e2; color: #b91c1c; font-weight: 600; }
+  .badge-expired { background: #fef2f2; color: #b91c1c; font-weight: 700; }
+  pre {
+    font-family: var(--font-mono);
+  }
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+}

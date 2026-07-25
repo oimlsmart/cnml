@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+
+const navItems = [
+  { href: '/create',  label: 'Create a certificate' },
+  { href: '/verify',  label: 'Verify a CNML' },
+  { href: '/certs',   label: 'Browse certificates' },
+  { href: '/docs',    label: 'Read the docs' },
+];
+---
+
+<Base title="Not found">
+  <section class="mx-auto max-w-2xl px-6 py-24 text-center">
+    <div class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)] mb-3">Error 404</div>
+    <h1 class="font-serif text-5xl font-semibold text-[var(--ink)] mb-4">Page not found</h1>
+    <p class="text-[var(--ink-soft)] mb-10">
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+      {navItems.map(item => (
+        <li>
+          <a href={item.href} class="cnml-card cnml-card-hover block">
+            <span class="font-serif text-base font-medium text-[var(--accent)]">{item.label} →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

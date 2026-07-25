@@ -1,0 +1,60 @@
+{
+  "@context": {
+    "dcoc": "https://oimlsmart.org/ns/dcoc/1.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "oiml": "https://oimlsmart.org/ns/oiml/1.0#",
+
+    "DigitalCertificateOfConformity": "dcoc:DigitalCertificateOfConformity",
+
+    "certNo": "dcoc:certNo",
+    "oimlNumber": "dcoc:oimlNumber",
+    "oimlIssuerId": "dcoc:oimlIssuerId",
+    "recommendationId": { "@id": "dcoc:recommendationId", "@type": "@id" },
+    "recommendationEdition": { "@id": "dcoc:recommendationEdition", "@type": "xsd:gYear" },
+    "scheme": "dcoc:scheme",
+
+    "manufacturer": { "@id": "dcoc:manufacturer", "@type": "@id" },
+    "applicant": { "@id": "dcoc:applicant", "@type": "@id" },
+    "issuingAuthority": { "@id": "dcoc:issuingAuthority", "@type": "@id" },
+
+    "name": "vcard:fn",
+    "country": "vcard:country-name",
+    "email": "vcard:email",
+    "contactPerson": "vcard:hasMember",
+
+    "category": "dcoc:category",
+    "typeDesignations": { "@id": "dcoc:typeDesignation", "@type": "xsd:string", "@container": "@set" },
+    "moduleDesignation": "dcoc:moduleDesignation",
+
+    "statementOfConformity": { "@id": "dcoc:statementOfConformity", "@type": "xsd:string" },
+    "certObjectIDs": { "@id": "dcoc:certObjectID", "@container": "@set" },
+    "objectId": "dcoc:objectId",
+    "objectDescription": "dcoc:objectDescription",
+
+    "characteristic": { "@id": "dcoc:characteristic", "@container": "@set" },
+    "characteristicName": "dcoc:characteristicName",
+    "characteristicValue": "dcoc:characteristicValue",
+    "characteristicUnit": { "@id": "dcoc:characteristicUnit", "@type": "@id" },
+
+    "validFrom": { "@id": "dcoc:validFrom", "@type": "xsd:dateTime" },
+    "validUntil": { "@id": "dcoc:validUntil", "@type": "xsd:dateTime" },
+    "issuedAt": { "@id": "dcoc:issuedAt", "@type": "xsd:dateTime" },
+
+    "revisionHistory": { "@id": "dcoc:revisionHistory", "@container": "@set" },
+    "revision": "dcoc:revision",
+    "revisionDate": { "@id": "dcoc:revisionDate", "@type": "xsd:date" },
+    "revisionNote": "dcoc:revisionNote",
+
+    "testReport": { "@id": "dcoc:testReport", "@container": "@set" },
+    "testReportId": "dcoc:testReportId",
+    "testLaboratory": { "@id": "dcoc:testLaboratory", "@type": "@id" },
+
+    "signatureAlgorithm": "dcoc:signatureAlgorithm",
+    "signatureValue": "dcoc:signatureValue",
+    "proofType": { "@id": "dcoc:proofType", "@type": "@id" }
+  }
+}
