@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>CNML System Architecture</title>
+  <desc>Overview of the CNML ecosystem: source of truth (Ruby), web app (TypeScript), signing keys, and verification flow.</desc>
+
+  <defs>
+    <style>
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1; }
+      .box-ruby { fill: #fef2f2; stroke: #fca5a5; }
+      .box-ts { fill: #eff6ff; stroke: #93c5fd; }
+      .box-key { fill: #fefce8; stroke: #fde047; }
+      .box-verify { fill: #f0fdf4; stroke: #86efac; }
+      .arrow { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+      .label { fill: #0f172a; }
+      .muted { fill: #64748b; font-size: 11px; }
+    </style>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" class="label">CNML System Architecture</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Certificat Numérique de Métrologie Légale</text>
+
+  <!-- Ruby source of truth -->
+  <g>
+    <rect x="30" y="90" width="240" height="180" rx="10" class="box box-ruby"/>
+    <text x="150" y="115" text-anchor="middle" font-weight="700" class="label">oiml-cs-certificates/</text>
+    <text x="150" y="132" text-anchor="middle" class="muted">(Ruby · source of truth)</text>
+
+    <rect x="50" y="150" width="200" height="35" rx="6" fill="white" stroke="#fca5a5"/>
+    <text x="150" y="172" text-anchor="middle" class="label">schema/_core.yaml, _units.yaml</text>
+
+    <rect x="50" y="195" width="200" height="35" rx="6" fill="white" stroke="#fca5a5"/>
+    <text x="150" y="217" text-anchor="middle" class="label">schema/R&lt;NN&gt;.yaml (22)</text>
+
+    <rect x="50" y="240" width="200" height="20" rx="4" fill="white" stroke="#fca5a5"/>
+    <text x="150" y="254" text-anchor="middle" class="muted">yaml/R*/...  ·  880 cert instances</text>
+  </g>
+
+  <!-- Web app -->
+  <g>
+    <rect x="335" y="90" width="240" height="240" rx="10" class="box box-ts"/>
+    <text x="455" y="115" text-anchor="middle" font-weight="700" class="label">digital-certificates/</text>
+    <text x="455" y="132" text-anchor="middle" class="muted">(TypeScript · CNML web app)</text>
+
+    <rect x="355" y="150" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
+    <text x="455" y="169" text-anchor="middle" class="label">@cnml/cnml-web (Astro + Vue)</text>
+
+    <rect x="355" y="185" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
+    <text x="455" y="204" text-anchor="middle" class="label">@cnml/cnml-schemas (schemas)</text>
+
+    <rect x="355" y="220" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
+    <text x="455" y="239" text-anchor="middle" class="label">@cnml/cnml-xml (XML serde)</text>
+
+    <rect x="355" y="255" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
+    <text x="455" y="274" text-anchor="middle" class="label">@cnml/cnml-xsd (XSD validator)</text>
+
+    <rect x="355" y="290" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
+    <text x="455" y="309" text-anchor="middle" class="label">@cnml/ptb-dcc-compat</text>
+  </g>
+
+  <!-- Issuer keys -->
+  <g>
+    <rect x="640" y="90" width="230" height="115" rx="10" class="box box-key"/>
+    <text x="755" y="115" text-anchor="middle" font-weight="700" class="label">Issuer Keys</text>
+    <text x="755" y="132" text-anchor="middle" class="muted">(in browser · IndexedDB)</text>
+
+    <rect x="660" y="150" width="190" height="22" rx="4" fill="white" stroke="#fde047"/>
+    <text x="755" y="166" text-anchor="middle" class="label">Private key (RSA/ECDSA)</text>
+
+    <rect x="660" y="178" width="190" height="22" rx="4" fill="white" stroke="#fde047"/>
+    <text x="755" y="194" text-anchor="middle" class="label">X.509 certificate</text>
+  </g>
+
+  <!-- Verifier -->
+  <g>
+    <rect x="640" y="225" width="230" height="105" rx="10" class="box box-verify"/>
+    <text x="755" y="250" text-anchor="middle" font-weight="700" class="label">Verifier</text>
+    <text x="755" y="267" text-anchor="middle" class="muted">(anyone with public cert)</text>
+
+    <rect x="660" y="285" width="190" height="22" rx="4" fill="white" stroke="#86efac"/>
+    <text x="755" y="301" text-anchor="middle" class="label">XSD + XMLDSig check</text>
+  </g>
+
+  <!-- Arrows: Ruby → Web app -->
+  <path d="M 270 180 Q 305 180 335 180" class="arrow"/>
+  <text x="302" y="172" text-anchor="middle" class="muted">copy</text>
+
+  <!-- Web app → Issuer keys -->
+  <path d="M 575 145 Q 610 145 640 145" class="arrow"/>
+  <text x="610" y="138" text-anchor="middle" class="muted">uses</text>
+
+  <!-- Web app → Verifier -->
+  <path d="M 575 250 Q 610 250 640 250" class="arrow"/>
+  <text x="610" y="243" text-anchor="middle" class="muted">verifies</text>
+
+  <!-- Output CNML files -->
+  <g>
+    <rect x="335" y="380" width="240" height="80" rx="10" class="box"/>
+    <text x="455" y="405" text-anchor="middle" font-weight="700" class="label">*.cnml.xml</text>
+    <text x="455" y="425" text-anchor="middle" class="muted">Signed OIML certificate</text>
+    <text x="455" y="442" text-anchor="middle" class="muted">UnitsML + XMLDSig</text>
+  </g>
+
+  <path d="M 455 330 L 455 380" class="arrow"/>
+  <text x="465" y="360" class="muted">emits</text>
+
+  <!-- PTB DCC imports -->
+  <g>
+    <rect x="640" y="380" width="230" height="80" rx="10" class="box"/>
+    <text x="755" y="405" text-anchor="middle" font-weight="700" class="label">PTB DCC files</text>
+    <text x="755" y="425" text-anchor="middle" class="muted">*.dcc.xml (compatible)</text>
+    <text x="755" y="442" text-anchor="middle" class="muted">import / export / verify</text>
+  </g>
+  <path d="M 640 420 Q 610 420 575 420" class="arrow"/>
+
+  <!-- UnitsDB / UnitsML -->
+  <g>
+    <rect x="30" y="380" width="240" height="80" rx="10" class="box"/>
+    <text x="150" y="405" text-anchor="middle" font-weight="700" class="label">UnitsDB + UnitsML</text>
+    <text x="150" y="425" text-anchor="middle" class="muted">unitsdb gem (Ruby)</text>
+    <text x="150" y="442" text-anchor="middle" class="muted">unitsml:units elements (XML)</text>
+  </g>
+  <path d="M 270 420 Q 305 420 335 420" class="arrow"/>
+
+  <!-- Legend -->
+  <g transform="translate(30, 490)">
+    <text x="0" y="0" class="muted" font-weight="700">Legend</text>
+    <rect x="0" y="10" width="14" height="14" rx="3" class="box-ruby"/>
+    <text x="20" y="22" class="muted">Ruby / source of truth</text>
+
+    <rect x="160" y="10" width="14" height="14" rx="3" class="box-ts"/>
+    <text x="180" y="22" class="muted">TypeScript / web app</text>
+
+    <rect x="320" y="10" width="14" height="14" rx="3" class="box-key"/>
+    <text x="340" y="22" class="muted">Cryptographic keys</text>
+
+    <rect x="470" y="10" width="14" height="14" rx="3" class="box-verify"/>
+    <text x="490" y="22" class="muted">Verification</text>
+  </g>
+</svg>

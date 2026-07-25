@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>Key and Certificate Lifecycle</title>
+  <desc>Complete lifecycle of every key type: generation → certification → usage → renewal → revocation/retirement</desc>
+  <defs>
+    <style>
+      .box      { fill: #eff6ff; stroke: #2563eb; }
+      .ca-box   { fill: #fefce8; stroke: #ca8a04; }
+      .action   { fill: #f0fdf4; stroke: #15803d; }
+      .end      { fill: #fef2f2; stroke: #dc2626; }
+      .arrow    { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#a3); }
+      .label    { fill: #0f172a; font-weight: 600; }
+      .muted    { fill: #64748b; font-size: 11px; }
+      .small    { fill: #6b7a92; font-size: 10px; }
+      .phase    { fill: #004996; font-size: 12px; font-weight: 700; }
+    </style>
+    <marker id="a3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#004996">Key &amp; Certificate Lifecycle</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Every key in the OIML PKI — from generation to retirement</text>
+
+  <!-- ─── ROOT CA LIFECYCLE (left column) ──────────────────── -->
+  <text x="170" y="80" text-anchor="middle" class="phase">Root CA (25 years)</text>
+
+  <rect x="70" y="95" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="170" y="117" text-anchor="middle" class="small">Generate Ed25519+ML-DSA keypair</text>
+
+  <rect x="70" y="145" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="170" y="167" text-anchor="middle" class="small">Self-sign root cert (ceremony)</text>
+  <path d="M 170 130 L 170 145" class="arrow"/>
+
+  <rect x="70" y="195" width="200" height="35" rx="6" class="action"/>
+  <text x="170" y="217" text-anchor="middle" class="small">Sign intermediate CA certs (yearly)</text>
+  <path d="M 170 180 L 170 195" class="arrow"/>
+
+  <rect x="70" y="245" width="200" height="35" rx="6" class="action"/>
+  <text x="170" y="267" text-anchor="middle" class="small">Sign root CRL (if IA de-accredited)</text>
+  <path d="M 170 230 L 170 245" class="arrow"/>
+
+  <rect x="70" y="295" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="170" y="317" text-anchor="middle" class="small">Publish trust anchors + CRL to CDN</text>
+  <path d="M 170 280 L 170 295" class="arrow"/>
+
+  <rect x="70" y="345" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="170" y="367" text-anchor="middle" class="small">Backup to 2× USB → 2 safes (yearly)</text>
+  <path d="M 170 330 L 170 345" class="arrow"/>
+
+  <rect x="70" y="395" width="200" height="35" rx="6" class="end"/>
+  <text x="170" y="417" text-anchor="middle" class="small">Rollover: new root, cross-sign (year ~22)</text>
+  <path d="M 170 380 L 170 395" class="arrow"/>
+
+  <!-- ─── INTERMEDIATE CA LIFECYCLE (middle column) ────────── -->
+  <text x="450" y="80" text-anchor="middle" class="phase">Intermediate CA (10 years)</text>
+
+  <rect x="350" y="95" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="450" y="117" text-anchor="middle" class="small">Generate keypair + create CSR</text>
+
+  <rect x="350" y="145" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="450" y="167" text-anchor="middle" class="small">Send CSR to BIML → get signed cert</text>
+  <path d="M 450 130 L 450 145" class="arrow"/>
+
+  <rect x="350" y="195" width="200" height="35" rx="6" class="action"/>
+  <text x="450" y="217" text-anchor="middle" class="small">Sign signer certs (monthly)</text>
+  <path d="M 450 180 L 450 195" class="arrow"/>
+
+  <rect x="350" y="245" width="200" height="35" rx="6" class="action"/>
+  <text x="450" y="267" text-anchor="middle" class="small">Sign CRL when signer key revoked</text>
+  <path d="M 450 230 L 450 245" class="arrow"/>
+
+  <rect x="350" y="295" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="450" y="317" text-anchor="middle" class="small">Publish new certs + CRL to CDN</text>
+  <path d="M 450 280 L 450 295" class="arrow"/>
+
+  <rect x="350" y="345" width="200" height="35" rx="6" class="ca-box"/>
+  <text x="450" y="367" text-anchor="middle" class="small">Renew: new CSR at year 8 → BIML</text>
+  <path d="M 450 330 L 450 345" class="arrow"/>
+
+  <rect x="350" y="395" width="200" height="35" rx="6" class="end"/>
+  <text x="450" y="417" text-anchor="middle" class="small">Expire / revoked (by root CRL)</text>
+  <path d="M 450 380 L 450 395" class="arrow"/>
+
+  <!-- ─── SIGNER LIFECYCLE (right column) ──────────────────── -->
+  <text x="730" y="80" text-anchor="middle" class="phase">Signer (2-3 years)</text>
+
+  <rect x="630" y="95" width="200" height="35" rx="6" class="box"/>
+  <text x="730" y="117" text-anchor="middle" class="small">Generate Ed25519+ML-DSA in browser</text>
+
+  <rect x="630" y="145" width="200" height="35" rx="6" class="box"/>
+  <text x="730" y="167" text-anchor="middle" class="small">Create CSR → send to IA CA operator</text>
+  <path d="M 730 130 L 730 145" class="arrow"/>
+
+  <rect x="630" y="195" width="200" height="35" rx="6" class="action"/>
+  <text x="730" y="217" text-anchor="middle" class="small">Import signed cert from IA</text>
+  <path d="M 730 180 L 730 195" class="arrow"/>
+
+  <rect x="630" y="245" width="200" height="35" rx="6" class="action"/>
+  <text x="730" y="267" text-anchor="middle" class="small">Sign CNMLs (daily/weekly)</text>
+  <path d="M 730 230 L 730 245" class="arrow"/>
+
+  <rect x="630" y="295" width="200" height="35" rx="6" class="box"/>
+  <text x="730" y="317" text-anchor="middle" class="small">Expiry warning at 90/60/30 days</text>
+  <path d="M 730 280 L 730 295" class="arrow"/>
+
+  <rect x="630" y="345" width="200" height="35" rx="6" class="box"/>
+  <text x="730" y="367" text-anchor="middle" class="small">Renew: new CSR → new cert (overlap)</text>
+  <path d="M 730 330 L 730 345" class="arrow"/>
+
+  <rect x="630" y="395" width="200" height="35" rx="6" class="end"/>
+  <text x="730" y="417" text-anchor="middle" class="small">Old key destroyed · cert in CRL</text>
+  <path d="M 730 380 L 730 395" class="arrow"/>
+
+  <!-- ─── CROSS-REFERENCES ─────────────────────────────────── -->
+  <path d="M 270 160 Q 310 160 350 160" class="arrow" stroke-dasharray="4 3"/>
+  <text x="310" y="152" text-anchor="middle" class="small">signs CSR</text>
+
+  <path d="M 550 160 Q 590 160 630 160" class="arrow" stroke-dasharray="4 3"/>
+  <text x="590" y="152" text-anchor="middle" class="small">signs CSR</text>
+
+  <!-- ─── BOTTOM: OVERLAP PRINCIPLE ────────────────────────── -->
+  <rect x="50" y="460" width="820" height="120" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="450" y="485" text-anchor="middle" class="label">Overlap Principle</text>
+  <text x="450" y="510" text-anchor="middle" class="muted">During renewal, BOTH old and new keys/certs are valid. New CNMLs are signed with the new key.</text>
+  <text x="450" y="530" text-anchor="middle" class="muted">Old CNMLs still verify — their X.509 cert + signature are embedded in each CNML file.</text>
+  <text x="450" y="550" text-anchor="middle" class="muted">After the old cert expires, verifiers reject CNMLs claiming to be signed after the expiry date.</text>
+  <text x="450" y="570" text-anchor="middle" class="muted">CNMLs genuinely signed during validity remain permanently verifiable — the proof is in the file itself.</text>
+</svg>

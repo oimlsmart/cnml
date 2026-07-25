@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>CNML Certificate Model Layers</title>
+  <desc>Layered model: CORE → modules → per-Recommendation → cert instance.</desc>
+
+  <defs>
+    <style>
+      .layer-core    { fill: #dbeafe; stroke: #1d4ed8; }
+      .layer-module  { fill: #ede9fe; stroke: #6d28d9; }
+      .layer-r       { fill: #fef3c7; stroke: #b45309; }
+      .layer-inst    { fill: #f0fdf4; stroke: #15803d; }
+      .arrow         { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#arr2); }
+      .label         { fill: #0f172a; }
+      .muted         { fill: #64748b; font-size: 11px; }
+      .arrow-label   { fill: #475569; font-size: 11px; }
+    </style>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" class="label">CNML Certificate Model Layers</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Open for extension, closed for modification</text>
+
+  <!-- Layer 1: CORE -->
+  <rect x="120" y="80" width="660" height="60" rx="10" class="layer-core"/>
+  <text x="450" y="105" text-anchor="middle" font-weight="700" class="label">CORE OIML Cert Model</text>
+  <text x="450" y="125" text-anchor="middle" class="muted">_core.yaml — Certificate, Party, StructuredValue, Recommendation, Footnote, TestReport, ...</text>
+
+  <!-- Layer 2: Modules -->
+  <rect x="120" y="160" width="660" height="60" rx="10" class="layer-module"/>
+  <text x="450" y="185" text-anchor="middle" font-weight="700" class="label">Shared Modules</text>
+  <text x="450" y="205" text-anchor="middle" class="muted">_modules/d011_environmental.yaml (H1-H3, M1-M3, E1-E3) · _units.yaml · _units_local.yaml</text>
+
+  <!-- Layer 3: Per-R -->
+  <rect x="120" y="240" width="660" height="60" rx="10" class="layer-r"/>
+  <text x="450" y="265" text-anchor="middle" font-weight="700" class="label">Per-Recommendation Cert Model</text>
+  <text x="450" y="285" text-anchor="middle" class="muted">R60.yaml · R76.yaml · R117.yaml · ... · 22 schemas</text>
+
+  <!-- Layer 4: Instance -->
+  <rect x="120" y="320" width="660" height="60" rx="10" class="layer-inst"/>
+  <text x="450" y="345" text-anchor="middle" font-weight="700" class="label">Certificate Instance (data)</text>
+  <text x="450" y="365" text-anchor="middle" class="muted">yaml/R60/2021/r60-2021-nl1-2026-12-rev0.yaml → CNML XML → signed DMAC/CNML file</text>
+
+  <!-- Arrows: extends -->
+  <path d="M 450 140 L 450 160" class="arrow"/>
+  <text x="460" y="155" class="arrow-label">extends</text>
+
+  <path d="M 450 220 L 450 240" class="arrow"/>
+  <text x="460" y="235" class="arrow-label">extends</text>
+
+  <path d="M 450 300 L 450 320" class="arrow"/>
+  <text x="460" y="315" class="arrow-label">instantiates</text>
+
+  <!-- Right-side annotation: $ref mechanism -->
+  <g>
+    <rect x="800" y="80" width="80" height="300" rx="6" fill="white" stroke="#cbd5e1"/>
+    <text x="840" y="100" text-anchor="middle" font-weight="700" class="muted">JSON</text>
+    <text x="840" y="115" text-anchor="middle" font-weight="700" class="muted">Schema</text>
+    <text x="840" y="145" text-anchor="middle" class="muted">draft-07</text>
+    <text x="840" y="180" text-anchor="middle" class="muted">$ref</text>
+    <text x="840" y="210" text-anchor="middle" class="muted">allOf</text>
+    <text x="840" y="240" text-anchor="middle" class="muted">oneOf</text>
+    <text x="840" y="270" text-anchor="middle" class="muted">if/then</text>
+    <text x="840" y="300" text-anchor="middle" class="muted">enum</text>
+    <text x="840" y="330" text-anchor="middle" class="muted">const</text>
+    <text x="840" y="370" text-anchor="middle" class="muted">ajv</text>
+  </g>
+
+  <!-- Bottom annotation -->
+  <text x="450" y="420" text-anchor="middle" class="muted">Each layer adds capabilities. CORE stays stable. Per-R adds accuracy_class enums, d011_tests_applicable, etc.</text>
+</svg>

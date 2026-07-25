@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>Hybrid Signature Structure</title>
+  <desc>Each CNML carries two independent XMLDSig signatures: Ed25519 (classical) + ML-DSA-65 (post-quantum). Verifier accepts if either passes.</desc>
+  <defs>
+    <style>
+      .xml       { fill: #f8fafc; stroke: #cbd5e1; }
+      .sig-ed    { fill: #eff6ff; stroke: #2563eb; }
+      .sig-pqc   { fill: #fef3c7; stroke: #b45309; }
+      .cert      { fill: #f0fdf4; stroke: #15803d; }
+      .ts        { fill: #faf5ff; stroke: #7c3aed; }
+      .arrow     { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#a4); }
+      .label     { fill: #0f172a; font-weight: 600; }
+      .muted     { fill: #64748b; font-size: 11px; }
+      .small     { fill: #6b7a92; font-size: 10px; }
+      .algo      { fill: #475569; font-size: 10px; font-family: monospace; }
+    </style>
+    <marker id="a4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#004996">Hybrid Signature Structure</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Every CNML carries two independent signatures: Ed25519 + ML-DSA-65</text>
+
+  <!-- CNML document -->
+  <rect x="50" y="70" width="800" height="380" rx="10" class="xml"/>
+  <text x="450" y="95" text-anchor="middle" class="label">CNML Document (.cnml.xml)</text>
+
+  <!-- Content section -->
+  <rect x="80" y="110" width="350" height="80" rx="6" fill="white" stroke="#e2e8f0"/>
+  <text x="255" y="130" text-anchor="middle" class="label">Certificate Content</text>
+  <text x="255" y="148" text-anchor="middle" class="small">Administrative data (number, dates, issuer)</text>
+  <text x="255" y="163" text-anchor="middle" class="small">Certified type (category, designations)</text>
+  <text x="255" y="178" text-anchor="middle" class="small">Measurement results (characteristics)</text>
+
+  <!-- Signature 1: Ed25519 -->
+  <rect x="80" y="210" width="350" height="110" rx="6" class="sig-ed"/>
+  <text x="255" y="232" text-anchor="middle" class="label">Signature 1 — Ed25519 (classical)</text>
+  <text x="255" y="250" text-anchor="middle" class="algo">Algorithm: Ed25519 (RFC 8032)</text>
+  <text x="255" y="265" text-anchor="middle" class="small">Signature size: 64 bytes</text>
+  <text x="255" y="280" text-anchor="middle" class="small">Key size: 32 bytes</text>
+  <text x="255" y="295" text-anchor="middle" class="small">Security: 128-bit classical</text>
+  <text x="255" y="310" text-anchor="middle" class="small">Deterministic — no nonce-reuse risk</text>
+
+  <!-- Signature 2: ML-DSA -->
+  <rect x="460" y="210" width="350" height="110" rx="6" class="sig-pqc"/>
+  <text x="635" y="232" text-anchor="middle" class="label">Signature 2 — ML-DSA-65 (post-quantum)</text>
+  <text x="635" y="250" text-anchor="middle" class="algo">Algorithm: ML-DSA-65 (NIST FIPS 204)</text>
+  <text x="635" y="265" text-anchor="middle" class="small">Signature size: ~3300 bytes</text>
+  <text x="635" y="280" text-anchor="middle" class="small">Key size: 1952 bytes</text>
+  <text x="635" y="295" text-anchor="middle" class="small">Security: ~128-bit post-quantum</text>
+  <text x="635" y="310" text-anchor="middle" class="small">Lattice-based — resists Shor's algorithm</text>
+
+  <!-- Cert chain -->
+  <rect x="80" y="340" width="350" height="50" rx="6" class="cert"/>
+  <text x="255" y="360" text-anchor="middle" class="label">X.509 Certificate Chain</text>
+  <text x="255" y="378" text-anchor="middle" class="small">Signer cert → IA intermediate → OIML root</text>
+
+  <!-- Timestamp -->
+  <rect x="460" y="340" width="350" height="50" rx="6" class="ts"/>
+  <text x="635" y="360" text-anchor="middle" class="label">OpenTimestamps Proof (optional)</text>
+  <text x="635" y="378" text-anchor="middle" class="small">Bitcoin blockchain anchor — proves WHEN</text>
+
+  <!-- Arrows from content to signatures -->
+  <path d="M 255 190 L 255 210" class="arrow"/>
+  <path d="M 255 190 L 635 210" class="arrow" stroke-dasharray="4 3"/>
+  <text x="430" y="200" text-anchor="middle" class="small">both sign the same content</text>
+
+  <!-- Verification logic at bottom -->
+  <rect x="50" y="465" width="800" height="45" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="450" y="485" text-anchor="middle" class="label">Verification: check BOTH signatures independently</text>
+  <text x="450" y="503" text-anchor="middle" class="muted">Accept if EITHER passes. If quantum breaks Ed25519, ML-DSA holds. If lattice attack breaks ML-DSA, Ed25519 holds.</text>
+</svg>

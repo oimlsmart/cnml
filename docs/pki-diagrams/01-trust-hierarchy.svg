@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>CNML PKI Trust Hierarchy</title>
+  <desc>Authority delegation: OIML → BIML → Issuing Authorities → Signers → CNMLs for manufacturers</desc>
+  <defs>
+    <style>
+      .root    { fill: #fef2f2; stroke: #dc2626; }
+      .biml    { fill: #fefce8; stroke: #ca8a04; }
+      .ia      { fill: #eff6ff; stroke: #2563eb; }
+      .signer  { fill: #f0fdf4; stroke: #15803d; }
+      .cnml    { fill: #faf5ff; stroke: #7c3aed; }
+      .arrow   { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+      .label   { fill: #0f172a; font-weight: 600; }
+      .muted   { fill: #64748b; font-size: 11px; }
+      .algo    { fill: #6b7a92; font-size: 10px; font-family: monospace; }
+    </style>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#004996">CNML PKI Trust Hierarchy</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Authority flows downward. Every signature is hybrid: Ed25519 + ML-DSA-65.</text>
+
+  <!-- OIML -->
+  <rect x="350" y="80" width="200" height="60" rx="8" class="root"/>
+  <text x="450" y="105" text-anchor="middle" class="label">OIML</text>
+  <text x="450" y="123" text-anchor="middle" class="muted">Top legal authority</text>
+
+  <!-- BIML -->
+  <rect x="350" y="175" width="200" height="60" rx="8" class="biml"/>
+  <text x="450" y="200" text-anchor="middle" class="label">BIML</text>
+  <text x="450" y="218" text-anchor="middle" class="muted">Operates Root CA · Paris</text>
+  <path d="M 450 140 L 450 175" class="arrow"/>
+  <text x="460" y="160" class="muted">delegates to</text>
+
+  <!-- Root CA -->
+  <rect x="310" y="270" width="280" height="55" rx="8" class="root"/>
+  <text x="450" y="290" text-anchor="middle" class="label">OIML Root CA</text>
+  <text x="450" y="308" text-anchor="middle" class="algo">Ed25519 + ML-DSA-65 · self-signed · 25-year validity</text>
+  <path d="M 450 235 L 450 270" class="arrow"/>
+  <text x="460" y="258" class="muted">creates &amp; operates</text>
+
+  <!-- Three IAs -->
+  <rect x="60" y="370" width="220" height="70" rx="8" class="ia"/>
+  <text x="170" y="393" text-anchor="middle" class="label">NMi Certin B.V. (NL1)</text>
+  <text x="170" y="410" text-anchor="middle" class="muted">Intermediate CA · 10-year</text>
+  <text x="170" y="425" text-anchor="middle" class="algo">Ed25519 + ML-DSA-65</text>
+  <path d="M 380 305 Q 200 340 170 370" class="arrow"/>
+
+  <rect x="340" y="370" width="220" height="70" rx="8" class="ia"/>
+  <text x="450" y="393" text-anchor="middle" class="label">PTB (DE1)</text>
+  <text x="450" y="410" text-anchor="middle" class="muted">Intermediate CA · 10-year</text>
+  <text x="450" y="425" text-anchor="middle" class="algo">Ed25519 + ML-DSA-65</text>
+  <path d="M 450 325 L 450 370" class="arrow"/>
+
+  <rect x="620" y="370" width="220" height="70" rx="8" class="ia"/>
+  <text x="730" y="393" text-anchor="middle" class="label">NIM China (CN2)</text>
+  <text x="730" y="410" text-anchor="middle" class="muted">Intermediate CA · 10-year</text>
+  <text x="730" y="425" text-anchor="middle" class="algo">Ed25519 + ML-DSA-65</text>
+  <path d="M 520 305 Q 700 340 730 370" class="arrow"/>
+
+  <!-- Signers -->
+  <rect x="80" y="475" width="180" height="50" rx="6" class="signer"/>
+  <text x="170" y="495" text-anchor="middle" class="label">M. Schmidt</text>
+  <text x="170" y="512" text-anchor="middle" class="algo">Signer · 2-year cert</text>
+  <path d="M 170 440 L 170 475" class="arrow"/>
+
+  <!-- CNML -->
+  <rect x="80" y="555" width="180" height="45" rx="6" class="cnml"/>
+  <text x="170" y="575" text-anchor="middle" class="label">CNML Certificates</text>
+  <text x="170" y="591" text-anchor="middle" class="muted">for manufacturers</text>
+  <path d="M 170 525 L 170 555" class="arrow"/>
+  <text x="180" y="545" class="muted">signs</text>
+
+  <!-- Manufacturer note -->
+  <rect x="340" y="555" width="500" height="45" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="590" y="575" text-anchor="middle" class="muted">Manufacturers are certificate RECIPIENTS — they hold no keys, sign nothing,</text>
+  <text x="590" y="591" text-anchor="middle" class="muted">and are outside the PKI chain. They receive CNMLs from IAs.</text>
+
+  <!-- Side annotations -->
+  <text x="30" y="300" text-anchor="middle" class="muted" transform="rotate(-90 30 300)">Root CA cert is the trust anchor</text>
+  <text x="30" y="450" text-anchor="middle" class="muted" transform="rotate(-90 30 450)">IAs sign their signers' certs</text>
+</svg>

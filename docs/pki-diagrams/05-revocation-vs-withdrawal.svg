@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>Revocation and Withdrawal</title>
+  <desc>Two separate mechanisms: PKI revocation (CRL — signing key compromised) vs certificate withdrawal (OIML database — product non-compliant)</desc>
+  <defs>
+    <style>
+      .pki       { fill: #eff6ff; stroke: #2563eb; }
+      .withdraw  { fill: #fef3c7; stroke: #b45309; }
+      .both      { fill: #fef2f2; stroke: #dc2626; }
+      .arrow     { stroke: #475569; stroke-width: 1.5; fill: none; marker-end: url(#a5); }
+      .label     { fill: #0f172a; font-weight: 600; }
+      .muted     { fill: #64748b; font-size: 11px; }
+      .small     { fill: #6b7a92; font-size: 10px; }
+    </style>
+    <marker id="a5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#004996">Revocation vs Withdrawal</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Two independent mechanisms protect against different threats</text>
+
+  <!-- LEFT: PKI Revocation -->
+  <text x="230" y="85" text-anchor="middle" class="label" fill="#2563eb">PKI Revocation (CRL)</text>
+  <text x="230" y="103" text-anchor="middle" class="muted">Signing KEY is no longer trustworthy</text>
+
+  <rect x="60" y="120" width="340" height="45" rx="6" class="pki"/>
+  <text x="230" y="140" text-anchor="middle" class="small">Trigger: key compromise, lost device, signer left</text>
+  <text x="230" y="156" text-anchor="middle" class="small">Who: CA operator adds serial to CRL</text>
+
+  <rect x="60" y="180" width="340" height="45" rx="6" class="pki"/>
+  <text x="230" y="200" text-anchor="middle" class="small">CRL published to CDN (crls/{issuer}.crl)</text>
+  <text x="230" y="216" text-anchor="middle" class="small">Verifiers fetch CRL on each verification</text>
+  <path d="M 230 165 L 230 180" class="arrow"/>
+
+  <rect x="60" y="240" width="340" height="55" rx="6" class="pki"/>
+  <text x="230" y="260" text-anchor="middle" class="small">Effect depends on timing:</text>
+  <text x="230" y="275" text-anchor="middle" class="small">CNML signed BEFORE revocation → still valid</text>
+  <text x="230" y="290" text-anchor="middle" class="small">CNML signed AFTER revocation → REJECTED</text>
+  <path d="M 230 225 L 230 240" class="arrow"/>
+
+  <!-- RIGHT: Certificate Withdrawal -->
+  <text x="670" y="85" text-anchor="middle" class="label" fill="#b45309">Certificate Withdrawal</text>
+  <text x="670" y="103" text-anchor="middle" class="muted">CERTIFICATE itself is no longer valid</text>
+
+  <rect x="500" y="120" width="340" height="45" rx="6" class="withdraw"/>
+  <text x="670" y="140" text-anchor="middle" class="small">Trigger: product found non-compliant, fraud, IA error</text>
+  <text x="670" y="156" text-anchor="middle" class="small">Who: BIML updates OIML-CS database status</text>
+
+  <rect x="500" y="180" width="340" height="45" rx="6" class="withdraw"/>
+  <text x="670" y="200" text-anchor="middle" class="small">Status published to CDN (certs-index.json)</text>
+  <text x="670" y="216" text-anchor="middle" class="small">Verifiers fetch status index on each verification</text>
+  <path d="M 670 165 L 670 180" class="arrow"/>
+
+  <rect x="500" y="240" width="340" height="55" rx="6" class="withdraw"/>
+  <text x="670" y="260" text-anchor="middle" class="small">Effect: ALL CNMLs of this certificate are invalid</text>
+  <text x="670" y="275" text-anchor="middle" class="small">Regardless of signing date or key status</text>
+  <text x="670" y="290" text-anchor="middle" class="small">The PRODUCT is no longer certified</text>
+  <path d="M 670 225 L 670 240" class="arrow"/>
+
+  <!-- BOTTOM: Verifier checks BOTH -->
+  <rect x="50" y="320" width="800" height="80" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="450" y="345" text-anchor="middle" class="label">Browser Verifier Checks Both</text>
+  <text x="450" y="368" text-anchor="middle" class="small">Step 5: Is the signing key in a CRL? (PKI check — key still trustworthy?)</text>
+  <text x="450" y="383" text-anchor="middle" class="small">Step 6: Is the certificate status "Valid" in certs-index.json? (OIML check — product still certified?)</text>
+  <path d="M 230 295 L 230 320" class="arrow" stroke-dasharray="4 3"/>
+  <path d="M 670 295 L 670 320" class="arrow" stroke-dasharray="4 3"/>
+
+  <!-- VERDICT TABLE -->
+  <rect x="50" y="420" width="800" height="65" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="450" y="445" text-anchor="middle" class="label" fill="#b91c1c">Both must pass</text>
+  <text x="450" y="463" text-anchor="middle" class="small">Valid key + Valid certificate → ✓ ACCEPT</text>
+  <text x="450" y="477" text-anchor="middle" class="small">Revoked key OR Withdrawn certificate → ✗ REJECT</text>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Inter, system-ui, sans-serif" font-size="13" fill="currentColor">
+  <title>Data Flow: Offline to CDN to Browser</title>
+  <desc>How PKI artifacts move from air-gapped machines through USB transfer to the CDN and finally to browser verifiers</desc>
+  <defs>
+    <style>
+      .machine   { fill: #fef2f2; stroke: #dc2626; }
+      .usb       { fill: #fefce8; stroke: #ca8a04; }
+      .cdn       { fill: #eff6ff; stroke: #2563eb; }
+      .browser   { fill: #f0fdf4; stroke: #15803d; }
+      .arrow     { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#a7); }
+      .label     { fill: #0f172a; font-weight: 600; }
+      .muted     { fill: #64748b; font-size: 11px; }
+      .small     { fill: #6b7a92; font-size: 10px; }
+      .file      { fill: #f8fafc; stroke: #cbd5e1; }
+    </style>
+    <marker id="a7" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#004996">Data Flow: Offline → CDN → Browser</text>
+  <text x="450" y="50" text-anchor="middle" class="muted">Artifacts move through physical USB transfer, then git, then HTTPS fetch</text>
+
+  <!-- Air-gapped machine -->
+  <rect x="30" y="80" width="200" height="140" rx="10" class="machine"/>
+  <text x="130" y="105" text-anchor="middle" class="label">Air-gapped Machine</text>
+  <text x="130" y="123" text-anchor="middle" class="small">CA server on localhost</text>
+  <text x="130" y="138" text-anchor="middle" class="small">Holds CA private keys</text>
+  <text x="130" y="153" text-anchor="middle" class="small">(encrypted at rest)</text>
+  <line x1="50" y1="165" x2="210" y2="165" stroke="#cbd5e1"/>
+  <text x="130" y="183" text-anchor="middle" class="small">Produces:</text>
+  <text x="130" y="198" text-anchor="middle" class="small">· Signed .crt files</text>
+  <text x="130" y="213" text-anchor="middle" class="small">· Signed .crl files</text>
+
+  <!-- USB transfer -->
+  <rect x="270" y="120" width="100" height="60" rx="8" class="usb"/>
+  <text x="320" y="145" text-anchor="middle" class="label">USB Stick</text>
+  <text x="320" y="163" text-anchor="middle" class="small">Physical transfer</text>
+  <path d="M 230 150 L 270 150" class="arrow"/>
+  <text x="250" y="142" text-anchor="middle" class="small">copy</text>
+
+  <!-- Network machine -->
+  <rect x="410" y="80" width="160" height="140" rx="10" class="cdn"/>
+  <text x="490" y="105" text-anchor="middle" class="label">Network Machine</text>
+  <text x="490" y="123" text-anchor="middle" class="small">git push to repo</text>
+  <line x1="430" y1="135" x2="550" y2="135" stroke="#cbd5e1"/>
+  <text x="490" y="153" text-anchor="middle" class="small">Git validates:</text>
+  <text x="490" y="168" text-anchor="middle" class="small">· cert signed by CA?</text>
+  <text x="490" y="183" text-anchor="middle" class="small">· CRL fresh?</text>
+  <text x="490" y="198" text-anchor="middle" class="small">· signatures valid?</text>
+  <path d="M 370 150 L 410 150" class="arrow"/>
+
+  <!-- CDN -->
+  <rect x="620" y="80" width="160" height="140" rx="10" class="cdn"/>
+  <text x="700" y="105" text-anchor="middle" class="label">Static CDN</text>
+  <text x="700" y="123" text-anchor="middle" class="small">Serves to everyone</text>
+  <line x1="640" y1="135" x2="760" y2="135" stroke="#cbd5e1"/>
+  <text x="700" y="153" text-anchor="middle" class="small">· trust-anchors.json</text>
+  <text x="700" y="168" text-anchor="middle" class="small">· intermediates/*.crt</text>
+  <text x="700" y="183" text-anchor="middle" class="small">· crls/*.crl</text>
+  <text x="700" y="198" text-anchor="middle" class="small">· certs-index.json</text>
+  <path d="M 570 150 L 620 150" class="arrow"/>
+  <text x="595" y="142" text-anchor="middle" class="small">auto</text>
+
+  <!-- Browser -->
+  <rect x="350" y="280" width="500" height="80" rx="10" class="browser"/>
+  <text x="600" y="305" text-anchor="middle" class="label">Browser (Signer / Verifier / Manufacturer)</text>
+  <text x="600" y="325" text-anchor="middle" class="small">Fetches trust anchors at startup (cached)</text>
+  <text x="600" y="340" text-anchor="middle" class="small">Fetches intermediate certs + CRLs on-demand (cached 24h)</text>
+  <text x="600" y="355" text-anchor="middle" class="small">Bundled fallback if CDN unreachable</text>
+
+  <path d="M 700 220 L 700 280" class="arrow"/>
+  <text x="710" y="255" class="small">HTTPS</text>
+  <text x="710" y="268" class="small">fetch</text>
+
+  <!-- Direct signing flow (signer only) -->
+  <rect x="30" y="280" width="280" height="80" rx="10" class="browser"/>
+  <text x="170" y="305" text-anchor="middle" class="label">Signer Browser (direct)</text>
+  <text x="170" y="325" text-anchor="middle" class="small">Generates Ed25519 + ML-DSA keypair</text>
+  <text x="170" y="340" text-anchor="middle" class="small">Creates CSR → sends to IA CA operator</text>
+  <text x="170" y="355" text-anchor="middle" class="small">Imports signed cert → signs CNMLs</text>
+
+  <path d="M 170 220 L 170 280" class="arrow" stroke-dasharray="4 3"/>
+  <text x="180" y="255" class="small">CSR</text>
+  <text x="180" y="268" class="small">(via email)</text>
+</svg>
