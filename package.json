@@ -1,0 +1,39 @@
+{
+  "name": "cnml-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter cnml-web dev",
+    "build": "pnpm --filter cnml-web build && node --experimental-strip-types --no-warnings scripts/audience-build.ts",
+    "gen:types": "node --experimental-strip-types --no-warnings scripts/generate-types.ts",
+    "gen:schemas": "node --experimental-strip-types --no-warnings scripts/generate-schemas-index.ts",
+    "gen": "pnpm gen:schemas && pnpm gen:types",
+    "preview": "pnpm --filter cnml-web preview",
+    "test": "pnpm --filter @cnml/cnml-test-vectors test",
+    "test:audit": "pnpm --filter @cnml/cnml-test-vectors test:audit",
+    "test:e2e": "playwright test --config=playwright.config.cjs",
+    "test:e2e:headed": "playwright test --config=playwright.config.cjs --headed",
+    "audit:links": "node --experimental-strip-types --no-warnings scripts/audit-links.ts",
+    "audit:pages": "node --experimental-strip-types --no-warnings scripts/audit-pages.ts",
+    "vectors:gen": "pnpm --filter @cnml/cnml-test-vectors gen",
+    "vectors:verify": "pnpm --filter @cnml/cnml-test-vectors verify",
+    "smoke": "node --experimental-strip-types --no-warnings scripts/smoke-test.mjs",
+    "audience:build": "node --experimental-strip-types --no-warnings scripts/audience-build.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "playwright": "^1.61.1",
+    "rollup-plugin-visualizer": "^7.0.1",
+    "yaml": "^2.6.0"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^3.1.0",
+    "@noble/post-quantum": "^0.6.1",
+    "@rollup/plugin-yaml": "^5.0.0",
+    "@xmldom/xmldom": "^0.9.10",
+    "asn1js": "^3.0.10",
+    "pkijs": "^3.4.0",
+    "xmldsigjs": "^2.8.7"
+  }
+}

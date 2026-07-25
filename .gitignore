@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output
+apps/cnml-web/dist/
+apps/cnml-web/.astro/
+
+# Vite cache
+apps/cnml-web/node_modules/.vite/
+
+# Playwright
+test-results/
+playwright-report/
+
+# CA server output (generated artifacts — NOT source)
+oiml-pki-server/output/
+oiml-pki-server/.bundle/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
