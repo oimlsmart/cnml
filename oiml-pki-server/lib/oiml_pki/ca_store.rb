@@ -2,18 +2,20 @@
 
 # Encrypted CA keystore. AES-256-GCM envelope with PBKDF2-derived key.
 # Atomic writes via temp-file-then-rename to prevent corruption if the
-# process is interrupted mid-write.
+# process is interrupted mid-write. Exclusive file lock (flock) around
+# load-modify-save to prevent concurrent-write race conditions.
 
 module OimlPki
   module CaStore
     DEFAULT_STORE_FILE = File.join(KEYSTORE_DIR, "keystore.json")
     DEFAULT_SALT_FILE  = File.join(KEYSTORE_DIR, "salt.bin")
+    DEFAULT_LOCK_FILE  = File.join(KEYSTORE_DIR, "keystore.lock")
 
     class << self
       # Path overrides for testing. In production these stay nil and the
       # DEFAULT_* constants are used. Avoids `remove_const`/`const_set`
       # gymnastics in tests (which would require private #send).
-      attr_accessor :store_file_override, :salt_file_override
+      attr_accessor :store_file_override, :salt_file_override, :lock_file_override
     end
 
     module_function
@@ -26,7 +28,22 @@ module OimlPki
       @salt_file_override || DEFAULT_SALT_FILE
     end
 
-    module_function
+    def lock_file
+      @lock_file_override || DEFAULT_LOCK_FILE
+    end
+
+    # Exclusive lock around the entire load-modify-save sequence.
+    # Prevents two concurrent threads from both reading a stale copy
+    # and one overwriting the other's changes. Uses flock(LOCK_EX)
+    # which is automatically released when the file descriptor closes
+    # (even on process crash).
+    def with_lock
+      FileUtils.mkdir_p(File.dirname(lock_file))
+      File.open(lock_file, File::CREAT | File::RDWR, 0o600) do |f|
+        f.flock(File::LOCK_EX)
+        yield
+      end
+    end
 
     def load(passphrase)
       return [] unless File.exist?(store_file)
@@ -56,10 +73,12 @@ module OimlPki
     end
 
     def add(entry, passphrase)
-      entries = load(passphrase)
-      entries = entries.reject { |e| e["id"] == entry["id"] }
-      entries << entry
-      save(entries, passphrase)
+      with_lock do
+        entries = load(passphrase)
+        entries = entries.reject { |e| e["id"] == entry["id"] }
+        entries << entry
+        save(entries, passphrase)
+      end
     end
 
     def find(id, passphrase)

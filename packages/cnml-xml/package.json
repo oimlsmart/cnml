@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./validate": "./src/validate.ts"
+    "./validate": "./src/validate.ts",
+    "./version": "./src/version.ts"
   },
   "dependencies": {
     "ajv": "^8.20.0",

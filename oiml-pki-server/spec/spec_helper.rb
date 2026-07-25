@@ -28,6 +28,7 @@ module TestKeystore
     Dir.mktmpdir do |dir|
       OimlPki::CaStore.store_file_override = File.join(dir, "keystore.json")
       OimlPki::CaStore.salt_file_override  = File.join(dir, "salt.bin")
+      OimlPki::CaStore.lock_file_override  = File.join(dir, "keystore.lock")
       OimlPki::AuditLog.log_file_override  = File.join(dir, "audit.log")
       OimlPki::AuditLog.head_file_override = File.join(dir, "audit.log.head")
       yield dir, passphrase
@@ -35,6 +36,7 @@ module TestKeystore
   ensure
     OimlPki::CaStore.store_file_override = nil
     OimlPki::CaStore.salt_file_override  = nil
+    OimlPki::CaStore.lock_file_override  = nil
     OimlPki::AuditLog.log_file_override  = nil
     OimlPki::AuditLog.head_file_override = nil
   end
