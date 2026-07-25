@@ -1,0 +1,54 @@
+<h1>Sign Certificate Signing Request</h1>
+
+<div class="card">
+  <form action="/csr/sign" method="post" enctype="multipart/form-data">
+    <label>CSR File <input type="file" name="csr_file" accept=".csr,.pem,.req" required></label>
+
+    <label>Sign with CA
+      <select name="ca_id" required>
+        <% @cas.each do |ca| %>
+          <option value="<%= ca['id'] %>"><%= ca['alias'] %> (<%= ca['role'] %>)</option>
+        <% end %>
+      </select>
+    </label>
+
+    <label>Certificate Role
+      <select name="role">
+        <option value="intermediate">Intermediate CA (can sign other certs)</option>
+        <option value="end-entity">End-Entity (signer — cannot sign other certs)</option>
+      </select>
+    </label>
+
+    <fieldset class="scope-fieldset">
+      <legend>Authorized Recommendations (scope)</legend>
+      <p class="hint">Which OIML Recommendations can this cert issue CNMLs for?
+        For intermediate certs this is the BIML-granted scope. For end-entity
+        certs, scope must be a subset of the issuing CA's scope.</p>
+      <div class="scope-grid">
+        <% if @recommendations&.any? %>
+          <% @recommendations.each do |r| %>
+            <label class="scope-option">
+              <input type="checkbox" name="scope[]" value="<%= r['id'] %>">
+              <span class="scope-id"><%= r['id'] %></span>
+              <span class="scope-title"><%= r['shortTitle'] %></span>
+              <span class="scope-cat"><%= r['category'] %></span>
+            </label>
+          <% end %>
+        <% else %>
+          <p class="hint">Could not load Recommendation list from
+            <code>packages/cnml-schemas/src/schemas/</code>. Run from the
+            monorepo root.</p>
+        <% end %>
+      </div>
+    </fieldset>
+
+    <label>Validity (years) <input type="number" name="validity" value="2" min="1" max="25"></label>
+
+    <button type="submit" class="btn btn-primary">Sign Certificate</button>
+  </form>
+</div>
+
+<p class="hint">The CSR's public key will be certified by the selected CA. The CSR's
+private key is NOT needed — only the public key travels in the CSR. Scope is
+embedded as a non-critical X.509 v3 extension (OID 1.3.6.1.4.1.99999.1.1)
+and also written to <code>trust-anchors.json</code>.</p>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= @title || "OIML PKI CA Server" %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <span class="brand-title">OIML PKI</span>
+      <span class="brand-sub">CA Server · localhost:4455 · AIR-GAPPED</span>
+    </div>
+    <nav>
+      <a href="/">Dashboard</a>
+      <% if session[:passphrase] %>
+        <a href="/root/new">Create Root CA</a>
+        <a href="/csr/sign">Sign CSR</a>
+        <a href="/csr/generate">Generate CSR</a>
+        <a href="/crl">Manage CRL</a>
+        <a href="/publish">Publish</a>
+        <a href="/audit">Audit Log</a>
+      <% end %>
+    </nav>
+  </header>
+  <main class="container">
+    <% if @error %>
+      <div class="error"><%= @error %></div>
+    <% end %>
+    <% if @message %>
+      <div class="success-msg"><%= @message %></div>
+    <% end %>
+    <%= yield %>
+  </main>
+</body>
+</html>

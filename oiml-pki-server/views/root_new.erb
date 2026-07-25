@@ -1,0 +1,12 @@
+<h1>Create Root CA</h1>
+
+<div class="card">
+  <form action="/root/create" method="post">
+    <label>Common Name <input type="text" name="common_name" placeholder="OIML Root CA" required></label>
+    <label>Organization <input type="text" name="organization" placeholder="OIML" required></label>
+    <label>Country (2 letters) <input type="text" name="country" value="FR" maxlength="2" required></label>
+    <label>Validity (years) <input type="number" name="validity" value="25" min="1" max="50"></label>
+    <p class="hint">Algorithm: Ed25519 (falls back to EC P-256 on older Ruby/OpenSSL builds without Ed25519 support — the chosen algorithm is recorded on the issued cert).</p>
+    <button type="submit" class="btn btn-primary">Generate Root CA</button>
+  </form>
+</div>

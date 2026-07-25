@@ -1,0 +1,33 @@
+<h1>Publish Artifacts</h1>
+
+<div class="card">
+  <h2>Output Directory Contents</h2>
+  <% if @output_files.any? %>
+  <table>
+    <tr><th>File</th></tr>
+    <% @output_files.each do |f| %>
+    <tr><td class="mono"><%= f %></td></tr>
+    <% end %>
+  </table>
+  <% else %>
+  <p class="hint">No files published yet. Click "Publish All" to write certificates
+  and trust anchors to the output directory.</p>
+  <% end %>
+
+  <form action="/publish" method="post">
+    <button type="submit" class="btn btn-primary">Publish All Artifacts</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>How to Transfer to CDN</h2>
+  <ol>
+    <li>Click "Publish All Artifacts" above</li>
+    <li>Insert a clean USB stick</li>
+    <li>Copy the <code>output/</code> directory to the USB</li>
+    <li>Eject the USB</li>
+    <li>On a network-connected machine: copy to the pki-artifacts repo</li>
+    <li>Run <code>git add . &amp;&amp; git commit &amp;&amp; git push</code></li>
+    <li>GitHub Pages publishes the files within minutes</li>
+  </ol>
+</div>

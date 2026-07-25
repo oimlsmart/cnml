@@ -1,0 +1,32 @@
+<h1><%= @message || "Success" %></h1>
+
+<% if @cert_pem %>
+<div class="card">
+  <h2>Signed Certificate (PEM)</h2>
+  <pre class="pem"><%= @cert_pem %></pre>
+  <a href="data:application/x-pem-file;base64,<%= Base64.strict_encode64(@cert_pem) %>"
+     download="certificate.crt" class="btn btn-primary">Download .crt</a>
+</div>
+<% end %>
+
+<% if @csr_pem %>
+<div class="card">
+  <h2>Certificate Signing Request (PEM)</h2>
+  <pre class="pem"><%= @csr_pem %></pre>
+  <a href="data:application/x-pem-file;base64,<%= Base64.strict_encode64(@csr_pem) %>"
+     download="request.csr" class="btn btn-primary">Download .csr</a>
+</div>
+<% end %>
+
+<% if @output_files %>
+<div class="card">
+  <h2>Published Files</h2>
+  <ul>
+    <% @output_files.each do |f| %>
+    <li class="mono"><%= f %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<a href="/" class="btn btn-secondary">Back to Dashboard</a>

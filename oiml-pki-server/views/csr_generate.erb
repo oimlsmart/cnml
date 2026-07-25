@@ -1,0 +1,14 @@
+<h1>Generate Intermediate CA CSR</h1>
+
+<div class="card">
+  <form action="/csr/generate" method="post">
+    <label>Common Name <input type="text" name="common_name" placeholder="NMi Certin B.V. OIML-CS CA" required></label>
+    <label>Organization <input type="text" name="organization" placeholder="NMi Certin B.V." required></label>
+    <label>Country (2 letters) <input type="text" name="country" value="NL" maxlength="2" required></label>
+    <button type="submit" class="btn btn-primary">Generate Key + Create CSR</button>
+  </form>
+</div>
+
+<p class="hint">Generates a new Ed25519 keypair (stored locally, encrypted).
+The CSR contains only the public key — safe to send to BIML.
+Keep this machine powered on and secured until the signed cert is returned.</p>

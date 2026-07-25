@@ -1,0 +1,92 @@
+<h1>CA Dashboard</h1>
+
+<% unless session[:passphrase] %>
+  <div class="card">
+    <h2>Unlock Key Store</h2>
+    <p>Enter your passphrase to access the CA key store.</p>
+    <form action="/unlock" method="post">
+      <input type="password" name="passphrase" placeholder="Passphrase" required autofocus>
+      <button type="submit">Unlock</button>
+    </form>
+  </div>
+<% else %>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value"><%= @roots.size %></div>
+      <div class="stat-label">Root CAs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value"><%= @intermediates.size %></div>
+      <div class="stat-label">Intermediate CAs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value"><%= @signers.size %></div>
+      <div class="stat-label">Signed Certificates</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value"><%= @output_files.size %></div>
+      <div class="stat-label">Published Files</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="/root/new" class="btn btn-primary">Create Root CA</a>
+    <a href="/csr/sign" class="btn btn-primary">Sign CSR</a>
+    <a href="/csr/generate" class="btn btn-secondary">Generate CSR</a>
+    <a href="/crl" class="btn btn-secondary">Manage CRL</a>
+    <a href="/publish" class="btn btn-secondary">Publish Artifacts</a>
+  </div>
+
+  <% if @roots.any? %>
+  <h2>Root CAs</h2>
+  <table>
+    <tr><th>Subject</th><th>Fingerprint</th><th>Expires</th><th>Actions</th></tr>
+    <% @roots.each do |r| %>
+    <tr>
+      <td><%= r["alias"] %></td>
+      <td class="mono"><%= r["fingerprint"][0..23] %>…</td>
+      <td><%= r["notAfter"] %></td>
+      <td>
+        <% if r["certificate"] %><a href="/download/cert/<%= r['id'] %>">Cert ↓</a><% end %>
+        <% if r["privateKey"] %><a href="/download/key/<%= r['id'] %>">Key ↓</a><% end %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+  <% end %>
+
+  <% if @intermediates.any? %>
+  <h2>Intermediate CAs</h2>
+  <table>
+    <tr><th>Subject</th><th>Fingerprint</th><th>Expires</th><th>Actions</th></tr>
+    <% @intermediates.each do |i| %>
+    <tr>
+      <td><%= i["alias"] %></td>
+      <td class="mono"><%= i["fingerprint"][0..23] %>…</td>
+      <td><%= i["notAfter"] %></td>
+      <td>
+        <% if i["certificate"] %><a href="/download/cert/<%= i['id'] %>">Cert ↓</a><% end %>
+        <% if i["privateKey"] %><a href="/download/key/<%= i['id'] %>">Key ↓</a><% end %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+  <% end %>
+
+  <% if @signers.any? %>
+  <h2>Signed Certificates</h2>
+  <table>
+    <tr><th>Subject</th><th>Serial</th><th>Expires</th><th>Actions</th></tr>
+    <% @signers.each do |s| %>
+    <tr>
+      <td><%= s["alias"] %></td>
+      <td class="mono"><%= s["id"][-12..] %></td>
+      <td><%= s["notAfter"] %></td>
+      <td><a href="/download/cert/<%= s['id'] %>">Cert ↓</a></td>
+    </tr>
+    <% end %>
+  </table>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,24 @@
+<h1>Manage Certificate Revocation List</h1>
+
+<div class="card">
+  <h2>Generate New CRL</h2>
+  <form action="/crl/create" method="post">
+    <label>CA (signs the CRL)
+      <select name="ca_id" required>
+        <% @cas.each do |ca| %>
+          <option value="<%= ca['id'] %>"><%= ca['alias'] %></option>
+        <% end %>
+      </select>
+    </label>
+
+    <label>Revoked Certificates (one per line, format: serial,date)
+      <textarea name="revoke_serials" rows="6" placeholder="123456,2026-07-24
+789012,2026-07-20"></textarea>
+    </label>
+
+    <p class="hint">Leave empty for an empty CRL (no revocations). The CRL is
+    valid for 30 days. Verifiers will fetch it from the CDN.</p>
+
+    <button type="submit" class="btn btn-primary">Generate CRL</button>
+  </form>
+</div>

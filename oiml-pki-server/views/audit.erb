@@ -1,0 +1,53 @@
+<h1>Audit Log</h1>
+
+<div class="card">
+  <h2>Chain Integrity</h2>
+  <% if @chain_status[:valid] %>
+    <p class="success-msg">✓ Hash chain valid. <%= @chain_status[:entries] %> entries.</p>
+  <% else %>
+    <p class="error">✗ Chain broken at line <%= @chain_status[:broken_at] %>.
+      <%= @chain_status[:error] || 'Tampering detected.' %></p>
+  <% end %>
+  <p class="hint">The audit log is append-only and hash-chained. Each entry
+    includes the SHA-256 of the prior entry, so any post-hoc modification
+    is detectable. The log lives at <code>~/.oiml-pki/audit.log</code>.</p>
+</div>
+
+<div class="card">
+  <h2>Entries (most recent at bottom)</h2>
+  <% if @entries.empty? %>
+    <p class="hint">No entries yet. Perform a CA operation to populate the log.</p>
+  <% else %>
+    <table>
+      <tr>
+        <th>Timestamp (UTC)</th>
+        <th>Actor</th>
+        <th>Action</th>
+        <th>Result</th>
+        <th>Details</th>
+      </tr>
+      <% @entries.each do |e| %>
+        <tr>
+          <td class="mono"><%= e['timestamp'] %></td>
+          <td><%= e['actor'] %></td>
+          <td class="mono"><%= e['action'] %></td>
+          <td>
+            <% if e['result'] == 'success' %>
+              <span class="success-msg" style="display:inline;padding:2px 6px">success</span>
+            <% else %>
+              <span class="error" style="display:inline;padding:2px 6px"><%= e['result'] %></span>
+            <% end %>
+          </td>
+          <td>
+            <details>
+              <summary class="mono" style="cursor:pointer">view</summary>
+              <pre class="pem" style="margin-top:4px"><%= JSON.pretty_generate(e['details']) %></pre>
+            </details>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>
+
+<a href="/" class="btn btn-secondary">← Back to Dashboard</a>

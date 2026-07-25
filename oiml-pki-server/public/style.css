@@ -1,0 +1,130 @@
+:root {
+  --brand: #004996;
+  --brand-dark: #003a78;
+  --paper: #faf6ee;
+  --paper-soft: #ffffff;
+  --ink: #0a1628;
+  --ink-soft: #3a4a63;
+  --ink-muted: #6b7a92;
+  --rule: #ddd2bd;
+  --success: #047857;
+  --error: #b91c1c;
+  --warning: #92400e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.5;
+}
+.header {
+  background: var(--paper-soft);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.875rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand-title { font-weight: 700; font-size: 1.25rem; color: var(--brand); }
+.brand-sub { font-size: 0.75rem; color: var(--ink-muted); font-family: monospace; }
+nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+.container { max-width: 960px; margin: 0 auto; padding: 2rem; }
+h1 { color: var(--brand); margin-bottom: 1rem; }
+h2 { color: var(--brand-dark); font-size: 1.125rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.25rem; }
+.card {
+  background: var(--paper-soft);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+label { display: block; margin: 0.75rem 0; font-size: 0.875rem; }
+input, select, textarea {
+  display: block; width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+input:focus, select:focus { outline: none; border-color: var(--brand); }
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  margin: 0.5rem 0.25rem 0.5rem 0;
+}
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--brand); }
+.btn-secondary { background: var(--paper-soft); color: var(--ink); border: 1px solid var(--rule); }
+.stats { display: flex; gap: 1rem; margin: 1rem 0; }
+.stat { flex: 1; text-align: center; background: var(--paper-soft); border: 1px solid var(--rule); border-radius: 6px; padding: 1rem; }
+.stat-value { font-size: 2rem; font-weight: 700; color: var(--brand); }
+.stat-label { font-size: 0.75rem; color: var(--ink-muted); }
+.actions { margin: 1rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+th, td { border: 1px solid var(--rule); padding: 0.5rem; text-align: left; font-size: 0.875rem; }
+th { background: #f5ede0; font-weight: 600; }
+.mono { font-family: monospace; font-size: 0.75rem; }
+.hint { color: var(--ink-muted); font-size: 0.8125rem; margin: 0.5rem 0; }
+.pem {
+  background: #f8fafc;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.error { background: #fef2f2; border: 1px solid #fca5a5; color: var(--error); padding: 1rem; border-radius: 6px; margin: 1rem 0; }
+.success-msg { background: #f0fdf4; border: 1px solid #86efac; color: var(--success); padding: 1rem; border-radius: 6px; margin: 1rem 0; }
+
+/* Scope multi-select grid (BIML governance) */
+.scope-fieldset {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.75rem 1rem 1rem;
+  margin: 0.75rem 0;
+}
+.scope-fieldset legend { font-weight: 600; padding: 0 0.5rem; }
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.scope-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0.125rem 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.scope-option:hover { border-color: var(--accent, #004996); background: #f5ede0; }
+.scope-option input { grid-row: 1 / span 2; }
+.scope-id { font-family: monospace; font-weight: 600; color: var(--accent, #004996); font-size: 0.875rem; }
+.scope-title { font-size: 0.8125rem; }
+.scope-cat { grid-column: 2; font-size: 0.6875rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; }
