@@ -11,7 +11,7 @@ CNML is open source. The whole stack lives in two repos:
 oiml-cs-certificates/               (Ruby — canonical source)
   schema/
     _core.yaml                      # CORE OIML cert model
-    _units.yaml                     # UnitsDB enums
+    _units.yaml                     # UnitsDB enums (anchored to BIPM Digital SI)
     _units_local.yaml               # OIML-specific compounds (mg/L, m/min, ...)
     _modules/d011_environmental.yaml
     R<NN>.yaml                      # 22 per-Recommendation schemas
@@ -39,7 +39,7 @@ digital-certificates/               (TypeScript + Ruby)
     cnml-crypto/                    # sign, verify, scope, CRL, OTS, checks
     cnml-types/                     # TS types generated from schemas
     cnml-dcoc/                      # NoBoMet D-CoC RDF/XML + JSON-LD
-    cnml-units/                     # UnitsDB unit resolver
+    cnml-units/                     # Unit resolver (UnitsDB → BIPM Digital SI)
     ptb-dcc-compat/                 # DCC ↔ CNML round-trip
     cnml-test-vectors/              # 22 signed test vectors + specs
   oiml-pki-server/                  # Ruby air-gapped CA (Sinatra)

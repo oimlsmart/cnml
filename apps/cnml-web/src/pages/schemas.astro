@@ -11,7 +11,7 @@ const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
 
 const coreFiles = [
   { name: '_core.yaml',          desc: 'Core OIML certificate model: Certificate, Party, StructuredValue, Footnote, TestReport, etc.' },
-  { name: '_units.yaml',         desc: 'Closed enums for UnitsDB quantities, prefixes, units (199 / 33 / 380).' },
+  { name: '_units.yaml',         desc: 'Closed enums for UnitsDB quantities, prefixes, units (199 / 33 / 380). Anchored to BIPM Digital SI.' },
   { name: '_units_local.yaml',   desc: 'OIML-local compound units via root_units composition (mg/L, m/min, …).' },
   { name: 'modules/d011_environmental.yaml', desc: 'D 11:2013 environmental classes + 36-test catalog.' },
 ];
