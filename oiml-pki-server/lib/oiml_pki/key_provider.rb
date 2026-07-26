@@ -19,19 +19,17 @@ module OimlPki
     autoload :Base,     "oiml_pki/key_provider/base"
     autoload :Software, "oiml_pki/key_provider/software"
     autoload :Pkcs11,   "oiml_pki/key_provider/pkcs11"
+    autoload :Confium,  "oiml_pki/key_provider/confium"
 
     module_function
 
-    # Pick a backend based on the keystore entry's shape. This is the
-    # only place that knows the dispatch rule — every consumer goes
-    # through this factory and stays backend-agnostic.
-    #
-    # @param entry [Hash] keystore entry
-    # @return [Base] a key provider
+    # Pick a backend based on the keystore entry's shape. Priority:
+    # confium (threshold) > pkcs11 (hardware) > software (PEM).
     def for(entry)
-      return Pkcs11.new(entry["pkcs11"]) if entry["pkcs11"]
-      return Software.new(entry) if entry["privateKey"]
-      raise ArgumentError, "Entry has neither privateKey nor pkcs11 config: #{entry['id']}"
+      return Confium.new(entry["confium"]) if entry["confium"]
+      return Pkcs11.new(entry["pkcs11"])   if entry["pkcs11"]
+      return Software.new(entry)           if entry["privateKey"]
+      raise ArgumentError, "Entry has no key provider config: #{entry['id']}"
     end
   end
 end
