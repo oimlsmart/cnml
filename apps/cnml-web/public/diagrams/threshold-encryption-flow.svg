@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 580" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Threshold encryption flow — test report confidentiality</title>
+  <desc>Test labs encrypt the confidential section of test reports to the IA quorum's threshold public key. Decryption requires 2-of-3 IA officers; every decryption ceremony is logged to the transparency log.</desc>
+
+  <defs>
+    <marker id="arrow5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b4252"/>
+    </marker>
+    <style>
+      .actor { fill: #f9f8f5; stroke: #3b4252; stroke-width: 1.5; }
+      .actor-title { fill: #3b4252; font-weight: 600; font-size: 14px; }
+      .actor-sub { fill: #6b7280; font-size: 11px; }
+      .public-section { fill: #ebf9ed; stroke: #a3be8c; stroke-width: 1.5; }
+      .private-section { fill: #fde4e4; stroke: #d08770; stroke-width: 1.5; }
+      .step { fill: white; stroke: #5e81ac; stroke-width: 1; }
+      .step-text { fill: #3b4252; font-size: 11px; }
+      .step-num { fill: #5e81ac; font-weight: 600; font-size: 11px; }
+      .arrow-line { stroke: #3b4252; stroke-width: 1; fill: none; }
+      .ia-box { fill: #ebf0f9; stroke: #5e81ac; stroke-width: 1.5; }
+      .ia-title { fill: #5e81ac; font-weight: 600; font-size: 12px; }
+    </style>
+  </defs>
+
+  <!-- TL column -->
+  <g transform="translate(40, 40)">
+    <rect class="actor" x="0" y="0" width="200" height="60" rx="6"/>
+    <text x="100" y="28" text-anchor="middle" class="actor-title">Test Lab</text>
+    <text x="100" y="46" text-anchor="middle" class="actor-sub">signs + encrypts report</text>
+  </g>
+
+  <!-- CNML test report structure -->
+  <g transform="translate(40, 130)">
+    <rect class="public-section" x="0" y="0" width="200" height="60" rx="4"/>
+    <text x="100" y="22" text-anchor="middle" class="actor-title" fill="#a3be8c">PUBLIC SECTION</text>
+    <text x="100" y="40" text-anchor="middle" class="actor-sub">lab name, instrument, R-id</text>
+    <text x="100" y="55" text-anchor="middle" class="actor-sub">overall result, accuracy class</text>
+
+    <rect class="private-section" x="0" y="80" width="200" height="60" rx="4"/>
+    <text x="100" y="102" text-anchor="middle" class="actor-title" fill="#d08770">CONFIDENTIAL SECTION</text>
+    <text x="100" y="120" text-anchor="middle" class="actor-sub">calibration curves</text>
+    <text x="100" y="135" text-anchor="middle" class="actor-sub">failure-mode data, IP</text>
+  </g>
+
+  <!-- IA quorum column -->
+  <g transform="translate(380, 40)">
+    <rect class="ia-box" x="0" y="0" width="240" height="60" rx="6"/>
+    <text x="120" y="22" text-anchor="middle" class="ia-title">IA QUORUM (2-of-3 officers)</text>
+    <text x="120" y="42" text-anchor="middle" class="actor-sub">threshold public key: ML-KEM-768</text>
+    <text x="120" y="56" text-anchor="middle" class="actor-sub">or ElGamal-P256 (legacy compat)</text>
+  </g>
+
+  <!-- Encryption steps -->
+  <g transform="translate(280, 145)">
+    <rect class="step" x="0" y="0" width="80" height="40" rx="4"/>
+    <text x="40" y="18" text-anchor="middle" class="step-num">1</text>
+    <text x="40" y="32" text-anchor="middle" class="step-text">encrypt</text>
+  </g>
+  <line x1="240" y1="165" x2="280" y2="165" class="arrow-line" marker-end="url(#arrow5)"/>
+  <line x1="360" y1="165" x2="380" y2="100" class="arrow-line" marker-end="url(#arrow5)"/>
+
+  <!-- Transparency log (records every decryption) -->
+  <g transform="translate(380, 270)">
+    <rect class="actor" x="0" y="0" width="240" height="80" rx="6" fill="#f5f3f0" stroke="#a3be8c" stroke-width="1.5"/>
+    <text x="120" y="28" text-anchor="middle" class="ia-title" fill="#a3be8c">PUBLIC TRANSPARENCY LOG</text>
+    <text x="120" y="50" text-anchor="middle" class="actor-sub">every decryption ceremony</text>
+    <text x="120" y="65" text-anchor="middle" class="actor-sub">logged with stated reason</text>
+  </g>
+
+  <!-- Decryption ceremony steps -->
+  <g transform="translate(40, 240)">
+    <rect class="step" x="0" y="0" width="240" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">2</text>
+    <text x="35" y="18" class="step-text">Authorized officer initiates decryption</text>
+    <text x="35" y="32" class="step-text">(stated reason, e.g. "dispute resolution")</text>
+  </g>
+
+  <g transform="translate(40, 300)">
+    <rect class="step" x="0" y="0" width="240" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">3</text>
+    <text x="35" y="18" class="step-text">Coordinator creates decapsulation</text>
+    <text x="35" y="32" class="step-text">session, notifies officers</text>
+  </g>
+
+  <g transform="translate(40, 360)">
+    <rect class="step" x="0" y="0" width="240" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">4</text>
+    <text x="35" y="18" class="step-text">Each participating officer submits</text>
+    <text x="35" y="32" class="step-text">decap share via WebAuthn + YubiKey</text>
+  </g>
+
+  <g transform="translate(40, 420)">
+    <rect class="step" x="0" y="0" width="240" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">5</text>
+    <text x="35" y="18" class="step-text">T-of-N shares aggregated →</text>
+    <text x="35" y="32" class="step-text">shared secret recovered</text>
+  </g>
+
+  <g transform="translate(40, 480)">
+    <rect class="step" x="0" y="0" width="240" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">6</text>
+    <text x="35" y="18" class="step-text">AES-256-GCM decrypts;</text>
+    <text x="35" y="32" class="step-text">decryption logged publicly</text>
+  </g>
+
+  <!-- Arrows -->
+  <line x1="280" y1="280" x2="380" y2="290" class="arrow-line" marker-end="url(#arrow5)" stroke="#a3be8c"/>
+  <line x1="380" y1="100" x2="380" y2="100" class="arrow-line"/>
+  <line x1="500" y1="100" x2="500" y2="270" class="arrow-line" stroke-dasharray="3,3"/>
+
+  <!-- Right side: attacks defended against -->
+  <g transform="translate(680, 130)">
+    <rect class="ia-box" x="0" y="0" width="240" height="380" rx="6"/>
+    <text x="120" y="22" text-anchor="middle" class="ia-title">ATTACKS DEFENDED</text>
+
+    <g transform="translate(15, 40)">
+      <text x="0" y="0" class="step-text" font-weight="600">Rogue IA employee</text>
+      <text x="0" y="18" class="step-text" fill="#6b7280">single officer can't decrypt</text>
+    </g>
+
+    <g transform="translate(15, 90)">
+      <text x="0" y="0" class="step-text" font-weight="600">Subpoena to one officer</text>
+      <text x="0" y="18" class="step-text" fill="#6b7280">useless without quorum</text>
+    </g>
+
+    <g transform="translate(15, 140)">
+      <text x="0" y="0" class="step-text" font-weight="600">IA storage compromise</text>
+      <text x="0" y="18" class="step-text" fill="#6b7280">ciphertext exfil ≠ plaintext</text>
+    </g>
+
+    <g transform="translate(15, 190)">
+      <text x="0" y="0" class="step-text" font-weight="600">Harvest-now-decrypt-later</text>
+      <text x="0" y="18" class="step-text" fill="#6b7280">ML-KEM-768 PQC-safe</text>
+    </g>
+
+    <g transform="translate(15, 240)">
+      <text x="0" y="0" class="step-text" font-weight="600">Casual abuse</text>
+      <text x="0" y="18" class="step-text" fill="#6b7280">every decryption public</text>
+      <text x="0" y="35" class="step-text" fill="#6b7280">reputationally costly</text>
+    </g>
+
+    <g transform="translate(15, 300)">
+      <text x="0" y="0" class="step-text" font-weight="600">Quantum adversary</text>
+      <text x="0" y="18" class="step-text" fill="#6b7280">FIPS 203 standard protects</text>
+    </g>
+  </g>
+
+  <!-- Bottom callout -->
+  <g transform="translate(40, 540)">
+    <text x="0" y="0" class="step-text" fill="#a3be8c" font-weight="600">Manufacturer IP protected · Compelled disclosure structurally resisted · Every decryption publicly accountable</text>
+  </g>
+</svg>

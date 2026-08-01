@@ -10,6 +10,7 @@
  */
 
 import Ajv from "ajv/dist/2019.js";
+import draft7MetaSchema from "ajv/dist/refs/json-schema-draft-07.json" with { type: "json" };
 import type { ValidateFunction } from "ajv";
 
 export interface ValidationError {
@@ -43,6 +44,11 @@ function ajvInstance(): Ajv {
     strictSchema: false,
     allowUnionTypes: true,    // type arrays like ["string", "null"]
   });
+  // The 2019-09 dialect does not bundle the draft-07 meta-schema; our
+  // schema files declare `$schema: draft-07`, so compile() fails without
+  // this registration (and the schema_valid check degrades to
+  // "validation unavailable" — never a real pass).
+  _ajv.addMetaSchema(draft7MetaSchema);
   return _ajv;
 }
 

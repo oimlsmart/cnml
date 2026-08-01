@@ -1,4 +1,5 @@
 ---
+$id: "https://oimlsmart.org/schemas/_units.yaml"
 _meta:
   source: unitsdb v2.0.0
   source_path: https://github.com/unitsml/unitsdb

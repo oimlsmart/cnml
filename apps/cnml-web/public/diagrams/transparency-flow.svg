@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Transparency log flow — publishing, anchoring, and verifying</title>
+  <desc>A signed CNML cert is appended to the public Merkle transparency log, periodically anchored to Bitcoin via OpenTimestamps, mirrored across three operators (BIML, NIST, PTB), and verified by clients requiring 2-of-3 mirror agreement.</desc>
+
+  <defs>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b4252"/>
+    </marker>
+    <style>
+      .actor { fill: #f9f8f5; stroke: #3b4252; stroke-width: 1.5; }
+      .actor-title { fill: #3b4252; font-weight: 600; font-size: 14px; }
+      .actor-sub { fill: #6b7280; font-size: 11px; }
+      .log { fill: #f5f3f0; stroke: #a3be8c; stroke-width: 1.5; }
+      .log-title { fill: #a3be8c; font-weight: 600; font-size: 13px; }
+      .chain { fill: #fef3e2; stroke: #d08770; stroke-width: 1.5; }
+      .chain-title { fill: #d08770; font-weight: 600; font-size: 13px; }
+      .step { fill: white; stroke: #5e81ac; stroke-width: 1; }
+      .step-text { fill: #3b4252; font-size: 11px; }
+      .step-num { fill: #5e81ac; font-weight: 600; font-size: 11px; }
+      .arrow-line { stroke: #3b4252; stroke-width: 1; fill: none; }
+      .check { fill: #ebf0f9; stroke: #5e81ac; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Phase 1: Publisher (CA server) -->
+  <g transform="translate(40, 40)">
+    <rect class="actor" x="0" y="0" width="200" height="80" rx="6"/>
+    <text x="100" y="35" text-anchor="middle" class="actor-title">CA Server (Ruby)</text>
+    <text x="100" y="55" text-anchor="middle" class="actor-sub">signs cert → appends</text>
+    <g transform="translate(20, 130)">
+      <rect class="step" x="0" y="0" width="160" height="50" rx="4"/>
+      <text x="10" y="18" class="step-num">1</text>
+      <text x="10" y="35" class="step-text">Append cert hash to</text>
+      <text x="10" y="48" class="step-text">local Merkle log</text>
+    </g>
+  </g>
+
+  <!-- Phase 2: Transparency log (3 mirrors) -->
+  <g transform="translate(330, 40)">
+    <text x="140" y="-10" text-anchor="middle" class="log-title">PUBLIC TRANSPARENCY LOG (3 MIRRORS, RFC 6962)</text>
+
+    <rect class="log" x="0" y="0" width="280" height="80" rx="6"/>
+    <text x="140" y="30" text-anchor="middle" class="log-title">BIML Primary Log</text>
+    <text x="140" y="50" text-anchor="middle" class="actor-sub">tlog.cnml.oiml.org</text>
+    <text x="140" y="68" text-anchor="middle" class="actor-sub">append-only Merkle tree</text>
+
+    <rect class="log" x="0" y="100" width="280" height="60" rx="6"/>
+    <text x="140" y="125" text-anchor="middle" class="log-title">NIST Mirror</text>
+    <text x="140" y="145" text-anchor="middle" class="actor-sub">tlog.nist.gov</text>
+
+    <rect class="log" x="0" y="180" width="280" height="60" rx="6"/>
+    <text x="140" y="205" text-anchor="middle" class="log-title">PTB Mirror</text>
+    <text x="140" y="225" text-anchor="middle" class="actor-sub">tlog.ptb.de</text>
+
+    <g transform="translate(0, 270)">
+      <rect class="step" x="0" y="0" width="280" height="50" rx="4"/>
+      <text x="10" y="18" class="step-num">2</text>
+      <text x="10" y="35" class="step-text">Gossip-synchronized across mirrors</text>
+      <text x="10" y="48" class="step-text">(RFC 6962 §3)</text>
+    </g>
+  </g>
+
+  <!-- Phase 3: Bitcoin anchoring -->
+  <g transform="translate(680, 40)">
+    <rect class="chain" x="0" y="0" width="240" height="80" rx="6"/>
+    <text x="120" y="30" text-anchor="middle" class="chain-title">Bitcoin Blockchain</text>
+    <text x="120" y="50" text-anchor="middle" class="actor-sub">via OpenTimestamps</text>
+    <text x="120" y="68" text-anchor="middle" class="actor-sub">~1 hour anchor time</text>
+
+    <g transform="translate(20, 130)">
+      <rect class="step" x="0" y="0" width="200" height="50" rx="4"/>
+      <text x="10" y="18" class="step-num">3</text>
+      <text x="10" y="35" class="step-text">Periodic root anchor to</text>
+      <text x="10" y="48" class="step-text">Bitcoin block via OTS</text>
+    </g>
+  </g>
+
+  <!-- Arrows publisher → log -->
+  <line x1="245" y1="155" x2="325" y2="80" class="arrow-line" marker-end="url(#arrow4)"/>
+  <text x="280" y="115" class="step-text" fill="#a3be8c">append</text>
+
+  <!-- Arrows log → chain -->
+  <line x1="615" y1="80" x2="675" y2="80" class="arrow-line" marker-end="url(#arrow4)"/>
+  <text x="640" y="70" class="step-text" fill="#d08770">anchor</text>
+
+  <!-- Phase 4: Verifier -->
+  <g transform="translate(40, 360)">
+    <rect class="actor" x="0" y="0" width="200" height="60" rx="6"/>
+    <text x="100" y="28" text-anchor="middle" class="actor-title">Browser Verifier</text>
+    <text x="100" y="46" text-anchor="middle" class="actor-sub">drops .cnml.xml file</text>
+  </g>
+
+  <!-- Phase 4: 4-check verifier box -->
+  <g transform="translate(280, 360)">
+    <rect class="check" x="0" y="0" width="380" height="180" rx="6"/>
+    <text x="190" y="22" text-anchor="middle" class="log-title">VERIFICATION (4 LAYERS)</text>
+
+    <g transform="translate(20, 35)">
+      <rect class="step" x="0" y="0" width="340" height="25" rx="3"/>
+      <text x="10" y="16" class="step-num">4a</text>
+      <text x="35" y="16" class="step-text">Cert hash matches embedded proof leaf hash</text>
+    </g>
+    <g transform="translate(20, 70)">
+      <rect class="step" x="0" y="0" width="340" height="25" rx="3"/>
+      <text x="10" y="16" class="step-num">4b</text>
+      <text x="35" y="16" class="step-text">Merkle inclusion proof walks leaf → trusted log root</text>
+    </g>
+    <g transform="translate(20, 105)">
+      <rect class="step" x="0" y="0" width="340" height="25" rx="3"/>
+      <text x="10" y="16" class="step-num">4c</text>
+      <text x="35" y="16" class="step-text">Log root present in 2-of-3 mirror agreement</text>
+    </g>
+    <g transform="translate(20, 140)">
+      <rect class="step" x="0" y="0" width="340" height="25" rx="3"/>
+      <text x="10" y="16" class="step-num">4d</text>
+      <text x="35" y="16" class="step-text">OTS proof anchors log root to Bitcoin block</text>
+    </g>
+  </g>
+
+  <!-- Verifier arrows -->
+  <line x1="245" y1="390" x2="275" y2="390" class="arrow-line" marker-end="url(#arrow4)"/>
+  <line x1="470" y1="155" x2="470" y2="200" class="arrow-line" stroke-dasharray="3,3" marker-end="url(#arrow4)"/>
+  <line x1="470" y1="245" x2="470" y2="360" class="arrow-line" stroke-dasharray="3,3" marker-end="url(#arrow4)"/>
+
+  <!-- Bottom callout -->
+  <g transform="translate(40, 560)">
+    <text x="0" y="0" class="step-text" fill="#a3be8c" font-weight="600">Covert issuance impossible: every cert appears in 3 independent public logs within hours</text>
+    <text x="0" y="18" class="step-text">See: TODO 35 (transparency check) · TODO 46 (DR federation) · TODO 47 (Roughtime) · RFC 6962 (CT)</text>
+  </g>
+</svg>

@@ -1,0 +1,194 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+require "tmpdir"
+
+# Test MerkleTree + TransparencyPublisher. Real RFC 6962 math, real
+# tempdir persistence, no doubles.
+RSpec.describe OimlPki::MerkleTree do
+  let(:sha256) { ->(data) { OpenSSL::Digest::SHA256.digest(data) } }
+
+  def random_hash(seed = nil)
+    seed ? sha256.call(seed.to_s) : SecureRandom.random_bytes(32)
+  end
+
+  describe "#append + #length" do
+    it "appends leaves and tracks count" do
+      t = described_class.new
+      expect(t.length).to eq(0)
+      expect(t).to be_empty
+
+      seq = t.append(random_hash(1))
+      expect(seq).to eq(0)
+      expect(t.length).to eq(1)
+      expect(t).not_to be_empty
+
+      t.append(random_hash(2))
+      t.append(random_hash(3))
+      expect(t.length).to eq(3)
+    end
+
+    it "rejects leaves that aren't 32 bytes" do
+      t = described_class.new
+      expect { t.append("short") }.to raise_error(ArgumentError, /32 bytes/)
+      expect { t.append("\x00" * 31) }.to raise_error(ArgumentError, /32 bytes/)
+    end
+  end
+
+  describe "#root" do
+    it "returns 32 zero bytes for an empty tree" do
+      t = described_class.new
+      expect(t.root).to eq("\x00" * 32)
+    end
+
+    it "matches a manually computed root for 4 leaves" do
+      t = described_class.new
+      leaves = (1..4).map { |i| random_hash(i) }
+      leaves.each { |l| t.append(l) }
+
+      # Manual: hash_leaf(l), then h(0,1), h(2,3), then h(h01, h23)
+      manual_root = sha256.call("\x02" +
+        sha256.call("\x02" +
+          sha256.call("\x01" + leaves[0]) + sha256.call("\x01" + leaves[1])) +
+        sha256.call("\x02" +
+          sha256.call("\x01" + leaves[2]) + sha256.call("\x01" + leaves[3])))
+
+      expect(t.root).to eq(manual_root)
+    end
+  end
+
+  describe "#inclusion_proof + #verify_inclusion" do
+    let(:tree) do
+      t = described_class.new
+      (1..4).each { |i| t.append(random_hash(i)) }
+      t
+    end
+
+    it "produces a verifiable proof for each leaf" do
+      (0..3).each do |seq|
+        leaf = tree.entries[seq]
+        proof = tree.inclusion_proof(seq)
+        expect(tree.verify_inclusion(leaf, proof, tree.root)).to be(true)
+      end
+    end
+
+    it "fails verification with a tampered leaf" do
+      proof = tree.inclusion_proof(2)
+      wrong_leaf = random_hash(999)
+      expect(tree.verify_inclusion(wrong_leaf, proof, tree.root)).to be(false)
+    end
+
+    it "fails verification with a tampered sibling" do
+      proof = tree.inclusion_proof(2)
+      proof.first.sibling = random_hash(888)
+      leaf = tree.entries[2]
+      expect(tree.verify_inclusion(leaf, proof, tree.root)).to be(false)
+    end
+
+    it "rejects out-of-range sequence numbers" do
+      expect { tree.inclusion_proof(-1) }.to raise_error(ArgumentError)
+      expect { tree.inclusion_proof(99) }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe "ProofStep#to_h" do
+    it "serializes to wire format (hex sibling + side)" do
+      step = OimlPki::MerkleTree::ProofStep.new("\x00" * 32, :right)
+      h = step.to_h
+      expect(h["sibling"]).to match(/\A[0-9a-f]{64}\z/)
+      expect(h["side"]).to eq(:right)
+    end
+  end
+end
+
+RSpec.describe OimlPki::TransparencyPublisher do
+  after { described_class.log_file_override = nil }
+
+  let(:cert_hash) { OpenSSL::Digest::SHA256.digest("fake-cert-1") }
+
+  it "record assigns sequential numbers starting at 0" do
+    Dir.mktmpdir do |dir|
+      described_class.log_file_override = File.join(dir, "t.log")
+      seq0 = described_class.record(OpenSSL::Digest::SHA256.digest("a"))
+      seq1 = described_class.record(OpenSSL::Digest::SHA256.digest("b"))
+      expect(seq0).to eq(0)
+      expect(seq1).to eq(1)
+    end
+  end
+
+  it "proof_for returns a TransparencyProof with verifiable inclusion" do
+    Dir.mktmpdir do |dir|
+      described_class.log_file_override = File.join(dir, "t.log")
+      h1 = OpenSSL::Digest::SHA256.digest("a")
+      h2 = OpenSSL::Digest::SHA256.digest("b")
+      h3 = OpenSSL::Digest::SHA256.digest("c")
+
+      described_class.record(h1)
+      described_class.record(h2)
+      described_class.record(h3)
+
+      proof = described_class.proof_for(1)
+      expect(proof).to be_a(OimlPki::TransparencyProof)
+      expect(proof.sequence).to eq(1)
+      expect(proof.leaf_hash).to eq(h2)
+      expect(proof.tree_size).to eq(3)
+      expect(proof.log_root.bytesize).to eq(32)
+
+      # Verify the proof against the root
+      steps = proof.inclusion_proof
+      expect(steps.length).to be > 0
+
+      # Manual verification using the same MerkleTree
+      t = OimlPki::MerkleTree.new
+      t.append(h1); t.append(h2); t.append(h3)
+      expect(t.verify_inclusion(h2, steps, proof.log_root)).to be(true)
+    end
+  end
+
+  it "persistence: log survives across calls" do
+    Dir.mktmpdir do |dir|
+      path = File.join(dir, "t.log")
+      described_class.log_file_override = path
+
+      described_class.record(OpenSSL::Digest::SHA256.digest("a"))
+      described_class.record(OpenSSL::Digest::SHA256.digest("b"))
+
+      # Re-open: should still see 2 entries
+      proof = described_class.proof_for(1)
+      expect(proof.tree_size).to eq(2)
+      expect(File.exist?(path)).to be(true)
+    end
+  end
+
+  it "rejects non-32-byte cert hashes" do
+    Dir.mktmpdir do |dir|
+      described_class.log_file_override = File.join(dir, "t.log")
+      expect { described_class.record("too short") }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe ".embed_proof" do
+    it "inserts <cnml:tlog_proof> before the closing cnml tag" do
+      Dir.mktmpdir do |dir|
+        described_class.log_file_override = File.join(dir, "t.log")
+        described_class.record(OpenSSL::Digest::SHA256.digest("a"))
+
+        cnml_xml = <<~XML
+          <?xml version="1.0"?>
+          <cnml:cnml xmlns:cnml="https://oimlsmart.org/schemas/cnml/1.0">
+            <cnml:certificate>
+              <cnml:id>test</cnml:id>
+            </cnml:certificate>
+          </cnml:cnml>
+        XML
+
+        proof = described_class.proof_for(0)
+        embedded = described_class.embed_proof(cnml_xml, proof)
+        expect(embedded).to include("<cnml:tlog_proof")
+        expect(embedded).to include("</cnml:cnml>")
+        # Proof should appear before closing tag
+        expect(embedded.index("<cnml:tlog_proof")).to be < embedded.index("</cnml:cnml>")
+      end
+    end
+  end
+end

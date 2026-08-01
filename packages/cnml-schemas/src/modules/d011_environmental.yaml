@@ -1,4 +1,5 @@
 ---
+$id: "https://oimlsmart.org/schemas/_modules/d011_environmental.yaml"
 _meta:
   source: OIML D 11:2013 "General requirements for electronic measuring instruments"
   source_path: mn-samples-oiml/sources/d011-e13/sections/
@@ -256,7 +257,7 @@ definitions:
   ClimaticClass:
     description: D 11 §7.2 table 1 — climatic environment class.
     allOf:
-    - $ref: "_core.yaml#/definitions/StructuredValue"
+    - $ref: "../_core.yaml#/definitions/StructuredValue"
     - properties:
         value:
           type: string
@@ -271,7 +272,7 @@ definitions:
   MechanicalClass:
     description: D 11 §7.3 table 2 — mechanical environment class.
     allOf:
-    - $ref: "_core.yaml#/definitions/StructuredValue"
+    - $ref: "../_core.yaml#/definitions/StructuredValue"
     - properties:
         value:
           type: string
@@ -286,7 +287,7 @@ definitions:
   EMClass:
     description: D 11 §7.4 table 3 — electromagnetic environment class.
     allOf:
-    - $ref: "_core.yaml#/definitions/StructuredValue"
+    - $ref: "../_core.yaml#/definitions/StructuredValue"
     - properties:
         value:
           type: string
@@ -301,7 +302,7 @@ definitions:
   TemperatureRange:
     description: Ambient operating temperature range, structured with unit.
     allOf:
-    - $ref: "_core.yaml#/definitions/StructuredValue"
+    - $ref: "../_core.yaml#/definitions/StructuredValue"
     - properties:
         unit:
           default:

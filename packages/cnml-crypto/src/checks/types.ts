@@ -36,6 +36,8 @@ export interface CheckContext {
   issuerScope?: string[] | null;
   /** Whether the timestamp check found an embedded OTS proof. */
   hasTimestamp?: boolean;
+  /** Whether the transparency check found an embedded tlog proof. */
+  hasTransparencyProof?: boolean;
 }
 
 export interface Check {

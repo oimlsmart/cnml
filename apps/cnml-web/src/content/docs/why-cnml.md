@@ -216,6 +216,98 @@ chain integrity in real time.
 3. **Production** (12 months): CNML is the official format. PDF
    becomes legacy, eventually deprecated.
 
+
+## Sovereignty by threshold cryptography (the confium layer)
+
+The single biggest upgrade CNML makes over typical PKI: **no single
+person can sign anything**. Every CA-level signature is produced by
+a threshold of independent parties, geographically distributed, using
+their own hardware. This eliminates compelled-revocation risk,
+single-person compromise risk, and insider-trust requirements.
+
+CNML uses the open-source [**confium**](https://github.com/confium/confium)
+threshold-cryptography framework (43 Rust crates, 725+ tests) to drive
+the entire five-tier hierarchy.
+
+![Five-tier certificate hierarchy](/diagrams/five-tier-hierarchy.svg)
+
+### The five-tier hierarchy
+
+| Tier | Held by | Threshold | Purpose |
+|------|---------|-----------|---------|
+| **BIML Root** | 7 international directors | 5-of-7 | Signs IA intermediates; annual in-person ceremony |
+| **IA Intermediate** | 3 IA officers per nation | 2-of-3 | Signs test labs + manufacturer model certs; async |
+| **Test Lab** | 1 lab operator | 1-of-1 | Signs measurement reports |
+| **Manufacturer Model** | 1 manufacturer | 1-of-1 | Issued by IA with scoped delegation; signs instances |
+| **Manufacturer Instance** | 1 manufacturer | 1-of-1 | Per-instrument end-entity cert |
+
+A court order compelling one IA officer cannot complete revocation.
+A burglar stealing one director's YubiKey cannot sign anything.
+A manufacturer whose model cert is revoked loses all instance signing
+authority immediately.
+
+### Async director signing — no synchronized global ceremony
+
+Directors are globally distributed. CNML's coordinator service lets
+them participate when convenient — a director on the other side of
+the planet reviews the cert on their laptop, taps their YubiKey,
+uploads a partial signature, and walks away. The coordinator
+aggregates 5-of-7 and produces the final signature.
+
+![Async director signing flow](/diagrams/async-signing-flow.svg)
+
+Active director time per ceremony: ~5 minutes. Total wall time:
+hours to days. No travel. No scheduled meetings. **This is the
+operational model that makes 5-of-7 internationally-feasible.**
+
+### Every signature is publicly accountable
+
+Every issued cert, every decryption event, every re-share ceremony
+is appended to a **public Merkle transparency log**. Tree roots are
+anchored to the Bitcoin blockchain via OpenTimestamps. Gossip
+protocols ensure no log operator can present different views to
+different verifiers (RFC 6962 attack model).
+
+A verifier demanding an inclusion proof rejects any cert that
+silently appeared. Covert issuance — the historical PKI failure
+mode — is structurally impossible.
+
+### Threshold encryption for trade secrets
+
+Test reports contain manufacturer IP (calibration curves, failure
+analysis). CNML lets test labs encrypt the confidential section of
+each report to the IA quorum's threshold public key. Decryption
+requires a 2-of-3 ceremony — and every decryption event is logged
+to the transparency log with a stated reason.
+
+Compromise of IA storage cannot reveal plaintexts. A subpoena
+compelling one IA officer cannot decrypt alone. The decryption
+audit trail deters casual abuse.
+
+### Threshold escrow + revocation
+
+If a manufacturer loses their signing key, recovery is a 5-of-7
+director threshold ceremony — not a reissuance process that takes
+weeks and invalidates in-flight inventory. If a director dies or
+resigns, the remaining quorum re-shares to exclude them.
+
+[Read the full confium integration architecture →](/docs/confium-architecture)
+
+![Confium integration points](/diagrams/confium-integration-points.svg)
+
+### Strategic alignment
+
+The CNML 5-tier deployment is the flagship Mode 3 deployment of the
+confium framework. It is targeted for NIST MPTS (Migration to
+Post-Quantum Cryptography Test) submission in Q2 2027, with
+partnerships locked in across BIML (institutional partner), NIST
+(performance evaluation), and Ribose (operations).
+
+PQC migration is built in from day one: composite signatures
+(ECDSA + ML-DSA-65) ship in CMS envelopes so legacy verifiers
+continue to work while PQC-aware verifiers validate the
+post-quantum branch.
+
 ## What you can do today
 
 - **Read the architecture**: `/docs/cnml-vs-typical-pki`

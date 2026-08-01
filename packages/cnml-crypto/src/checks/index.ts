@@ -20,6 +20,7 @@ import { signatureCheck } from "./signature.ts";
 import { scopeCheck } from "./scope.ts";
 import { crlCheck } from "./crl.ts";
 import { timestampCheck } from "./timestamp.ts";
+import { transparencyCheck } from "./transparency.ts";
 
 export type { Check, CheckContext, CheckResult };
 
@@ -34,6 +35,7 @@ export const CHECKS: Check[] = [
   scopeCheck,
   crlCheck,
   timestampCheck,
+  transparencyCheck,
 ];
 
 /**

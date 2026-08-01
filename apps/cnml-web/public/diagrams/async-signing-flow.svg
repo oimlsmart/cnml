@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Async director signing ceremony flow</title>
+  <desc>How a CNML cert is signed via the async threshold coordinator: CA server submits a request, directors participate when convenient, coordinator aggregates T-of-N shares, final signature is applied to the cert and logged.</desc>
+
+  <defs>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b4252"/>
+    </marker>
+    <style>
+      .actor-box { fill: #f9f8f5; stroke: #3b4252; stroke-width: 1.5; }
+      .actor-label { fill: #3b4252; font-weight: 600; font-size: 14px; }
+      .actor-sub { fill: #6b7280; font-size: 11px; }
+      .phase-bg { fill: #f5f3f0; stroke: #a3be8c; stroke-width: 1; opacity: 0.4; }
+      .phase-label { fill: #a3be8c; font-weight: 600; font-size: 12px; letter-spacing: 0.5px; }
+      .step-box { fill: white; stroke: #5e81ac; stroke-width: 1; }
+      .step-text { fill: #3b4252; font-size: 11px; }
+      .step-num { fill: #5e81ac; font-weight: 600; font-size: 11px; }
+      .arrow-line { stroke: #3b4252; stroke-width: 1; fill: none; }
+      .time-label { fill: #d08770; font-size: 10px; font-style: italic; }
+    </style>
+  </defs>
+
+  <!-- Three actor columns -->
+  <g transform="translate(60, 40)">
+    <rect class="actor-box" x="0" y="0" width="240" height="60" rx="6"/>
+    <text x="120" y="28" text-anchor="middle" class="actor-label">CA Server (Ruby)</text>
+    <text x="120" y="46" text-anchor="middle" class="actor-sub">BIML / IA operator</text>
+  </g>
+  <g transform="translate(360, 40)">
+    <rect class="actor-box" x="0" y="0" width="240" height="60" rx="6"/>
+    <text x="120" y="28" text-anchor="middle" class="actor-label">Coordinator Service</text>
+    <text x="120" y="46" text-anchor="middle" class="actor-sub">confium-tc-coordinator</text>
+  </g>
+  <g transform="translate(660, 40)">
+    <rect class="actor-box" x="0" y="0" width="240" height="60" rx="6"/>
+    <text x="120" y="28" text-anchor="middle" class="actor-label">Directors (T-of-N)</text>
+    <text x="120" y="46" text-anchor="middle" class="actor-sub">on personal laptops</text>
+  </g>
+
+  <!-- Phase backgrounds -->
+  <rect class="phase-bg" x="30" y="120" width="900" height="120" rx="8"/>
+  <text x="40" y="140" class="phase-label">PHASE 1 · REQUEST (seconds)</text>
+
+  <rect class="phase-bg" x="30" y="260" width="900" height="180" rx="8"/>
+  <text x="40" y="280" class="phase-label">PHASE 2 · DIRECTOR PARTICIPATION (hours to days)</text>
+
+  <rect class="phase-bg" x="30" y="460" width="900" height="120" rx="8"/>
+  <text x="40" y="480" class="phase-label">PHASE 3 · AGGREGATION + LOGGING (seconds)</text>
+
+  <!-- Phase 1 steps -->
+  <g transform="translate(80, 160)">
+    <rect class="step-box" x="0" y="0" width="180" height="50" rx="4"/>
+    <text x="10" y="18" class="step-num">1</text>
+    <text x="10" y="35" class="step-text">CA server builds cert,</text>
+    <text x="10" y="48" class="step-text">submits to coordinator</text>
+  </g>
+  <line x1="305" y1="185" x2="355" y2="185" class="arrow-line" marker-end="url(#arrow3)"/>
+
+  <g transform="translate(380, 160)">
+    <rect class="step-box" x="0" y="0" width="180" height="50" rx="4"/>
+    <text x="10" y="18" class="step-num">2</text>
+    <text x="10" y="35" class="step-text">Coordinator creates</text>
+    <text x="10" y="48" class="step-text">session, unlocks 4 hours</text>
+  </g>
+  <line x1="605" y1="185" x2="655" y2="185" class="arrow-line" marker-end="url(#arrow3)"/>
+
+  <g transform="translate(680, 160)">
+    <rect class="step-box" x="0" y="0" width="180" height="50" rx="4"/>
+    <text x="10" y="18" class="step-num">3</text>
+    <text x="10" y="35" class="step-text">Directors notified</text>
+    <text x="10" y="48" class="step-text">(push + email)</text>
+  </g>
+
+  <!-- Phase 2 steps (per-director) -->
+  <g transform="translate(680, 300)">
+    <rect class="step-box" x="0" y="0" width="180" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">4</text>
+    <text x="10" y="32" class="step-text">Director opens web app, reviews</text>
+  </g>
+
+  <g transform="translate(680, 350)">
+    <rect class="step-box" x="0" y="0" width="180" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">5</text>
+    <text x="10" y="32" class="step-text">WebAuthn → YubiKey share unwrapped</text>
+  </g>
+
+  <g transform="translate(680, 400)">
+    <rect class="step-box" x="0" y="0" width="180" height="40" rx="4"/>
+    <text x="10" y="18" class="step-num">6</text>
+    <text x="10" y="32" class="step-text">Commitment + share uploaded</text>
+  </g>
+
+  <line x1="680" y1="320" x2="680" y2="320" class="arrow-line"/>
+  <line x1="680" y1="370" x2="680" y2="370" class="arrow-line"/>
+
+  <!-- Coordinator receives shares -->
+  <line x1="675" y1="420" x2="600" y2="395" class="arrow-line" marker-end="url(#arrow3)"/>
+
+  <g transform="translate(380, 370)">
+    <rect class="step-box" x="0" y="0" width="220" height="50" rx="4"/>
+    <text x="10" y="18" class="step-num">7</text>
+    <text x="10" y="35" class="step-text">Coordinator accumulates;</text>
+    <text x="10" y="48" class="step-text">waits for T-of-N threshold</text>
+  </g>
+
+  <text x="780" y="290" class="time-label">each director: ~5 min active</text>
+  <text x="780" y="305" class="time-label">total: hours-days (async)</text>
+
+  <!-- Phase 3 steps -->
+  <g transform="translate(380, 500)">
+    <rect class="step-box" x="0" y="0" width="220" height="50" rx="4"/>
+    <text x="10" y="18" class="step-num">8</text>
+    <text x="10" y="35" class="step-text">T shares reached →</text>
+    <text x="10" y="48" class="step-text">aggregation → final signature</text>
+  </g>
+  <line x1="380" y1="525" x2="260" y2="525" class="arrow-line" marker-end="url(#arrow3)"/>
+
+  <g transform="translate(80, 500)">
+    <rect class="step-box" x="0" y="0" width="180" height="50" rx="4"/>
+    <text x="10" y="18" class="step-num">9</text>
+    <text x="10" y="35" class="step-text">Signature applied to cert,</text>
+    <text x="10" y="48" class="step-text">cert published</text>
+  </g>
+
+  <line x1="380" y1="540" x2="380" y2="555" class="arrow-line"/>
+  <g transform="translate(380, 555)">
+    <rect class="step-box" x="0" y="0" width="220" height="20" rx="4" fill="#fef3e2" stroke="#d08770"/>
+    <text x="110" y="14" text-anchor="middle" class="step-text" font-weight="600">FULL TRANSCRIPT → TRANSPARENCY LOG</text>
+  </g>
+
+  <!-- Bottom callout -->
+  <g transform="translate(30, 620)">
+    <text x="0" y="0" class="actor-label" fill="#a3be8c">Total ceremony wall time: hours-days (director-dependent) · Active director time: ~5 minutes each</text>
+    <text x="0" y="25" class="actor-sub">Every step audit-logged · Duress codes signal silently · YubiKey touch required · Director identity signed by BIML root</text>
+    <text x="0" y="50" class="actor-sub">See: TODO 33 (DirectorSignPanel) · TODO 39 (director identity) · TODO 40 (integration architecture)</text>
+  </g>
+</svg>

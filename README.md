@@ -1,8 +1,15 @@
 # CNML — OIML Certificat Numérique de Métrologie Légale
 
-A cryptographically-signed, machine-verifiable, FAIR-aligned digital
-certificate format for OIML type approvals. The OIML equivalent of
-PTB's DCC (Digital Calibration Certificate).
+**The OIML CNML project** — OIML SMART's certificate format on
+[Confium](https://www.confium.org), the Mode 3 (TC Certificate PKI)
+flagship deployment. A cryptographically-signed, machine-verifiable,
+FAIR-aligned digital certificate format for OIML type approvals. The
+OIML equivalent of PTB's DCC (Digital Calibration Certificate).
+
+> **Naming** (the ladder): Confium is the Ribose threshold-cryptography
+> product (program-agnostic); CNML is OIML SMART's *name* for its
+> certificate format on it. Every SMART program names its own format
+> on Confium Mode 3.
 
 ## Quick start
 

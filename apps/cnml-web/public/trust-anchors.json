@@ -1,0 +1,35 @@
+{
+  "version": "2026.07-dev",
+  "schema_version": "2026.07",
+  "published_at": "2026-07-27T16:17:55Z",
+  "anchors": [
+    {
+      "id": "biml-root-2026-dev",
+      "role": "root",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1cKkkJYDewkoVVLNbH8IeQ5jXCzN\nPcjBx7hCZBOMmGYWvss95ha2YOO8HCj0MJaFyrq6AhrlByEij7qmnUeh4w==\n-----END PUBLIC KEY-----\n",
+      "fingerprint_sha256": "c307d940faaafe3d233957de055d4fd3c382ef13d076060a4b28c8423727ad72",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2031-01-01T00:00:00Z",
+      "threshold": {
+        "t": 5,
+        "n": 7
+      },
+      "transparency_log_url": "https://tlog.cnml.oiml.org"
+    },
+    {
+      "id": "ia-development-2026",
+      "role": "issuing_authority",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+s+rOJIIuLjZGk/gjP9ln5VgqTAJ\nb+87irvy5uwFh4dnFbwQyYMZjyaxFtH/gko4GyHo1XxjDPCPkF+XXM4I2g==\n-----END PUBLIC KEY-----\n",
+      "fingerprint_sha256": "404b4740e6ed9b18a405208e6113243be4a39c560b755c6ce34c5d309e6baf6f",
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2028-01-01T00:00:00Z",
+      "threshold": {
+        "t": 2,
+        "n": 3
+      },
+      "transparency_log_url": "https://tlog.cnml.oiml.org"
+    }
+  ],
+  "previous_version": null,
+  "previous_version_signature": null
+}

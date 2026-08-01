@@ -26,6 +26,12 @@ differences and why CNML makes the architectural choices it does.
 | **Audience** | Every browser, every device | Issuing Authorities, verifiers, OIML DoMC participants |
 | **Transparency** | Certificate Transparency logs (public) | Trust anchors public; certs themselves not published |
 | **Cost of issuance** | Free (Let's Encrypt) – $几百/yr (commercial) | Operational (staff time, hardware) — no per-cert fee |
+| **Signing key control** | Single CA operator (one company holds the key) | **Threshold 5-of-7 directors** — no single person can sign |
+| **Compelled-revocation resistance** | None (one CA employee can revoke anything under court order) | **Threshold 2-of-3 IA officers** required to revoke |
+| **Geographic distribution of signers** | Single-region cloud | **5+ countries** (international directors, async signing) |
+| **Director compromise blast radius** | Full PKI compromise | One share useless; attacker needs 5-of-7 |
+| **Trade-secret confidentiality** | N/A (certs are public) | **Threshold encryption** to IA quorum for test report data |
+| **Recovery from key loss** | Reissue from scratch (days/weeks) | **Threshold escrow** — 5-of-7 directors recover in hours |
 
 ## Why the differences exist
 
@@ -83,6 +89,43 @@ refresh, which is monthly at most).
 ## Architectural consequences
 
 These constraints drive specific design choices:
+
+### Choice: Threshold-signed five-tier hierarchy, not single-key CA
+
+The single biggest architectural difference: **no single person can
+sign a CNML certificate at the root or IA tier.** Every CA-level
+signature requires a threshold of independent parties.
+
+![Five-tier certificate hierarchy](/diagrams/five-tier-hierarchy.svg)
+
+```
+BIML Root  (5-of-7 directors, annual ceremony, FROST-Ed25519 + ML-DSA-65)
+  │
+  ├── IA Intermediate  (2-of-3 IA officers, async, FROST-P256)
+  │     │
+  │     ├── Test Lab  (1-of-1, signs reports)
+  │     │
+  │     └── Manufacturer Model  (1-of-1, scoped delegation)
+  │           └── signs per-instance certs
+  │
+  └── Director Identities  (YubiKey + WebAuthn + duress codes)
+```
+
+This eliminates four classes of attack that typical PKI is structurally
+vulnerable to:
+
+| Attack | Typical PKI | CNML (threshold) |
+|--------|-------------|------------------|
+| Compelled revocation (court order to one employee) | Trivially succeeds | Requires 2-of-3 IA officers (or 5-of-7 directors) |
+| Burglary of one signer's key | Forges anything | Useless without quorum |
+| Insider backdoor cert issuance | One employee can do it covertly | Requires quorum + appears in transparency log |
+| Single point of failure (key loss) | Days/weeks of reissuance | Hours via threshold escrow |
+
+The cost: async coordination across time zones. The benefit: a level
+of operational trust that single-key PKI cannot reach. **This is the
+core reason CNML exists as a separate project, not a rebranded TLS stack.**
+
+[Read the confium integration architecture →](/docs/confium-architecture)
 
 ### Choice: Air-gapped Ruby CA server, not cloud API
 

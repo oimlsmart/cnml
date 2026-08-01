@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Confium Rust integration architecture</title>
+  <desc>Three binding paths from the CNML stack to the Rust confium core: Ruby FFI for the CA server, WASM for the browser verifier + director app, and TCP network protocol for the coordinator service.</desc>
+
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b4252"/>
+    </marker>
+    <style>
+      .stack-box { fill: #f9f8f5; stroke: #3b4252; stroke-width: 1.5; }
+      .binding-box { fill: #ebf0f9; stroke: #5e81ac; stroke-width: 1.5; }
+      .core-box { fill: #fef3e2; stroke: #d08770; stroke-width: 1.5; }
+      .stack-title { fill: #3b4252; font-weight: 600; font-size: 14px; }
+      .stack-sub { fill: #6b7280; font-size: 11px; }
+      .binding-title { fill: #5e81ac; font-weight: 600; font-size: 13px; }
+      .binding-sub { fill: #4c566a; font-size: 11px; }
+      .core-title { fill: #d08770; font-weight: 600; font-size: 13px; }
+      .core-sub { fill: #6b7280; font-size: 11px; }
+      .arrow-line { stroke: #3b4252; stroke-width: 1.5; fill: none; }
+      .latency-label { fill: #a3be8c; font-weight: 600; font-size: 10px; }
+    </style>
+  </defs>
+
+  <!-- CNML Stack column -->
+  <g transform="translate(30, 50)">
+    <text x="100" y="-15" text-anchor="middle" class="stack-title">CNML STACK</text>
+    <rect class="stack-box" x="0" y="0" width="200" height="80" rx="6"/>
+    <text x="100" y="35" text-anchor="middle" class="stack-title">CA Server (Ruby)</text>
+    <text x="100" y="55" text-anchor="middle" class="stack-sub">cert issuance · CMS export</text>
+
+    <rect class="stack-box" x="0" y="100" width="200" height="80" rx="6"/>
+    <text x="100" y="135" text-anchor="middle" class="stack-title">Browser Verifier (TS)</text>
+    <text x="100" y="155" text-anchor="middle" class="stack-sub">verify pipeline · 7 checks</text>
+
+    <rect class="stack-box" x="0" y="200" width="200" height="80" rx="6"/>
+    <text x="100" y="235" text-anchor="middle" class="stack-title">Director App (TS+WebAuthn)</text>
+    <text x="100" y="255" text-anchor="middle" class="stack-sub">async ceremonies · YubiKey</text>
+
+    <rect class="stack-box" x="0" y="300" width="200" height="80" rx="6"/>
+    <text x="100" y="335" text-anchor="middle" class="stack-title">Coordinator Service</text>
+    <text x="100" y="355" text-anchor="middle" class="stack-sub">BIML-operated · multi-machine</text>
+  </g>
+
+  <!-- Binding layer (middle) -->
+  <g transform="translate(310, 50)">
+    <text x="180" y="-15" text-anchor="middle" class="binding-title">BINDING LAYER</text>
+
+    <rect class="binding-box" x="0" y="0" width="360" height="80" rx="6"/>
+    <text x="180" y="25" text-anchor="middle" class="binding-title">Ruby FFI · confium-ruby gem (>= 0.3.0)</text>
+    <text x="180" y="50" text-anchor="middle" class="binding-sub">C ABI over libconfium.{so,dylib,dll}</text>
+    <text x="180" y="68" text-anchor="middle" class="latency-label">latency: µs · in-process</text>
+
+    <rect class="binding-box" x="0" y="100" width="360" height="80" rx="6"/>
+    <text x="180" y="125" text-anchor="middle" class="binding-title">WebAssembly · @confium/confium-wasm (^0.3.0)</text>
+    <text x="180" y="150" text-anchor="middle" class="binding-sub">lazy-loaded ~5 MB chunk</text>
+    <text x="180" y="168" text-anchor="middle" class="latency-label">latency: µs · in-process · cached</text>
+
+    <rect class="binding-box" x="0" y="300" width="360" height="80" rx="6"/>
+    <text x="180" y="325" text-anchor="middle" class="binding-title">TCP/WSS Protocol · confium-net (protocol v1)</text>
+    <text x="180" y="350" text-anchor="middle" class="binding-sub">length-prefixed CBOR · QUIC or WebSocket transport</text>
+    <text x="180" y="368" text-anchor="middle" class="latency-label">latency: ms · network · versioned</text>
+  </g>
+
+  <!-- Rust Core (right) -->
+  <g transform="translate(750, 50)">
+    <text x="100" y="-15" text-anchor="middle" class="core-title">RUST CORE</text>
+    <rect class="core-box" x="0" y="0" width="180" height="380" rx="6"/>
+    <text x="90" y="35" text-anchor="middle" class="core-title">confium</text>
+    <text x="90" y="55" text-anchor="middle" class="core-sub">43 crates</text>
+    <text x="90" y="75" text-anchor="middle" class="core-sub">725+ tests</text>
+
+    <text x="90" y="115" text-anchor="middle" class="binding-sub" font-weight="600">TC schemes</text>
+    <text x="90" y="135" text-anchor="middle" class="core-sub">FROST-P256</text>
+    <text x="90" y="153" text-anchor="middle" class="core-sub">FROST-Ed25519</text>
+    <text x="90" y="171" text-anchor="middle" class="core-sub">ElGamal-P256</text>
+    <text x="90" y="189" text-anchor="middle" class="core-sub">ML-KEM-768</text>
+
+    <text x="90" y="225" text-anchor="middle" class="binding-sub" font-weight="600">PKI</text>
+    <text x="90" y="245" text-anchor="middle" class="core-sub">confium-pki</text>
+    <text x="90" y="263" text-anchor="middle" class="core-sub">cert · delegation · CMS</text>
+    <text x="90" y="281" text-anchor="middle" class="core-sub">XMLDSig</text>
+
+    <text x="90" y="313" text-anchor="middle" class="binding-sub" font-weight="600">Operations</text>
+    <text x="90" y="333" text-anchor="middle" class="core-sub">transparency log</text>
+    <text x="90" y="351" text-anchor="middle" class="core-sub">escrow · revocation</text>
+    <text x="90" y="369" text-anchor="middle" class="core-sub">coordinator</text>
+  </g>
+
+  <!-- Arrows: stack → binding -->
+  <line x1="240" y1="90" x2="310" y2="90" class="arrow-line" marker-end="url(#arrow2)"/>
+  <line x1="240" y1="190" x2="310" y2="190" class="arrow-line" marker-end="url(#arrow2)"/>
+  <line x1="240" y1="290" x2="310" y2="190" class="arrow-line" marker-end="url(#arrow2)"/>
+  <line x1="240" y1="390" x2="310" y2="390" class="arrow-line" marker-end="url(#arrow2)"/>
+
+  <!-- Arrows: binding → core -->
+  <line x1="680" y1="90" x2="750" y2="180" class="arrow-line" marker-end="url(#arrow2)"/>
+  <line x1="680" y1="190" x2="750" y2="200" class="arrow-line" marker-end="url(#arrow2)"/>
+  <line x1="680" y1="390" x2="750" y2="350" class="arrow-line" marker-end="url(#arrow2)"/>
+
+  <!-- Legend -->
+  <g transform="translate(30, 480)">
+    <text x="0" y="0" class="stack-title">Principle: smallest blast radius</text>
+    <text x="0" y="25" class="binding-sub">· CA server ops → Ruby FFI (secrets stay in-process on air-gapped machine)</text>
+    <text x="0" y="45" class="binding-sub">· Browser ops → WASM (no secrets at rest, user-driven)</text>
+    <text x="0" y="65" class="binding-sub">· Cross-machine → TCP protocol (director participation, ceremony coordination)</text>
+    <text x="0" y="95" class="stack-title">Versioning contract</text>
+    <text x="0" y="115" class="binding-sub">· Manifest (TODO 34) declares required_confium_version + schemes + backends</text>
+    <text x="0" y="135" class="binding-sub">· ConfiumIntegration.preflight! on startup verifies runtime can satisfy manifest</text>
+  </g>
+</svg>

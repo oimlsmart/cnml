@@ -10,7 +10,24 @@ export const signatureCheck: Check = {
   run: async (xml, ctx): Promise<CheckResult> => {
     let result;
     try {
+      // The verifier's trust comes from the context: the embedded chain
+      // always, then each trusted key in turn (a browser-held key the
+      // document never carried — the CNML leg-1 custody pattern).
+      const attempts: Parameters<typeof verifyCnmlXml>[1][] = [
+        undefined,
+        ...(ctx.trustedCerts ?? []).map((pem) => ({ trustedCertPem: pem })),
+        ...(ctx.trustedKeys ?? []).map((key) => ({ trustedPublicKey: key })),
+      ];
       result = await verifyCnmlXml(xml);
+      for (const opts of attempts) {
+        if (!opts) continue;
+        if (result.signatureValid && result.digestValid) break;
+        const attempt = await verifyCnmlXml(xml, opts);
+        if (attempt.signatureValid && attempt.digestValid) {
+          result = attempt;
+          break;
+        }
+      }
     } catch (e) {
       return {
         checkId: "signature",

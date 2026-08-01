@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>OIML CNML five-tier certificate hierarchy</title>
+  <desc>The certificate chain from BIML Root (threshold 5-of-7) down through IA, Test Lab, and Manufacturer Model to Manufacturer Instance. Each tier shows threshold, signing algorithm, and ceremony cadence.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b4252"/>
+    </marker>
+    <style>
+      .tier-box { fill: #f9f8f5; stroke: #3b4252; stroke-width: 1.5; }
+      .tier-label { fill: #3b4252; font-weight: 600; font-size: 16px; }
+      .tier-detail { fill: #6b7280; font-size: 12px; }
+      .tier-role { fill: #5e81ac; font-weight: 600; font-size: 12px; letter-spacing: 0.5px; }
+      .arrow-line { stroke: #3b4252; stroke-width: 1.5; fill: none; }
+      .threshold-label { fill: #a3be8c; font-weight: 600; font-size: 11px; }
+      .scope-label { fill: #d08770; font-size: 11px; font-style: italic; }
+    </style>
+  </defs>
+
+  <!-- Tier 1: BIML Root -->
+  <g transform="translate(280, 30)">
+    <rect class="tier-box" x="0" y="0" width="340" height="100" rx="6"/>
+    <text x="170" y="22" text-anchor="middle" class="tier-role">TIER 1 · INTERNATIONAL ROOT</text>
+    <text x="170" y="48" text-anchor="middle" class="tier-label">BIML Root CA</text>
+    <text x="170" y="68" text-anchor="middle" class="tier-detail">FROST-Ed25519 + ML-DSA-65 composite</text>
+    <text x="170" y="85" text-anchor="middle" class="threshold-label">5-of-7 directors · annual in-person ceremony</text>
+  </g>
+
+  <!-- Arrow to IA -->
+  <line x1="450" y1="135" x2="450" y2="170" class="arrow-line" marker-end="url(#arrow)"/>
+  <text x="460" y="158" class="scope-label">signs</text>
+
+  <!-- Tier 2: IA -->
+  <g transform="translate(220, 170)">
+    <rect class="tier-box" x="0" y="0" width="460" height="100" rx="6"/>
+    <text x="230" y="22" text-anchor="middle" class="tier-role">TIER 2 · ISSUING AUTHORITY (per nation)</text>
+    <text x="230" y="48" text-anchor="middle" class="tier-label">IA Intermediate CA (e.g., NMi, PTB, LNE)</text>
+    <text x="230" y="68" text-anchor="middle" class="tier-detail">FROST-P256 · async signing via confium-tc-coordinator</text>
+    <text x="230" y="85" text-anchor="middle" class="threshold-label">2-of-3 officers · 4-hour unlock window</text>
+  </g>
+
+  <!-- Branching arrows from IA -->
+  <line x1="350" y1="275" x2="180" y2="320" class="arrow-line" marker-end="url(#arrow)"/>
+  <line x1="550" y1="275" x2="720" y2="320" class="arrow-line" marker-end="url(#arrow)"/>
+  <text x="220" y="298" class="scope-label">signs</text>
+  <text x="635" y="298" class="scope-label">delegates</text>
+
+  <!-- Tier 3a: Test Lab -->
+  <g transform="translate(40, 320)">
+    <rect class="tier-box" x="0" y="0" width="280" height="100" rx="6"/>
+    <text x="140" y="22" text-anchor="middle" class="tier-role">TIER 3 · TEST LAB</text>
+    <text x="140" y="48" text-anchor="middle" class="tier-label">Lab Cert (NMi, LNE, etc.)</text>
+    <text x="140" y="68" text-anchor="middle" class="tier-detail">ECDSA-P256 · 1-of-1</text>
+    <text x="140" y="85" text-anchor="middle" class="threshold-label">signs test reports · encrypts to IA quorum</text>
+  </g>
+
+  <!-- Tier 3b: Manufacturer Model -->
+  <g transform="translate(580, 320)">
+    <rect class="tier-box" x="0" y="0" width="280" height="100" rx="6"/>
+    <text x="140" y="22" text-anchor="middle" class="tier-role">TIER 3 · MANUFACTURER MODEL</text>
+    <text x="140" y="48" text-anchor="middle" class="tier-label">Model Cert (per instrument model)</text>
+    <text x="140" y="68" text-anchor="middle" class="tier-detail">ECDSA-P256 · 1-of-1 · scoped delegation</text>
+    <text x="140" y="85" text-anchor="middle" class="threshold-label">may issue instance certs for this model only</text>
+  </g>
+
+  <!-- Manufacturer Model → Instance -->
+  <line x1="720" y1="425" x2="720" y2="470" class="arrow-line" marker-end="url(#arrow)"/>
+  <text x="730" y="450" class="scope-label">signs</text>
+
+  <!-- Tier 4: Manufacturer Instance -->
+  <g transform="translate(580, 470)">
+    <rect class="tier-box" x="0" y="0" width="280" height="100" rx="6"/>
+    <text x="140" y="22" text-anchor="middle" class="tier-role">TIER 4 · MANUFACTURER INSTANCE</text>
+    <text x="140" y="48" text-anchor="middle" class="tier-label">Instance Cert (per physical instrument)</text>
+    <text x="140" y="68" text-anchor="middle" class="tier-detail">ECDSA-P256 · 1-of-1 · end-entity</text>
+    <text x="140" y="85" text-anchor="middle" class="threshold-label">S/N + firmware hash + calibration data</text>
+  </g>
+
+  <!-- Director identities (cross-cutting) -->
+  <g transform="translate(40, 470)">
+    <rect x="0" y="0" width="280" height="100" rx="6" fill="#ebf0f9" stroke="#5e81ac" stroke-width="1.5"/>
+    <text x="140" y="22" text-anchor="middle" class="tier-role" fill="#5e81ac">DIRECTOR IDENTITIES</text>
+    <text x="140" y="48" text-anchor="middle" class="tier-label" fill="#3b4252">YubiKey-bound identity certs</text>
+    <text x="140" y="68" text-anchor="middle" class="tier-detail">Ed25519 · WebAuthn · duress codes</text>
+    <text x="140" y="85" text-anchor="middle" class="threshold-label" fill="#5e81ac">used by Tiers 1 + 2 threshold ceremonies</text>
+  </g>
+
+  <!-- Transparency log (cross-cutting) -->
+  <g transform="translate(160, 610)">
+    <rect x="0" y="0" width="580" height="80" rx="6" fill="#f5f3f0" stroke="#a3be8c" stroke-width="1.5"/>
+    <text x="290" y="28" text-anchor="middle" class="tier-role" fill="#a3be8c">PUBLIC TRANSPARENCY LOG</text>
+    <text x="290" y="52" text-anchor="middle" class="tier-detail">append-only Merkle tree · OTS-anchored to Bitcoin · gossip-monitored</text>
+    <text x="290" y="68" text-anchor="middle" class="threshold-label" fill="#a3be8c">every issued cert + every decryption event + every re-share recorded</text>
+  </g>
+
+  <!-- Vertical "logged" arrows -->
+  <line x1="450" y1="130" x2="450" y2="610" class="arrow-line" stroke-dasharray="3,3" stroke="#a3be8c" opacity="0.5"/>
+</svg>
