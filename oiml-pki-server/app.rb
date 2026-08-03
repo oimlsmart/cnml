@@ -129,6 +129,55 @@ get "/crl" do
   erb :crl_manage
 end
 
+# ─── Machine enrollment (TODO.ops/12 — the app's CNML bridge) ─────────
+# The app's signing flow enrolls an officer key with the CA here: a
+# CSR in, the CA-signed certificate + chain out, JSON. The ceremony UX
+# above stays the human path; this is the machine path (the bridge
+# carries the CA passphrase for the deployment's enrollment account —
+# the dev posture; an API-key scheme replaces it with the CA leg's
+# hardening).
+post "/api/enroll" do
+  content_type :json
+  body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
+  passphrase = body["passphrase"]
+  halt(401, { error: "passphrase required" }.to_json) unless passphrase
+
+  csr_pem = body["csr_pem"].to_s
+  halt(400, { error: "csr_pem required" }.to_json) if csr_pem.empty?
+  ca = begin
+    OimlPki::CaStore.find(body["ca_id"], passphrase)
+  rescue StandardError
+    halt(401, { error: "the passphrase does not unlock the keystore" }.to_json)
+  end
+  halt(404, { error: "CA not found" }.to_json) unless ca
+
+  scope = Array(body["scope"]).reject(&:empty?).map(&:upcase)
+  role = body["role"] || "end-entity"
+  if role == "end-entity" && ca["scope"] && !ca["scope"].empty?
+    out_of_scope = scope - ca["scope"]
+    halt(400, { error: "scope exceeds CA scope: #{out_of_scope.join(', ')}" }.to_json) unless out_of_scope.empty?
+  end
+
+  cert = OimlPki::CertFactory.sign_csr(
+    csr_pem, ca["privateKey"], ca["certificate"],
+    (body["validity_years"] || 1).to_i, role, passphrase,
+    scope: scope
+  )
+  OimlPki::AuditLog.append("api.enroll", details: {
+    csr_subject: cert.subject.to_s,
+    ca_id: body["ca_id"],
+    role: role,
+    scope: scope,
+    cert_serial: cert.serial.to_s(16),
+  })
+  {
+    certificate_pem: cert.to_pem,
+    chain_pem: [ca["certificate"]],
+    serial: cert.serial.to_s(16),
+  }.to_json
+end
+
+
 post "/crl/create" do
   passphrase = require_passphrase!
   ca = OimlPki::CaStore.find(params[:ca_id], passphrase)
