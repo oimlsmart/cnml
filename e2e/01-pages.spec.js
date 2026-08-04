@@ -24,13 +24,19 @@ const PAGES = [
   "/diagrams",
   "/docs",
   "/docs/what-is-cnml",
-  "/docs/architecture",
-  "/docs/dcoc",
-  "/docs/cryptography",
-  "/docs/trust-model",
-  "/docs/for-issuers",
-  "/docs/for-verifiers",
-  "/docs/for-developers",
+  "/docs/architecture/cnml-architecture-choices",
+  "/docs/architecture/confium-integration",
+  "/docs/architecture/distributed-management",
+  "/docs/concepts/cnml-and-dcc",
+  "/docs/concepts/fair-and-dcoc",
+  "/docs/concepts/threshold-cryptography",
+  "/docs/implementation/dcoc-output",
+  "/docs/implementation/verification-pipeline",
+  "/docs/reference/faq",
+  "/docs/reference/glossary",
+  "/docs/roles/for-developers",
+  "/docs/roles/for-ias-biml-ciml",
+  "/docs/roles/for-verifiers",
 ];
 
 for (const p of PAGES) {
@@ -65,7 +71,7 @@ for (const p of PAGES) {
 
 test("home page shows hero + action cards", async ({ page }) => {
   await page.goto("/", { waitUntil: "commit" });
-  await expect(page.locator("h1").first()).toContainText(/Issue and verify OIML certificates/);
+  await expect(page.locator("h1").first()).toContainText(/digital successor to the PDF certificate of conformity/);
   await expect(page.getByRole("link", { name: /Create/ }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: /Verify/ }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: /Certificates/ }).first()).toBeVisible();
