@@ -1,7 +1,7 @@
 /**
  * PKCS#10 Certification Request generation (pkijs + asn1js) — ECDSA P-256.
  *
- * The bridge's enrollment input (TODO.ops/12): the officer's key asks
+ * The bridge's enrollment input: the officer's key asks
  * the CA for a certificate; the CA verifies the CSR's self-signature
  * (proof of possession) and issues. Same idiom as self-signed.ts.
  */

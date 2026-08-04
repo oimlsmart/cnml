@@ -1,12 +1,10 @@
 /**
- * Trust grade computation for the verifier UI (TODO 49).
+ * Trust grade computation for the verifier UI.
  *
  * Maps the 7+ individual check results into a single letter grade
  * (A+ through F) with a human-readable verdict. Used by the
  * VerifyDrop UI to give non-experts an immediate go/no-go signal
  * while preserving full check detail for experts.
- *
- * @see TODO.roadmap/49-verifier-ux-trust-grade.md
  */
 
 import type { CheckResult, CheckStatus } from "./checks/types.ts";
@@ -23,7 +21,7 @@ export const GRADE_COLORS: Record<Grade, string> = {
   "F":  "#a00000",  // deep red
 };
 
-/** Shape per grade — provides redundant signal for color-blind users (TODO 61). */
+/** Shape per grade — provides redundant signal for color-blind users. */
 export type GradeShape = "circle" | "square" | "triangle" | "hexagon" | "x";
 
 export const GRADE_SHAPES: Record<Grade, GradeShape> = {
@@ -117,9 +115,9 @@ export interface TrustGradeResult {
   readonly verdict: string;
   /** Hex color for UI. */
   readonly color: string;
-  /** Shape (color-blind redundancy — TODO 61). */
+  /** Shape (color-blind redundancy). */
   readonly shape: GradeShape;
-  /** Pattern (color-blind redundancy — TODO 61). */
+  /** Pattern (color-blind redundancy). */
   readonly pattern: GradePattern;
   /** Glyph (single-character icon). */
   readonly glyph: string;
@@ -210,7 +208,7 @@ function gradeResult(
 
 /** Get a verdict string for a grade, with locale override (i18n hook). */
 export function verdictFor(grade: Grade, locale: string = "en"): string {
-  // TODO: load translations per locale when i18n ships (TODO 17).
+  // TODO: load translations per locale when i18n ships.
   // For now, English is the only supported locale.
   void locale;
   return VERDICT_SEMANTICS_EN[grade];

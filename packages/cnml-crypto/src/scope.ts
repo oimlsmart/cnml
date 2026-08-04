@@ -5,8 +5,6 @@
  *
  * The extension value is ASN.1 SEQUENCE OF UTF8String, one R-id per
  * element. We parse via @xmldom/xmldom + a tiny ASN.1 walker.
- *
- * Reference: TODO.roadmap/03-browser-scope-verification.md
  */
 
 /** OIDs we recognise. Placeholder PEN (99999) — replace with OIML's

@@ -7,8 +7,8 @@
  * ML-DSA-65 provides ~128-bit post-quantum security (equivalent to
  * AES-128). Signatures are ~3300 bytes. Public keys are ~1952 bytes.
  *
- * This module is Phase 2 (preparation) per TODO 09. The infrastructure
- * supports PQC, but production signing waits for the PQC transition plan.
+ * This module is Phase 2 preparation. The infrastructure supports PQC,
+ * but production signing waits for the PQC transition plan.
  */
 
 import { ml_dsa65 } from "@noble/post-quantum/ml-dsa.js";
@@ -27,7 +27,7 @@ export interface MlDsaSignature {
  * Generate an ML-DSA-65 keypair.
  */
 export function generateMlDsaKeyPair(): MlDsaKeyPair {
-  return ml_dsa65.keypair();
+  return ml_dsa65.keygen();
 }
 
 /**

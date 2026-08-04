@@ -48,7 +48,7 @@ export async function generateEd25519KeyPair(): Promise<Ed25519KeyPair> {
     };
   }
   // Pure JS fallback via @noble/ed25519
-  const priv = ed.utils.randomPrivateKey();
+  const priv = ed.utils.randomSecretKey();
   const pub = await ed.getPublicKeyAsync(priv);
   return { publicKey: pub, secretKey: priv };
 }

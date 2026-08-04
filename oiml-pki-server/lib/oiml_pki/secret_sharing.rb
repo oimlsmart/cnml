@@ -6,7 +6,7 @@
 # reconstruct it. Fewer than K shares reveal zero information about
 # the secret (information-theoretic security).
 #
-# Used by TODO 24 (dual-control CSR signing) to split the root CA
+# Used by the dual-control CSR signing flow to split the root CA
 # private key across multiple operators. Neither operator alone can
 # sign; both together can.
 #

@@ -319,12 +319,13 @@ function download() {
       <div class="p-6">
         <!-- Step 1: Pick a key -->
         <div class="mb-6">
-          <div class="cnml-label mb-3">Step 1 — Pick a signing key</div>
-          <div class="flex gap-1 mb-4 p-1 bg-[var(--paper-raised)] rounded-md w-fit">
+          <div class="cnml-label mb-3" id="sign-mode-label">Step 1 — Pick a signing key</div>
+          <div class="flex gap-1 mb-4 p-1 bg-[var(--paper-raised)] rounded-md w-fit" role="group" aria-labelledby="sign-mode-label">
             <button
               v-for="m in (['select', 'generate', 'import'] as const)"
               :key="m"
               @click="mode = m"
+              :aria-pressed="mode === m"
               :class="[
                 'px-3 py-1.5 rounded text-sm font-medium transition-colors',
                 mode === m ? 'bg-[var(--ink)] text-[var(--paper-soft)]' : 'text-[var(--ink-soft)] hover:text-[var(--ink)]',
@@ -369,6 +370,7 @@ function download() {
               <span class="cnml-label">Key alias <span class="text-[var(--ink-muted)] normal-case font-normal">(shown in the key list)</span></span>
               <input
                 v-model="newAlias"
+                autocomplete="off"
                 placeholder="My authority signing key"
                 class="cnml-input"
               />
@@ -381,11 +383,13 @@ function download() {
               <input
                 v-model="newPassphrase"
                 type="password"
+                autocomplete="new-password"
                 placeholder="≥ 8 characters"
                 class="cnml-input"
                 :class="{ 'border-red-400': passphraseTooShort }"
+                aria-describedby="sign-pass-hint"
               />
-              <span v-if="passphraseTooShort" class="text-xs text-red-700 mt-1 block">
+              <span v-if="passphraseTooShort" id="sign-pass-hint" role="alert" class="text-xs text-red-700 mt-1 block">
                 Too short — needs {{ 8 - newPassphrase.length }} more character{{ 8 - newPassphrase.length === 1 ? '' : 's' }}.
               </span>
             </label>
@@ -394,12 +398,13 @@ function download() {
               <input
                 v-model="newPassphraseConfirm"
                 type="password"
+                autocomplete="new-password"
                 placeholder="Repeat passphrase"
                 class="cnml-input"
                 :class="{ 'border-red-400': passphraseMismatch }"
               />
               <span v-if="passphraseMatch" class="text-xs text-emerald-700 mt-1 block">✓ Matches.</span>
-              <span v-else-if="passphraseMismatch" class="text-xs text-red-700 mt-1 block">Doesn't match.</span>
+              <span v-else-if="passphraseMismatch" role="alert" class="text-xs text-red-700 mt-1 block">Doesn't match.</span>
             </label>
             <button
               @click="generateNew"
@@ -426,7 +431,7 @@ function download() {
             </label>
             <label class="block">
               <span class="cnml-label">Key alias</span>
-              <input v-model="newAlias" placeholder="Imported key" class="cnml-input" />
+              <input v-model="newAlias" autocomplete="off" placeholder="Imported key" class="cnml-input" />
             </label>
             <label class="block">
               <span class="cnml-label">
@@ -436,6 +441,7 @@ function download() {
               <input
                 v-model="newPassphrase"
                 type="password"
+                autocomplete="new-password"
                 placeholder="≥ 8 characters"
                 class="cnml-input"
               />
@@ -458,6 +464,7 @@ function download() {
             <input
               v-model="unlockPassphrase"
               type="password"
+              autocomplete="current-password"
               placeholder="Same passphrase you set above"
               class="cnml-input"
             />
@@ -482,12 +489,12 @@ function download() {
         </div>
 
         <!-- Status / error -->
-        <div v-if="status === 'error' && errorMessage" class="cnml-callout cnml-callout--error mt-4">
+        <div v-if="status === 'error' && errorMessage" role="alert" aria-live="assertive" class="cnml-callout cnml-callout--error mt-4">
           {{ errorMessage }}
         </div>
 
         <!-- Success + download -->
-        <div v-if="status === 'done'" class="cnml-callout cnml-callout--success mt-4">
+        <div v-if="status === 'done'" role="status" aria-live="polite" class="cnml-callout cnml-callout--success mt-4">
           ✓ CNML XML signed with key <span class="font-mono">{{ keyFingerprint.slice(0, 24) }}…</span>
         </div>
 

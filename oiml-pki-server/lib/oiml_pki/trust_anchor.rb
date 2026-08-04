@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Trust anchor distribution (TODO 44).
+# Trust anchor distribution.
 #
 # A trust anchor set is a versioned JSON document listing the
 # currently-trusted root certificates. The browser verifier fetches
@@ -14,10 +14,7 @@
 #
 #   - The CNML web app's static assets (trust-anchors.json)
 #   - The transparency log (as an anchored entry)
-#   - The CDN (TODO 04, when shipped)
-#   - Mirrors (NIST, PTB — TODO 46)
 #
-# @see TODO.roadmap/44-trust-anchor-bootstrap.md
 module OimlPki
   class TrustAnchor
     attr_reader :id, :role, :public_key_pem, :valid_from, :valid_until,

@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-# Release update integrity + supply chain verification (TODO 66).
+# Release update integrity + supply chain verification.
 #
 # Provides Ruby-side tooling for verifying that a CNML release artifact
 # (gem, package, build output) is the genuine, untampered release. Used
 # by operators before installing or updating a CNML deployment.
-#
-# @see TODO.roadmap/66-update-integrity-and-supply-chain-security.md
 module OimlPki
   module UpdateIntegrity
     class Error < StandardError
@@ -17,7 +15,7 @@ module OimlPki
       end
     end
 
-    # Required sources for a release artifact (TODO 66):
+    # Required sources for a release artifact:
     #   1. The artifact itself (.gem, .tgz)
     #   2. Sigstore signature (cosign format)
     #   3. SBOM (CycloneDX)

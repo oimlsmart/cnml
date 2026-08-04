@@ -16,9 +16,9 @@ Tests:
 - Sample cert loading
 - XSD file validity
 
-## Test vectors (TODO 15 in full)
+## Test vectors
 
-Once TODO 07 (signing) lands with `xmldsigjs`-based canonicalization, add:
+With `xmldsigjs`-based canonicalization and signing in place, the corpus includes:
 - 1 sample CNML per Recommendation (22 files)
 - Expected digest values (golden)
 - Expected signature output (with fixed test key)

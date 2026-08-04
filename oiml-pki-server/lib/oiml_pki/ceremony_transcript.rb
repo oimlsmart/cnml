@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Ceremony transcript (TODO 41).
+# Ceremony transcript.
 #
 # A signed record of an in-person ceremony (director onboarding, root
 # signing, re-share, offboarding). The transcript is the legal +
@@ -8,9 +8,7 @@
 # every witness signature.
 #
 # Format: JSON (human-readable, structured). Stored on disk + a copy
-# archived to the transparency log (TODO 35).
-#
-# @see TODO.roadmap/41-director-onboarding-ceremony.md
+# archived to the transparency log.
 module OimlPki
   class CeremonyTranscript
     CEREMONY_TYPES = %w[

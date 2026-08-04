@@ -49,61 +49,74 @@ function setValue(path: string, val: unknown) {
 </script>
 
 <template>
-  <div class="rounded-xl border border-[var(--rule)] p-4 bg-[var(--paper-raised)]">
-    <div class="flex items-baseline justify-between mb-3">
-      <div class="text-sm font-semibold">{{ label }}</div>
-      <div class="text-xs text-[var(--ink-muted)]">{{ valueKind ?? "scalar" }}</div>
-    </div>
+  <fieldset
+    class="rounded-xl border border-[var(--rule)] p-4 bg-[var(--paper-raised)]"
+  >
+    <legend class="text-sm font-semibold px-1">{{ label }}</legend>
+    <div class="text-xs text-[var(--ink-muted)] mb-3">{{ valueKind ?? "scalar" }}</div>
 
     <!-- Range -->
     <div v-if="valueKind === 'range'" class="flex gap-2 items-center">
-      <input
-        :value="(valueOrObj as { min?: number })?.min ?? ''"
-        type="number" placeholder="min"
-        @input="setValue('min', Number(($event.target as HTMLInputElement).value))"
-        class="cnml-input w-24"
-      />
-      <span class="text-[var(--ink-muted)]">…</span>
-      <input
-        :value="(valueOrObj as { max?: number })?.max ?? ''"
-        type="number" placeholder="max"
-        @input="setValue('max', Number(($event.target as HTMLInputElement).value))"
-        class="cnml-input w-24"
-      />
+      <label class="block flex-1">
+        <span class="sr-only">Minimum value for {{ label }}</span>
+        <input
+          :value="(valueOrObj as { min?: number })?.min ?? ''"
+          type="number" placeholder="min"
+          @input="setValue('min', Number(($event.target as HTMLInputElement).value))"
+          class="cnml-input w-24"
+        />
+      </label>
+      <span class="text-[var(--ink-muted)]" aria-hidden="true">…</span>
+      <label class="block flex-1">
+        <span class="sr-only">Maximum value for {{ label }}</span>
+        <input
+          :value="(valueOrObj as { max?: number })?.max ?? ''"
+          type="number" placeholder="max"
+          @input="setValue('max', Number(($event.target as HTMLInputElement).value))"
+          class="cnml-input w-24"
+        />
+      </label>
     </div>
 
     <!-- Enum -->
-    <select
-      v-else-if="valueKind === 'enum' && enumOptions"
-      :value="(valueOrObj as string) ?? ''"
-      @change="setValue('value', ($event.target as HTMLSelectElement).value)"
-      class="cnml-select"
-    >
-      <option value="" disabled>Select…</option>
-      <option v-for="opt in enumOptions" :key="opt.value" :value="opt.value">
-        {{ opt.value }}{{ opt.description ? ` — ${opt.description}` : "" }}
-      </option>
-    </select>
+    <label v-else-if="valueKind === 'enum' && enumOptions" class="block">
+      <span class="sr-only">{{ label }}</span>
+      <select
+        :value="(valueOrObj as string) ?? ''"
+        @change="setValue('value', ($event.target as HTMLSelectElement).value)"
+        class="cnml-select"
+      >
+        <option value="" disabled>Select…</option>
+        <option v-for="opt in enumOptions" :key="opt.value" :value="opt.value">
+          {{ opt.value }}{{ opt.description ? ` — ${opt.description}` : "" }}
+        </option>
+      </select>
+    </label>
 
     <!-- Scalar -->
-    <input
-      v-else
-      :value="(valueOrObj as string) ?? ''"
-      @input="setValue('value', ($event.target as HTMLInputElement).value)"
-      class="cnml-input"
-    />
+    <label v-else class="block">
+      <span class="sr-only">{{ label }}</span>
+      <input
+        :value="(valueOrObj as string) ?? ''"
+        @input="setValue('value', ($event.target as HTMLInputElement).value)"
+        class="cnml-input"
+      />
+    </label>
 
     <!-- Unit picker -->
     <div v-if="unitOptions?.length" class="mt-2">
-      <select
-        :value="mv.unit_id ?? ''"
-        @change="setValue('unit_id', ($event.target as HTMLSelectElement).value)"
-        class="cnml-select text-xs"
-      >
-        <option value="">no unit</option>
-        <option v-for="u in unitOptions" :key="u" :value="u">{{ u }}</option>
-      </select>
+      <label class="block">
+        <span class="sr-only">Unit for {{ label }}</span>
+        <select
+          :value="mv.unit_id ?? ''"
+          @change="setValue('unit_id', ($event.target as HTMLSelectElement).value)"
+          class="cnml-select text-xs"
+        >
+          <option value="">no unit</option>
+          <option v-for="u in unitOptions" :key="u" :value="u">{{ u }}</option>
+        </select>
+      </label>
     </div>
-  </div>
+  </fieldset>
 </template>
 

@@ -1,13 +1,10 @@
 /**
- * TypeScript port of the confium deployment manifest (TODO 34).
+ * TypeScript port of the confium deployment manifest.
  *
  * Pure-TypeScript parser + validator. The Ruby CA server uses
  * DeploymentManifest (lib/oiml_pki/deployment_manifest.rb) for the
  * same schema. Both ports accept the same TOML. Cross-implementation
- * agreement is exercised by the schema-evolution compat tests
- * (TODO 57).
- *
- * @see TODO.roadmap/34-confium-deployment-manifest.md
+ * agreement is exercised by the schema-evolution compat tests.
  */
 
 /** T-of-N threshold. */

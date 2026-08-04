@@ -1,3 +1,3 @@
 # @cnml/ptb-dcc-compat
 
-See TODO.cnml/dcc-compat.md for scope and acceptance criteria.
+Cross-mapping and compatibility shims between CNML and the PTB Digital Calibration Certificate (DCC) format.

@@ -1,6 +1,6 @@
 import type { Check, CheckResult } from "./types.ts";
 
-/** The digest contract (TODO.ops/15): sha256 over the ER entity's
+/** The digest contract: sha256 over the ER entity's
  *  canonical JSON, hex-encoded, algorithm-prefixed. The same pattern the
  *  per-rec schemas pin on EvaluationReportRef.digest. */
 const DIGEST_PATTERN = /^sha256:[0-9a-f]{64}$/;
@@ -11,7 +11,7 @@ interface EvaluationReportRefLike {
   digest?: unknown;
 }
 
-/** Check 6: the evaluation-report binding (TODO.ops/15).
+/** Check 6: the evaluation-report binding.
  *
  * The certificate cryptographically binds its Evaluation Report — the
  * digest lives INSIDE the signed payload, so a verified signature covers
@@ -54,7 +54,7 @@ export const erBindingCheck: Check = {
       return {
         checkId: "er-binding",
         status: "skip",
-        reason: "no ER binding — a pre-leg certificate issued before the evaluation-report digest entered the signed payload (TODO.ops/15); the ER chain of custody is asserted out of band",
+        reason: "no ER binding — a pre-leg certificate issued before the evaluation-report digest entered the signed payload; the ER chain of custody is asserted out of band",
       };
     }
 

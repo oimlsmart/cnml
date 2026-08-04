@@ -14,10 +14,9 @@
 #     the runtime can do (gem version, available threshold schemes,
 #     coordinator protocol version, available storage backends).
 #   - {ConfiumIntegration.preflight!} — accepts a parsed Manifest
-#     (TODO 34) and raises RequirementError listing every unmet
+#     and raises RequirementError listing every unmet
 #     requirement. Called by CaStore on startup.
 #
-# @see TODO.roadmap/40-confium-integration-architecture.md
 module OimlPki
   module ConfiumIntegration
     Error = Class.new(StandardError)
@@ -121,7 +120,7 @@ module OimlPki
     # given manifest. Returns nil on success; raises RequirementError
     # with a structured list of failures otherwise.
     #
-    # @param manifest [Manifest, Hash] parsed manifest (Manifest object per TODO 34, or raw Hash)
+    # @param manifest [Manifest, Hash] parsed manifest (Manifest object or raw Hash)
     # @return [nil]
     # @raise [RequirementError] if any requirement unmet
     def preflight!(manifest)
@@ -216,7 +215,7 @@ module OimlPki
 
     def manifest_to_hash(manifest)
       # Round-trip Manifest back to its Hash form. Manifest is the public
-      # class from TODO 34; we don't break encapsulation by reaching into
+      # Manifest class; we don't break encapsulation by reaching into
       # its ivars. Instead, we synthesize a Hash from the typed accessors
       # that preflight! cares about.
       {

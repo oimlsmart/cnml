@@ -65,7 +65,7 @@ module OimlPki
       end
 
       # crlNumber direct (OpenSSL 3.x's ExtensionFactory refuses the
-      # extension without a config section — TODO.ops/13's fix; the
+      # extension without a config section; the
       # value is the issuance timestamp in seconds, unique per issue).
       crl.add_extension(OpenSSL::X509::Extension.new("crlNumber", OpenSSL::ASN1::Integer(Time.now.to_i)))
       sign_crl_with_provider(crl, ca_provider)
@@ -176,7 +176,7 @@ module OimlPki
       cert.add_extension(ef.create_extension("keyUsage", "digitalSignature, nonRepudiation", true))
       cert.add_extension(ef.create_extension("subjectKeyIdentifier", "hash"))
       cert.add_extension(ef.create_extension("authorityKeyIdentifier", "keyid:always"))
-      # The CRL distribution point (TODO.ops/13): verifiers fetch the
+      # The CRL distribution point: verifiers fetch the
       # CA's current CRL here (the deployment's public base; the dev
       # default is the local ceremony instance).
       crl_base = ENV["OIML_CRL_BASE_URL"] || "http://localhost:4455"

@@ -11,7 +11,7 @@ The hardware listed in each tier is identified by vendor name as a factual refer
 
 ## Tier 1: enterprise HSM at the BIML Root
 
-The BIML Root signing key is held in an enterprise hardware security module. Devices in this class include the Thales Luna and the Utimaco SecurityServer. These devices provide FIPS 140-2 Level 3 or Level 4 certification and hold the signing key in tamper-resistant hardware that prevents extraction. The key is generated on the device, marked sensitive and non-extractable, and never leaves the device in plaintext.
+The BIML Root signing key is held in an enterprise hardware security module. Devices in this class include the Thales Luna HSM family and the Utimaco SecurityServer family. These devices ship in FIPS 140-3 Level 3 validated configurations, transitioning from FIPS 140-2 Level 3 under the NIST Cryptographic Module Validation Program modernization, and hold the signing key in tamper-resistant hardware that prevents extraction. The key is generated on the device, marked sensitive and non-extractable, and never leaves the device in plaintext.
 
 The CA host communicates with the device through PKCS#11. The host sends a signing request through the PKCS#11 interface, the device performs the signing operation internally, and the device returns only the signature bytes. The private key never appears in the host's process memory or filesystem. This property defends against malware on the CA host: an attacker who compromises the host can submit signing requests but cannot extract the key.
 
@@ -19,9 +19,11 @@ The enterprise HSM tier is operated by BIML ceremony staff at the air-gapped CA 
 
 ## Tier 2: personal hardware token at the IA intermediate
 
-The IA intermediate signing key is held in a personal hardware token. Devices in this class include the YubiKey 5 series and the Nitrokey. These devices provide FIPS 140-2 Level 3 certification in a personal form factor that an IA officer can carry and use at a workstation. The YubiKey 5 FIPS variant provides the certification level. The devices expose 24 distinct PIV key slots and a PKCS#11 interface through the OpenSC driver or the vendor-supplied driver.
+The IA intermediate signing key is held in a personal hardware token. The recommended device at this tier is the [YubiKey 5 FIPS series](https://www.yubico.com/store/), which provides FIPS 140-2 Level 1 validation overall with PIV applet components validated to Level 2. Yubico is transitioning the YubiKey 5 FIPS series through FIPS 140-3 validation as NIST moves the Cryptographic Module Validation Program to the new standard. The Nitrokey family provides equivalent functionality under different certification regimes. These devices expose 24 distinct PIV key slots and a PKCS#11 interface through the OpenSC driver or the Yubico-supplied `ykcs11` driver.
 
 The personal hardware token tier supports the threshold architecture at the IA level. Each of the three IA officers holds a share of the IA intermediate signing key on their own token. The threshold property means that compromise of a single officer's token cannot produce an IA-tier signature, and loss of a single token does not prevent the remaining officers from signing. The tokens are provisioned through the IA's distributed key generation ceremony, and each token is personally controlled by its officer.
+
+The FIPS validation status of the chosen device matters for IA deployments that operate under regulatory frameworks requiring validated cryptographic modules. Where FIPS validation is not required, the standard YubiKey 5 series (without FIPS validation) provides the same PKCS#11 surface at lower cost. The choice is a deployment policy, not a software constraint: both variants speak PKCS#11 and work with the CA server's KeyProvider dispatch.
 
 PKCS#11 module locations vary by platform. On macOS, the OpenSC module is at `/opt/homebrew/lib/opensc-pkcs11.so` and the Yubico module is at `/opt/homebrew/lib/libykcs11.dylib`. On Linux, the modules are at `/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so` (Debian and Ubuntu) or `/usr/lib64/pkcs11/opensc-pkcs11.so` (RPM distributions) for OpenSC, and the corresponding libykcs11 path for the Yubico driver. On Windows, the modules are in the installation directories of OpenSC and Yubico PIV Tool respectively.
 

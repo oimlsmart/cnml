@@ -111,20 +111,20 @@ function downloadCsr() {
         <h3 class="cnml-section-title">Identity</h3>
         <div class="grid grid-cols-2 gap-4">
           <label class="block">
-            <span class="cnml-label">Common Name (your name)</span>
-            <input v-model="commonName" placeholder="M.Ph.D. Schmidt" class="cnml-input" />
+            <span class="cnml-label">Common Name (your name)<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+            <input v-model="commonName" autocomplete="organization title" required placeholder="M.Ph.D. Schmidt" class="cnml-input" />
           </label>
           <label class="block">
             <span class="cnml-label">Organization</span>
-            <input v-model="organization" placeholder="NMi Certin B.V." class="cnml-input" />
+            <input v-model="organization" autocomplete="organization" placeholder="NMi Certin B.V." class="cnml-input" />
           </label>
           <label class="block">
             <span class="cnml-label">OIML Issuer ID</span>
-            <input v-model="oimlIssuerId" placeholder="NL1" class="cnml-input" />
+            <input v-model="oimlIssuerId" autocomplete="off" placeholder="NL1" class="cnml-input" />
           </label>
           <label class="block">
             <span class="cnml-label">Country (2 letters)</span>
-            <input v-model="country" placeholder="NL" maxlength="2" class="cnml-input" />
+            <input v-model="country" autocomplete="country-name" placeholder="NL" maxlength="2" class="cnml-input" />
           </label>
         </div>
       </div>
@@ -135,7 +135,7 @@ function downloadCsr() {
           {{ busy ? "Generating…" : "Generate CSR" }}
         </button>
         <button v-if="csrPem" @click="downloadCsr" class="cnml-btn cnml-btn-secondary">Download .csr</button>
-        <div v-if="error" class="text-sm cnml-text-danger">{{ error }}</div>
+        <div v-if="error" role="alert" class="text-sm cnml-text-danger">{{ error }}</div>
       </div>
 
       <!-- CSR preview -->

@@ -1,7 +1,7 @@
 import type { Check, CheckResult } from "./types.ts";
 import { isSerialRevoked, isCrlStale, parseCrl, type Crl } from "../crl.ts";
 
-/** Check 5: CRL revocation status (TODO.ops/13 — no longer a stub).
+/** Check 5: CRL revocation status.
  *
  * The signing cert (the KeyInfo's first, fed through ctx.trustedCerts
  * by the signature check) names its CRL distribution point as an X.509

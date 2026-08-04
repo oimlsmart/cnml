@@ -11,8 +11,6 @@
 #      (or self-signed by the IA's intermediate if the IA self-issues
 #      signer certs).
 #   4. Logs all operations to the audit log.
-#
-# See TODO.roadmap/22-incident-response-runbook.md for context.
 
 require "optparse"
 require "readline"
@@ -158,7 +156,7 @@ puts "  CRL: #{crl_path}"
 puts "  Audit log: appended 2 entries"
 puts ""
 puts "Operator next steps:"
-puts "  1. USB-transfer the CRL to the pki-artifacts repo (TODO 04)"
+puts "  1. USB-transfer the CRL to the pki-artifacts repo"
 puts "  2. Notify all verifiers to refresh their CRL cache"
 puts "  3. Distribute the new signer cert to the affected signer"
 puts "  4. Re-sign affected CNMLs (audit log can enumerate them via incident-query.rb)"

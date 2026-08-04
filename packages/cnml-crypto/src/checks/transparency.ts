@@ -12,8 +12,6 @@
  *
  * Both must verify. A cert whose log root isn't anchored to Bitcoin
  * fails (could be a fabricated log view).
- *
- * @see TODO.roadmap/35-transparency-log-verify.md
  */
 
 import type { Check, CheckContext, CheckResult } from "./types.ts";

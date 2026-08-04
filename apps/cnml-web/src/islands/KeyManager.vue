@@ -245,27 +245,27 @@ async function removeTrusted(id: string) {
       <div class="flex items-center justify-between mb-4">
         <h2 class="cnml-section-title cnml-section-title--sm">Signing keys (private)</h2>
         <div class="flex gap-2">
-          <button @click="showGenerate = !showGenerate" class="cnml-btn cnml-btn-primary">
+          <button @click="showGenerate = !showGenerate" :aria-expanded="showGenerate" class="cnml-btn cnml-btn-primary">
             {{ showGenerate ? "Cancel" : (keys.length === 0 ? "Generate keypair" : "+ New key") }}
           </button>
-          <button @click="triggerPrivateKeyUpload" class="cnml-btn cnml-btn-secondary">Import PEM ↑</button>
+          <button @click="triggerPrivateKeyUpload" aria-label="Import a private key PEM file" class="cnml-btn cnml-btn-secondary">Import PEM ↑</button>
         </div>
       </div>
 
       <!-- Generate form -->
       <div v-if="showGenerate" class="cnml-card cnml-card--raised mb-4 space-y-3">
         <label class="block">
-          <span class="cnml-label">Alias</span>
-          <input v-model="newAlias" placeholder="My authority signing key" class="cnml-input" />
+          <span class="cnml-label">Alias<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+          <input v-model="newAlias" autocomplete="off" required placeholder="My authority signing key" class="cnml-input" />
         </label>
         <label class="block">
-          <span class="cnml-label">Passphrase (min 8 chars · encrypts the key at rest)</span>
-          <input v-model="newPassphrase" type="password" placeholder="≥ 8 characters" class="cnml-input" />
+          <span class="cnml-label">Passphrase (min 8 chars · encrypts the key at rest)<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+          <input v-model="newPassphrase" type="password" autocomplete="new-password" minlength="8" required placeholder="≥ 8 characters" class="cnml-input" />
         </label>
         <button @click="generate" :disabled="busy" class="cnml-btn cnml-btn-primary">
           {{ busy ? "Generating…" : "Generate ECDSA P-256" }}
         </button>
-        <div v-if="error" class="text-sm cnml-text-danger">{{ error }}</div>
+        <div v-if="error" role="alert" class="text-sm cnml-text-danger">{{ error }}</div>
       </div>
 
       <!-- Import form (file upload triggers this) -->
@@ -276,12 +276,12 @@ async function removeTrusted(id: string) {
           <textarea v-model="importPemText" rows="5" placeholder="-----BEGIN PRIVATE KEY-----" class="cnml-input font-mono text-xs"></textarea>
         </label>
         <label class="block">
-          <span class="cnml-label">Alias</span>
-          <input v-model="importAlias" placeholder="Imported key" class="cnml-input" />
+          <span class="cnml-label">Alias<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+          <input v-model="importAlias" autocomplete="off" required placeholder="Imported key" class="cnml-input" />
         </label>
         <label class="block">
-          <span class="cnml-label">Storage passphrase (min 8 chars · encrypts at rest)</span>
-          <input v-model="importPassphrase" type="password" placeholder="≥ 8 characters" class="cnml-input" />
+          <span class="cnml-label">Storage passphrase (min 8 chars · encrypts at rest)<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+          <input v-model="importPassphrase" type="password" autocomplete="new-password" minlength="8" required placeholder="≥ 8 characters" class="cnml-input" />
         </label>
         <button @click="importKey" :disabled="busy" class="cnml-btn cnml-btn-primary">
           {{ busy ? "Importing…" : "Import key" }}
@@ -300,8 +300,11 @@ async function removeTrusted(id: string) {
       <div v-if="showImportCert" class="cnml-card cnml-card--raised mb-4 space-y-3">
         <div class="cnml-label">Import Signed Certificate</div>
         <p class="text-xs text-[var(--ink-muted)]">Paste the .crt file received from your CA operator.</p>
-        <textarea v-model="importCertText" rows="5" placeholder="-----BEGIN CERTIFICATE-----" class="cnml-input font-mono text-xs"></textarea>
-        <div v-if="certImportError" class="text-sm cnml-text-danger">{{ certImportError }}</div>
+        <label class="block">
+          <span class="cnml-label">Certificate PEM<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+          <textarea v-model="importCertText" rows="5" required placeholder="-----BEGIN CERTIFICATE-----" class="cnml-input font-mono text-xs"></textarea>
+        </label>
+        <div v-if="certImportError" role="alert" class="text-sm cnml-text-danger">{{ certImportError }}</div>
         <div class="flex gap-2">
           <button @click="importCertificate" class="cnml-btn cnml-btn-primary">Import cert</button>
           <button @click="showImportCert = false" class="cnml-btn cnml-btn-secondary">Cancel</button>
@@ -323,11 +326,11 @@ async function removeTrusted(id: string) {
               <div class="text-xs text-[var(--ink-muted)] mt-1">Created {{ new Date(k.created).toLocaleString() }}</div>
             </div>
             <div class="flex gap-1 flex-wrap justify-end">
-              <button @click="downloadPublic(k)" class="cnml-btn cnml-btn-secondary">Public ↓</button>
-              <button @click="downloadPrivate(k)" class="cnml-btn cnml-btn-secondary">Private ↓</button>
-              <button v-if="!isCertified(k)" @click="triggerCertUpload(k)" class="cnml-btn cnml-btn-secondary">Import cert ↑</button>
+              <button @click="downloadPublic(k)" :aria-label="`Download public key for ${k.alias}`" class="cnml-btn cnml-btn-secondary">Public ↓</button>
+              <button @click="downloadPrivate(k)" :aria-label="`Download private key for ${k.alias}`" class="cnml-btn cnml-btn-secondary">Private ↓</button>
+              <button v-if="!isCertified(k)" @click="triggerCertUpload(k)" :aria-label="`Import certificate for ${k.alias}`" class="cnml-btn cnml-btn-secondary">Import cert ↑</button>
               <a v-if="expiryBadge(k)" :href="'/csr'" class="cnml-btn cnml-btn-primary">Renew</a>
-              <button @click="remove(k.id)" class="cnml-btn cnml-btn-ghost cnml-text-danger">Delete</button>
+              <button @click="remove(k.id)" :aria-label="`Delete key ${k.alias}`" class="cnml-btn cnml-btn-ghost cnml-text-danger">Delete</button>
             </div>
           </div>
         </li>
@@ -339,8 +342,8 @@ async function removeTrusted(id: string) {
       <div class="flex items-center justify-between mb-4">
         <h2 class="cnml-section-title cnml-section-title--sm">Trusted public keys</h2>
         <div class="flex gap-2">
-          <button @click="triggerTrustedKeyUpload" class="cnml-btn cnml-btn-secondary">Upload .pub.pem ↑</button>
-          <button @click="showAddTrusted = !showAddTrusted" class="cnml-btn cnml-btn-secondary">{{ showAddTrusted ? "Cancel" : "+ Paste PEM" }}</button>
+          <button @click="triggerTrustedKeyUpload" aria-label="Upload a trusted public key PEM file" class="cnml-btn cnml-btn-secondary">Upload .pub.pem ↑</button>
+          <button @click="showAddTrusted = !showAddTrusted" :aria-expanded="showAddTrusted" class="cnml-btn cnml-btn-secondary">{{ showAddTrusted ? "Cancel" : "+ Paste PEM" }}</button>
         </div>
       </div>
 
@@ -350,11 +353,11 @@ async function removeTrusted(id: string) {
           <textarea v-model="trustedPemText" rows="5" placeholder="-----BEGIN PUBLIC KEY-----" class="cnml-input font-mono text-xs"></textarea>
         </label>
         <label class="block">
-          <span class="cnml-label">Alias (issuer name)</span>
-          <input v-model="trustedAlias" placeholder="NMi Certin B.V. (NL1)" class="cnml-input" />
+          <span class="cnml-label">Alias (issuer name)<span aria-hidden="true">*</span><span class="sr-only"> required</span></span>
+          <input v-model="trustedAlias" autocomplete="off" required placeholder="NMi Certin B.V. (NL1)" class="cnml-input" />
         </label>
         <button @click="addTrustedKey" class="cnml-btn cnml-btn-primary">Add to trust store</button>
-        <div v-if="error" class="text-sm cnml-text-danger">{{ error }}</div>
+        <div v-if="error" role="alert" class="text-sm cnml-text-danger">{{ error }}</div>
       </div>
 
       <div v-if="trustedKeys.length === 0" class="cnml-card cnml-card--raised text-center">
@@ -372,7 +375,7 @@ async function removeTrusted(id: string) {
               <div class="text-xs text-[var(--ink-muted)] mt-1">Added {{ new Date(t.created).toLocaleString() }}</div>
             </div>
             <div class="flex gap-2">
-              <button @click="removeTrusted(t.id)" class="cnml-btn cnml-btn-ghost cnml-text-danger">Remove</button>
+              <button @click="removeTrusted(t.id)" :aria-label="`Remove trusted key ${t.alias}`" class="cnml-btn cnml-btn-ghost cnml-text-danger">Remove</button>
             </div>
           </div>
         </li>
