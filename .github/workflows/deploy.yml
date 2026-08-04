@@ -31,11 +31,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Test vectors (the verify gate — Pages deploys only from green)
-        run: pnpm test
-
       - name: Build all audience sites
         run: pnpm build
+
+      - name: Test vectors (the verify gate — Pages deploys only from green)
+        run: pnpm test
 
       - name: Copy PKI documentation
         run: |
