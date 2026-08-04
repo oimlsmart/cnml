@@ -447,8 +447,6 @@ governance makes it legitimate.
 - [BIML scope governance](/docs/biml-governance) — how scope is
   enforced cryptographically
 - [Trust model](/docs/trust-model) — who can issue what
-- [Threat model](/docs/threat-model) — STRIDE analysis
-- [For decision makers](/docs/for-decision-makers) — executive summary
 - TODO 39 — Director identity management
 - TODO 41 — Director onboarding ceremony runbook
 - TODO 45 — Certificate Policy and CPS
