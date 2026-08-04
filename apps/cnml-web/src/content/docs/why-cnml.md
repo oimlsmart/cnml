@@ -18,6 +18,14 @@ CNML is the digital successor to the PDF-based OIML-CS certificate of conformity
 | Language support | Single language per file | `xml:lang` per element with internationalization built in |
 | Programmatic access | None | Open-source TypeScript and Ruby libraries |
 
+## Standards-based and distributed
+
+CNML is built on recognized international standards. The certificate format is X.509 v3 (RFC 5280), the same standard format used by web TLS, extended with an OIML-specific scope extension that uses the standard X.509 v3 extension mechanism. The XML signature is W3C XMLDSig 1.1 with Exclusive C14N. The key algorithms include ECDSA P-256 (NIST FIPS 186), Ed25519 (RFC 8032), and ML-DSA-65 (NIST FIPS 204). The hardware interface is PKCS#11. The transparency log follows the RFC 6962 model. Every cryptographic and structural component traces to a published standard. CNML extends these standards for legal metrology rather than replacing them.
+
+The web TLS public-key infrastructure was designed in the 1990s for high-volume automated issuance of channel-authentication certificates. That architecture centralized signing authority in a single certificate authority per certificate and surrounded that centralization with protective infrastructure: OCSP responders, Certificate Transparency logs, WebTrust audits, and HSM clusters under compliance regimes. The centralization is efficient at the volume of web browsing but concentrates risk and carries substantial operational overhead.
+
+CNML distributes signing authority across a threshold quorum of independent directors and officers using threshold cryptography, a class of techniques that matured into deployable form in the 2020s through protocols such as FROST and through the standardization work surveyed in NIST IR 8214. The distributed architecture eliminates single-party compromise as a system-wide risk while reducing the operational infrastructure burden: the high-throughput machinery of web PKI is unnecessary at the volume of legal-metrology certification, and the distributed threshold model removes the single-CA-operator risk that the machinery was built to mitigate. The full comparison is in [CNML and typical PKI compared](/docs/architecture/cnml-vs-typical-pki).
+
 ## Transparency
 
 CNML is fully transparent by construction. The implementation source code is published under an open-source license. The per-Recommendation schemas are published as YAML and the generated TypeScript types are reproducible by any contributor. The transparency log that records every issued certificate is publicly readable, and the OpenTimestamps proofs that anchor the log to Bitcoin are independently verifiable. The trust anchors that verifiers pin are public. Any party can audit the system, and any party can verify any certificate without contacting the issuer, registering for a service, or holding an account.
@@ -28,7 +36,7 @@ Transparency is the central design property. The system is designed so that no a
 
 CNML is designed to impose a minimal operating-cost burden on Issuing Authorities and verifiers. The software is open-source under a permissive license: there are no per-issuer fees, no per-certificate charges, and no subscription requirements. Verification is free and browser-based: a market-surveillance inspector or a manufacturer runs the verifier in a browser at no cost and without registration.
 
-The hardware required is standard PKCS#11-compatible equipment available from multiple vendors. The CA tiers use YubiKey or Nitrokey devices for IA intermediate keys and enterprise HSMs for the BIML root. The signer tier uses browser IndexedDB for end-entity keys. There is no vendor lock-in. The full hardware tier structure is described in [Hardware key tiers](/docs/architecture/hardware-tiers).
+The hardware required is standard PKCS#11-compatible equipment available from multiple vendors. Any PKCS#11-compatible device can serve at any tier; the choice of device is a deployment policy driven by capacity and certification requirements. The full hardware model is described in [Hardware key tiers](/docs/architecture/hardware-tiers).
 
 CNML places no per-transaction costs on the verifier. The static CDN that distributes trust anchors, CRLs, and the transparency log has no API surface and no usage limits. A verifier can verify CNML certificates indefinitely from a single cached download of the trust-anchor bundle.
 
