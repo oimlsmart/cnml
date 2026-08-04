@@ -178,7 +178,7 @@ function buildAdministrativeData(doc: Document, cert: Certificate): Element {
   admin.appendChild(core);
 
   // Parties
-  if (cert.issuing_authority) admin.appendChild(buildIssuingAuthority(doc, cert.issuing_authority));
+  if (cert.issuing_authority) admin.appendChild(buildParty(doc, "issuingAuthority", cert.issuing_authority));
   if (cert.applicants)        admin.appendChild(buildPartyList(doc, "applicants",    cert.applicants));
   if (cert.manufacturers)     admin.appendChild(buildPartyList(doc, "manufacturers", cert.manufacturers));
   if (cert.certified_type)    admin.appendChild(buildCertifiedType(doc, cert.certified_type));
@@ -191,22 +191,7 @@ function buildAdministrativeData(doc: Document, cert: Certificate): Element {
 }
 
 function buildParty(doc: Document, name: string, party: Party): Element {
-  // The schema's Party (applicant/manufacturer): name + address_lines
-  // ONLY (additionalProperties: false) — the richer fields belong to
-  // IssuingAuthority. The serializer honors the schema, always.
   const node = el(doc, name);
-  if (party.name) node.appendChild(el(doc, "name", party.name));
-  if (party.address_lines?.length) {
-    const addr = el(doc, "addressLines");
-    for (const line of party.address_lines) addr.appendChild(el(doc, "line", line));
-    node.appendChild(addr);
-  }
-  return node;
-}
-
-function buildIssuingAuthority(doc: Document, party: Party): Element {
-  // The IssuingAuthority definition: the full contact block.
-  const node = el(doc, "issuingAuthority");
   if (party.name) node.appendChild(el(doc, "name", party.name));
   if (party.address_lines?.length) {
     const addr = el(doc, "addressLines");
@@ -438,9 +423,9 @@ export function parseCnmlXml(xml: string): Certificate {
         accuracy_classes: byTagAll(byTag(core, "accuracyClasses"), "class").map((e) => e.textContent ?? ""),
       } : undefined,
     } : undefined,
-    issuing_authority: parseIssuingAuthority(byTag(admin, "issuingAuthority")),
-    applicants:        parsePartyList(byTag(admin, "applicants")),
-    manufacturers:     parsePartyList(byTag(admin, "manufacturers")),
+    issuing_authority: parseParty(byTag(admin, "issuingAuthority")),
+    applicants:        byTagAll(byTag(admin, "applicants"), "party").map(parseParty).filter((p): p is Party => p !== undefined),
+    manufacturers:     byTagAll(byTag(admin, "manufacturers"), "party").map(parseParty).filter((p): p is Party => p !== undefined),
     certified_type:    parseCertifiedType(byTag(admin, "certifiedType")),
     characteristics:   parseMeasurementResults(byTag(root, "measurementResults")),
     revision_history:  byTagAll(byTag(admin, "revisionHistory"), "revision").map(parseRevision),
@@ -450,31 +435,11 @@ export function parseCnmlXml(xml: string): Certificate {
   };
 }
 
-/** The party lists: an absent element is `undefined`, never an empty
- *  array (the per-rec schemas require minItems 1 when present — an
- *  empty array is a parse artifact, not data). */
-function parsePartyList(node: Element | null): Party[] | undefined {
-  if (!node) return undefined;
-  const parties = byTagAll(node, "party").map(parseParty).filter((p): p is Party => p !== undefined);
-  return parties.length > 0 ? parties : undefined;
-}
-
 function parseParty(node: Element | null): Party | undefined {
   if (!node) return undefined;
-  // The schema's Party (applicant/manufacturer): name + address_lines
-  // ONLY — richer fields are the IssuingAuthority's, never a Party's.
   const addr = byTag(node, "addressLines");
   return {
-    name:           textOf(node, "name") ?? "",
-    address_lines:  addr ? byTagAll(addr, "line").map((e) => e.textContent ?? "") : undefined,
-  };
-}
-
-function parseIssuingAuthority(node: Element | null): Party | undefined {
-  if (!node) return undefined;
-  const addr = byTag(node, "addressLines");
-  return {
-    name:               textOf(node, "name") ?? "",
+    name:               textOf(node, "name"),
     address_lines:      addr ? byTagAll(addr, "line").map((e) => e.textContent ?? "") : undefined,
     person_responsible: textOf(node, "personResponsible"),
     person_title:       textOf(node, "personTitle"),
@@ -499,36 +464,14 @@ function parseCertifiedType(node: Element | null): CertifiedType | undefined {
 function parseMeasurementResults(node: Element | null): Characteristics | undefined {
   if (!node) return undefined;
   const ch: Characteristics = { type_level: {}, model_level: [], config_level: [] };
-  // The serializer flattens one row per (attribute × value); the schema's
-  // shape groups by attribute — the parser re-groups (order preserved).
-  // The schema's value items are { model, value } / { condition, value }
-  // with the raw ValueOrScalar under `value`; the entry's `unit`/`axis`
-  // hoists from the rows when present (axis may be null, never absent).
-  const modelGroups = new Map<string, { attribute: string; unit?: string; values: unknown[] }>();
-  const configGroups = new Map<string, { attribute: string; axis: string | null; values: unknown[] }>();
   for (const c of Array.from(node.getElementsByTagNameNS(CNML_NS, "characteristic"))) {
     const layer = c.getAttribute("layer") ?? "type_level";
     const name  = c.getAttribute("name")  ?? "";
-    const sv = parseValue(c.getElementsByTagNameNS(CNML_NS, "value")[0]);
-    if (layer === "type_level") {
-      ch.type_level![name] = sv;
-    } else if (layer === "model_level") {
-      if (!modelGroups.has(name)) modelGroups.set(name, { attribute: name, values: [] });
-      const entry = modelGroups.get(name)!;
-      if (!entry.unit && sv.unit_id) entry.unit = sv.unit_id;
-      const item: Record<string, unknown> = { model: c.getAttribute("model") ?? "N/A", value: sv.value };
-      if (sv.footnote_markers?.length) item.footnote_markers = sv.footnote_markers;
-      entry.values.push(item);
-    } else if (layer === "config_level") {
-      if (!configGroups.has(name)) configGroups.set(name, { attribute: name, axis: null, values: [] });
-      const entry = configGroups.get(name)!;
-      const item: Record<string, unknown> = { condition: c.getAttribute("condition") ?? "N/A", value: sv.value };
-      if (sv.footnote_markers?.length) item.footnote_markers = sv.footnote_markers;
-      entry.values.push(item);
-    }
+    const value = parseValue(c.getElementsByTagNameNS(CNML_NS, "value")[0]);
+    if (layer === "type_level")      ch.type_level![name] = value;
+    else if (layer === "model_level")  (ch.model_level as unknown[]).push({ attribute: name, model: c.getAttribute("model") ?? undefined, value });
+    else if (layer === "config_level") (ch.config_level as unknown[]).push({ attribute: name, condition: c.getAttribute("condition") ?? undefined, value });
   }
-  ch.model_level = [...modelGroups.values()];
-  ch.config_level = [...configGroups.values()];
   return ch;
 }
 

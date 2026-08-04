@@ -74,7 +74,7 @@ test("home page shows hero + action cards", async ({ page }) => {
   await expect(page.locator("h1").first()).toContainText(/digital successor to the PDF certificate of conformity/);
   await expect(page.getByRole("link", { name: /Create/ }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: /Verify/ }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /certificates/i }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Certificates/ }).first()).toBeVisible();
 });
 
 test("schemas page lists all 22 R schemas", async ({ page }) => {
