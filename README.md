@@ -1,4 +1,4 @@
-# CNML — OIML Certificat Numérique de Métrologie Légale
+# CNML. OIML Certificat Numérique de Métrologie Légale.
 
 CNML is the digital certificate format developed under the OIML SMART program to succeed the PDF-based OIML-CS (Certificate System for Measuring Instruments) certificate of conformity. The format was produced by analyzing all existing published OIML-CS Type Approval certificates and digitizing them in a manner compatible with OIML SMART and the relevant OIML R-Recommendations.
 

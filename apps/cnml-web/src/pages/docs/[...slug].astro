@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
+import { marked } from 'marked';
+
+export function getStaticPaths() {
+  const here = fileURLToPath(import.meta.url);
+  const docsDir = join(here, '..', '..', '..', '..', 'src', 'content', 'docs');
+
+  // Recursively collect .md files under docs/ and produce slugs that
+  // preserve the subdirectory structure. A file at
+  // content/docs/concepts/foo.md becomes the slug ['concepts', 'foo'],
+  // which Astro renders at /docs/concepts/foo.
+  const walk = (dir, base) => {
+    const out = [];
+    for (const name of readdirSync(dir)) {
+      const full = join(dir, name);
+      const rel = [...base, name];
+      const st = statSync(full);
+      if (st.isDirectory()) {
+        out.push(...walk(full, rel));
+      } else if (name.endsWith('.md')) {
+        out.push(rel.slice(0, -1).concat(name.slice(0, -3)));
+      }
+    }
+    return out;
+  };
+
+  return walk(docsDir, []).map((segments) => ({
+    params: { slug: segments.join('/') },
+  }));
+}
+
+const slug = Astro.params.slug!;
+const here = fileURLToPath(import.meta.url);
+const mdPath = join(here, '..', '..', '..', '..', 'src', 'content', 'docs', slug) + '.md';
+
+let title = slug;
+let html = '<p>Not found.</p>';
+if (existsSync(mdPath)) {
+  const md = readFileSync(mdPath, 'utf8');
+  const lines = md.split('\n');
+  const h1Line = lines.find((l) => l.startsWith('# '));
+  if (h1Line) title = h1Line.slice(2).trim();
+  const h1Idx = lines.findIndex((l) => l.startsWith('# '));
+  const body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join('\n') : md;
+  html = marked.parse(body);
+}
+---
+
+<Base title={`${title} · Docs · CNML`}>
+  <article class="mx-auto max-w-3xl px-6 py-12">
+    <a href="/docs" class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
+    <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-6 mb-4">{title}</h1>
+    <div class="docs-body" set:html={html} />
+  </article>
+</Base>

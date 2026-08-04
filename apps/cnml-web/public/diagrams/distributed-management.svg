@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" text-rendering="geometricPrecision">
+  <title>Distributed management of threshold signing authority</title>
+  <desc>Directors in different regions submit partial signature shares asynchronously to a coordinator service, which aggregates once the quorum threshold is reached to produce the final signature.</desc>
+
+  <defs>
+    <marker id="arrow-dm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4c566a"/>
+    </marker>
+    <marker id="arrow-quorum" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5e81ac"/>
+    </marker>
+  </defs>
+
+  <style>
+    .bg { fill: #f9fafb; }
+    .frame { fill: none; stroke: #d8dee9; stroke-width: 1; }
+    .director-box { fill: #e5e9f0; stroke: #4c566a; stroke-width: 1.25; rx: 6; }
+    .director-title { font-weight: 600; font-size: 13px; fill: #2e3440; }
+    .director-sub { font-size: 11px; fill: #4c566a; }
+    .coordinator-box { fill: #5e81ac; stroke: #3b4252; stroke-width: 1.5; rx: 8; }
+    .coordinator-title { font-weight: 600; font-size: 15px; fill: #eceff4; }
+    .coordinator-sub { font-size: 11px; fill: #d8dee9; }
+    .quorum-box { fill: #a3be8c; stroke: #3b4252; stroke-width: 1.5; rx: 8; }
+    .quorum-title { font-weight: 600; font-size: 14px; fill: #2e3440; }
+    .quorum-sub { font-size: 11px; fill: #3b4252; }
+    .flow-line { stroke: #4c566a; stroke-width: 1.25; fill: none; }
+    .quorum-line { stroke: #5e81ac; stroke-width: 1.5; fill: none; }
+    .section-label { font-weight: 600; font-size: 11px; fill: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; }
+    .region-label { font-size: 11px; fill: #6b7280; font-style: italic; }
+    .caption { font-size: 12px; fill: #4c566a; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="900" height="520"/>
+  <rect class="frame" x="0.5" y="0.5" width="899" height="519"/>
+
+  <text x="40" y="34" class="section-label">Threshold signing authority is distributed</text>
+
+  <g transform="translate(40, 60)">
+    <rect class="director-box" x="0" y="0" width="220" height="68" rx="6"/>
+    <text x="110" y="24" text-anchor="middle" class="director-title">Director 1</text>
+    <text x="110" y="42" text-anchor="middle" class="director-sub">Region A · time zone A</text>
+    <text x="110" y="58" text-anchor="middle" class="director-sub">hardware key · own facility</text>
+    <text x="110" y="90" text-anchor="middle" class="region-label">participates when convenient</text>
+  </g>
+
+  <g transform="translate(40, 200)">
+    <rect class="director-box" x="0" y="0" width="220" height="68" rx="6"/>
+    <text x="110" y="24" text-anchor="middle" class="director-title">Director 2</text>
+    <text x="110" y="42" text-anchor="middle" class="director-sub">Region B · time zone B</text>
+    <text x="110" y="58" text-anchor="middle" class="director-sub">hardware key · own facility</text>
+    <text x="110" y="90" text-anchor="middle" class="region-label">participates when convenient</text>
+  </g>
+
+  <g transform="translate(40, 340)">
+    <rect class="director-box" x="0" y="0" width="220" height="68" rx="6"/>
+    <text x="110" y="24" text-anchor="middle" class="director-title">Director N</text>
+    <text x="110" y="42" text-anchor="middle" class="director-sub">Region N · time zone N</text>
+    <text x="110" y="58" text-anchor="middle" class="director-sub">hardware key · own facility</text>
+    <text x="110" y="90" text-anchor="middle" class="region-label">participates when convenient</text>
+  </g>
+
+  <g transform="translate(340, 200)">
+    <rect class="coordinator-box" x="0" y="0" width="220" height="100" rx="8"/>
+    <text x="110" y="36" text-anchor="middle" class="coordinator-title">Coordinator service</text>
+    <text x="110" y="58" text-anchor="middle" class="coordinator-sub">operated by BIML staff</text>
+    <text x="110" y="76" text-anchor="middle" class="coordinator-sub">honest-but-curious role</text>
+    <text x="110" y="92" text-anchor="middle" class="coordinator-sub">buffers shares · aggregates quorum</text>
+  </g>
+
+  <g transform="translate(660, 200)">
+    <rect class="quorum-box" x="0" y="0" width="200" height="100" rx="8"/>
+    <text x="100" y="32" text-anchor="middle" class="quorum-title">Quorum gate</text>
+    <text x="100" y="52" text-anchor="middle" class="quorum-sub">T-of-N threshold</text>
+    <text x="100" y="68" text-anchor="middle" class="quorum-sub">reached once T shares</text>
+    <text x="100" y="84" text-anchor="middle" class="quorum-sub">have been received</text>
+  </g>
+
+  <g transform="translate(660, 360)">
+    <rect x="0" y="0" width="200" height="100" rx="8" fill="#fff" stroke="#3b4252" stroke-width="1.5"/>
+    <text x="100" y="32" text-anchor="middle" class="director-title">Aggregate signature</text>
+    <text x="100" y="54" text-anchor="middle" class="director-sub">produced by coordinator</text>
+    <text x="100" y="74" text-anchor="middle" class="director-sub">embedded in CNML file</text>
+    <text x="100" y="90" text-anchor="middle" class="director-sub">published to transparency log</text>
+  </g>
+
+  <path class="flow-line" d="M 260,94 L 340,230" marker-end="url(#arrow-dm)"/>
+  <path class="flow-line" d="M 260,234 L 340,250" marker-end="url(#arrow-dm)"/>
+  <path class="flow-line" d="M 260,374 L 340,270" marker-end="url(#arrow-dm)"/>
+
+  <text x="290" y="170" class="caption">commitment</text>
+  <text x="290" y="186" class="caption">+ partial share</text>
+
+  <path class="quorum-line" d="M 560,250 L 660,250" marker-end="url(#arrow-quorum)"/>
+  <text x="568" y="240" class="caption">aggregates T shares</text>
+
+  <path class="quorum-line" d="M 760,300 L 760,360" marker-end="url(#arrow-quorum)"/>
+  <text x="775" y="335" class="caption">produces signature</text>
+
+  <g transform="translate(40, 470)">
+    <text x="0" y="0" class="caption">No single director can produce a signature alone. The coordinator observes encrypted protocol messages but cannot reconstruct the signing key.</text>
+    <text x="0" y="20" class="caption">The aggregate public key is preserved across director rotation, so all previously issued certificates remain valid without modification.</text>
+  </g>
+</svg>

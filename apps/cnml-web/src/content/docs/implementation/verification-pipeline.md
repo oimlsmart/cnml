@@ -1,0 +1,62 @@
+---
+title: Verification pipeline
+description: The seven-check verification pipeline, the Check registry pattern, and the scope check that binds the OIML-CS DoMC framework to the verifier.
+---
+
+# Verification pipeline
+
+CNML verification is a sequential pipeline of independent checks. Each check is a module that conforms to a uniform interface and is registered in an ordered array. The verifier iterates the array, runs each check against the submitted certificate, renders the result, and short-circuits on failure. The pipeline is open for extension: adding a new check requires one new file and one entry in the registry array. The scope check, described below, is the check that binds the OIML-CS Declaration of Mutual Confidence framework to the cryptographic verifier.
+
+![Verification flow](/diagrams/verification-flow.svg)
+
+## The Check interface
+
+Every check is a module that exports a `Check` object. The `Check` interface is defined in `packages/cnml-crypto/src/checks/types.ts`. A check has an identifier, a human-readable name, a description of what it confirms, and an `execute` function that accepts the certificate and a context object and returns a result. The result carries a pass or fail status, a human-readable explanation, and optional structured data that the verifier renders.
+
+The verifier component in the web application (`VerifyDrop.vue`) iterates the `CHECKS` array from `packages/cnml-crypto/src/checks/index.ts`. It runs each check in order, renders the outcome generically, and stops the pipeline at the first failure. The ordering is deliberate: a check that depends on a property established by an earlier check can assume that property holds.
+
+## The seven checks
+
+The current pipeline runs seven checks in the following order.
+
+**XML well-formedness.** The submitted file must parse as valid XML. This check catches encoding errors, truncated files, and malformed markup. A file that fails this check cannot be processed further.
+
+**Schema validity.** The parsed XML must conform to the CNML XSD schema and to the per-Recommendation JSON Schema. The verifier reads the recommendation identifier from the certificate, selects the corresponding Recommendation schema from the schema registry, and validates the certificate against it. A file that fails this check may have missing required fields, invalid field values, or a recommendation identifier that does not correspond to a loaded schema.
+
+**Signature validity.** The XMLDSig signature embedded in the certificate must be mathematically correct. The verifier canonicalizes the signed element using Exclusive C14N, recomputes the digest, and validates the signature against the public key in the `ds:KeyInfo` element. This check confirms that the certificate has not been tampered with after signing. It does not confirm that the signer is trusted, which is the purpose of later checks.
+
+**Scope enforcement.** The recommendation identifier in the certificate must fall within the scope of the Issuing Authority that signed it. The scope check reads the `oimlAuthorizedRecommendations` X.509 v3 extension from the IA intermediate certificate in the chain, or falls back to the `trust-anchors.json` manifest entry that matches the intermediate's fingerprint. If the recommendation identifier is not in the authorized list, the check fails. This check is developed further below.
+
+**CRL status.** The certificate's serial number must not appear on the Certificate Revocation List published by the issuing IA. The verifier fetches the CRL, validates its signature, and checks the serial number against the revoked set. A certificate that has been revoked before its natural expiration fails this check.
+
+**Timestamp anchoring.** The certificate must carry an OpenTimestamps proof or an RFC 3161 time-stamp token that binds the signing time to an external time authority. The verifier validates the timestamp proof and confirms that the signing time falls within the certificate's validity period.
+
+**Transparency-log inclusion.** The certificate must appear in the public Merkle transparency log. The verifier checks the inclusion proof against the current log head. A certificate that is not in the log may be a forgery, since every legitimately issued certificate is appended to the log at issuance time.
+
+## Adding a new check
+
+Adding a new verification check follows the open/closed pattern. A new file is created under `packages/cnml-crypto/src/checks/` that exports a `Check` object conforming to the `Check` interface. One entry is added to the `CHECKS` array in `index.ts` at the position that reflects the check's dependency on earlier checks. No existing check module is modified.
+
+For example, a future check that validates a post-quantum composite signature alongside the classical signature would be placed after the signature-validity check. It would read the composite-signature element from the certificate, validate it against the post-quantum public key, and return a result that the verifier renders alongside the classical-signature result.
+
+## The scope check
+
+The scope check is the check that makes the OIML-CS Declaration of Mutual Confidence (DoMC) framework cryptographically verifiable. Under the DoMC framework, each Issuing Authority is authorized to issue certificates for a specific subset of OIML Recommendations. No IA is blanket-approved for all Recommendations. The scope check enforces this authorization at verification time, so that a verifier can reject a certificate issued outside the IA's authorized scope without consulting an external registry.
+
+![Scope enforcement flow](/diagrams/scope-enforcement-flow.svg)
+
+Scope is encoded in two parallel locations for defense in depth. The first location is the X.509 v3 extension `oimlAuthorizedRecommendations`, carried in the IA intermediate certificate. The extension value is an ASN.1 sequence of UTF8String elements, one Recommendation identifier per element. The extension is marked non-critical, so that verifiers that do not understand it still accept the certificate chain (graceful degradation). The second location is the `trust-anchors.json` manifest, a JSON document published alongside the certificate chain that maps each intermediate's fingerprint to its scope list. Browsers and verifiers that do not parse X.509 extensions can read the manifest directly. Both sources must agree, and a verifier warns on mismatch.
+
+The scope check executes four steps. First, it validates the certificate chain from the end-entity signer through the IA intermediate to the root trust anchor. Second, it extracts the recommendation identifier from the certificate's `cnml:recommendation` element. Third, it reads the scope list from the intermediate certificate's X.509 extension, falling back to the `trust-anchors.json` entry that matches the intermediate's fingerprint if the extension is absent. Fourth, it confirms that the recommendation identifier is in the authorized list. If the identifier is not in the list, the check fails with a message stating that the IA is not authorized to issue certificates for that Recommendation.
+
+The scope check applies the authorization at the certificate's `notBefore` timestamp, not at verification time. A certificate signed when the IA had broader scope remains valid even after the IA's scope narrows. This retroactive rule ensures that a scope reduction does not invalidate previously issued certificates.
+
+## Proposal status
+
+CNML is a proposal for OIML from the OIML SMART programme. The verification pipeline described here is a draft architecture. The check set, the check ordering, and the scope-encoding mechanism are subject to revision as the proposal evolves and as OIML Member States and Corresponding Members provide feedback.
+
+## See also
+
+- [Schema-driven design](/docs/implementation/schema-driven-design) describes the open/closed pattern that the check registry and the schema layer share.
+- [Transparency and audit](/docs/architecture/transparency) describes the Merkle transparency log that the inclusion check verifies against.
+- [For verifiers](/docs/roles/for-verifiers) covers the operational use of the pipeline from a verifier's perspective.

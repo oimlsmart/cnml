@@ -105,7 +105,7 @@
     <text x="0" y="45" class="binding-sub">· Browser ops → WASM (no secrets at rest, user-driven)</text>
     <text x="0" y="65" class="binding-sub">· Cross-machine → TCP protocol (director participation, ceremony coordination)</text>
     <text x="0" y="95" class="stack-title">Versioning contract</text>
-    <text x="0" y="115" class="binding-sub">· Manifest (TODO 34) declares required_confium_version + schemes + backends</text>
+    <text x="0" y="115" class="binding-sub">· Deployment manifest declares required_confium_version + schemes + backends</text>
     <text x="0" y="135" class="binding-sub">· ConfiumIntegration.preflight! on startup verifies runtime can satisfy manifest</text>
   </g>
 </svg>

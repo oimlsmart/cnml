@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
   <title>Transparency log flow — publishing, anchoring, and verifying</title>
-  <desc>A signed CNML cert is appended to the public Merkle transparency log, periodically anchored to Bitcoin via OpenTimestamps, mirrored across three operators (BIML, NIST, PTB), and verified by clients requiring 2-of-3 mirror agreement.</desc>
+  <desc>A signed CNML cert is appended to the public Merkle transparency log, periodically anchored to Bitcoin via OpenTimestamps, mirrored across multiple independent operators, and verified by clients requiring a quorum of mirror agreement.</desc>
 
   <defs>
     <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -46,12 +46,12 @@
     <text x="140" y="68" text-anchor="middle" class="actor-sub">append-only Merkle tree</text>
 
     <rect class="log" x="0" y="100" width="280" height="60" rx="6"/>
-    <text x="140" y="125" text-anchor="middle" class="log-title">NIST Mirror</text>
-    <text x="140" y="145" text-anchor="middle" class="actor-sub">tlog.nist.gov</text>
+    <text x="140" y="125" text-anchor="middle" class="log-title">Mirror A</text>
+    <text x="140" y="145" text-anchor="middle" class="actor-sub">independent operator</text>
 
     <rect class="log" x="0" y="180" width="280" height="60" rx="6"/>
-    <text x="140" y="205" text-anchor="middle" class="log-title">PTB Mirror</text>
-    <text x="140" y="225" text-anchor="middle" class="actor-sub">tlog.ptb.de</text>
+    <text x="140" y="205" text-anchor="middle" class="log-title">Mirror B</text>
+    <text x="140" y="225" text-anchor="middle" class="actor-sub">independent operator</text>
 
     <g transform="translate(0, 270)">
       <rect class="step" x="0" y="0" width="280" height="50" rx="4"/>
@@ -125,7 +125,7 @@
 
   <!-- Bottom callout -->
   <g transform="translate(40, 560)">
-    <text x="0" y="0" class="step-text" fill="#a3be8c" font-weight="600">Covert issuance impossible: every cert appears in 3 independent public logs within hours</text>
-    <text x="0" y="18" class="step-text">See: TODO 35 (transparency check) · TODO 46 (DR federation) · TODO 47 (Roughtime) · RFC 6962 (CT)</text>
+    <text x="0" y="0" class="step-text" fill="#a3be8c" font-weight="600">Covert issuance prevented: every cert appears in multiple independent public logs</text>
+    <text x="0" y="18" class="step-text">RFC 6962 (Certificate Transparency) gossip model</text>
   </g>
 </svg>

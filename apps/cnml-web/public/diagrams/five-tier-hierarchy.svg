@@ -35,7 +35,7 @@
   <g transform="translate(220, 170)">
     <rect class="tier-box" x="0" y="0" width="460" height="100" rx="6"/>
     <text x="230" y="22" text-anchor="middle" class="tier-role">TIER 2 · ISSUING AUTHORITY (per nation)</text>
-    <text x="230" y="48" text-anchor="middle" class="tier-label">IA Intermediate CA (e.g., NMi, PTB, LNE)</text>
+    <text x="230" y="48" text-anchor="middle" class="tier-label">IA Intermediate CA (per national IA)</text>
     <text x="230" y="68" text-anchor="middle" class="tier-detail">FROST-P256 · async signing via confium-tc-coordinator</text>
     <text x="230" y="85" text-anchor="middle" class="threshold-label">2-of-3 officers · 4-hour unlock window</text>
   </g>
@@ -50,7 +50,7 @@
   <g transform="translate(40, 320)">
     <rect class="tier-box" x="0" y="0" width="280" height="100" rx="6"/>
     <text x="140" y="22" text-anchor="middle" class="tier-role">TIER 3 · TEST LAB</text>
-    <text x="140" y="48" text-anchor="middle" class="tier-label">Lab Cert (NMi, LNE, etc.)</text>
+    <text x="140" y="48" text-anchor="middle" class="tier-label">Lab Cert (per accredited TL)</text>
     <text x="140" y="68" text-anchor="middle" class="tier-detail">ECDSA-P256 · 1-of-1</text>
     <text x="140" y="85" text-anchor="middle" class="threshold-label">signs test reports · encrypts to IA quorum</text>
   </g>

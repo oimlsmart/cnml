@@ -59,7 +59,7 @@ Verifier (browser, 7-check pipeline)
 
 The five-tier Mode 3 deployment uses **threshold cryptography (FROST)** at the
 BIML Root (5-of-7 directors) and IA (2-of-3 officers) tiers; lower tiers stay
-1-of-1. See `TODO.roadmap/README.md` and the `confium-architecture.md` doc.
+1-of-1. See the architecture and confium-integration docs in `apps/cnml-web/src/content/docs/`.
 
 ### Source of truth
 
@@ -124,7 +124,7 @@ detection), `loadConfiumWasm()` (WASM), `CoordinatorClient` (TCP).
 Confium ships ~50 crates spanning threshold schemes (FROST variants,
 BLS, CMP20, GG18, ML-KEM, FHE-BVF), store backends (PKCS#11, TPM,
 OpenPGP card, cloud KMS), and transports (TCP, QUIC, WebSocket).
-See `apps/cnml-web/src/content/docs/confium-architecture.md`.
+See `apps/cnml-web/src/content/docs/architecture/confium-integration.md`.
 
 ### Audience builds
 
