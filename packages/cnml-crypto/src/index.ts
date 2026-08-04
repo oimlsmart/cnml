@@ -50,6 +50,8 @@ export { importPublicKeyFromPem, loadTrustedPublicKey } from "./trust/import.ts"
 
 // XML signing / verification
 export { signCnmlXml } from "./xml/sign.ts";
+export { signCnmlXmlExternal } from "./xml/sign-external.ts";
+export type { ExternalSigner } from "./xml/sign-external.ts";
 export type { VerificationResult, VerifyOptions } from "./xml/verify.ts";
 export { verifyCnmlXml } from "./xml/verify.ts";
 

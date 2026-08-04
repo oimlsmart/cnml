@@ -29,6 +29,12 @@ export async function issueSelfSignedCert(
   subjectDn: string,
   validityDays = 3650,
 ): Promise<string> {
+  // pkijs reads its engine from the shared registry ensureXmldsigEngine
+  // populates — register it HERE so the cert path is self-sufficient
+  // (previously order-dependent: it only worked after an xml/ call had
+  // run first; idempotent, so the overlap costs nothing).
+  const { ensureXmldsigEngine } = await import("../xml/engine.ts");
+  ensureXmldsigEngine();
   const pki = await import("pkijs");
   const asn1 = await import("asn1js");
 
