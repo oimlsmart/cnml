@@ -1,8 +1,18 @@
 # CNML — OIML Certificat Numérique de Métrologie Légale
 
 A cryptographically-signed, machine-verifiable, FAIR-aligned digital
-certificate format for OIML type approvals. The OIML equivalent of
-PTB's DCC (Digital Calibration Certificate).
+certificate format for OIML type approvals — the digital form of the
+OIML-CS (Certificate System for Measuring Instruments) certificate,
+currently issued as unverifiable PDFs.
+
+The naming doctrine: **the OIML CNML project is OIML SMART's name for
+its certificate format on Confium Mode 3** (the multi-stakeholder
+threshold-cryptography Certificate PKI). Confium is the
+program-agnostic PKI product; CNML is the OIML SMART program's format
+on it — every 〈scope〉 SMART program names its own. CNML is complementary to PTB's
+[DCC](https://www.ptb.de/dcc/) (Digital Calibration Certificate):
+CNML covers the **type-approval tier** (per model, OIML-CS); DCC
+covers the **calibration tier** (per calibration event, ISO/IEC 17025).
 
 ## Quick start
 
@@ -94,9 +104,10 @@ See [TODO.roadmap/](./TODO.roadmap/) for 29 prioritized work items.
 
 ## Source of truth
 
-- **Ruby project**: `~/src/oimlsmart/oiml-cs-certificates/` — 880 real
-  OIML cert instances + canonical JSON Schema YAMLs
-- **This project**: synced copies + TS web app + Ruby PKI server
+- **Canonical schemas + 880 real OIML cert instances**: the OIML-CS
+  certificates repo (Ruby source-of-truth)
+- **This project**: synced schema copies + TS web app + Ruby PKI
+  server
 
 ## License
 

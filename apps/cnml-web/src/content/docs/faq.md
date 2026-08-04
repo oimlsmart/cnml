@@ -184,14 +184,33 @@ itself remains authoritative.
 
 ### "How does CNML relate to PTB DCC?"
 
-PTB's Digital Calibration Certificate (DCC) is a parallel effort
-focused on test report data. CNML is compatible (TODO 14):
+PTB's [Digital Calibration Certificate](https://www.ptb.de/dcc/)
+(DCC) and CNML operate at **different tiers of metrology** — they
+are complementary, not competing.
+
+- **DCC** is the calibration tier: per-calibration-event certificates
+  issued by ISO/IEC 17025-accredited labs, covering a specific
+  artifact's measurement result + uncertainty budget + SI traceability
+  chain. One DCC per calibration; an instrument may have many over
+  its lifetime.
+- **CNML** is the type-approval tier: per-model certificates issued
+  by OIML-Designated Issuing Authorities under OIML-CS, covering a
+  type's conformity to an OIML R-Recommendation. One CNML per type
+  approval, valid ~10 years.
+
+A measuring instrument in legal use typically has **both**: a CNML
+type approval (covering the model) and periodic DCC calibrations
+(covering each recalibration of the specific unit). CNML consumes
+DCCs as test-report evidence via the `ptb-dcc-compat` package
+(TODO 14):
 
 - CNML can embed DCC XML as the test report payload
 - Test labs can produce DCC + sign it + reference it from CNML
 - Round-trip conversion works
 
-CNML and DCC are complementary, not competing.
+CNML is the digital form of the OIML-CS certificate of conformity;
+DCC is the digital form of the ISO/IEC 17025 calibration certificate.
+Both are needed; neither replaces the other.
 
 ### "How does CNML relate to BIPM Digital SI?"
 

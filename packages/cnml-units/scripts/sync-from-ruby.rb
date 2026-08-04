@@ -1,40 +1,40 @@
 #!/usr/bin/env ruby
-# Sync unitsdb symbol→id maps from the Ruby project to TS-friendly JSON.
+# Sync unitsdb symbol→id maps to TS-friendly JSON via the `unitsdb` gem.
 #
 # Usage:
-#   UNITSDB_PATH=/path/to/unitsdb OUT_DIR=./src ruby scripts/sync-from-ruby.rb
+#   OUT_DIR=./src ruby scripts/sync-from-ruby.rb
+#
+# The `unitsdb` gem bundles the canonical UnitsDB YAML data and exposes
+# it via Unitsdb.database. No path configuration needed.
+require "unitsdb"
 require "json"
-require "yaml"
 
-UNITSDB_PATH = ENV.fetch("UNITSDB_PATH")
-OUT_DIR      = ENV.fetch("OUT_DIR", File.expand_path("../src", __dir__))
+OUT_DIR = ENV.fetch("OUT_DIR", File.expand_path("../src", __dir__))
 
-# Read unitsdb YAML directly
-units    = YAML.load_file("#{UNITSDB_PATH}/units.yaml")["units"]
-prefixes = YAML.load_file("#{UNITSDB_PATH}/prefixes.yaml")["prefixes"]
+db = Unitsdb.database
 
-units_json = units.flat_map do |u|
-  uid = u["identifiers"]&.find { |i| i["type"] == "unitsml" }&.dig("id")
+units_json = db.units.flat_map do |u|
+  uid = u.identifiers.find { |i| i.type == "unitsml" }&.id
   next [] unless uid
   entries = []
-  entries << { symbol: u["short"], unit_id: uid } if u["short"]
-  (u["symbols"] || []).each do |sym|
+  entries << { symbol: u.short, unit_id: uid } if u.short
+  u.symbols.each do |sym|
     %w[unicode ascii id].each do |k|
-      v = sym[k]
+      v = sym.public_send(k)
       entries << { symbol: v, unit_id: uid } if v && !v.empty?
     end
   end
   entries
 end.uniq
 
-prefixes_json = prefixes.flat_map do |p|
-  pid = p["identifiers"]&.find { |i| i["type"] == "unitsml" }&.dig("id")
+prefixes_json = db.prefixes.flat_map do |p|
+  pid = p.identifiers.find { |i| i.type == "unitsml" }&.id
   next [] unless pid
-  next [] if p["short"] == "none"
+  next [] if p.short == "none"
   entries = []
-  (p["symbols"] || []).each do |sym|
+  p.symbols.each do |sym|
     %w[unicode ascii].each do |k|
-      v = sym[k]
+      v = sym.public_send(k)
       entries << { symbol: v, unit_id: pid } if v && v != "1"
     end
   end
