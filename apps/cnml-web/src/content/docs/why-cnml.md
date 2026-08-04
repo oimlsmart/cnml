@@ -5,18 +5,15 @@ description: The case for adopting CNML as the digital certificate infrastructur
 
 # Why CNML
 
-CNML is the digital successor to the PDF-based OIML-CS certificate of conformity. The legal authority of the underlying certificate is unchanged. CNML preserves that authority while adding cryptographic integrity, machine readability, FAIR alignment, and interoperability with the wider digital metrology infrastructure.
+CNML is a cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It provides machine-verifiable certification of measuring instruments subject to legal metrology. The legal authority of the underlying OIML-CS type approval is unchanged. CNML adds cryptographic integrity, machine readability, FAIR alignment, and interoperability with the wider digital metrology infrastructure.
 
-| Property | PDF certificate | CNML certificate |
-|---|---|---|
-| Carrier | PDF with an ink signature | XML signed with XMLDSig |
-| Delivery channel | Email or file transfer | Direct download with CDN-published trust anchors |
-| Verification | Visual comparison by the recipient | Drop-file verification with multiple automated checks |
-| Tamper resistance | Dependent on the viewer and the recipient's attention | Dependent on a 128-bit cryptographic break |
-| Revocation | No propagation mechanism | CRL distribution through a CDN |
-| Timestamp evidence | None | Bitcoin-anchored timestamps through OpenTimestamps |
-| Language support | Single language per file | `xml:lang` per element with internationalization built in |
-| Programmatic access | None | Open-source TypeScript and Ruby libraries |
+## Standards-based and distributed
+
+CNML is built on recognized international standards. The certificate format is X.509 v3 (RFC 5280), the same standard format used by web TLS, extended with an OIML-specific scope extension that uses the standard X.509 v3 extension mechanism. The XML signature is W3C XMLDSig 1.1 with Exclusive C14N. The key algorithms include ECDSA P-256 (NIST FIPS 186), Ed25519 (RFC 8032), and ML-DSA-65 (NIST FIPS 204). The hardware interface is PKCS#11. The transparency log follows the RFC 6962 model. Every cryptographic and structural component traces to a published standard. CNML extends these standards for legal metrology rather than replacing them.
+
+The web TLS public-key infrastructure was designed in the 1990s for high-volume automated issuance of channel-authentication certificates. That architecture centralized signing authority in a single certificate authority per certificate and surrounded that centralization with protective infrastructure: OCSP responders, Certificate Transparency logs, WebTrust audits, and HSM clusters under compliance regimes. The centralization is efficient at the volume of web browsing but concentrates risk and carries substantial operational overhead.
+
+CNML distributes signing authority across a threshold quorum of independent directors and officers using threshold cryptography, a class of techniques that matured into deployable form in the 2020s through protocols such as FROST and through the standardization work surveyed in NIST IR 8214. The distributed architecture eliminates single-party compromise as a system-wide risk while reducing the operational infrastructure burden: the high-throughput machinery of web PKI is unnecessary at the volume of legal-metrology certification, and the distributed threshold model removes the single-CA-operator risk that the machinery was built to mitigate. The full comparison is in [CNML and typical PKI compared](/docs/architecture/cnml-vs-typical-pki).
 
 ## Transparency
 
@@ -28,7 +25,7 @@ Transparency is the central design property. The system is designed so that no a
 
 CNML is designed to impose a minimal operating-cost burden on Issuing Authorities and verifiers. The software is open-source under a permissive license: there are no per-issuer fees, no per-certificate charges, and no subscription requirements. Verification is free and browser-based: a market-surveillance inspector or a manufacturer runs the verifier in a browser at no cost and without registration.
 
-The hardware required is standard PKCS#11-compatible equipment available from multiple vendors. The CA tiers use YubiKey or Nitrokey devices for IA intermediate keys and enterprise HSMs for the BIML root. The signer tier uses browser IndexedDB for end-entity keys. There is no vendor lock-in. The full hardware tier structure is described in [Hardware key tiers](/docs/architecture/hardware-tiers).
+The hardware required is standard PKCS#11-compatible equipment available from multiple vendors. Any PKCS#11-compatible device can serve at any tier; the choice of device is a deployment policy driven by capacity and certification requirements. The full hardware model is described in [Hardware key tiers](/docs/architecture/hardware-tiers).
 
 CNML places no per-transaction costs on the verifier. The static CDN that distributes trust anchors, CRLs, and the transparency log has no API surface and no usage limits. A verifier can verify CNML certificates indefinitely from a single cached download of the trust-anchor bundle.
 
@@ -58,7 +55,7 @@ The OIML SMART programme is the framework within which CNML evolves. The documen
 
 ## Path forward
 
-CNML adoption proceeds through three phases. In the pilot phase, BIML issues a test root and a small number of IA intermediates on hardware keys. Sample CNMLs are signed for evaluation. In the parallel-run phase, real CNMLs are issued alongside the existing PDF certificates while Issuing Authorities and verifiers become familiar with the format. In the production phase, CNML becomes the official format, and the PDF certificate is progressively retired. The operational guide for IAs and BIML/CIML staff appears in [For IAs and BIML/CIML](/docs/roles/for-ias-biml-ciml).
+CNML adoption proceeds through three phases. In the pilot phase, BIML issues a test root and a small number of IA intermediates on hardware keys. Sample CNMLs are signed for evaluation. In the parallel-run phase, CNML certificates are issued alongside existing certificate formats while Issuing Authorities and verifiers become familiar with the format. In the production phase, CNML becomes the official format. The operational guide for IAs and BIML/CIML staff appears in [For IAs and BIML/CIML](/docs/roles/for-ias-biml-ciml).
 
 ## See also
 

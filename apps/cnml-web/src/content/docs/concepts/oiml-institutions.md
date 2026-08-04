@@ -13,7 +13,7 @@ CNML is a component of the OIML SMART programme, and its governance is grounded 
 
 OIML was established by the Convention establishing the World Forum on Legal Metrology, signed in 1955 and revised in 1968. It is an intergovernmental treaty organization with more than sixty member states and a comparable number of corresponding members. The purpose of OIML is to harmonize the regulations and metrological controls applied by member states to measuring instruments subject to legal control, with the aim of removing technical barriers to trade in regulated instruments.
 
-OIML pursues this purpose through the OIML Recommendations, which are international standards specifying the metrological and technical requirements that categories of measuring instruments must satisfy for type approval. The OIML Certificate System (OIML-CS) is the operational framework through which OIML member states and corresponding members recognize type approvals issued under those Recommendations. CNML is the digital certificate format developed under the OIML SMART programme to succeed the PDF-based OIML-CS certificate of conformity that the system currently issues.
+OIML pursues this purpose through the OIML Recommendations, which are international standards specifying the metrological and technical requirements that categories of measuring instruments must satisfy for type approval. The OIML Certificate System (OIML-CS) is the operational framework through which OIML member states and corresponding members recognize type approvals issued under those Recommendations. CNML is the digital certificate format developed under the OIML SMART programme for the system.
 
 ## The four institutional bodies
 
@@ -35,7 +35,7 @@ CNML does not replace the DoMC. It makes the DoMC framework verifiable cryptogra
 
 ## The OIML SMART programme
 
-The OIML SMART programme is the framework within which CNML and related digital initiatives evolve. CNML was developed under the programme by analyzing every existing published OIML-CS Type Approval certificate and digitizing the resulting model in a manner compatible with OIML SMART and the relevant OIML R-Recommendations. The implementation is developed by Ribose, and the threshold-cryptography substrate is provided by Confium.
+The OIML SMART programme is the framework within which CNML and related digital initiatives evolve. CNML was developed under the programme for OIML SMART and the relevant OIML R-Recommendations. The implementation is developed by Ribose, and the threshold-cryptography substrate is provided by Confium.
 
 Through the OIML SMART programme, OIML is committed to facilitating adoption of CNML by every national metrology laboratory, their accredited test laboratories, and the market-surveillance authorities that verify instruments in the field. The programme provides open-source software, public specifications, and reproducible schemas so that any OIML member state or corresponding member can participate without licensing fees, per-certificate charges, or subscription requirements.
 
