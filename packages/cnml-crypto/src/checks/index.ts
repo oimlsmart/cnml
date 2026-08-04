@@ -24,6 +24,11 @@ import { transparencyCheck } from "./transparency.ts";
 
 export type { Check, CheckContext, CheckResult };
 
+// The CRL leg's helpers (TODO.ops/13 — the app's revocation
+// propagation extracts the signing cert's serial with these).
+export { readCrlFieldsFromCert } from "./crl.ts";
+export { crlCheck } from "./crl.ts";
+
 /**
  * The canonical check pipeline. Order is significant — each check
  * may depend on results from earlier checks via the CheckContext.

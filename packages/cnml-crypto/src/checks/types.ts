@@ -28,6 +28,9 @@ export interface CheckContext {
   trustedKeys?: CryptoKey[];
   /** Trusted cert PEMs (alternative to trustedKeys). */
   trustedCerts?: string[];
+  /** An explicit CRL distribution point (tests, deployments whose cert
+   *  predates the CRL DP extension — TODO.ops/13). */
+  crlUrl?: string;
   /** Recommendation id parsed from the CNML (set by schema_valid check). */
   recommendationId?: string;
   /** Parsed certificate object (set by schema_valid check). */

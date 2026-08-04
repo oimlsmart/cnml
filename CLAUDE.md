@@ -62,11 +62,14 @@ BIML Root (5-of-7 directors) and IA (2-of-3 officers) tiers; lower tiers stay
 
 ### Source of truth
 
-- **Canonical YAML schemas + 880 real cert instances**: `~/src/oimlsmart/oiml-cs-certificates/`
-- **Confium Rust core** (threshold crypto, transparency log, coordinator): `~/src/confium/`
+- **Canonical YAML schemas + 880 real cert instances**: the OIML-CS
+  certificates repo (Ruby source-of-truth)
+- **Confium Rust core** (threshold crypto, transparency log,
+  coordinator): the confium repo
 - **This repo**: synced schema copies + TS web app + Ruby PKI server
 
-When schema fields or cert shapes disagree, the oiml-cs-certificates repo wins.
+When schema fields or cert shapes disagree, the OIML-CS certificates
+repo wins.
 
 ### Data-driven schemas (no per-Recommendation code)
 

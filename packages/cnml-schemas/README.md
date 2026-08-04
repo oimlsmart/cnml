@@ -13,7 +13,8 @@ Full OIML certificate schema stack for the CNML web app.
 
 ## Source
 
-Copied from `~/src/oimlsmart/oiml-cs-certificates/schema/` (the Ruby source-of-truth).
+The canonical Ruby source-of-truth for these schemas lives in the
+OIML-CS certificates repo. This package holds CNML-synced copies.
 
 ## Sync
 

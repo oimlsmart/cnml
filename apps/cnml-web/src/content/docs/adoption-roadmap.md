@@ -68,32 +68,30 @@ prove the full 5-tier flow end-to-end (BIML root → IA → TL →
 manufacturer model → instance) without the coordination overhead
 of a larger consortium.
 
-### Pilot IAs (Year 1)
+This is a **call for pilot participants**, not a list of committed
+organizations. The OIML SMART program is seeking IAs and test labs
+willing to participate in the Year-1 pilot; the cohort will be
+announced once selections are finalized.
 
-| IA | Country | Region | Joined | Initial scope |
-|----|---------|--------|--------|---------------|
-| NMi Certin B.V. | Netherlands | Europe | 2026 Q3 | R76, R117 |
-| NIM | China | Asia-Pacific | 2026 Q4 | R60, R76 |
+### Pilot IA profile (Year 1, 2 slots)
 
-Pilot IA selection criteria:
+**Selection criteria:**
 
 - Demonstrated operational maturity (existing DoMC scope)
-- Geographic diversity (one Europe, one Asia-Pacific)
-- Willingness to assign 2-of-3 officer quorum participants
+- Geographic diversity (one European, one Asia-Pacific preferred)
+- Willingness to assign a 2-of-3 officer quorum
 - Commitment to issue at least 25 CNMLs in Year 1
 - Agreement to share anonymized operational telemetry with BIML
   for the first 12 months
 
-### Pilot test labs (Year 1)
+**Pilot scope:** each pilot IA certifies one or two Recommendations
+of its own choosing from its accredited scope.
 
-| Test lab | Country | Affiliated IA | Joined |
-|----------|---------|---------------|--------|
-| NMi Certin Test Lab | Netherlands | NMi | 2026 Q3 |
-| NIM Test Lab | China | NIM | 2026 Q4 |
+### Pilot test lab profile (Year 1, 2 slots)
 
 Each pilot test lab is affiliated with one pilot IA, ensuring the
 TL → IA encrypted-test-report flow (TODO 36) gets real-world
-exercise. The labs commit to:
+exercise. Pilot labs are expected to:
 
 - Sign all test reports with TL keys (TODO 31)
 - Encrypt test reports to their affiliated IA's threshold KEM
@@ -116,9 +114,8 @@ was considered and rejected. Reasons:
 - **The pilot's job is to prove the loop, not to scale.** Scaling
   happens in Year 2 once the loop is proven.
 
-The pilot cohort expands to the first follower wave in Year 2.
-Based on initial discussions, PTB (Germany), NIST (USA), and LNE
-(France) are expected to join as first followers.
+Year-2 cohort expansion opens to additional IAs and labs once the
+pilot proves the loop end-to-end.
 
 ## Incentive structure
 
@@ -139,7 +136,7 @@ CNML Hardware Subsidy Fund (CHSF) provides:
 - 10 free YubiKeys for the 2 pilot test labs (5 each)
 - 50 free secure elements for the first 5 manufacturers onboarded
   by pilot IAs
-- Funded by OIML member state contributions + Ribose sponsorship
+- Funded by OIML member state contributions and industry partners
 
 Apply at: `adoption@cnml.oiml.org`
 

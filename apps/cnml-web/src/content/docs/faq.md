@@ -226,7 +226,7 @@ No vendor-specific standards. No lock-in.
 ### "Has CNML been audited?"
 
 CNML is built on confium (43 Rust crates, 725+ tests), which has
-been internally audited by Ribose. Independent third-party audits
+been internally audited. Independent third-party audits
 are planned annually starting 2027.
 
 Open source: all code at [github.com/oimlsmart/digital-certificates](https://github.com/oimlsmart/digital-certificates)
@@ -261,8 +261,8 @@ See [For Developers](/docs/for-developers). Quick start:
 - TypeScript packages: `packages/cnml-*` — `pnpm test`
 - Web app: `apps/cnml-web` — `pnpm dev`
 
-All contributions via PR. CLA required (Ribose CLA, similar to
-Metanorma).
+All contributions via PR. CLA required (standard contributor CLA,
+similar to Metanorma).
 
 ### "What license?"
 

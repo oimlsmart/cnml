@@ -46,7 +46,12 @@ export async function issueSelfSignedCert(
   for (const [oid, value] of parseDn(subjectDn)) {
     const attr = new pki.AttributeTypeAndValue({
       type: oid,
-      value: new asn1.Utf8String({ value }),
+      // countryName requires PrintableString (X.509 Name); everything
+      // else rides Utf8String (the strict-schema decode's rule — a
+      // Utf8String C breaks pkijs's own Certificate parser).
+      value: oid === "2.5.4.6"
+        ? new asn1.PrintableString({ value })
+        : new asn1.Utf8String({ value }),
     });
     cert.subject.typesAndValues.push(attr);
     cert.issuer.typesAndValues.push(attr);

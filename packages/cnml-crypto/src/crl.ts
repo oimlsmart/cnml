@@ -48,11 +48,14 @@ export interface Crl {
 export async function parseCrl(derBuffer: ArrayBuffer): Promise<Crl> {
   const asn1js = await import("asn1js");
   const pkijs = await import("pkijs");
-  const asn1 = asn1js.fromBER(derBuffer);
-  const crl = new pkijs.CertificateRevocationList({ schema: asn1 });
+  const parsed = asn1js.fromBER(derBuffer);
+  if (parsed.offset === -1 || !parsed.result) {
+    throw new Error(`not a well-formed CRL (DER parse failed at byte ${-parsed.offset})`);
+  }
+  const crl = new pkijs.CertificateRevocationList({ schema: parsed.result });
 
   const revoked: RevocationEntry[] = (crl.revokedCertificates ?? []).map((e: any) => ({
-    serial: bigIntToHex(e.userCertificate),
+    serial: integerBytesToHex(e.userCertificate),
     revocationDate: new Date(e.revocationDate.value.valueOf()),
     reason: readReasonCode(e.crlEntryExtensions),
   }));
@@ -103,9 +106,15 @@ const REASON_CODES: Record<string, string> = {
 
 // ─── Internal ────────────────────────────────────────────────────────────
 
-function bigIntToHex(value: any): string {
-  // pkijs gives the serial as a BigInteger. Convert to uppercase hex.
-  const hex = value.toString(16).toUpperCase();
+/** The DER bytes of an Integer as uppercase hex (padded to even
+ *  length) — pkijs's toString(16) prints decimal for valueBlock
+ *  Integers, so the hex form comes from the value's own bytes. */
+function integerBytesToHex(value: any): string {
+  const bytes: Uint8Array | undefined = value?.valueBlock?.valueHexView ?? value?.valueBlock?.valueHex;
+  if (!bytes) return "";
+  // A leading 0x00 is the two's-complement sign pad, not serial content.
+  const raw = bytes.length > 1 && bytes[0] === 0 ? bytes.slice(1) : bytes;
+  const hex = Array.from(raw).map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
   return hex.length % 2 === 0 ? hex : "0" + hex;
 }
 

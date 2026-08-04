@@ -177,6 +177,68 @@ post "/api/enroll" do
   }.to_json
 end
 
+# ─── Revocation (TODO.ops/13 — the CRL end to end) ────────────────────
+# The app's lifecycle actions (suspend/withdraw) post the revoked
+# serial here; the CA re-issues and publishes the CRL on every change
+# (lift-suspension removes the serial). The revoked set persists on the
+# CA's keystore entry — re-issued CRLs are cumulative, never a fresh
+# list.
+post "/api/crl/revoke" do
+  content_type :json
+  body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
+  passphrase = body["passphrase"]
+  halt(401, { error: "passphrase required" }.to_json) unless passphrase
+  ca = begin
+    OimlPki::CaStore.find(body["ca_id"], passphrase)
+  rescue StandardError
+    halt(401, { error: "the passphrase does not unlock the keystore" }.to_json)
+  end
+  halt(404, { error: "CA not found" }.to_json) unless ca
+
+  revoked = ca["revoked"] ||= []
+  serial = body["serial"].to_s
+  halt(400, { error: "serial required" }.to_json) if serial.empty?
+  if body["action"] == "reinstate"
+    revoked.reject! { |r| r["serial"].to_s == serial }
+  else
+    unless revoked.any? { |r| r["serial"].to_s == serial }
+      revoked << { "serial" => serial.to_i, "date" => body["date"] || Time.now.iso8601 }
+    end
+  end
+  OimlPki::CaStore.add(ca, passphrase)
+
+  crl = OimlPki::CertFactory.create_crl(ca["privateKey"], ca["certificate"], revoked)
+  path = OimlPki::Publisher.publish_crl(crl, ca["alias"])
+  OimlPki::AuditLog.append("api.crl.revoke", details: {
+    ca_id: body["ca_id"],
+    serial: serial,
+    action: body["action"] || "revoke",
+    revoked_count: revoked.length,
+    path: path,
+  })
+  { revoked: revoked.map { |r| r["serial"] }, crl_url: crl_url_for(ca), revoked_count: revoked.length }.to_json
+end
+
+# The CRL distribution point (public — a verifier needs no session).
+get "/crl.pem" do
+  ca_alias = params[:ca] || "OIML Root CA"
+  fname = ca_alias.gsub(/[^A-Za-z0-9]/, "-").downcase
+  path = File.join(OimlPki::OUTPUT_DIR, "crls", "#{fname}.crl")
+  halt(404, { error: "no CRL issued for #{ca_alias} yet" }.to_json) unless File.exist?(path)
+  content_type "application/pkcs7-crl"
+  File.binread(path)
+end
+
+helpers do
+  # The URL certs point at (the CRL DP extension) — the deployment's
+  # public base for this CA (OIML_CRL_BASE_URL; the dev default).
+  def crl_url_for(ca)
+    base = ENV["OIML_CRL_BASE_URL"] || "http://localhost:4455"
+    "#{base.gsub(/\/$/, '')}/crl.pem?ca=#{ERB::Util.url_encode(ca['alias'])}"
+  end
+end
+
+
 
 post "/crl/create" do
   passphrase = require_passphrase!

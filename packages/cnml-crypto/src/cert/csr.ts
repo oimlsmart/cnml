@@ -26,7 +26,11 @@ export async function buildCsrPem(
     csr.subject.typesAndValues.push(
       new pki.AttributeTypeAndValue({
         type: oid,
-        value: new asn1.Utf8String({ value }),
+        // countryName requires PrintableString (X.509 Name) — a
+        // Utf8String C breaks the strict-schema decode.
+        value: oid === "2.5.4.6"
+          ? new asn1.PrintableString({ value })
+          : new asn1.Utf8String({ value }),
       }),
     );
   }

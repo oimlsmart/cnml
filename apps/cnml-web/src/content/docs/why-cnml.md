@@ -297,11 +297,10 @@ resigns, the remaining quorum re-shares to exclude them.
 
 ### Strategic alignment
 
-The CNML 5-tier deployment is the flagship Mode 3 deployment of the
-confium framework. It is targeted for NIST MPTS (Migration to
+The CNML deployment is targeted for NIST MPTS (Migration to
 Post-Quantum Cryptography Test) submission in Q2 2027, with
-partnerships locked in across BIML (institutional partner), NIST
-(performance evaluation), and Ribose (operations).
+partnerships across BIML (institutional partner) and NIST
+(performance evaluation).
 
 PQC migration is built in from day one: composite signatures
 (ECDSA + ML-DSA-65) ship in CMS envelopes so legacy verifiers

@@ -25,15 +25,16 @@ export async function readScopeFromCert(certPem: string): Promise<string[] | nul
   const pkijs = await import("pkijs");
 
   const der = pemToDer(certPem);
-  const asn1 = asn1js.fromBER(der);
+  const parsed = asn1js.fromBER(der);
   // A cert that does not schema-parse reads as "no scope extension"
   // (null) — the scope check's documented legacy path ("cert predates
   // scope governance — gracefully accepted, never a failure"), never a
   // crashed reason string. Well-formed CA certs parse cleanly (the
   // scope-crl fixtures pin the read path).
+  if (parsed.offset === -1 || !parsed.result) return null;
   let cert: InstanceType<typeof pkijs.Certificate>;
   try {
-    cert = new pkijs.Certificate({ schema: asn1 });
+    cert = new pkijs.Certificate({ schema: parsed.result });
   } catch {
     return null;
   }

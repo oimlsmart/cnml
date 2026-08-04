@@ -3,10 +3,10 @@
 # Confium Rust core integration layer for the Ruby CA server.
 #
 # Single point of contact between the OimlPki Ruby codebase and the
-# `confium-ruby` gem (FFI bindings to the Rust cdylib at
-# `~/src/confium/confium-ruby/`). Every confium-consuming module goes
-# through this layer so capability detection, version pinning, and
-# preflight checks live in exactly one place (DRY + MECE).
+# `confium-ruby` gem (FFI bindings to the Rust cdylib). Every
+# confium-consuming module goes through this layer so capability
+# detection, version pinning, and preflight checks live in exactly
+# one place (DRY + MECE).
 #
 # Two public entry points:
 #

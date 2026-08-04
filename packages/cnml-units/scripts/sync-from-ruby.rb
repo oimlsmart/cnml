@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 # Sync unitsdb symbol→id maps from the Ruby project to TS-friendly JSON.
+#
+# Usage:
+#   UNITSDB_PATH=/path/to/unitsdb OUT_DIR=./src ruby scripts/sync-from-ruby.rb
 require "json"
 require "yaml"
 
-UNITSDB_PATH = "/Users/mulgogi/src/unitsml/unitsdb"
-OUT_DIR      = "/Users/mulgogi/src/oimlsmart/digital-certificates/packages/cnml-units/src"
+UNITSDB_PATH = ENV.fetch("UNITSDB_PATH")
+OUT_DIR      = ENV.fetch("OUT_DIR", File.expand_path("../src", __dir__))
 
 # Read unitsdb YAML directly
 units    = YAML.load_file("#{UNITSDB_PATH}/units.yaml")["units"]
