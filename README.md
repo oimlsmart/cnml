@@ -109,15 +109,13 @@ ECDSA-P256 is the default classical algorithm. CNML ships composite signatures c
 
 ### Hardware-backed keys
 
-The root and intermediate CA private keys live in PKCS#11-compatible hardware. Three tiers are supported, with each tier chosen for the assurance level required at the corresponding position in the hierarchy.
+All three signing tiers (BIML Root, IA intermediate, signer) accept any PKCS#11-compatible hardware device. The technical interface is uniform: the device exposes PKCS#11, the CA server's KeyProvider dispatch calls through PKCS#11, and the private key is generated on the device and never leaves it. The choice of device at each tier is a deployment policy driven by capacity and certification requirements, not a software constraint.
 
-**Tier 1: enterprise HSM at the BIML Root.** Enterprise HSMs provide the highest assurance. The Thales Luna HSM family and the Utimaco SecurityServer family ship in FIPS 140-3 Level 3 validated configurations, with multi-party authentication, tamper-evident chassis, and key material that cannot be exported. The BIML Root signing key is generated, stored, and used inside an enterprise HSM at this tier.
+The BIML Root tier holds a small number of high-value signing keys and typically uses devices with the highest certification level available in the deployment's regulatory regime. The IA intermediate tier holds one device per officer, with each device carrying that officer's threshold share. The signer tier holds one device per signer, with each device carrying that signer's end-entity key. The only meaningful differentiator between devices is capacity: how many private keys the device can hold simultaneously.
 
-**Tier 2: YubiKey 5 FIPS at the IA intermediate.** The YubiKey 5 FIPS series (https://www.yubico.com/store/) is a personal hardware token validated to FIPS 140-2 Level 1 (overall) with physical security up to Level 2. The YubiKey 5 FIPS series is in transition to FIPS 140-3 validation as NIST moves the Cryptographic Module Validation Program to the new standard. The YubiKey 5 FIPS series exposes the PIV smartcard applet with 24 distinct key slots through PKCS#11 via the `ykcs11` library. IA officer quorum keys are generated on the device and never leave it.
+A separate reference list of compatible PKCS#11 devices is maintained at [compatible hardware devices](/docs/architecture/hardware-tiers#compatible-devices), covering vendor, model, certification regime, capacity, and the PKCS#11 driver name. The list is factual. Inclusion does not constitute an endorsement.
 
-**Tier 3: any YubiKey 5 or browser IndexedDB at the signer.** The standard YubiKey 5 series (without FIPS validation) provides the same PKCS#11 surface and the same PIV applet for end-entity signer keys. For development and low-assurance deployments, browser IndexedDB with AES-GCM encryption under a PBKDF2-derived key provides a software-only path.
-
-All three tiers speak PKCS#11, so there is no vendor lock-in. A YubiKey 5 FIPS can be substituted for a Thales Luna at the IA tier without code changes. A YubiKey 5 standard can be substituted for a YubiKey 5 FIPS at the signer tier without code changes. The choice of hardware at each tier is driven by the assurance level required, not by software constraints.
+Where the deployment's regulatory framework requires FIPS-validated cryptographic modules, devices validated under FIPS 140-2 (and, as the NIST Cryptographic Module Validation Program modernizes, FIPS 140-3) are suitable. Where FIPS validation is not required, any PKCS#11-compatible device is suitable. For development and low-assurance deployments, browser IndexedDB with AES-GCM encryption under a PBKDF2-derived key provides a software-only signer path with no hardware requirement.
 
 ### Long-term archival
 
