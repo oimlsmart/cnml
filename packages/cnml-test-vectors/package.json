@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "test": "node --test --experimental-strip-types --no-warnings src/cnml.test.ts src/audit.test.ts src/scope-crl.test.ts src/version.test.ts",
+    "test": "node --test --experimental-strip-types --no-warnings src/cnml.test.ts src/audit.test.ts src/scope-crl.test.ts src/er-binding.test.ts src/version.test.ts",
     "test:audit": "node --test --experimental-strip-types --no-warnings src/audit.test.ts",
     "gen": "node --experimental-strip-types --no-warnings src/generate-vectors.ts",
     "verify": "node --experimental-strip-types --no-warnings src/verify-vectors.ts"

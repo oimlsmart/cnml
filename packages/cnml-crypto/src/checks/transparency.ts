@@ -189,7 +189,7 @@ function textOf(parent: Element, tagName: string): string | null {
 /** Check 7: transparency log entry exists with valid inclusion proof. */
 export const transparencyCheck: Check = {
   id: "transparency",
-  label: "7. Transparency log entry",
+  label: "8. Transparency log entry",
   continueOnFail: true,
   run: async (xml, ctx): Promise<CheckResult> => {
     const proof = parseTransparencyProof(xml);

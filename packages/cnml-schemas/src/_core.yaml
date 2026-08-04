@@ -225,6 +225,24 @@ definitions:
     type: array
     items: { $ref: "#/definitions/TestReport" }
 
+  # The evaluation-report binding (TODO.ops/15): the certificate
+  # cryptographically binds its Evaluation Report — the PD-05 ER ↔
+  # certificate chain of custody, not just a report-number reference.
+  # The digest is sha256 over the ER entity's canonical JSON (sorted
+  # keys), computed at sign time; a verifier recomputes from the ER
+  # export and compares.
+  EvaluationReportRef:
+    type: object
+    required: [id, digest]
+    properties:
+      id: { type: string, description: "The evaluation report's entity id" }
+      date: { type: string, description: "The ER's date (ISO-8601 date), when declared" }
+      digest:
+        type: string
+        pattern: '^sha256:[0-9a-f]{64}$'
+        description: "sha256 over the ER entity's canonical JSON (sorted keys)"
+    additionalProperties: false
+
   RevisionEntry:
     type: object
     required: [revision, date, changes]

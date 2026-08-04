@@ -39,6 +39,7 @@ properties:
           certs to be flagged downstream rather than rejected outright.
         items: { $ref: "#/definitions/AccuracyClassToken" }
   test_reports: { $ref: "_core.yaml#/definitions/TestReportList" }
+  evaluation_report: { $ref: "_core.yaml#/definitions/EvaluationReportRef" }
   revision_history: { $ref: "_core.yaml#/definitions/RevisionHistory" }
   model_family: { $ref: "_core.yaml#/definitions/ModelFamily" }
   components:

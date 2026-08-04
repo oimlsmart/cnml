@@ -19,6 +19,7 @@ import { schemaValidCheck } from "./schema_valid.ts";
 import { signatureCheck } from "./signature.ts";
 import { scopeCheck } from "./scope.ts";
 import { crlCheck } from "./crl.ts";
+import { erBindingCheck } from "./er_binding.ts";
 import { timestampCheck } from "./timestamp.ts";
 import { transparencyCheck } from "./transparency.ts";
 
@@ -28,6 +29,8 @@ export type { Check, CheckContext, CheckResult };
 // propagation extracts the signing cert's serial with these).
 export { readCrlFieldsFromCert } from "./crl.ts";
 export { crlCheck } from "./crl.ts";
+// The ER-binding leg (TODO.ops/15).
+export { erBindingCheck } from "./er_binding.ts";
 
 /**
  * The canonical check pipeline. Order is significant — each check
@@ -39,6 +42,7 @@ export const CHECKS: Check[] = [
   signatureCheck,
   scopeCheck,
   crlCheck,
+  erBindingCheck,
   timestampCheck,
   transparencyCheck,
 ];

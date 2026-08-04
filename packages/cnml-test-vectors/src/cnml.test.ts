@@ -169,6 +169,39 @@ describe("XML: certToCnmlXml + parseCnmlXml", () => {
     assert.equal(parsed.certified_type?.type_designations?.length, 2);
   });
 
+  test("the evaluation-report binding round-trips (TODO.ops/15)", async () => {
+    const yaml = (await import("yaml")).default;
+    const { certToCnmlXml, parseCnmlXml } = await import("../../cnml-xml/src/index.ts");
+    const samplePath = path.resolve(ROOT, "packages/cnml-schemas/src/samples/r60-sample.yaml");
+    const cert = yaml.parse(readFileSync(samplePath, "utf8"));
+    cert.evaluation_report = {
+      id: "er-r60-2026-0142",
+      date: "2026-06-30",
+      digest: "sha256:" + "ab".repeat(32),
+    };
+
+    const xml = certToCnmlXml(cert);
+    assert.match(xml, /<cnml:evaluationReport>/);
+    assert.match(xml, /er-r60-2026-0142/);
+    assert.match(xml, new RegExp("sha256:" + "ab".repeat(32)));
+
+    const parsed = parseCnmlXml(xml);
+    assert.deepEqual(parsed.evaluation_report, {
+      id: "er-r60-2026-0142",
+      date: "2026-06-30",
+      digest: "sha256:" + "ab".repeat(32),
+    });
+  });
+
+  test("a cert without the ER binding parses with evaluation_report absent", async () => {
+    const yaml = (await import("yaml")).default;
+    const { certToCnmlXml, parseCnmlXml } = await import("../../cnml-xml/src/index.ts");
+    const samplePath = path.resolve(ROOT, "packages/cnml-schemas/src/samples/r60-sample.yaml");
+    const cert = yaml.parse(readFileSync(samplePath, "utf8"));
+    const parsed = parseCnmlXml(certToCnmlXml(cert));
+    assert.equal(parsed.evaluation_report, undefined);
+  });
+
   test("rejects non-CNML XML", async () => {
     const { parseCnmlXml } = await import("../../cnml-xml/src/index.ts");
     assert.throws(

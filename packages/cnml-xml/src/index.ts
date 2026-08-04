@@ -40,10 +40,21 @@ export interface Certificate {
   characteristics?: Characteristics;
   recommendation?: Recommendation;
   test_reports?: TestReport[];
+  /** The evaluation-report binding (TODO.ops/15): the certificate
+   *  cryptographically binds its ER — sha256 over the ER entity's
+   *  canonical JSON. */
+  evaluation_report?: EvaluationReportRef;
   revision_history?: RevisionEntry[];
   model_family?: unknown;
   components?: unknown[];
   footnotes?: Footnote[];
+}
+
+/** The evaluation-report binding (TODO.ops/15). */
+export interface EvaluationReportRef {
+  id: string;
+  date?: string;
+  digest: string;
 }
 
 export interface Party {
@@ -173,6 +184,7 @@ function buildAdministrativeData(doc: Document, cert: Certificate): Element {
   if (cert.certified_type)    admin.appendChild(buildCertifiedType(doc, cert.certified_type));
   if (cert.revision_history?.length)   admin.appendChild(buildRevisionHistory(doc, cert.revision_history));
   if (cert.test_reports?.length)       admin.appendChild(buildTestReports(doc, cert.test_reports));
+  if (cert.evaluation_report)          admin.appendChild(buildEvaluationReport(doc, cert.evaluation_report));
   if (cert.footnotes?.length)          admin.appendChild(buildFootnotes(doc, cert.footnotes));
 
   return admin;
@@ -242,6 +254,14 @@ function buildTestReports(doc: Document, trs: TestReport[]): Element {
     if (t.role)  tr.appendChild(el(doc, "role",  t.role));
     node.appendChild(tr);
   }
+  return node;
+}
+
+function buildEvaluationReport(doc: Document, er: EvaluationReportRef): Element {
+  const node = el(doc, "evaluationReport");
+  node.appendChild(el(doc, "id",     er.id));
+  if (er.date) node.appendChild(el(doc, "date", er.date));
+  node.appendChild(el(doc, "digest", er.digest));
   return node;
 }
 
@@ -410,6 +430,7 @@ export function parseCnmlXml(xml: string): Certificate {
     characteristics:   parseMeasurementResults(byTag(root, "measurementResults")),
     revision_history:  byTagAll(byTag(admin, "revisionHistory"), "revision").map(parseRevision),
     test_reports:      byTagAll(byTag(admin, "testReports"), "testReport").map(parseTestReport),
+    evaluation_report: parseEvaluationReport(byTag(admin, "evaluationReport")),
     footnotes:         byTagAll(byTag(admin, "footnotes"), "footnote").map(parseFootnote),
   };
 }
@@ -513,6 +534,15 @@ function parseTestReport(node: Element): TestReport {
     date:  textOf(node, "date"),
     pages: numOrUndef(textOf(node, "pages")),
     role:  textOf(node, "role"),
+  };
+}
+
+function parseEvaluationReport(node: Element | null): EvaluationReportRef | undefined {
+  if (!node) return undefined;
+  return {
+    id:     textOf(node, "id") ?? "",
+    date:   textOf(node, "date"),
+    digest: textOf(node, "digest") ?? "",
   };
 }
 
