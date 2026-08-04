@@ -62,6 +62,9 @@ module OimlPki
 
     def publish_crl(crl, ca_alias)
       fname = ca_alias.gsub(/[^A-Za-z0-9]/, "-").downcase
+      # mkdir_p here too — publish_certs created the subdir, but a CRL
+      # published first (fresh checkout, CI) must not ENOENT.
+      FileUtils.mkdir_p(File.join(OUTPUT, "crls"))
       path = File.join(OUTPUT, "crls", "#{fname}.crl")
       File.binwrite(path, crl.to_der)
       path
