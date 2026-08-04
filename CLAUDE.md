@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-CNML (Certificat Numérique de Métrologie Légale) — a cryptographically-signed,
-machine-verifiable digital certificate format for OIML type approvals. The OIML
-equivalent of PTB's DCC (Digital Calibration Certificate). See `README.md` and
-`TESTING.md` for the project pitch and full manual test workflow.
+CNML (Certificat Numérique de Métrologie Légale) is the digital certificate format developed under the OIML SMART program to succeed the PDF-based OIML-CS certificate of conformity. The format was produced by analyzing every existing published OIML-CS Type Approval certificate and digitizing the resulting model in a manner compatible with OIML SMART and the relevant OIML R-Recommendations. CNML is complementary to the PTB Digital Calibration Certificate (DCC), which operates at the calibration tier under ISO/IEC 17025. See `README.md` and `TESTING.md` for the project overview and full manual test workflow.
+
+## Writing style
+
+All public-facing content in this repository follows the [OIML SMART style guide](https://github.com/oimlsmart/styleguide/blob/main/WRITING_STYLE.md). Read that guide before drafting or editing README sections, documentation pages, FAQ entries, or any prose published under the OIML SMART program. The guide is binding on register, prohibited patterns, content rules, and vocabulary. Internal developer files such as this `CLAUDE.md` follow the guide in spirit but are more permissive on formatting for the sake of brevity.
 
 ## Commands
 
@@ -144,21 +145,9 @@ server stays in `oiml-pki-server/` for air-gapped deployment.
 
 ## Roadmap
 
-`TODO.roadmap/` contains 80 prioritized specs (P0–P3) with status
-(DONE / PARTIAL / SPEC / BLOCKED). `TODO.roadmap/README.md` is the index —
-update it whenever a TODO changes status or a new one is added. Each spec is
-self-contained: problem → design → acceptance criteria → implementation plan →
-tests → see-also.
+Roadmap and planning documents are maintained locally under `TODO.*/` directories and are gitignored. They are not part of the published repository. Each planning document is self-contained and follows the form: problem statement, design, acceptance criteria, implementation plan, tests, and cross-references. Update the relevant `README.md` index whenever a planning document changes status or a new one is added.
 
-TODOs 67-80 specifically adapt new confium features (Mode 2 adapters,
-BLS cross-recognition, async re-sharing, FHE analytics, attribute
-predicates, QUIC/WS transports, plugin marketplace, PQC composite
-signatures, continuous security). TODOs 67 (drop-in adapters) and 69
-(async re-sharing) are P0 — the first opens enterprise adoption, the
-second makes director rotation operationally real.
-
-Older scoped TODO dirs (`TODO.cnml/`, `TODO.cnml-pki/`, `TODO.fixup/`) exist
-for historical context — prefer `TODO.roadmap/` for new work.
+Older scoped planning directories (`TODO.cnml/`, `TODO.cnml-pki/`, `TODO.fixup/`) exist for historical context. New work uses `TODO.roadmap/` or `TODO.refactor/`.
 
 ## Generated / runtime paths (not source)
 
