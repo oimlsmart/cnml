@@ -23,14 +23,12 @@ the device signs internally and returns only the signature bytes.
 
 ### Tier 1: Enterprise HSM (Thales Luna, Utimaco SecurityServer)
 
-- **Cost**: $5,000 – $50,000+
 - **Capacity**: millions of keys, FIPS 140-2 Level 3 / Level 4 certified
 - **Use case**: OIML Root CA at BIML
 - **PKCS#11 driver**: vendor-supplied (`libcryptoki.so`, `ctswclient.dll`)
 
 ### Tier 2: Yubikey 5 series / Nitrokey
 
-- **Cost**: $50 – $75
 - **Capacity**: 24 distinct PIV key slots, FIPS 140-2 Level 3 (Yubikey 5 FIPS)
 - **Use case**: Per-IA intermediate CA
 - **PKCS#11 driver**: `opensc-pkcs11.so` (Linux/macOS), `libykcs11.dylib` (Yubico)

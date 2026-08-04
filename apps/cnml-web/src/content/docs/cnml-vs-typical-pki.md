@@ -80,11 +80,11 @@ cryptographically as an X.509 v3 extension on each intermediate CA cert.
 
 ### 6. Offline verification
 
-A customs inspector at a remote border crossing may need to verify a
-CNML with no internet. OCSP fails. CT log lookup fails. Even the CDN
-might be unreachable. The CNML verifier downloads a trust-anchors bundle
-once (cached) and can then verify CNMLs offline indefinitely (until CRL
-refresh, which is monthly at most).
+A verifier at a remote site may need to verify a CNML with no internet
+connection. OCSP fails. CT log lookup fails. Even the CDN might be
+unreachable. The CNML verifier downloads a trust-anchors bundle once
+and can then verify CNMLs offline indefinitely, until CRL refresh
+which is monthly at most.
 
 ## Architectural consequences
 

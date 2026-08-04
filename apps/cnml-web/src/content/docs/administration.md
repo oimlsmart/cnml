@@ -245,10 +245,12 @@ design: institutional change happens without cryptographic disruption.
 
 ## Issuing Authorities: certificate issuance authority
 
-Each Issuing Authority (IA) is a national body (e.g. PTB in Germany,
-NMi in the Netherlands, NIST in the US, NMI Australia). An IA holds a
-2-of-3 threshold quorum of its own, independently keyed via its own
-distributed key generation (DKG) ceremony. The IA:
+Each Issuing Authority (IA) is a national body — typically a
+national metrology institute or designated legal-metrology authority
+under the OIML DoMC framework (e.g., PTB in Germany, NMi in the
+Netherlands). An IA holds a 2-of-3 threshold quorum of its own,
+independently keyed via its own distributed key generation (DKG)
+ceremony. The IA:
 
 - Holds a BIML-signed IA intermediate certificate, scoped to specific
   Recommendations per the DoMC framework

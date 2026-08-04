@@ -35,3 +35,18 @@ Thumbs.db
 # Logs
 *.log
 output/
+
+# Internal planning TODOs — kept locally, NOT published
+# (strategic plans, hallucination-prone cost/timeline drafts, internal
+# architecture rationale). The public roadmap lives in README.md and
+# the docs/ pages.
+TODO.refactor/
+TODO.roadmap/
+TODO.cnml/
+TODO.cnml-pki/
+TODO.fixup/
+TODO.ops/
+
+# Memory (Claude Code per-project memory — private)
+.claude/
+

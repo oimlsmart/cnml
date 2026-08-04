@@ -1,58 +1,47 @@
+---
+title: What is CNML?
+description: The digital form of the OIML-CS certificate of conformity, developed under the OIML SMART program by digitizing every published Type Approval certificate in a manner compatible with the relevant OIML R-Recommendations.
+---
+
 # What is CNML?
 
-**CNML** = **C**ertificat **N**umérique de **M**étrologie **L**égale (Digital Legal Metrology Certificate).
+CNML is the Certificat Numérique de Métrologie Légale, the digital certificate format developed under the OIML SMART program. It is the digital successor to the PDF-based OIML-CS certificate of conformity that is currently published at oiml.org. The format was produced by analyzing every existing published OIML-CS Type Approval certificate and digitizing the resulting model in a form compatible with OIML SMART and the relevant OIML R-Recommendations. CNML is XML, cryptographically signed using W3C XMLDSig with Exclusive C14N, and machine-verifiable by any party without contacting the issuer.
 
-CNML is the **digital form of the OIML-CS certificate of conformity**
-— currently issued as PDF files at [oiml.org/extra/certificates](https://www.oiml.org/en/extra/certificates).
-It's an XML-based, cryptographically signed file format for issuing
-and verifying OIML type-approval certificates.
+## CNML and DCC are different tiers
 
-### CNML vs DCC — different tiers, not equivalents
+CNML is sometimes described as the OIML equivalent of the PTB Digital Calibration Certificate (DCC). That description is imprecise and obscures the relationship between the two formats. CNML and DCC operate at different tiers of the metrology infrastructure and serve complementary purposes.
 
-It's tempting to call CNML "OIML's DCC" but that conflates two
-different tiers of metrology:
-
-| | **DCC** (Digital Calibration Certificate) | **CNML** |
+| | DCC | CNML |
 |---|---|---|
-| **Tier** | Calibration | Type approval |
-| **Standard** | ISO/IEC 17025 | OIML-CS (B-3 to B-19) + OIML R-Recommendations |
-| **Issuer** | Calibration laboratories | OIML-Designated Issuing Authorities |
-| **Subject** | A specific calibrated artifact | A model (type) of measuring instrument |
-| **Validity** | Per calibration event (one-off) | ~10 years per type approval |
-| **Use case** | Measurement traceability for industry/science | Market access for regulated instruments |
-| **Scope** | All metrology (mass, length, electrical, …) | Legal metrology (trade, health, safety, env) |
-| **Regulatory** | Voluntary / commercial | Legally required for market placement |
-| **Format** | XML (DCC 3.2.0, XAdES-signed) | XML (XMLDSig, per-R JSON Schema) |
+| Tier | Calibration | Type approval |
+| Standard | ISO/IEC 17025 | OIML-CS plus the OIML R-Recommendations |
+| Issuer | Calibration laboratories accredited under ISO/IEC 17025 | OIML-Designated Issuing Authorities under the OIML-CS framework |
+| Subject | A specific calibrated artifact | A model, or type, of measuring instrument |
+| Validity | One certificate per calibration event | One certificate per type approval, valid for the OIML-CS period |
+| Use case | Measurement traceability for industry and science | Lawful market placement of regulated measuring instruments |
+| Scope | All fields of metrology | Legal metrology, encompassing trade, health, safety, and environmental protection |
+| Format | XML DCC 3.2.0 signed with XAdES | XML signed with XMLDSig, constrained by per-Recommendation JSON Schemas |
 
-A measuring instrument in legal use typically has **both**: a CNML
-type approval (covering the model) and periodic DCC calibrations
-(covering each recalibration of the specific unit). CNML consumes
-DCCs as test-report evidence via the `ptb-dcc-compat` package — they
-stack, they don't compete.
+A measuring instrument in legal use typically holds both. The CNML type approval covers the model, and periodic DCC calibrations cover each individual recalibration of a specific unit. CNML consumes DCC files as test-report evidence through the `ptb-dcc-compat` package, so the two formats stack rather than compete.
 
-## Why CNML?
+## Why CNML exists
 
-OIML publishes 22 Recommendations covering measuring instruments — load cells (R60), electricity meters (R46), fuel dispensers (R117), and so on. Each Recommendation has its own accuracy class system, characteristic fields, and test requirements.
+OIML publishes Recommendations covering measuring instruments subject to legal control. Each Recommendation defines its own accuracy classes, characteristic fields, and test requirements. R60 governs load cells, R46 governs active electrical energy meters, R117 governs dynamic measuring systems for liquids other than water, and so on. Until CNML, OIML certificates were issued as PDF files. PDF certificates are not machine-verifiable, do not encode their semantics in a structured form, and cannot be consumed by automated verification workflows.
 
-Until CNML, OIML certificates were issued as PDF files — unverifiable, non-machine-readable, and disconnected from the underlying Recommendations.
-
-CNML brings:
-
-1. **Cryptographic signatures** — every CNML file is signed by the issuing authority's private key. Anyone can verify authenticity with the public cert.
-2. **Machine-readable** — XML conforming to the CNML XSD + per-Recommendation JSON Schemas.
-3. **Anchored to BIPM Digital SI** — all measurement units trace back to [BIPM's Digital SI](https://www.bipm.org/en/digital-si), the authoritative digital representation of the International System of Units. UnitsML encoding and the UnitsDB index are implementation technologies we use to consume Digital SI; the authority chain runs BIPM Digital SI → UnitsDB → UnitsML → CNML XML.
-4. **DCC-compatible** — consumes DCC files as test-report evidence in the CNML type-approval flow (see TODO 14).
+CNML provides four properties that the PDF format cannot offer. First, every CNML file is signed by the issuing authority's private key, and any party can verify the signature using the corresponding public certificate. Second, the file is structured XML constrained by both the CNML XSD and the per-Recommendation JSON Schemas, which permits machine reading and automated validation. Third, all measurement units in a CNML trace to the BIPM Digital SI through the UnitsDB index and UnitsML encoding, with the authority chain running from BIPM Digital SI through UnitsDB and UnitsML into the CNML XML payload. Fourth, the format consumes DCC files as test-report evidence in the type-approval flow, which makes CNML interoperate with calibration-tier infrastructure rather than replace it.
 
 ## Where CNML fits
 
 ```
-OIML Certificate of Conformity (PDF today)
+OIML Certificate of Conformity (PDF, today)
                 ↓
-                ↓  CNML digitizes the cert
+                ↓  CNML digitizes the certificate
                 ↓
 CNML file (*.cnml.xml, signed XML)
                 ↓
-                ↓  Verifiable by anyone
+                ↓  Verifiable by any party
                 ↓
-Verifier (browser, mobile, kiosk at point of sale)
+Verifier (browser, mobile, market-surveillance terminal at point of inspection)
 ```
+
+The digitization is structural rather than merely presentational. The signed XML form enables field verification, automated revocation checking, and integration with downstream regulatory systems that the PDF format cannot support.

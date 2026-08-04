@@ -17,8 +17,6 @@ Three forces make the change urgent:
 2. **Cross-border digital trade** requires machine-verifiable documents. WTO TFA, EU eIDAS 2.0, and equivalent national frameworks are mandating this. PDFs no longer qualify.
 3. **Document fraud** is getting easier. AI tools produce convincing forgeries of paper certificates. Threshold-signed XML with public transparency is the defensive response.
 
-CNML is also ~37% cheaper over 10 years (see [TCO analysis](/docs/for-decision-makers)).
-
 ### "Won't this require hiring new specialized staff?"
 
 No. CNML is designed for the staff IAs already have:
@@ -70,7 +68,7 @@ CNML is open-source. You can:
 
 There is no vendor lock-in. The CP/CPS documents your operational independence.
 
-## For Verifiers (customs, auditors, marketplace)
+## For Verifiers (marketplace, market surveillance)
 
 ### "How do I verify a CNML cert without internet?"
 
@@ -105,7 +103,7 @@ The transparency log is your friend:
 
 This is a fundamental change from PDFs: every legitimately-issued cert has a public audit trail. Forgery is structurally impossible to hide.
 
-### "Can I integrate CNML verification into our customs software?"
+### "Can I integrate CNML verification into our verification software?"
 
 Yes — open-source libraries:
 
