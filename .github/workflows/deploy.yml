@@ -40,7 +40,6 @@ jobs:
           cp -r docs/pki-diagrams apps/cnml-web/dist/docs/pki/
           cp docs/pki-architecture.md apps/cnml-web/dist/docs/pki/
           cp docs/manual-*.md apps/cnml-web/dist/docs/pki/
-          cp TODO.cnml-pki/README.md apps/cnml-web/dist/docs/pki/todo.md
 
       - name: Copy CA server docs
         run: |
