@@ -88,10 +88,10 @@ const sections = [
         {sections.map(s => (
           <section class="mb-10">
             <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">{s.title}</h2>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-px bg-[var(--rule)]">
               {s.docs.map(d => (
-                <a href={`/docs/${d.slug}`} class="block p-5 rounded-xl border border-[var(--rule)] hover:border-[var(--accent)]">
-                  <div class="font-semibold mb-1">{d.title}</div>
+                <a href={`/docs/${d.slug}`} class="block p-5 bg-[var(--paper)] hover:bg-[var(--accent-soft)] transition-colors">
+                  <div class="font-semibold mb-1 text-[var(--ink)]">{d.title}</div>
                   <div class="text-sm text-[var(--ink-muted)]">{d.desc}</div>
                 </a>
               ))}

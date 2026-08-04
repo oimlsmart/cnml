@@ -1,0 +1,76 @@
+---
+/**
+ * CNML certification seal.
+ *
+ * The signature visual element of the site. A certification seal is the
+ * most characteristic artifact in legal metrology: every type-approval
+ * certificate carries one. The CNML seal encodes substantive content.
+ *
+ * Outer ring: institutional issuer and programme.
+ * Middle ring: the threshold quorum, shown as seven markers arranged
+ *   in a circle. Five markers are filled, representing the five-of-seven
+ *   director quorum at the BIML Root tier.
+ * Center: the edition and status.
+ *
+ * The seal uses currentColor so it inherits the surrounding text color
+ * and works on any background. Pass a `class` to size or color it.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 240 240"
+  class={`cnml-seal ${className}`}
+  role="img"
+  aria-label="CNML certification seal: OIML SMART programme proposal, 2026 edition, five-of-seven director quorum."
+  fill="none"
+>
+  <defs>
+    <path id="cnml-seal-arc-top" d="M 24 120 A 96 96 0 0 1 216 120" />
+    <path id="cnml-seal-arc-bot" d="M 216 120 A 96 96 0 0 1 24 120" />
+  </defs>
+
+  <!-- Outer rings -->
+  <circle cx="120" cy="120" r="118" stroke="currentColor" stroke-width="0.5" opacity="0.35" />
+  <circle cx="120" cy="120" r="108" stroke="currentColor" stroke-width="1" />
+  <circle cx="120" cy="120" r="88" stroke="currentColor" stroke-width="0.5" opacity="0.5" />
+
+  <!-- Circumference text -->
+  <text font-family="IBM Plex Mono, monospace" font-size="6.5" letter-spacing="2.6" fill="currentColor">
+    <textPath href="#cnml-seal-arc-top" startOffset="50%" text-anchor="middle">
+      CERTIFICAT NUMÉRIQUE · MÉTROLOGIE LÉGALE
+    </textPath>
+  </text>
+  <text font-family="IBM Plex Mono, monospace" font-size="6.5" letter-spacing="2.6" fill="currentColor">
+    <textPath href="#cnml-seal-arc-bot" startOffset="50%" text-anchor="middle">
+      OIML SMART PROGRAMME · PROPOSAL · 2026
+    </textPath>
+  </text>
+
+  <!-- Threshold quorum: seven markers around a circle, five filled -->
+  <!-- The BIML Root tier uses a five-of-seven director quorum. -->
+  <g>
+    <!-- 1 filled -->
+    <circle cx="120" cy="65" r="3.5" fill="currentColor" />
+    <!-- 2 filled -->
+    <circle cx="163" cy="86" r="3.5" fill="currentColor" />
+    <!-- 3 filled -->
+    <circle cx="174" cy="132" r="3.5" fill="currentColor" />
+    <!-- 4 filled -->
+    <circle cx="144" cy="170" r="3.5" fill="currentColor" />
+    <!-- 5 filled -->
+    <circle cx="96" cy="170" r="3.5" fill="currentColor" />
+    <!-- 6 outlined (not currently participating) -->
+    <circle cx="66" cy="132" r="3.5" stroke="currentColor" stroke-width="1" opacity="0.3" />
+    <!-- 7 outlined (not currently participating) -->
+    <circle cx="77" cy="86" r="3.5" stroke="currentColor" stroke-width="1" opacity="0.3" />
+  </g>
+
+  <!-- Center -->
+  <text x="120" y="108" text-anchor="middle" font-family="'IBM Plex Serif', serif" font-size="8" letter-spacing="2.5" fill="currentColor" opacity="0.7">QUORUM</text>
+  <text x="120" y="127" text-anchor="middle" font-family="'IBM Plex Serif', serif" font-size="18" font-weight="600" fill="currentColor">5 / 7</text>
+  <text x="120" y="145" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="5.5" letter-spacing="1.4" fill="currentColor" opacity="0.6">DIRECTORS</text>
+</svg>

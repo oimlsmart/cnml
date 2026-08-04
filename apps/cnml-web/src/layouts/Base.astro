@@ -93,11 +93,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
       <slot />
     </main>
     <footer class="border-t border-[var(--rule)] bg-[var(--paper-soft)]">
-      <div class="max-w-7xl mx-auto px-6 py-6 text-center">
-        <span class="font-mono text-xs text-[var(--ink-muted)] tracking-wide uppercase">
-          CNML · OIML Certificat Numérique de Métrologie Légale ·
-          <a href="https://github.com/oimlsmart/digital-certificates" class="text-[var(--accent)] underline">Source</a>
-        </span>
+      <div class="max-w-7xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-4">
+        <div class="cnml-colophon">
+          CNML · OIML SMART programme · 2026 edition (proposal)
+        </div>
+        <div class="cnml-colophon flex flex-wrap gap-4">
+          <a href="https://github.com/oimlsmart/cnml">Source</a>
+          <a href="https://github.com/oimlsmart/styleguide/blob/main/WRITING_STYLE.md">Style guide</a>
+        </div>
       </div>
     </footer>
   </body>

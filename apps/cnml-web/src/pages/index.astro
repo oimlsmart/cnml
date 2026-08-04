@@ -1,59 +1,98 @@
 ---
 import Base from '../layouts/Base.astro';
+import CnmlSeal from '../components/CnmlSeal.astro';
 
 const actions = [
-  { href: '/create',  title: 'Create',       desc: 'Build a new OIML certificate from scratch',                  symbol: '+' },
-  { href: '/verify',  title: 'Verify',       desc: 'Check the signature and contents of an existing CNML',       symbol: '✓' },
-  { href: '/certs',   title: 'Certificates', desc: 'Browse real OIML-CS samples (3 per R, 59 total)',            symbol: '☰' },
-  { href: '/schemas', title: 'Schemas',      desc: 'Per-Recommendation JSON Schemas (draft-07)',                 symbol: '{ }' },
-  { href: '/keys',    title: 'Keys',         desc: 'Manage signing keys and trusted certificates',                symbol: '⚿' },
-  { href: '/docs',    title: 'Docs',         desc: 'How CNML works, the cryptography, the data model',           symbol: '?' },
+  { num: '01', href: '/create',  title: 'Create',       desc: 'Build a new OIML certificate from a per-Recommendation form. The schema drives the fields; the signer signs with a key in IndexedDB.' },
+  { num: '02', href: '/verify',  title: 'Verify',       desc: 'Drop a .cnml.xml file to run the full verification pipeline: well-formed XML, schema, signature, scope, CRL, timestamp, transparency.' },
+  { num: '03', href: '/certs',   title: 'Certificates', desc: 'Browse real OIML-CS Type Approval samples. Three samples per Recommendation, drawn from the published certificate corpus.' },
+  { num: '04', href: '/schemas', title: 'Schemas',      desc: 'Per-Recommendation JSON Schemas (draft-07) with x-oiml metadata. The schema is the specification; no per-R code exists.' },
+  { num: '05', href: '/keys',    title: 'Keys',         desc: 'Generate signing keys, import trusted certificates, manage the trust store. Private keys never leave the browser.' },
+  { num: '06', href: '/docs',    title: 'Documentation', desc: 'Twenty-six pages across six sections: overview, concepts, architecture, implementation, roles, reference.' },
 ];
 
-const stats = [
-  { value: '22',      label: 'OIML Recommendations supported via per-R schemas' },
-  { value: 'Digital SI', label: 'Units anchored to BIPM Digital SI via UnitsDB and UnitsML' },
-  { value: 'XMLDSig', label: 'W3C-standard signatures with Exclusive C14N, ECDSA P-256, X.509' },
-  { value: 'D-CoC',   label: 'FAIR-aligned RDF/XML output per NoBoMet V1.2' },
+const spec = [
+  { label: 'Recommendations supported', value: '22 OIML R-Recommendations' },
+  { label: 'Unit authority',            value: 'BIPM Digital SI via UnitsDB and UnitsML' },
+  { label: 'Signature format',          value: 'W3C XMLDSig 1.1 with Exclusive C14N' },
+  { label: 'Key algorithms',            value: 'ECDSA P-256; composite Ed25519 with ML-DSA-65' },
+  { label: 'Interchange format',        value: 'D-CoC RDF/XML and JSON-LD per NoBoMet V1.2' },
+  { label: 'Root-tier quorum',          value: '5-of-7 directors, threshold-signed' },
+  { label: 'Transparency',              value: 'Public Merkle log with Bitcoin anchoring' },
+  { label: 'Status',                    value: 'Proposal for OIML from the OIML SMART programme' },
 ];
 ---
 
-<Base title="CNML — Home">
-  <section class="cnml-hero max-w-7xl mx-auto">
-    <span class="cnml-tag mb-4">OIML · Certificat Numérique de Métrologie Légale</span>
-    <h1 class="cnml-hero__title">
-      The digital certificate format for OIML type approvals.
-    </h1>
-    <p class="cnml-hero__lede">
-      CNML is the OIML SMART program's digital successor to the PDF-based OIML-CS certificate
-      of conformity. It was developed by analyzing every published OIML-CS Type Approval
-      certificate and digitizing the resulting model in a form compatible with OIML SMART
-      and the relevant OIML R-Recommendations. The format is XML, the signatures are W3C
-      XMLDSig with Exclusive C14N, and the measurement units are anchored to BIPM Digital
-      SI through UnitsDB and UnitsML. Private keys never leave the signer's machine.
-    </p>
+<Base title="CNML">
+  <section class="max-w-7xl mx-auto px-6 pt-8">
+    <div class="cnml-masthead">
+      <div>
+        <span class="cnml-masthead__label">Format</span>
+        <span class="cnml-masthead__value">CNML</span>
+      </div>
+      <div>
+        <span class="cnml-masthead__label">Programme</span>
+        <span class="cnml-masthead__value">OIML SMART</span>
+      </div>
+      <div>
+        <span class="cnml-masthead__label">Edition</span>
+        <span class="cnml-masthead__value">2026 (proposal)</span>
+      </div>
+      <div>
+        <span class="cnml-masthead__label">Coverage</span>
+        <span class="cnml-masthead__value">22 OIML Recommendations</span>
+      </div>
+      <div>
+        <span class="cnml-masthead__label">Carrier</span>
+        <span class="cnml-masthead__value">XML · XMLDSig</span>
+      </div>
+    </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 pb-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <section class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-8">
+        <span class="cnml-tag mb-4">Certificat Numérique de Métrologie Légale</span>
+        <h1 class="cnml-hero__title">
+          The OIML SMART programme's digital successor to the PDF certificate of conformity.
+        </h1>
+        <p class="cnml-hero__lede">
+          CNML was developed by analyzing every published OIML-CS Type Approval certificate and digitizing the resulting model in a form compatible with OIML SMART and the relevant OIML R-Recommendations. The format is XML, the signatures are W3C XMLDSig with Exclusive C14N, and the measurement units are anchored to BIPM Digital SI through UnitsDB and UnitsML.
+        </p>
+      </div>
+      <div class="lg:col-span-4">
+        <div class="cnml-seal-wrap">
+          <CnmlSeal />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 pb-16">
+    <div class="border-t border-[var(--rule)]">
       {actions.map(a => (
-        <a href={a.href} class="cnml-card cnml-card-hover block">
-          <div class="flex items-baseline justify-between gap-2 mb-3">
-            <span class="cnml-section-title cnml-section-title--sm">{a.title}</span>
-            <span class="font-mono text-lg text-[var(--ink-muted)]">{a.symbol}</span>
+        <a href={a.href} class="cnml-clause">
+          <span class="cnml-clause__num">{a.num}</span>
+          <div>
+            <div class="cnml-clause__title">{a.title}</div>
+            <div class="cnml-clause__desc">{a.desc}</div>
           </div>
-          <div class="text-sm text-[var(--ink-soft)]">{a.desc}</div>
         </a>
       ))}
     </div>
+  </section>
 
-    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
-      {stats.map(s => (
-        <div class="cnml-stat">
-          <div class="cnml-stat__value">{s.value}</div>
-          <div class="cnml-stat__label">{s.label}</div>
-        </div>
-      ))}
-    </div>
+  <section class="max-w-7xl mx-auto px-6 pb-16">
+    <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">Specification</h2>
+    <table class="cnml-spec">
+      <tbody>
+        {spec.map(s => (
+          <tr>
+            <th>{s.label}</th>
+            <td>{s.value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </section>
 </Base>
