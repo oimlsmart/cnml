@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" text-rendering="geometricPrecision">
+  <title>Director departure and threshold re-sharing</title>
+  <desc>When a director departs, the remaining quorum re-shares to a new committee. The aggregate public key is preserved across the re-sharing, so all previously issued certificates remain valid without modification.</desc>
+
+  <defs>
+    <marker id="arrow-rs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4c566a"/>
+    </marker>
+  </defs>
+
+  <style>
+    .bg { fill: #f9fafb; }
+    .frame { fill: none; stroke: #d8dee9; stroke-width: 1; }
+    .phase-box { fill: #e5e9f0; stroke: #4c566a; stroke-width: 1.25; rx: 6; }
+    .phase-title { font-weight: 600; font-size: 13px; fill: #2e3440; }
+    .phase-sub { font-size: 11px; fill: #4c566a; }
+    .event-box { fill: #fff; stroke: #d08770; stroke-width: 1.5; rx: 6; }
+    .event-title { font-weight: 600; font-size: 13px; fill: #2e3440; }
+    .event-sub { font-size: 11px; fill: #4c566a; }
+    .key-box { fill: #a3be8c; stroke: #3b4252; stroke-width: 1.25; rx: 6; }
+    .key-title { font-weight: 600; font-size: 13px; fill: #2e3440; }
+    .key-sub { font-size: 11px; fill: #3b4252; }
+    .timeline-line { stroke: #4c566a; stroke-width: 1.5; fill: none; }
+    .timeline-arrow { stroke: #4c566a; stroke-width: 1.5; fill: none; }
+    .phase-label { font-size: 11px; fill: #6b7280; font-style: italic; }
+    .section-label { font-weight: 600; font-size: 11px; fill: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; }
+    .caption { font-size: 12px; fill: #4c566a; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="900" height="420"/>
+  <rect class="frame" x="0.5" y="0.5" width="899" height="419"/>
+
+  <text x="40" y="34" class="section-label">Re-sharing preserves the aggregate public key</text>
+
+  <line x1="60" y1="120" x2="840" y2="120" class="timeline-line"/>
+
+  <g transform="translate(40, 80)">
+    <rect class="phase-box" x="0" y="0" width="170" height="80" rx="6"/>
+    <text x="85" y="32" text-anchor="middle" class="phase-title">Old committee</text>
+    <text x="85" y="50" text-anchor="middle" class="phase-sub">T-of-N directors</text>
+    <text x="85" y="66" text-anchor="middle" class="phase-sub">shares active</text>
+    <text x="85" y="100" text-anchor="middle" class="phase-label">before</text>
+  </g>
+
+  <g transform="translate(250, 80)">
+    <rect class="event-box" x="0" y="0" width="170" height="80" rx="6"/>
+    <text x="85" y="32" text-anchor="middle" class="event-title">Departure event</text>
+    <text x="85" y="50" text-anchor="middle" class="event-sub">director resigns</text>
+    <text x="85" y="66" text-anchor="middle" class="event-sub">or is removed</text>
+    <text x="85" y="100" text-anchor="middle" class="phase-label">trigger</text>
+  </g>
+
+  <g transform="translate(460, 80)">
+    <rect class="phase-box" x="0" y="0" width="170" height="80" rx="6"/>
+    <text x="85" y="32" text-anchor="middle" class="phase-title">Re-sharing ceremony</text>
+    <text x="85" y="50" text-anchor="middle" class="phase-sub">T remaining directors</text>
+    <text x="85" y="66" text-anchor="middle" class="phase-sub">issue new shares to N' committee</text>
+    <text x="85" y="100" text-anchor="middle" class="phase-label">async · hours to days</text>
+  </g>
+
+  <g transform="translate(670, 80)">
+    <rect class="phase-box" x="0" y="0" width="170" height="80" rx="6"/>
+    <text x="85" y="32" text-anchor="middle" class="phase-title">New committee</text>
+    <text x="85" y="50" text-anchor="middle" class="phase-sub">T-of-N' directors</text>
+    <text x="85" y="66" text-anchor="middle" class="phase-sub">new shares active</text>
+    <text x="85" y="100" text-anchor="middle" class="phase-label">after</text>
+  </g>
+
+  <path class="timeline-arrow" d="M 210,120 L 250,120" marker-end="url(#arrow-rs)"/>
+  <path class="timeline-arrow" d="M 420,120 L 460,120" marker-end="url(#arrow-rs)"/>
+  <path class="timeline-arrow" d="M 630,120 L 670,120" marker-end="url(#arrow-rs)"/>
+
+  <g transform="translate(60, 230)">
+    <text x="0" y="0" class="caption">The departing director's share is invalidated. Old shares held by remaining directors are also refreshed through the protocol. The signing key, defined as the sum of the active shares evaluated at a fixed point, does not change.</text>
+  </g>
+
+  <g transform="translate(60, 280)">
+    <rect class="key-box" x="0" y="0" width="780" height="60" rx="6"/>
+    <text x="390" y="26" text-anchor="middle" class="key-title">Aggregate public key P unchanged across the re-sharing</text>
+    <text x="390" y="46" text-anchor="middle" class="key-sub">All previously issued BIML and IA certificates continue to verify without modification</text>
+  </g>
+
+  <g transform="translate(60, 370)">
+    <text x="0" y="0" class="caption">Re-sharing is the cryptographic foundation of institutional continuity. Director rotation, term expiration, and emergency replacement all proceed through the same protocol without reissuing dependent certificates.</text>
+  </g>
+</svg>

@@ -2,22 +2,62 @@
 import Base from '../layouts/Base.astro';
 
 const sections = [
-  { slug: 'what-is-cnml',          title: 'What is CNML?',          desc: 'Overview, origin in the OIML SMART program, and how CNML relates to PTB DCC' },
-  { slug: 'why-cnml',              title: 'Why CNML',               desc: 'Why Issuing Authorities should adopt this — security, longevity, and operational properties' },
-  { slug: 'administration',        title: 'BIML, CIML & OIML admin', desc: 'Governance model: who decides, who operates — decision rights, role separation, operational cadence' },
-  { slug: 'glossary',              title: 'Glossary',               desc: 'Terminology for non-experts — what FROST, ML-KEM, OTS, BIML, IA, TL, DoMC actually mean' },
-  { slug: 'faq',                   title: 'FAQ',                    desc: 'Common questions and objections answered' },
-  { slug: 'architecture',          title: 'Architecture',           desc: 'CORE + modules + per-R; XSD; BIPM Digital SI (via UnitsML + UnitsDB)' },
-  { slug: 'confium-architecture',  title: 'Confium integration',    desc: 'How CNML talks to the threshold-cryptography core — FFI / WASM / TCP binding matrix, capability detection, version contract' },
-  { slug: 'dcoc',                  title: 'D-CoC (RDF form)',       desc: 'NoBoMet Digital Certificate of Conformity — FAIR-aligned RDF/XML + JSON-LD output' },
-  { slug: 'for-issuers',           title: 'For Issuers',            desc: 'How to create and sign a CNML' },
-  { slug: 'for-verifiers',         title: 'For Verifiers',          desc: 'How to verify a CNML and what to check' },
-  { slug: 'for-developers',        title: 'For Developers',         desc: 'Repos, build, contribution' },
-  { slug: 'cryptography',          title: 'Cryptography',           desc: 'Public/private key system, signing algorithms' },
-  { slug: 'trust-model',           title: 'Trust model',            desc: 'Who can issue, OIML DoMC relationship' },
-  { slug: 'hardware-keys',         title: 'Hardware-backed keys',   desc: 'Yubikey/HSM/PKCS#11 setup and operational guide' },
-  { slug: 'biml-governance',       title: 'BIML scope governance',  desc: 'How each Issuing Authority is cryptographically scoped to specific Recommendations' },
-  { slug: 'cnml-vs-typical-pki',   title: 'CNML vs typical PKI',    desc: 'Why an air-gapped, document-signing, scope-governed, threshold-signed PKI looks nothing like web TLS' },
+  {
+    title: 'Overview',
+    docs: [
+      { slug: 'what-is-cnml', title: 'What is CNML', desc: 'The digital certificate format developed under the OIML SMART programme to succeed the PDF-based OIML-CS certificate of conformity.' },
+      { slug: 'why-cnml', title: 'Why CNML', desc: 'The case for adopting the format, including transparency, minimal operating-cost burden, and OIML facilitation of adoption.' },
+    ],
+  },
+  {
+    title: 'Concepts',
+    docs: [
+      { slug: 'concepts/oiml-institutions', title: 'OIML, BIML, CIML, and OIML-CS', desc: 'The institutional context: OIML, its bodies, the OIML-CS framework, the DoMC, and how CNML relates to the institutional hierarchy.' },
+      { slug: 'concepts/threshold-cryptography', title: 'Threshold cryptography in CNML', desc: 'The five-tier hierarchy, the algorithms at each tier, and the asynchronous coordinator model.' },
+      { slug: 'concepts/nist-threshold-alignment', title: 'Alignment with NIST threshold cryptography research', desc: 'How CNML adopts techniques surveyed by NIST IR 8214 and the NIST Multi-Party Threshold Schemes project, applied to legal metrology.' },
+      { slug: 'concepts/cnml-and-dcc', title: 'CNML and PTB DCC', desc: "How CNML complements PTB's Digital Calibration Certificate, which operates at the calibration tier while CNML operates at the type-approval tier." },
+      { slug: 'concepts/fair-and-dcoc', title: 'FAIR principles and D-CoC', desc: 'The FAIR principles applied to legal-metrology certificates, and the D-CoC framework described in the OIML Bulletin.' },
+      { slug: 'concepts/bipm-digital-si', title: 'BIPM Digital SI and measurement units in CNML', desc: 'The authority chain from BIPM Digital SI through UnitsDB and UnitsML into CNML XML.' },
+    ],
+  },
+  {
+    title: 'Architecture',
+    docs: [
+      { slug: 'architecture/system', title: 'System architecture', desc: "The canonical description of CNML's system architecture: the five-tier hierarchy, the certificate model layers, and the data flow." },
+      { slug: 'architecture/cnml-vs-typical-pki', title: 'CNML and typical PKI compared', desc: 'A neutral technical comparison of CNML PKI and web TLS PKI, framed as optimizations for different problem domains.' },
+      { slug: 'architecture/cnml-architecture-choices', title: 'CNML architecture choices', desc: 'CNML described on its own terms: air-gapped CA, scope governance, threshold signing, transparency log, hardware key tiers, post-quantum readiness.' },
+      { slug: 'architecture/distributed-management', title: 'Distributed management', desc: 'How threshold cryptography distributes signing authority across geographies, directors, and officers.' },
+      { slug: 'architecture/redundancy', title: 'Redundancy and continuity', desc: 'How the system continues to operate when directors, officers, hardware keys, or facilities are lost.' },
+      { slug: 'architecture/transparency', title: 'Transparency and audit', desc: 'The Merkle transparency log, gossip monitoring, OpenTimestamps anchoring, and hash-chained audit log.' },
+      { slug: 'architecture/hardware-tiers', title: 'Hardware key tiers', desc: 'The three-tier hardware model: enterprise HSM at the root, personal hardware tokens at the IA, browser IndexedDB at the signer.' },
+      { slug: 'architecture/confium-integration', title: 'Confium integration', desc: 'How the Ruby CA server and the TypeScript verifier invoke the Confium Rust threshold-cryptography framework.' },
+    ],
+  },
+  {
+    title: 'Implementation',
+    docs: [
+      { slug: 'implementation/schema-driven-design', title: 'Schema-driven design', desc: 'The principle that the schema is the specification, the per-Recommendation YAML model, and the open/closed extension patterns.' },
+      { slug: 'implementation/verification-pipeline', title: 'Verification pipeline', desc: 'The multi-check pipeline, the Check registry pattern, and the scope check that binds the OIML-CS framework to the verifier.' },
+      { slug: 'implementation/dcoc-output', title: 'D-CoC output and FAIR interchange', desc: 'The implementation of D-CoC output, RDF/XML and JSON-LD serialization, and triple-store ingestion.' },
+      { slug: 'implementation/internationalization', title: 'Internationalization', desc: 'The xml:lang per-element language model, per-Recommendation language coverage, and the planned language tiers.' },
+    ],
+  },
+  {
+    title: 'Roles',
+    docs: [
+      { slug: 'roles/for-ias-biml-ciml', title: 'For IAs and BIML/CIML', desc: 'The operational guide for IA officers and BIML/CIML staff: certificate creation, threshold signing, scope governance, ceremony participation.' },
+      { slug: 'roles/for-verifiers', title: 'For verifiers', desc: 'The verification flow, offline trust-anchor distribution, CRL refresh, and library integration.' },
+      { slug: 'roles/for-developers', title: 'For developers', desc: 'Repository layout, build and test commands, contribution workflow, and code quality rules.' },
+    ],
+  },
+  {
+    title: 'Reference',
+    docs: [
+      { slug: 'reference/glossary', title: 'Glossary', desc: 'Alphabetical terminology reference for non-experts.' },
+      { slug: 'reference/faq', title: 'FAQ', desc: 'Audience-grouped questions and answers, with cross-references to the canonical docs.' },
+      { slug: 'reference/standards-index', title: 'Standards index', desc: 'A table of every standard CNML references, with role and link.' },
+    ],
+  },
 ];
 ---
 
@@ -26,27 +66,38 @@ const sections = [
     <div class="grid grid-cols-12 gap-8">
       <aside class="col-span-3 border-r border-[var(--rule)] pr-6">
         <h2 class="text-xs uppercase tracking-wider text-[var(--ink-muted)] font-semibold mb-3">Contents</h2>
-        <ul class="space-y-2 text-sm">
-          {sections.map(s => (
-            <li><a href={`/docs/${s.slug}`} class="hover:text-[var(--accent)]">{s.title}</a></li>
-          ))}
-          <li class="pt-3 mt-3 border-t border-[var(--rule)]">
-            <a href="/diagrams" class="hover:text-[var(--accent)]">Diagrams gallery</a>
-          </li>
-        </ul>
+        {sections.map(s => (
+          <div class="mb-5">
+            <div class="text-[0.7rem] uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-2">{s.title}</div>
+            <ul class="space-y-2 text-sm">
+              {s.docs.map(d => (
+                <li><a href={`/docs/${d.slug}`} class="hover:text-[var(--accent)]">{d.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <div class="pt-3 mt-3 border-t border-[var(--rule)]">
+          <a href="/diagrams" class="hover:text-[var(--accent)]">Diagrams gallery</a>
+        </div>
       </aside>
       <div class="col-span-9">
         <h1 class="text-4xl font-bold mb-2">CNML Documentation</h1>
-        <p class="text-[var(--ink-muted)] mb-10">Everything you need to issue, verify, and trust OIML Digital Legal Metrology Certificates.</p>
+        <p class="text-[var(--ink-muted)] mb-6">This documentation is a proposal for OIML from the OIML SMART programme. Every specification, diagram, and operational description is a draft and may change without notice as the proposal evolves.</p>
+        <p class="text-[var(--ink-muted)] mb-10">CNML is the Certificat Numérique de Métrologie Légale, the digital certificate format that succeeds the PDF-based OIML-CS certificate of conformity. The pages below cover what CNML is, why it exists, how it works, and how each audience participates.</p>
 
-        <div class="grid grid-cols-2 gap-4">
-          {sections.map(s => (
-            <a href={`/docs/${s.slug}`} class="block p-5 rounded-xl border border-[var(--rule)] hover:border-[var(--accent)]">
-              <div class="font-semibold mb-1">{s.title}</div>
-              <div class="text-sm text-[var(--ink-muted)]">{s.desc}</div>
-            </a>
-          ))}
-        </div>
+        {sections.map(s => (
+          <section class="mb-10">
+            <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">{s.title}</h2>
+            <div class="grid grid-cols-2 gap-4">
+              {s.docs.map(d => (
+                <a href={`/docs/${d.slug}`} class="block p-5 rounded-xl border border-[var(--rule)] hover:border-[var(--accent)]">
+                  <div class="font-semibold mb-1">{d.title}</div>
+                  <div class="text-sm text-[var(--ink-muted)]">{d.desc}</div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   </section>

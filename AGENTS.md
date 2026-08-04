@@ -51,7 +51,7 @@ Signed CNML (XMLDSig with optional OpenTimestamps proof)
 Verifier (browser, multi-check pipeline)
 ```
 
-The five-tier deployment uses threshold cryptography at the BIML Root and IA tiers. Lower tiers stay single-party. See the `confium-architecture.md` documentation page for details.
+The five-tier deployment uses threshold cryptography at the BIML Root and IA tiers. Lower tiers stay single-party. See the architecture and confium-integration documentation under `apps/cnml-web/src/content/docs/architecture/` for details.
 
 ### Source of truth
 

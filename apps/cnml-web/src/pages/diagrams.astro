@@ -3,15 +3,25 @@ import Base from '../layouts/Base.astro';
 
 const diagrams = [
   { slug: 'architecture',                    title: 'System Architecture',                desc: 'CNML ecosystem: Ruby source, TS web app, keys, verifier' },
-  { slug: 'certificate-layers',              title: 'Certificate Model Layers',           desc: 'CORE → modules → per-R → instance' },
+  { slug: 'certificate-layers',              title: 'Certificate Model Layers',           desc: 'CORE to modules to per-R to instance' },
   { slug: 'signing-flow',                    title: 'Signing Flow',                       desc: 'From form to downloadable signed CNML' },
-  { slug: 'verification-flow',               title: 'Verification Flow',                  desc: 'Four sequential checks' },
-  { slug: 'trust-chain',                     title: 'Trust Chain',                        desc: 'PKI hierarchy: root → issuer → cert' },
+  { slug: 'verification-flow',               title: 'Verification Flow',                  desc: 'Sequential checks with short-circuit failure' },
+  { slug: 'trust-chain',                     title: 'Trust Chain',                        desc: 'PKI hierarchy from root through issuer to certificate' },
   { slug: 'unitsml-embedding',               title: 'UnitsML Embedding',                  desc: 'How UnitsDB units are encoded in CNML XML' },
   { slug: 'pki-comparison',                  title: 'PKI: typical TLS vs CNML',           desc: 'Side-by-side architecture comparison' },
-  { slug: 'issuance-flow-comparison',        title: 'Issuance flow comparison',           desc: 'ACME-automated vs human-reviewed, air-gapped' },
-  { slug: 'scope-governance-comparison',     title: 'Scope governance comparison',        desc: 'Why CNML cryptographically encodes per-CA authorization' },
-  { slug: 'security-architecture',           title: 'Security architecture (6 layers)',   desc: 'Defense-in-depth: air-gap, hardware keys, scope, PQ crypto, timestamps, CDN' },
+  { slug: 'issuance-flow-comparison',        title: 'Issuance flow comparison',           desc: 'ACME-automated versus human-reviewed air-gapped' },
+  { slug: 'scope-governance-comparison',     title: 'Scope governance comparison',        desc: 'How CNML cryptographically encodes per-IA authorization' },
+  { slug: 'security-architecture',           title: 'Security architecture',              desc: 'Six-layer defense-in-depth view' },
+  { slug: 'five-tier-hierarchy',             title: 'Five-tier certificate hierarchy',    desc: 'BIML Root through IA through TL through Manufacturer Model to Instance' },
+  { slug: 'async-signing-flow',              title: 'Async signing flow',                 desc: 'Director participation across time zones via the coordinator' },
+  { slug: 'distributed-management',          title: 'Distributed management',             desc: 'Geographic distribution of threshold signing authority' },
+  { slug: 'redundancy-fault-tolerance',      title: 'Redundancy and fault tolerance',     desc: 'How operations continue under component loss' },
+  { slug: 'resharing-recovery',              title: 'Re-sharing and recovery',            desc: 'Director departure preserves the aggregate public key' },
+  { slug: 'scope-enforcement-flow',          title: 'Scope enforcement flow',             desc: 'Four-layer enforcement of per-IA per-Recommendation scope' },
+  { slug: 'transparency-flow',               title: 'Transparency flow',                  desc: 'Merkle log with mirror agreement and Bitcoin anchor' },
+  { slug: 'threshold-encryption-flow',       title: 'Threshold encryption flow',          desc: 'Confidential test report protection via threshold KEM' },
+  { slug: 'confium-integration-points',      title: 'Confium integration points',         desc: 'Ruby FFI, browser WASM, and TCP bindings to the threshold core' },
+  { slug: 'institutional-architecture',      title: 'Institutional architecture',         desc: 'OIML bodies and their authority relationships' },
 ];
 ---
 

@@ -1,0 +1,15 @@
+---
+const path = Astro.url.pathname;
+const isDocsPage = path.startsWith('/docs');
+
+const title = 'PROPOSAL · OIML SMART programme';
+const body =
+  'This page is a proposal for OIML from the OIML SMART programme. Every specification, diagram, and operational description is a draft and may change without notice as the proposal evolves. OIML Member States and Corresponding Members seeking engagement should contact OIML through official channels.';
+---
+
+{isDocsPage && (
+  <aside class="border-l-4 border-[#d97706] bg-[#fef3c7] dark:bg-[rgba(120,53,15,0.18)] text-[#78350f] dark:text-[#fde68a] rounded p-5 px-6 my-7">
+    <strong class="callout-strong text-[#92400e] dark:text-[#fbbf24] font-mono text-[0.8125rem] tracking-[0.08em] uppercase block">{title}</strong>
+    <p class="mt-3 text-[0.9375rem] leading-[1.6]">{body}</p>
+  </aside>
+)}

@@ -133,6 +133,6 @@
   <g transform="translate(30, 620)">
     <text x="0" y="0" class="actor-label" fill="#a3be8c">Total ceremony wall time: hours-days (director-dependent) · Active director time: ~5 minutes each</text>
     <text x="0" y="25" class="actor-sub">Every step audit-logged · Duress codes signal silently · YubiKey touch required · Director identity signed by BIML root</text>
-    <text x="0" y="50" class="actor-sub">See: TODO 33 (DirectorSignPanel) · TODO 39 (director identity) · TODO 40 (integration architecture)</text>
+    <text x="0" y="50" class="actor-sub">Async threshold signing coordinator protocol</text>
   </g>
 </svg>

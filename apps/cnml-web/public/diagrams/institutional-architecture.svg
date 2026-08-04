@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" text-rendering="geometricPrecision">
+  <title>OIML institutional architecture</title>
+  <desc>The institutional bodies that govern CNML, organized by their authority relationships: the International Conference at the top, the CIML as steering committee, the BIML as operational secretariat, the Presidential Council for between-session action, and below them the directors who hold the root signing quorum and the OIML-CS Issuing Authorities.</desc>
+
+  <defs>
+    <marker id="arrow-ia" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4c566a"/>
+    </marker>
+  </defs>
+
+  <style>
+    .bg { fill: #f9fafb; }
+    .frame { fill: none; stroke: #d8dee9; stroke-width: 1; }
+    .body-box { fill: #fff; stroke: #3b4252; stroke-width: 1.5; rx: 8; }
+    .body-title { fill: #2e3440; font-weight: 600; font-size: 14px; }
+    .body-sub { fill: #4c566a; font-size: 11px; }
+    .role-text { fill: #6b7280; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .directors-box { fill: #e5e9f0; stroke: #4c566a; stroke-width: 1.25; rx: 8; }
+    .directors-title { fill: #2e3440; font-weight: 600; font-size: 13px; }
+    .directors-sub { fill: #4c566a; font-size: 11px; }
+    .ia-box { fill: #f3f4f6; stroke: #6b7280; stroke-width: 1; rx: 6; }
+    .ia-title { fill: #2e3440; font-weight: 500; font-size: 12px; }
+    .ia-sub { fill: #6b7280; font-size: 10px; }
+    .flow-line { stroke: #4c566a; stroke-width: 1.25; fill: none; }
+    .section-label { font-weight: 600; font-size: 11px; fill: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; }
+    .caption { font-size: 12px; fill: #4c566a; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="900" height="560"/>
+  <rect class="frame" x="0.5" y="0.5" width="899" height="559"/>
+
+  <text x="40" y="34" class="section-label">OIML institutional governance of CNML</text>
+
+  <g transform="translate(280, 60)">
+    <rect class="body-box" x="0" y="0" width="340" height="68" rx="8"/>
+    <text x="170" y="26" text-anchor="middle" class="role-text">Supreme body · meets every four years</text>
+    <text x="170" y="48" text-anchor="middle" class="body-title">International Conference</text>
+    <text x="170" y="64" text-anchor="middle" class="body-sub">All OIML member states</text>
+  </g>
+
+  <path class="flow-line" d="M 450,128 L 450,150" marker-end="url(#arrow-ia)"/>
+  <text x="460" y="142" class="caption">delegates policy</text>
+
+  <g transform="translate(40, 150)">
+    <rect class="body-box" x="0" y="0" width="300" height="80" rx="8"/>
+    <text x="150" y="26" text-anchor="middle" class="role-text">Steering committee · annual session</text>
+    <text x="150" y="50" text-anchor="middle" class="body-title">CIML</text>
+    <text x="150" y="66" text-anchor="middle" class="body-sub">Comité International de Métrologie Légale</text>
+    <text x="150" y="82" text-anchor="middle" class="body-sub">One delegate per member state</text>
+  </g>
+
+  <g transform="translate(560, 150)">
+    <rect class="body-box" x="0" y="0" width="300" height="80" rx="8"/>
+    <text x="150" y="26" text-anchor="middle" class="role-text">Between-session emergency body</text>
+    <text x="150" y="50" text-anchor="middle" class="body-title">Presidential Council</text>
+    <text x="150" y="66" text-anchor="middle" class="body-sub">President, two Vice-Presidents,</text>
+    <text x="150" y="82" text-anchor="middle" class="body-sub">BIML Director</text>
+  </g>
+
+  <path class="flow-line" d="M 190,230 L 190,250" marker-end="url(#arrow-ia)"/>
+  <text x="200" y="244" class="caption">sets policy</text>
+  <path class="flow-line" d="M 710,230 L 710,250" marker-end="url(#arrow-ia)"/>
+  <text x="540" y="244" class="caption">acts on urgent matters</text>
+
+  <g transform="translate(280, 250)">
+    <rect class="body-box" x="0" y="0" width="340" height="80" rx="8"/>
+    <text x="170" y="26" text-anchor="middle" class="role-text">Operational secretariat · permanent staff in Paris</text>
+    <text x="170" y="50" text-anchor="middle" class="body-title">BIML</text>
+    <text x="170" y="66" text-anchor="middle" class="body-sub">Bureau International de Métrologie Légale</text>
+    <text x="170" y="82" text-anchor="middle" class="body-sub">Operates the root CA, the coordinator, the transparency log</text>
+  </g>
+
+  <path class="flow-line" d="M 350,330 L 200,360" marker-end="url(#arrow-ia)"/>
+  <text x="180" y="350" class="caption">administers</text>
+  <path class="flow-line" d="M 550,330 L 700,360" marker-end="url(#arrow-ia)"/>
+  <text x="610" y="350" class="caption">signs</text>
+
+  <g transform="translate(40, 360)">
+    <rect class="directors-box" x="0" y="0" width="320" height="100" rx="8"/>
+    <text x="160" y="26" text-anchor="middle" class="role-text">Cryptographic authority holders</text>
+    <text x="160" y="50" text-anchor="middle" class="directors-title">Directors</text>
+    <text x="160" y="66" text-anchor="middle" class="directors-sub">T-of-N quorum · threshold-signed root</text>
+    <text x="160" y="82" text-anchor="middle" class="directors-sub">Drawn from OIML member states</text>
+    <text x="160" y="96" text-anchor="middle" class="directors-sub">CIML-approved · BIML-administered</text>
+  </g>
+
+  <g transform="translate(540, 360)">
+    <rect class="directors-box" x="0" y="0" width="320" height="100" rx="8"/>
+    <text x="160" y="26" text-anchor="middle" class="role-text">National type-approval authorities</text>
+    <text x="160" y="50" text-anchor="middle" class="directors-title">Issuing Authorities</text>
+    <text x="160" y="66" text-anchor="middle" class="directors-sub">Designated under the OIML DoMC</text>
+    <text x="160" y="82" text-anchor="middle" class="directors-sub">Each operates its own threshold quorum</text>
+    <text x="160" y="96" text-anchor="middle" class="directors-sub">Scoped to specific OIML Recommendations</text>
+  </g>
+
+  <g transform="translate(40, 490)">
+    <text x="0" y="0" class="caption">OIML, through the OIML SMART programme, is committed to facilitating adoption of CNML by every national metrology laboratory, their accredited test laboratories, and the market-surveillance authorities that verify instruments in the field.</text>
+    <text x="0" y="22" class="caption">The OIML SMART programme is the framework within which CNML evolves. The documentation set published here is a proposal to OIML, not an adopted specification.</text>
+  </g>
+</svg>
