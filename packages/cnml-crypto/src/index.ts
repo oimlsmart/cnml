@@ -55,6 +55,7 @@ export { verifyCnmlXml } from "./xml/verify.ts";
 
 // X.509 self-signed certificate generation
 export { issueSelfSignedCert } from "./cert/self-signed.ts";
+export { buildCsrPem } from "./cert/csr.ts";
 
 // Existing sibling modules (unchanged)
 export * from "./ed25519.ts";

@@ -27,7 +27,7 @@ type AlgSpec = ConstructorParameters<typeof xmldsig.Algorithm>[0];
 export async function signCnmlXml(
   xml: string,
   privateKey: CryptoKey,
-  x509CertPem?: string,
+  x509CertPem?: string | string[],
 ): Promise<string> {
   ensureXmldsigEngine();
   const doc = new DOMParser().parseFromString(xml, "application/xml");
@@ -37,11 +37,17 @@ export async function signCnmlXml(
 
   const algorithm = { name: "ECDSA", hash: "SHA-256" };
 
-  const x509 = x509CertPem
-    ? [x509CertPem
-        .replace(/-----BEGIN [A-Z0-9 ]+-----/g, "")
-        .replace(/-----END [A-Z0-9 ]+-----/g, "")
-        .replace(/\s+/g, "")]
+  // The KeyInfo chain (TODO.ops/12): a single cert or the full path
+  // (officer cert + intermediates + root) — the verifier resolves
+  // without a trust store.
+  const pems = Array.isArray(x509CertPem) ? x509CertPem : x509CertPem ? [x509CertPem] : [];
+  const x509 = pems.length
+    ? pems.map(p =>
+        p
+          .replace(/-----BEGIN [A-Z0-9 ]+-----/g, "")
+          .replace(/-----END [A-Z0-9 ]+-----/g, "")
+          .replace(/\s+/g, ""),
+      )
     : undefined;
 
   await signed.Sign(

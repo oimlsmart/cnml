@@ -18,6 +18,9 @@ export interface StoredKey {
   created: number;
   fingerprint: string;
   certificatePem?: string;
+  /** The CA chain below the officer cert (intermediates + root) —
+   *  embedded in the KeyInfo at signing (TODO.ops/12). */
+  chainPem?: string[];
   certificateExpiry?: number;
   certificateStatus?: "certified" | "pending" | "expired" | "none";
 }
