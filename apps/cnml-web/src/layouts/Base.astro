@@ -69,10 +69,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <header class="bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
       <div class="cnml-header-bar max-w-7xl mx-auto">
         <a href="/" class="cnml-brand" aria-label="CNML home">
-          <picture>
-            <source srcset="/img/oiml-logo_cnml-box-dark.svg" media="(prefers-color-scheme: dark)" />
-            <img src="/img/oiml-logo_cnml-box-light.svg" alt="CNML" class="cnml-brand__logo" />
-          </picture>
+          <img src="/img/oiml-logo_cnml-box-light.svg" alt="CNML" class="cnml-brand__logo cnml-brand__logo--light" />
+          <img src="/img/oiml-logo_cnml-box-dark.svg" alt="" aria-hidden="true" class="cnml-brand__logo cnml-brand__logo--dark" />
           <span>
             <span class="block cnml-brand__title">CNML</span>
             <span class="block cnml-brand__sub">Certificat Numérique · Métrologie Légale</span>

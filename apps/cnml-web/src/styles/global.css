@@ -264,6 +264,15 @@
     width: auto;
     display: block;
   }
+  .cnml-brand__logo--dark {
+    display: none;
+  }
+  .dark .cnml-brand__logo--dark {
+    display: block;
+  }
+  .dark .cnml-brand__logo--light {
+    display: none;
+  }
   .cnml-brand__title {
     font-family: var(--font-serif);
     font-weight: 600;
