@@ -178,9 +178,6 @@ in composite signatures.
 (FIPS 203). A post-quantum KEM standard. CNML uses ML-KEM-768 for
 threshold encryption.
 
-**MPTS** — Migration to Post-Quantum Cryptography Test (NIST program).
-CNML is targeted for MPTS submission in Q2 2027.
-
 ## O — OIML / OTS
 
 **OIML** — Organisation Internationale de Métrologie Légale. The
@@ -318,7 +315,6 @@ overwriting with zeros. Important for air-gapped CA operations.
 | KEM | Key Encapsulation Mechanism |
 | ML-DSA | Module-Lattice-Based Digital Signature Algorithm |
 | ML-KEM | Module-Lattice-Based Key Encapsulation Mechanism |
-| MPTS | Migration to Post-Quantum Cryptography Test |
 | NIST | National Institute of Standards and Technology |
 | OCSP | Online Certificate Status Protocol |
 | OIML | Organisation Internationale de Métrologie Légale |

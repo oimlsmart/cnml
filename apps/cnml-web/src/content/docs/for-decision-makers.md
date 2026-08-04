@@ -175,7 +175,6 @@ volume and country for a per-IA estimate.
 ### The competitive landscape is moving
 
 - **PTB (Germany)** has shipped DCC (Digital Calibration Certificate) — CNML is compatible (TODO 14)
-- **NIST MPTS** (Q2 2027) will evaluate threshold-PKI submissions. CNML is positioned as a flagship
 - **China** is reportedly developing a national digital metrology cert — international standards engagement now prevents fragmentation
 
 Adopting CNML early establishes your IA as a leader. Adopting late

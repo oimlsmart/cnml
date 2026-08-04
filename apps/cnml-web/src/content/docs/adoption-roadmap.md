@@ -33,7 +33,6 @@ Year 1 (2026) — PILOT
   · 2 pilot IAs (1 European, 1 Asian-Pacific)
   · 2 pilot test labs (1 per pilot IA)
   · First 50 CNMLs issued in parallel with PDFs
-  · NIST MPTS submission
 
 Year 2 (2027) — EARLY ADOPTION
   · 5-7 IAs issuing CNMLs (pilot cohort + first followers)
@@ -121,7 +120,7 @@ pilot proves the loop end-to-end.
 
 | Audience | Incentive to join early |
 |----------|-------------------------|
-| **Pilot IAs** | Free hardware ($5K), free training, leadership prestige, co-authorship on the NIST MPTS submission |
+| **Pilot IAs** | Free hardware ($5K), free training, leadership prestige |
 | **Pilot customs** | Faster clearance data, reduced inspection load |
 | **Pilot test labs** | Free DCC-compatible tooling, automated report signing |
 | **Pilot manufacturers** | "CNML-certified" marketing, expedited future reviews |
@@ -188,7 +187,7 @@ non-adoption is the harder choice than adoption.
 | Jan | Annual transparency report (prior year metrics) |
 | Feb | OIML CIML annual meeting briefing |
 | Mar | BIPM Digital SI workshop |
-| Apr | NIST MPTS submission + evaluation |
+| Apr | Pilot IA cohort opens |
 | May | Regional IA workshops (Asia, Europe, Americas) |
 | Jun | Mid-year metrics + press release |
 | Jul | Test lab onboarding campaign (DCC compatibility) |

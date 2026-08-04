@@ -73,7 +73,6 @@ as a trust anchor for federal agencies.
 | **Algorithms** | PIV (RSA + ECDSA) | FROST-P256 + composite PQC |
 | **Cross-certification** | Bridge CA (FedBridge) | Bridge CA (TODO 50) |
 
-**Cross-recognition**: NIST partners with CNML for MPTS evaluation.
 Bridge CA cross-signing follows the same pattern as FedBridge.
 
 ## ISO/IEC 17025 digital

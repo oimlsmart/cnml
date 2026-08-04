@@ -219,7 +219,60 @@ post "/api/crl/revoke" do
   { revoked: revoked.map { |r| r["serial"] }, crl_url: crl_url_for(ca), revoked_count: revoked.length }.to_json
 end
 
-# The CRL distribution point (public — a verifier needs no session).
+# ─── Threshold signing (TODO.ops/14 — the quorum at issuance) ───────
+# The quorum signs arbitrary bytes via the CA's threshold KeyProvider
+# (FROST: no single party holds the key). The deployment registers its
+# threshold config in the keystore (the "threshold" entry: local_shares
+# for ceremonies/tests; the coordinator's endpoint+quorum_id for
+# production). The answer carries the signature + the quorum attestation
+# (the provider's label — scheme and N-of-M), which the issuer records
+# into the certificate's provenance.
+post "/api/sign" do
+  content_type :json
+  body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
+  passphrase = body["passphrase"]
+  halt(401, { error: "passphrase required" }.to_json) unless passphrase
+
+  data_b64 = body["data_b64"].to_s
+  halt(400, { error: "data_b64 required (base64 of the bytes to sign)" }.to_json) if data_b64.empty?
+  begin
+    data = Base64.decode64(data_b64)
+  rescue ArgumentError
+    halt(400, { error: "data_b64 is not valid base64" }.to_json)
+  end
+
+  entry = OimlPki::CaStore.find(body["threshold_id"] || "threshold", passphrase)
+  halt(404, { error: "no threshold entry in the keystore (provision the quorum first — the 'threshold' entry)" }.to_json) unless entry
+  halt(400, { error: "the entry is not a threshold provider (type #{entry['type'] || 'software'})" }.to_json) unless entry["type"] == "confium"
+
+  provider = OimlPki::KeyProvider::Confium.new(entry["config"])
+  signature = begin
+    provider.sign(data)
+  rescue LoadError, RuntimeError => e
+    if e.message.include?("confium") && (e.message.include?("not available") || e.message.include?("Could not open library"))
+      halt(503, { error: "the confium native binding is unavailable on this CA (build the confium-ruby native lib): #{e.message[0, 160]}" }.to_json)
+    end
+    halt(500, { error: "the threshold ceremony failed: #{e.message}" }.to_json)
+  end
+
+  OimlPki::AuditLog.append("api.sign.threshold", details: {
+    threshold_id: body["threshold_id"] || "threshold",
+    provider: provider.label,
+    data_len: data.length,
+  })
+  {
+    signature_b64: Base64.strict_encode64(signature),
+    attestation: {
+      provider: provider.label,
+      quorum_id: entry.dig("config", "quorum_id"),
+      threshold: entry.dig("config", "threshold"),
+      num_parties: entry.dig("config", "local_shares")&.length,
+      session: "api.sign.threshold",
+      at: Time.now.iso8601,
+    },
+  }.to_json
+end
+
 get "/crl.pem" do
   ca_alias = params[:ca] || "OIML Root CA"
   fname = ca_alias.gsub(/[^A-Za-z0-9]/, "-").downcase

@@ -66,12 +66,21 @@ module OimlPki
       end
 
       def public_key
-        # In a real deployment, the public key is known from DKG setup.
-        # For LOCAL mode, reconstruct from shares (same as Shamir).
-        # For COORDINATOR mode, stored in the config.
+        # The threshold group's public key, provisioned by the ceremony's
+        # keygen step: a PEM ("public_key_pem") or the base64 compressed
+        # EC point the CMP20/GG18 drivers produce ("public_key").
         pem = @config["public_key_pem"]
         return OpenSSL::PKey.read(pem) if pem
-        raise "No public_key_pem in config — run DKG first to establish the threshold key"
+        b64 = @config["public_key"]
+        if b64
+          require "base64"
+          point = OpenSSL::PKey::EC::Point.new(
+            OpenSSL::PKey::EC::Group.new("prime256v1"),
+            Base64.decode64(b64),
+          )
+          return point
+        end
+        raise "No public_key_pem or public_key in config — run the ceremony's keygen first to establish the threshold key"
       end
 
       def extractable?
@@ -118,51 +127,41 @@ module OimlPki
         end
       end
 
-      # LOCAL mode: run all N parties in-process via Confium::TC::Session.
-      # This is synchronous and blocks until the protocol completes.
-      # Used for testing and air-gapped ceremonies.
+      # LOCAL mode: run the threshold ceremony in-process via the
+      # magnus native binding (Confium::TC::Cmp20/Gg18 — the FFI's
+      # Confium::TC::Session skeleton has no round orchestration; the
+      # magnus bundle carries the real in-process drivers). Shares are
+      # base64 strings provisioned by the ceremony's keygen step.
       def sign_local(data)
-        require "confium"
+        require "base64"
+        # The magnus native binding (confium_native.bundle) builds into
+        # the confium-ruby checkout — CONFIUM_RUBY_LIB overrides the
+        # default discovery (this CA lives in a different repo than the
+        # gem's native build).
+        native_dir = ENV["CONFIUM_RUBY_LIB"] || File.expand_path("~/src/confium/confium-ruby/lib/confium_native")
+        $LOAD_PATH.unshift(native_dir) if File.directory?(native_dir) && !$LOAD_PATH.include?(native_dir)
 
         shares = @config["local_shares"]
         threshold = @config["threshold"]
-        scheme = @config.fetch("scheme", "FROST-P256")
+        scheme = @config.fetch("scheme", "CMP20-ECDSA-P256")
 
-        # Create one session per party
-        sessions = shares.each_index.map do |i|
-          s = Confium::TC::Session.new(
-            scheme: scheme,
-            threshold: threshold,
-            num_parties: shares.length,
-            party_index: i,
-          )
-          s.set_local_share(shares[i])
-          s
-        end
+        share_bytes = shares.map { |s| Base64.decode64(s) }
 
-        # Run the protocol rounds. FROST is typically 2-3 rounds.
-        messages = []
-        3.times do |round|
-          new_messages = []
-          sessions.each_with_index do |session, i|
-            outgoing = session.round(messages.select { |m| m[:to] == i })
-            outgoing&.each { |m| new_messages << m.merge(from: i) }
+        signature =
+          case scheme
+          when /^CMP20/i
+            require "confium_native"
+            ::Confium::TC::Cmp20.sign(share_bytes, threshold, data)
+          when /^GG18/i
+            require "confium_native"
+            ::Confium::TC::Gg18.sign(share_bytes, threshold, data)
+          else
+            raise ArgumentError, "unknown local threshold scheme #{scheme} (supported: CMP20, GG18)"
           end
-          messages = new_messages
-          break if sessions.all?(&:complete?)
-        end
 
-        unless sessions.all?(&:complete?)
-          raise "Threshold signing did not complete after 3 rounds"
-        end
-
-        # All parties should produce the same signature (threshold property).
-        signatures = sessions.map(&:result).uniq
-        raise "Parties produced different signatures" unless signatures.length == 1
-
-        signatures.first
+        signature
       rescue LoadError
-        raise "confium-ruby gem not available. Install with: gem install confium"
+        raise "confium-ruby's native binding not available. Build it with: cd confium-ruby && bundle exec rake compile"
       end
 
       # COORDINATOR mode: delegate to the async coordinator service.
@@ -171,6 +170,14 @@ module OimlPki
       # while directors participate asynchronously.
       def sign_via_coordinator(data)
         require "confium"
+        # The TC session lives in its own file — `require "confium"`
+        # alone does not autoload Confium::TC (the sign_local NameError
+        # TODO.ops/14 found).
+        begin
+          require "confium/tc/session"
+        rescue LoadError
+          raise LoadError, "confium-ruby's TC session not available"
+        end
 
         coordinator = Confium::TC::Coordinator.new(quorum_id: @config["quorum_id"])
         session_id = coordinator.create_session(

@@ -55,7 +55,7 @@ Which Rust crate, which binding:
 | `confium-patterns::escrow` | CA server | FFI | Threshold key escrow |
 | `confium-patterns::revocation` | CA server | FFI | Threshold CRL signing |
 | `confium-store-openpgp-card` | CA server (YubiKey) | FFI | OpenPGP card / YubiKey backend |
-| `confium-test-harness` | NIST MPTS bench | Rust binary | Performance + conformance |
+| `confium-test-harness` | Threshold crypto bench | Rust binary | Performance + conformance |
 
 ## Versioning contract
 

@@ -297,10 +297,8 @@ resigns, the remaining quorum re-shares to exclude them.
 
 ### Strategic alignment
 
-The CNML deployment is targeted for NIST MPTS (Migration to
-Post-Quantum Cryptography Test) submission in Q2 2027, with
-partnerships across BIML (institutional partner) and NIST
-(performance evaluation).
+The CNML deployment is targeted at OIML member-state adoption,
+with the BIML as institutional partner.
 
 PQC migration is built in from day one: composite signatures
 (ECDSA + ML-DSA-65) ship in CMS envelopes so legacy verifiers
