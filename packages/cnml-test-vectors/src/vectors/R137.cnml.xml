@@ -6,21 +6,14 @@
       <cnml:coreData>
         <cnml:identifications>
           <cnml:oimlNumber>R137/TEST-A-XX1-26.0</cnml:oimlNumber></cnml:identifications>
-          <cnml:recommendation ref="R137" edition="2012"/>
+          <cnml:recommendation ref="R137" edition="2020"/>
           <cnml:scheme>A</cnml:scheme>
-          <cnml:dateOfIssue>2026-07-23</cnml:dateOfIssue>
-          <cnml:oimlIssuerId>XX1</cnml:oimlIssuerId></cnml:coreData>
+          <cnml:dateOfIssue>2026-07-23</cnml:dateOfIssue></cnml:coreData>
           <cnml:issuingAuthority>
             <cnml:name>CNML Test Issuer</cnml:name>
             <cnml:personResponsible>Test Signer</cnml:personResponsible></cnml:issuingAuthority>
-            <cnml:applicants>
-              <cnml:party>
-                <cnml:name>CNML Test Applicant</cnml:name></cnml:party></cnml:applicants>
-                <cnml:manufacturers>
-                  <cnml:party>
-                    <cnml:name>CNML Test Manufacturer</cnml:name></cnml:party></cnml:manufacturers>
-                    <cnml:certifiedType>
-                      <cnml:category>OIML R137 (Dynamic Measuring Systems for Gases — Gas Meters) Certificate Schema</cnml:category>
-                      <cnml:typeDesignations>
-                        <cnml:designation>TEST-MODEL</cnml:designation></cnml:typeDesignations></cnml:certifiedType></cnml:administrativeData>
-                        <cnml:measurementResults/><ds:Signature Id="cnml-signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>eK3NLaMnnLoMK4rzK/pz9cQ4ULDeiqRwtmk7n+HG5kM=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>d3yScoakZVtYqtkrSjmJoamrLDMsUNcM3LFgdFh2maiRxrGpfnGMU+jWtrOfIpkHs3zgy1648NI8IGB/61hbbw==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIBhzCCAS2gAwIBAwIRAOIBcx3pJpYKj7syWRl8XecwCgYIKoZIzj0EAwIwRTFDMBgGA1UECgwRQ05NTCBUZXN0IFZlY3RvcnMwHAYDVQQDDBVDTk1MIFRlc3QgU2lnbmVyIDIwMjYwCQYDVQQGEwJOTDAeFw0yNjA4MDQxNTAwMzJaFw0zNjA4MDExNTAwMzJaMEUxQzAYBgNVBAoMEUNOTUwgVGVzdCBWZWN0b3JzMBwGA1UEAwwVQ05NTCBUZXN0IFNpZ25lciAyMDI2MAkGA1UEBhMCTkwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASjYAtHvn/vK+6BL+JHV5KfYq6fpw2K6ljO0sP+SmEttmKREmRzsiBe/7FKQIshSz9ZAt32ZQ79xIUVmCt6PyOPMAoGCCqGSM49BAMCA0gAMEUCIQDiz+S9BmpZXMhU589eq0unqDZaZDtpENOVYLLuaTDyxwIgVvUD52L7iARYaLhcbkXsoGX6064ODBMeTyjx+K8tnpw=</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></cnml:certificatNumeriqueMetrologieLegale>
+            <cnml:certifiedType>
+              <cnml:category>OIML R137 (Dynamic Measuring Systems for Gases — Gas Meters) Certificate Schema</cnml:category>
+              <cnml:typeDesignations>
+                <cnml:designation>TEST-MODEL</cnml:designation></cnml:typeDesignations></cnml:certifiedType></cnml:administrativeData>
+                <cnml:measurementResults/><ds:Signature Id="cnml-signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>W0JE97JN9yx/acN3cQsa5+skwWOwtej8OetO73HaWpE=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>MKNaPm6B4VcwyzjTjN19l9K4Oh9jqc1HkeuAbGfbDXZH4DyutXq/RH/AJ6Wgn96H0c2PcNj3LbApNTNBs4MvyBhn79XWNRlKp6OAbdC2o4xhi+G4KRUDoZc82t/Qy6z2ZEId93I5J/lTSAy3zlGSFl/ke6evfPni9l2aBqXOoOPUBrn6C8qO5c6aVQN4AvMUHyr5fi6nYga6cV0ih1ZgVxjN3SCUFWLXJYvEVloHrH6iEJHWpH4p+rpZp9uNQQPUFGpjAHUcs1l0XD72T/LKO57WaTF33uL7v27IISLwiTJDQ0jnF24Qu/cBOKgGAhebs00QV2Saj+iBSsevmSPnOQ==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDDzCCAfmgAwIBAwIRALDepuVIklvbcsDAXrMJpdAwCwYJKoZIhvcNAQELMEUxQzAYBgNVBAoMEUNOTUwgVGVzdCBWZWN0b3JzMBwGA1UEAwwVQ05NTCBUZXN0IFNpZ25lciAyMDI2MAkGA1UEBgwCTkwwHhcNMjYwNzIzMTEwNzA2WhcNMzYwNzIwMTEwNzA2WjBFMUMwGAYDVQQKDBFDTk1MIFRlc3QgVmVjdG9yczAcBgNVBAMMFUNOTUwgVGVzdCBTaWduZXIgMjAyNjAJBgNVBAYMAk5MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmhjtBGMCf0kv3pxDU77h9XiZUPWMFMAeO/DjBA63/GP3UxJlnMm81e9ReV8JMuxY3PMj+NCv3HEpbOLq8arRF/7IVuExVOCFNt1IqPhqH7zhjx7xas5mVH0YtDmuvnhG02XdgEq1pUzX/UubjCrDkc/3H0gkOWFtLXbskhVTvShrbIgW41k4SE78RiZ896jMsZzLzLjXgXdh74+nIbECqyFdpb4eDyI2kTq6XLdWmTYwN4CwQBgitf/AfWLCxGNXOQTvZxTGsWcnKrkB3bz8vh2LUXeTIb+9Kktay8cAyEdMV24/JHijWiSeC/AxR8HNkrkpeYqtmp/seaOiDSc56QIDAQABMAsGCSqGSIb3DQEBCwOCAQEAQN5jNpUavPpEIFQUjZgJO8QaAPoyJ0GmHYut6oJemSmBCaEcnvo+rcO0kWGNQcGGiKUqLjwvNT21Ca0O+CN886649czZFtlDocvpoZ7KFOu+Z7Vp2jx9D708GG48sS41hic14PiwNwzQ9joayuGmcRD9dqT+RtWaebTtZ2VzLwPJL8FBlGI5Oz5Z3bzy3LbDbb46ANQQ6BQbef1xwPgXhnDxCXgSzXT2mR/GoKPouI4g8VwBWqtBwGvMPEAll1+jgI3hoLq6WMLvsaLzJ2Rfvmm3Z43K0ZSj+n1qTY8MW7wn4qZiD8Tc190dih59MJED/yVjgdvDmevXwRDlmtqY2g==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></cnml:certificatNumeriqueMetrologieLegale>

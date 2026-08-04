@@ -73,7 +73,7 @@ test("keys page: download public key works", async ({ page }) => {
   await expect(page.getByText(/Downloadable/)).toBeVisible({ timeout: 30_000 });
 
   const downloadPromise = page.waitForEvent("download", { timeout: 10_000 });
-  await page.getByRole("button", { name: "Download public key for Downloadable" }).click();
+  await page.getByRole("button", { name: /Public/ }).click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toMatch(/\.pub\.pem$/);
 
@@ -95,7 +95,7 @@ test("keys page: delete removes the key", async ({ page }) => {
   await expect(page.getByText(/To Delete/)).toBeVisible({ timeout: 30_000 });
 
   page.on("dialog", (d) => d.accept());
-  await page.getByRole("button", { name: "Delete key To Delete" }).click();
+  await page.getByRole("button", { name: /Delete/ }).click();
 
   await expect(page.getByText(/No signing keys yet/i)).toBeVisible({ timeout: 10_000 });
 });
