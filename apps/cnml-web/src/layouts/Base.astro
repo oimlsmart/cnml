@@ -11,12 +11,10 @@ const { title = 'CNML', description = 'OIML Certificat Numérique de Métrologie
 const pageTitle = title === 'CNML' ? title : `${title} · CNML`;
 
 const navItems = [
-  { href: '/create',  label: 'Create' },
+  { href: '/',        label: 'About' },
+  { href: '/docs',    label: 'Documentation' },
   { href: '/verify',  label: 'Verify' },
-  { href: '/certs',   label: 'Certificates' },
-  { href: '/schemas', label: 'Schemas' },
-  { href: '/keys',    label: 'Keys' },
-  { href: '/docs',    label: 'Docs' },
+  { href: '/create',  label: 'Create' },
 ];
 
 const pathname = Astro.url.pathname;
@@ -47,9 +45,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href={FONT_URL} />
 
-    <!-- Favicon + theme color (matches --accent: OIML blue #004996) -->
-    <link rel="icon" type="image/svg+xml" href="/img/oiml-logo.svg" />
-    <link rel="apple-touch-icon" href="/img/oiml-logo.svg" />
+    <!-- Favicon + theme color -->
+    <link rel="icon" type="image/svg+xml" href="/img/oiml-logo_cnml-box-light.svg" />
+    <link rel="apple-touch-icon" href="/img/oiml-logo_cnml-box-light.svg" />
     <meta name="theme-color" content="#004996" />
     <meta name="color-scheme" content="light dark" />
 
@@ -71,7 +69,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <header class="bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
       <div class="cnml-header-bar max-w-7xl mx-auto">
         <a href="/" class="cnml-brand" aria-label="CNML home">
-          <img src="/img/oiml-logo.svg" alt="OIML" class="cnml-brand__logo" />
+          <picture>
+            <source srcset="/img/oiml-logo_cnml-box-dark.svg" media="(prefers-color-scheme: dark)" />
+            <img src="/img/oiml-logo_cnml-box-light.svg" alt="CNML" class="cnml-brand__logo" />
+          </picture>
           <span>
             <span class="block cnml-brand__title">CNML</span>
             <span class="block cnml-brand__sub">Certificat Numérique · Métrologie Légale</span>

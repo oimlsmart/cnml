@@ -127,7 +127,6 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 **PBKDF2.** Password-Based Key Derivation Function 2 (RFC 8018). A key-derivation function used to derive encryption keys from passphrases. CNML uses PBKDF2 with a high iteration count to protect browser-stored signing keys.
 
-**PDF certificate.** The predecessor OIML-CS certificate format, consisting of a PDF file with ink-style signatures. CNML is the digital successor to this format.
 
 **PQC.** Post-Quantum Cryptography. Cryptographic algorithms designed to resist attacks by quantum computers. CNML uses composite classical-plus-post-quantum signatures.
 

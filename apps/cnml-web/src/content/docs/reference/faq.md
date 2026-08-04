@@ -11,7 +11,7 @@ CNML is a proposal for OIML from the OIML SMART programme. The answers here desc
 
 ## For Issuing Authorities
 
-### What does the transition from PDF certificates to CNML involve for an IA?
+### What does adopting CNML involve for an IA?
 
 CNML is designed for the staff that IAs already have. CA officers continue approving certificate-signing requests, and the signing step replaces the printing step. Test-laboratory technicians use the same measurement data, and signing is one additional action. IT staff who are familiar with PKCS#11 hardware manage the signing keys using their existing skills. The annual ceremony requires directors to participate asynchronously, without travel.
 
@@ -27,11 +27,11 @@ Two recovery paths exist. First, each director and officer has a backup hardware
 
 ### Can an IA keep its existing PDF workflow during the transition?
 
-Yes. CNML supports a phased transition in which the IA issues both PDF and CNML certificates for a period, then moves to CNML as the primary format with PDFs generated from the CNML XML, and eventually deprecates the PDF format. Existing PDF certificates remain valid throughout the transition. No re-issuance is required.
+Yes. CNML supports a phased adoption in which the IA begins issuing CNML certificates alongside its existing processes, then moves to CNML as the primary format. The Certificate Policy and Certification Practice Statement govern the transition timeline.
 
 ### What if an IA wants to leave CNML later?
 
-CNML is open source. An IA that leaves CNML can continue operating its certificate infrastructure independently, migrate to a successor format using the documented CNML XML, and keep its existing certificates verifiable through the public transparency log and the ERS archival records. There is no vendor lock-in. The Certificate Policy and Certification Practice Statement document the IA's operational independence.
+CNML is open source. An IA that leaves CNML can continue operating its certificate infrastructure independently, migrate to another format using the documented CNML XML, and keep its existing certificates verifiable through the public transparency log and the ERS archival records. There is no vendor lock-in. The Certificate Policy and Certification Practice Statement document the IA's operational independence.
 
 ## For verifiers
 
@@ -55,7 +55,7 @@ The transparency log resolves this question. The verifier checks the certificate
 
 ### Does a manufacturer need to change its production line?
 
-For the basic flow, in which the IA issues a certificate per model, no production-line change is needed. The certificate arrives through the same channels as the current PDF certificates.
+For the basic flow, in which the IA issues a certificate per model, no production-line change is needed. The certificate arrives through standard digital channels.
 
 For manufacturer delegated signing, in which a high-volume manufacturer issues instance certificates for each instrument it produces, the manufacturer installs a hardware signing key at the end of each production line. The operator taps the hardware key per instrument, and the instance certificate is issued in seconds. The instance certificate is embedded in the instrument firmware or printed as a QR code.
 

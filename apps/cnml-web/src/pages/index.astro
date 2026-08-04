@@ -1,98 +1,145 @@
 ---
 import Base from '../layouts/Base.astro';
 import CnmlSeal from '../components/CnmlSeal.astro';
-
-const actions = [
-  { num: '01', href: '/create',  title: 'Create',       desc: 'Build a new OIML certificate from a per-Recommendation form. The schema drives the fields; the signer signs with a key in IndexedDB.' },
-  { num: '02', href: '/verify',  title: 'Verify',       desc: 'Drop a .cnml.xml file to run the full verification pipeline: well-formed XML, schema, signature, scope, CRL, timestamp, transparency.' },
-  { num: '03', href: '/certs',   title: 'Certificates', desc: 'Browse real OIML-CS Type Approval samples. Three samples per Recommendation, drawn from the published certificate corpus.' },
-  { num: '04', href: '/schemas', title: 'Schemas',      desc: 'Per-Recommendation JSON Schemas (draft-07) with x-oiml metadata. The schema is the specification; no per-R code exists.' },
-  { num: '05', href: '/keys',    title: 'Keys',         desc: 'Generate signing keys, import trusted certificates, manage the trust store. Private keys never leave the browser.' },
-  { num: '06', href: '/docs',    title: 'Documentation', desc: 'Twenty-six pages across six sections: overview, concepts, architecture, implementation, roles, reference.' },
-];
-
-const spec = [
-  { label: 'Recommendations supported', value: '22 OIML R-Recommendations' },
-  { label: 'Unit authority',            value: 'BIPM Digital SI via UnitsDB and UnitsML' },
-  { label: 'Signature format',          value: 'W3C XMLDSig 1.1 with Exclusive C14N' },
-  { label: 'Key algorithms',            value: 'ECDSA P-256; composite Ed25519 with ML-DSA-65' },
-  { label: 'Interchange format',        value: 'D-CoC RDF/XML and JSON-LD per NoBoMet V1.2' },
-  { label: 'Root-tier quorum',          value: '5-of-7 directors, threshold-signed' },
-  { label: 'Transparency',              value: 'Public Merkle log with Bitcoin anchoring' },
-  { label: 'Status',                    value: 'Proposal for OIML from the OIML SMART programme' },
-];
 ---
 
 <Base title="CNML">
-  <section class="max-w-7xl mx-auto px-6 pt-8">
-    <div class="cnml-masthead">
-      <div>
-        <span class="cnml-masthead__label">Format</span>
-        <span class="cnml-masthead__value">CNML</span>
-      </div>
-      <div>
-        <span class="cnml-masthead__label">Programme</span>
-        <span class="cnml-masthead__value">OIML SMART</span>
-      </div>
-      <div>
-        <span class="cnml-masthead__label">Edition</span>
-        <span class="cnml-masthead__value">2026 (proposal)</span>
-      </div>
-      <div>
-        <span class="cnml-masthead__label">Coverage</span>
-        <span class="cnml-masthead__value">22 OIML Recommendations</span>
-      </div>
-      <div>
-        <span class="cnml-masthead__label">Carrier</span>
-        <span class="cnml-masthead__value">XML · XMLDSig</span>
-      </div>
+  <!-- Section 1: What CNML is -->
+  <section class="max-w-4xl mx-auto px-6 pt-20 pb-16">
+    <div class="cnml-seal-wrap mb-12">
+      <CnmlSeal />
+    </div>
+    <h1 class="cnml-hero__title mb-6">
+      Certificat Numérique de Métrologie Légale
+    </h1>
+    <p class="cnml-hero__lede">
+      CNML is a cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It provides machine-verifiable certification of measuring instruments subject to legal metrology, built on recognized international standards including X.509 v3, W3C XMLDSig, and NIST FIPS 204.
+    </p>
+    <p class="text-[var(--ink-soft)] text-lg leading-relaxed mt-6">
+      CNML covers all 22 OIML Recommendations governing measuring instruments used in trade, health, safety, and environmental protection. Each certificate binds a type-approval evaluation to a cryptographic signature produced by a distributed threshold quorum of international signers. Any party can verify a CNML certificate in a web browser without contacting the issuer.
+    </p>
+  </section>
+
+  <!-- Section 2: Why CNML exists -->
+  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
+    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-6">Why CNML exists</h2>
+    <div class="space-y-4 text-[var(--ink-soft)] leading-relaxed">
+      <p>
+        Legal metrology governs measuring instruments used in trade, health, safety, and environmental protection. Fuel dispensers, electricity meters, weighbridges, medical thermometers, exhaust gas analyzers, and pressure gauges all require type approval before they can be lawfully placed on the market. Type approval is an international process: an OIML-Designated Issuing Authority evaluates a model against an OIML Recommendation and issues a certificate of conformity.
+      </p>
+      <p>
+        That certificate must be verifiable by any party. A market-surveillance authority inspecting an instrument at a remote site needs to confirm the type approval. A manufacturer shipping instruments across borders needs to demonstrate conformity. Another Issuing Authority participating in the OIML Declaration of Mutual Confidence needs to recognize the certificate. The certificate must remain valid for the service lifetime of the instrument, which in legal metrology is measured in decades.
+      </p>
+      <p>
+        No existing digital certificate technology meets all of these requirements simultaneously. Web TLS public-key infrastructure is designed for short-lived, high-volume channel authentication, not for decades-long document signing under international governance. Single-key PKI concentrates trust in one operator and cannot distribute signing authority across sovereign institutions. CNML was designed from the ground up for the specific requirements of legal-metrology type approval.
+      </p>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-      <div class="lg:col-span-8">
-        <span class="cnml-tag mb-4">Certificat Numérique de Métrologie Légale</span>
-        <h1 class="cnml-hero__title">
-          The OIML SMART programme's digital successor to the PDF certificate of conformity.
-        </h1>
-        <p class="cnml-hero__lede">
-          CNML was developed by analyzing every published OIML-CS Type Approval certificate and digitizing the resulting model in a form compatible with OIML SMART and the relevant OIML R-Recommendations. The format is XML, the signatures are W3C XMLDSig with Exclusive C14N, and the measurement units are anchored to BIPM Digital SI through UnitsDB and UnitsML.
+  <!-- Section 3: What CNML enables -->
+  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
+    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-8">What CNML enables</h2>
+    <div class="space-y-10">
+      <div>
+        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Distributed signing authority</h3>
+        <p class="text-[var(--ink-soft)] leading-relaxed">
+          No single party can produce a CNML certificate at the root or Issuing Authority tier. Signing authority is distributed across an international threshold quorum of directors and officers using FROST threshold signatures. A court order directed at one officer cannot complete a signature. Theft of one key holder's hardware cannot forge a certificate. The aggregate public key survives director rotation, so all previously issued certificates remain valid without re-issuance.
         </p>
       </div>
-      <div class="lg:col-span-4">
-        <div class="cnml-seal-wrap">
-          <CnmlSeal />
-        </div>
+      <div>
+        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Verification by anyone, anywhere</h3>
+        <p class="text-[var(--ink-soft)] leading-relaxed">
+          Any party can verify a CNML certificate in a web browser, offline, without contacting the issuer, registering for a service, or holding an account. The verifier downloads a trust-anchor bundle once and can then verify certificates indefinitely. The verification pipeline checks XML structure, schema conformance, signature validity, issuer scope, revocation status, timestamp proof, and transparency-log inclusion.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Post-quantum security</h3>
+        <p class="text-[var(--ink-soft)] leading-relaxed">
+          CNML ships composite signatures combining Ed25519 (classical, RFC 8032) with ML-DSA-65 (post-quantum, NIST FIPS 204). A composite signature is valid only when both components verify. An attacker must break both algorithms to forge a signature. Documents signed today remain secure through the transition to quantum computing.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Public transparency</h3>
+        <p class="text-[var(--ink-soft)] leading-relaxed">
+          Every issued certificate appears in a public Merkle transparency log. Tree roots are anchored to Bitcoin through OpenTimestamps. No certificate can be silently issued or retroactively inserted. The log is mirrored across independent operators, and gossip protocols prevent equivocation. A verifier that demands an inclusion proof rejects any certificate that did not appear in the log.
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 pb-16">
-    <div class="border-t border-[var(--rule)]">
-      {actions.map(a => (
-        <a href={a.href} class="cnml-clause">
-          <span class="cnml-clause__num">{a.num}</span>
-          <div>
-            <div class="cnml-clause__title">{a.title}</div>
-            <div class="cnml-clause__desc">{a.desc}</div>
-          </div>
-        </a>
-      ))}
+  <!-- Section 4: How the technology works -->
+  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
+    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-6">How the technology works</h2>
+    <div class="space-y-4 text-[var(--ink-soft)] leading-relaxed">
+      <p>
+        CNML organizes signing authority in a five-tier certificate hierarchy. The BIML Root tier holds the international root signing key as a threshold secret shared among OIML directors. The Issuing Authority tier holds per-national-authority intermediate keys as threshold secrets shared among IA officers. The Test Laboratory tier signs measurement reports. The Manufacturer Model tier delegates scoped signing authority to instrument manufacturers. The Manufacturer Instance tier issues per-instrument end-entity certificates.
+      </p>
+      <p>
+        At the BIML Root and IA tiers, every signature requires a threshold quorum. Directors and officers participate asynchronously through a coordinator service that buffers protocol messages, so participants in different time zones can contribute when convenient. The coordinator is honest-but-curious: it observes encrypted protocol messages but cannot reconstruct the signing key.
+      </p>
+      <p>
+        BIML binds each Issuing Authority to a specific subset of OIML Recommendations through an X.509 v3 extension. The extension is enforced at verification time, so an IA scoped to load cells cannot produce a valid fuel-dispenser certificate. The scope is a cryptographic property, not a policy agreement.
+      </p>
+      <p>
+        The full architecture, including the transparency log, the hardware-backed key tiers, and the post-quantum migration path, is developed in the <a href="/docs" class="text-[var(--accent)] underline">documentation</a>.
+      </p>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 pb-16">
-    <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">Specification</h2>
-    <table class="cnml-spec">
-      <tbody>
-        {spec.map(s => (
-          <tr>
-            <th>{s.label}</th>
-            <td>{s.value}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+  <!-- Section 5: Who uses CNML and how -->
+  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
+    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-8">Who uses CNML</h2>
+    <div class="space-y-6 text-[var(--ink-soft)] leading-relaxed">
+      <div>
+        <span class="font-sans font-semibold text-[var(--ink)]">Issuing Authorities</span>
+        <span class="text-[var(--ink-muted)]"> issue type-approval certificates within their authorized scope.</span>
+      </div>
+      <div>
+        <span class="font-sans font-semibold text-[var(--ink)]">BIML directors</span>
+        <span class="text-[var(--ink-muted)]"> participate in the threshold quorum that signs IA certificates.</span>
+      </div>
+      <div>
+        <span class="font-sans font-semibold text-[var(--ink)]">Test laboratories</span>
+        <span class="text-[var(--ink-muted)]"> sign measurement reports and submit them as type-evaluation evidence.</span>
+      </div>
+      <div>
+        <span class="font-sans font-semibold text-[var(--ink)]">Manufacturers</span>
+        <span class="text-[var(--ink-muted)]"> issue per-instance certificates under a scoped model delegation.</span>
+      </div>
+      <div>
+        <span class="font-sans font-semibold text-[var(--ink)]">Market-surveillance authorities</span>
+        <span class="text-[var(--ink-muted)]"> verify certificates in the field using a browser, offline.</span>
+      </div>
+      <div>
+        <span class="font-sans font-semibold text-[var(--ink)]">OIML member states</span>
+        <span class="text-[var(--ink-muted)]"> evaluate CNML for national adoption under the DoMC framework.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: App area -->
+  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
+    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-4">Try it</h2>
+    <p class="text-[var(--ink-soft)] leading-relaxed mb-8">
+      The interactive tools below generate sample CNML certificates for evaluation purposes. They are not production certificate issuance tools. Use them to explore the format, test the verification pipeline, and understand the data model.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <a href="/create" class="cnml-card cnml-card-hover block">
+        <div class="font-semibold text-[var(--ink)] mb-1">Create a certificate</div>
+        <div class="text-sm text-[var(--ink-muted)]">Build a sample CNML from a per-Recommendation form and sign it in the browser.</div>
+      </a>
+      <a href="/verify" class="cnml-card cnml-card-hover block">
+        <div class="font-semibold text-[var(--ink)] mb-1">Verify a certificate</div>
+        <div class="text-sm text-[var(--ink-muted)]">Drop a .cnml.xml file to run the verification pipeline.</div>
+      </a>
+      <a href="/certs" class="cnml-card cnml-card-hover block">
+        <div class="font-semibold text-[var(--ink)] mb-1">Browse certificates</div>
+        <div class="text-sm text-[var(--ink-muted)]">Explore real OIML-CS sample certificates across all Recommendations.</div>
+      </a>
+      <a href="/schemas" class="cnml-card cnml-card-hover block">
+        <div class="font-semibold text-[var(--ink)] mb-1">Browse schemas</div>
+        <div class="text-sm text-[var(--ink-muted)]">View the per-Recommendation JSON Schemas that define the certificate model.</div>
+      </a>
+    </div>
   </section>
 </Base>
