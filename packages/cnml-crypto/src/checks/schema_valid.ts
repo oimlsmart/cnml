@@ -1,9 +1,11 @@
 import type { Check, CheckResult } from "./types.ts";
+import { ensureCoreSchemasRegistered, getRecommendationSchema } from "./core_schemas.ts";
 
 /** Check 2: CNML schema validity. Parses via parseCnmlXml and runs
  *  ajv validation against the per-R schema (looked up by recommendation
  *  id from the parsed cert). Sets ctx.parsedCert and ctx.recommendationId
- *  for downstream checks.
+ *  for downstream checks. The core schemas self-register (the pipeline
+ *  is self-sufficient — no consumer-side registration needed).
  *
  *  Falls back to "parseable only" if ajv isn't loaded or the schema
  *  can't be resolved. */
@@ -55,15 +57,45 @@ export const schemaValidCheck: Check = {
       };
     }
     try {
-      const { getRecommendation } = await import("@cnml/cnml-schemas");
+      await ensureCoreSchemasRegistered();
+      const rec = await getRecommendationSchema(rId);
       const { validateAgainstSchema } = await import("@cnml/cnml-xml/validate");
-      const rec = getRecommendation(rId);
       if (!rec?.schema) {
         return {
           checkId: "schema-valid",
           status: "warn",
           reason: `No schema registered for ${rId}`,
         };
+      }
+      // The type_level reconciliation: the corpus convention wraps every
+      // type-level value in a StructuredValue ({ value: X, unit_id?… }),
+      // while a few schema attributes (classification_symbol,
+      // accuracy_class, humidity_class, …) pin a PLAIN scalar type.
+      // Unwrap { value: X } → X ONLY for attributes whose schema property
+      // resolves (one local hop) to a plain scalar type — StructuredValue
+      // attributes keep their wrapper (the corpus + the codecs' uniform
+      // convention).
+      const defs = (rec.schema as { definitions?: Record<string, Record<string, unknown>> }).definitions ?? {};
+      const typeLevelProps = (defs.TypeLevel as { properties?: Record<string, Record<string, unknown>> } | undefined)?.properties ?? {};
+      const isPlain = (rule: Record<string, unknown> | undefined): boolean => {
+        if (!rule) return false;
+        const ref = rule["$ref"] as string | undefined;
+        if (ref) {
+          const local = /^#\/definitions\/(.+)$/.exec(ref)?.[1];
+          if (!local) return false; // external refs (StructuredValue) stay wrapped
+          const target = defs[local] as { type?: string } | undefined;
+          return typeof target?.type === "string" && ["string", "integer", "number", "boolean"].includes(target.type);
+        }
+        const t = rule["type"] as string | undefined;
+        return typeof t === "string" && ["string", "integer", "number", "boolean"].includes(t);
+      };
+      const tl = (normalized as { characteristics?: { type_level?: Record<string, unknown> } }).characteristics?.type_level;
+      if (tl && typeof tl === "object") {
+        for (const [attr, val] of Object.entries(tl)) {
+          if (isPlain(typeLevelProps[attr]) && val && typeof val === "object" && "value" in (val as Record<string, unknown>)) {
+            tl[attr] = (val as Record<string, unknown>).value;
+          }
+        }
       }
       const result = validateAgainstSchema(normalized, rec.schema);
       if (result.valid) {

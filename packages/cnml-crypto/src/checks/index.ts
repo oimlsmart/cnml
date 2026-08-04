@@ -31,6 +31,9 @@ export { readCrlFieldsFromCert } from "./crl.ts";
 export { crlCheck } from "./crl.ts";
 // The ER-binding leg.
 export { erBindingCheck } from "./er_binding.ts";
+// The pipeline's self-sufficiency seams: the core-schema registration +
+// the environment-agnostic per-rec schema lookup.
+export { ensureCoreSchemasRegistered, getRecommendationSchema } from "./core_schemas.ts";
 
 /**
  * The canonical check pipeline. Order is significant — each check

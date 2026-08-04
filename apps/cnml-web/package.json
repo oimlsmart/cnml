@@ -15,7 +15,8 @@
     "@cnml/cnml-xml": "workspace:*",
     "@cnml/ptb-dcc-compat": "workspace:*",
     "marked": "^14.1.0",
-    "xmldsigjs": "^2.8.7"
+    "xmldsigjs": "^2.8.7",
+    "yaml": "^2.6.0"
   },
   "devDependencies": {
     "@astrojs/vue": "^7.0.1",

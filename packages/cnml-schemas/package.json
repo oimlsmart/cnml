@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./node": "./src/index.node.mjs",
     "./*": "./src/*",
     "./core": "./src/_core.yaml",
     "./units": "./src/_units.yaml",
