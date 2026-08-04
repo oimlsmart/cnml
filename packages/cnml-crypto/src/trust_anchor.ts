@@ -1,5 +1,5 @@
 /**
- * Trust anchor loader + pinner for the browser verifier (TODO 44).
+ * Trust anchor loader + pinner for the browser verifier.
  *
  * Trust-on-first-use (TOFU) discipline:
  *   - First visit: fetch trust-anchors.json from canonical URL
@@ -10,8 +10,6 @@
  *
  * The Ruby CA server publishes `trust-anchors.json` + `.sig` via
  * TrustAnchorPublisher (lib/oiml_pki/trust_anchor.rb).
- *
- * @see TODO.roadmap/44-trust-anchor-bootstrap.md
  */
 
 /** SHA-256 hex pattern. */

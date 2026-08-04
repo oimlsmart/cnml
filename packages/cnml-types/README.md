@@ -1,3 +1,3 @@
 # @cnml/cnml-types
 
-See TODO.cnml/types.md for scope and acceptance criteria.
+Generated TypeScript types for the CNML JSON Schema definitions (all OIML Recommendations plus core shared fragments).

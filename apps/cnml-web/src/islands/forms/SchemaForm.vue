@@ -14,7 +14,7 @@
  *      (which itself switches between scalar / range / enum / list modes
  *      based on the inner schema)
  *   3. `type: object` → recurse as a nested fieldset
- *   4. `type: array` → list editor (TODO)
+ *   4. `type: array` → list editor
  *   5. `type: boolean` → checkbox
  *   6. `type: integer|number` → number input
  *   7. `format: date` → date input
@@ -215,9 +215,10 @@ async function saveYaml() {
     <!-- Demo toolbar (root only — nested recursion doesn't show this) -->
     <div v-if="depth === 0" class="cnml-toolbar">
       <div class="flex-1 min-w-[200px]">
-        <div class="cnml-label">Sample data</div>
+        <label class="cnml-label" for="cnml-sample-select">Sample data</label>
         <select
           v-if="allSamples.length > 0"
+          id="cnml-sample-select"
           :value="currentSampleFilename ?? ''"
           @change="(e) => selectSample((e.target as HTMLSelectElement).value)"
           class="cnml-select mt-1 max-w-md"

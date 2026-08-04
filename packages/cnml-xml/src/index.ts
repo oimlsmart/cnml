@@ -40,7 +40,7 @@ export interface Certificate {
   characteristics?: Characteristics;
   recommendation?: Recommendation;
   test_reports?: TestReport[];
-  /** The evaluation-report binding (TODO.ops/15): the certificate
+  /** The evaluation-report binding: the certificate
    *  cryptographically binds its ER — sha256 over the ER entity's
    *  canonical JSON. */
   evaluation_report?: EvaluationReportRef;
@@ -50,7 +50,7 @@ export interface Certificate {
   footnotes?: Footnote[];
 }
 
-/** The evaluation-report binding (TODO.ops/15). */
+/** The evaluation-report binding. */
 export interface EvaluationReportRef {
   id: string;
   date?: string;

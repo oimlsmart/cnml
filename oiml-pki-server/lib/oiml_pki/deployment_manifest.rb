@@ -11,10 +11,9 @@
 # Mirrors the schema in `confium/crates/confium-deployment/src/manifest.rs`.
 # Both this Ruby loader and the Rust one accept the same TOML. The
 # Ruby implementation is for the CA server (it generates the manifest
-# from the keystore); the TypeScript port (TODO 34) is for the
+# from the keystore); the TypeScript port is for the
 # browser verifier.
 #
-# @see TODO.roadmap/34-confium-deployment-manifest.md
 module OimlPki
   module DeploymentManifest
     # Manifest schema version. Bumped on incompatible changes.

@@ -23,4 +23,4 @@ xmllint --schema packages/cnml-xsd/src/cnml-1.0.xsd --noout file.cnml.xml
 
 ## Scope
 
-See `TODO.cnml/03-xsd-schema.md` for the original scope and acceptance criteria.
+The schema covers core CNML elements, UnitsML elements, and the XMLDSig payload for signed certificates.

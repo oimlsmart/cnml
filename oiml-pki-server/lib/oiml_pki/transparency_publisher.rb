@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Transparency log publisher + Merkle tree (TODO 35).
+# Transparency log publisher + Merkle tree.
 #
 # Pure-Ruby RFC 6962 Merkle tree implementation. Independent of
 # confium-ruby so the CA server can publish transparency proofs
@@ -11,7 +11,6 @@
 # implements the same hashing scheme — proofs generated here verify
 # in the browser.
 #
-# @see TODO.roadmap/35-transparency-log-verify.md
 # @see RFC 6962 (Certificate Transparency)
 module OimlPki
   # Minimal RFC 6962-style Merkle tree. SHA-256 with byte 0x01 prefix

@@ -37,7 +37,7 @@ export async function signCnmlXml(
 
   const algorithm = { name: "ECDSA", hash: "SHA-256" };
 
-  // The KeyInfo chain (TODO.ops/12): a single cert or the full path
+  // The KeyInfo chain: a single cert or the full path
   // (officer cert + intermediates + root) — the verifier resolves
   // without a trust store.
   const pems = Array.isArray(x509CertPem) ? x509CertPem : x509CertPem ? [x509CertPem] : [];

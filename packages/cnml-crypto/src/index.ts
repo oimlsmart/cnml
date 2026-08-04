@@ -17,8 +17,7 @@
  *
  * Implementation lives in MECE-cohesive modules (hash, pem, keys/*,
  * trust/*, xml/*, cert/*). This file is a barrel — it re-exports the
- * public API without holding any logic. See TODO.refactor/01 for the
- * split rationale.
+ * public API without holding any logic.
  */
 
 // Leaf utilities
@@ -36,6 +35,22 @@ export {
   exportPrivateKeyPem,
   importPrivateKeyFromPem,
 } from "./keys/import-export.ts";
+
+// Composite signatures (Ed25519 with ML-DSA-65)
+export type {
+  CompositeKeyMaterial,
+  CompositeSignature,
+  CompositeVerification,
+} from "./keys/composite.ts";
+export {
+  generateCompositeKeyMaterial,
+  compositeSign,
+  compositeVerify,
+  encodeCompositeSignature,
+  decodeCompositeSignature,
+  encodeCompositePublicKeys,
+  decodeCompositePublicKeys,
+} from "./keys/composite.ts";
 
 // Trust store (public keys only — no private material)
 export type { TrustedPublicKey } from "./trust/store.ts";

@@ -89,7 +89,11 @@
     background: var(--accent-soft);
   }
 
-  /* Form inputs — thin border, paper background, focus ring */
+  /* Form inputs — thin border, paper background, focus ring.
+     The :focus rule below keeps the brand-tinted ring for mouse
+     users; :focus-visible (defined in app.css base layer) supplies
+     the persistent outline for keyboard navigation, satisfying
+     WCAG 2.4.7 (Focus Visible). */
   .cnml-input,
   .cnml-select,
   .cnml-textarea {
@@ -114,6 +118,22 @@
   .cnml-input::placeholder,
   .cnml-textarea::placeholder {
     color: var(--ink-muted);
+  }
+
+  /* Visible focus indicator for interactive controls.
+     The 3:1 contrast against adjacent surfaces satisfies WCAG
+     1.4.11 (Non-text Contrast) and 2.4.7 (Focus Visible). */
+  .cnml-btn:focus-visible,
+  .cnml-nav__link:focus-visible,
+  .cnml-brand:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  /* Minimum target size: ensure buttons meet WCAG 2.5.5 (24×24
+     CSS px). Padding already exceeds this; min-height enforces it
+     for icon-only buttons that may shrink in flex rows. */
+  .cnml-btn {
+    min-height: 1.5rem;
   }
 
   /* Form labels — small caps, monospace tracking */
@@ -347,5 +367,23 @@
   a:hover {
     color: var(--accent-hover);
     text-decoration: underline;
+  }
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────
+   Honor the user's OS-level "reduce motion" preference (WCAG 2.3.3
+   Animation from Interactions, level AAA, and a robust AA-aligned
+   practice). All transitions and animations collapse to instant
+   state changes; the smooth-scroll behavior set in app.css is
+   disabled here as well.
+   ────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

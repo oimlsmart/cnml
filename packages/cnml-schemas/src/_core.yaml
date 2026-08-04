@@ -225,7 +225,7 @@ definitions:
     type: array
     items: { $ref: "#/definitions/TestReport" }
 
-  # The evaluation-report binding (TODO.ops/15): the certificate
+  # The evaluation-report binding: the certificate
   # cryptographically binds its Evaluation Report — the PD-05 ER ↔
   # certificate chain of custody, not just a report-number reference.
   # The digest is sha256 over the ER entity's canonical JSON (sorted

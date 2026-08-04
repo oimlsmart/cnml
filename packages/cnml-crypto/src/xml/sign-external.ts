@@ -1,5 +1,5 @@
 /**
- * CNML XML signing with an EXTERNAL signer (TODO.ops/14 tail) — the
+ * CNML XML signing with an EXTERNAL signer — the
  * two-phase XMLDSig assembly for keys that never exist locally: a
  * threshold quorum (the group key never assembles), an HSM, a PKCS#11
  * token. Phase 1 happens HERE: the SignedInfo is built and canonicalized

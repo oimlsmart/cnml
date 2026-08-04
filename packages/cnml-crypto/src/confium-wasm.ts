@@ -7,17 +7,14 @@
  * structured error reporting so callers can render meaningful UI.
  *
  * The browser uses this loader for:
- *   - Director signing ceremonies (DirectorSignPanel, TODO 33)
- *   - Threshold KEM decryption (TODO 36)
- *   - CMS envelope parsing (TODO 37)
- *   - Director identity operations (TODO 39)
+ *   - Director signing ceremonies (DirectorSignPanel)
+ *   - Threshold KEM decryption
+ *   - CMS envelope parsing
+ *   - Director identity operations
  *
  * The verify pipeline NEVER calls this — pure-TS crypto is sufficient
  * for verification. Keeping WASM out of the initial bundle is the
  * whole point (initial page load stays under 200 KB).
- *
- * @see TODO.roadmap/40-confium-integration-architecture.md
- * @see TODO.roadmap/42-browser-wasm-lazy-loading.md
  */
 
 /** Structured description of the loaded WASM module. */

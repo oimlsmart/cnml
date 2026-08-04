@@ -15,7 +15,6 @@
 #     Config: { "coordinator_endpoint": "tcp://...", "quorum_id": "biml-root" }
 #
 # See:
-#   - confium/TODO.roadmap/27-cnml-deployment.md (authoritative spec)
 #   - confium-ruby/lib/confium/tc/ (Ruby API)
 
 module OimlPki
@@ -171,8 +170,7 @@ module OimlPki
       def sign_via_coordinator(data)
         require "confium"
         # The TC session lives in its own file — `require "confium"`
-        # alone does not autoload Confium::TC (the sign_local NameError
-        # TODO.ops/14 found).
+        # alone does not autoload Confium::TC.
         begin
           require "confium/tc/session"
         rescue LoadError

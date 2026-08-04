@@ -25,11 +25,11 @@ import { transparencyCheck } from "./transparency.ts";
 
 export type { Check, CheckContext, CheckResult };
 
-// The CRL leg's helpers (TODO.ops/13 — the app's revocation
-// propagation extracts the signing cert's serial with these).
+// The CRL leg's helpers — the app's revocation
+// propagation extracts the signing cert's serial with these.
 export { readCrlFieldsFromCert } from "./crl.ts";
 export { crlCheck } from "./crl.ts";
-// The ER-binding leg (TODO.ops/15).
+// The ER-binding leg.
 export { erBindingCheck } from "./er_binding.ts";
 
 /**

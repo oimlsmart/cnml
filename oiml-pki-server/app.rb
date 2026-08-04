@@ -129,7 +129,7 @@ get "/crl" do
   erb :crl_manage
 end
 
-# ─── Machine enrollment (TODO.ops/12 — the app's CNML bridge) ─────────
+# ─── Machine enrollment (the app's CNML bridge) ─────────────────────
 # The app's signing flow enrolls an officer key with the CA here: a
 # CSR in, the CA-signed certificate + chain out, JSON. The ceremony UX
 # above stays the human path; this is the machine path (the bridge
@@ -177,7 +177,7 @@ post "/api/enroll" do
   }.to_json
 end
 
-# ─── Revocation (TODO.ops/13 — the CRL end to end) ────────────────────
+# ─── Revocation (the CRL end to end) ────────────────────────────────
 # The app's lifecycle actions (suspend/withdraw) post the revoked
 # serial here; the CA re-issues and publishes the CRL on every change
 # (lift-suspension removes the serial). The revoked set persists on the
@@ -219,7 +219,7 @@ post "/api/crl/revoke" do
   { revoked: revoked.map { |r| r["serial"] }, crl_url: crl_url_for(ca), revoked_count: revoked.length }.to_json
 end
 
-# ─── Threshold signing (TODO.ops/14 — the quorum at issuance) ───────
+# ─── Threshold signing (the quorum at issuance) ───────────────────
 # The quorum signs arbitrary bytes via the CA's threshold KeyProvider
 # (FROST: no single party holds the key). The deployment registers its
 # threshold config in the keystore (the "threshold" entry: local_shares

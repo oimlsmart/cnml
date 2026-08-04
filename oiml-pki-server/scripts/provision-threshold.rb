@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Provision a threshold quorum into the CA keystore (TODO.ops/14): run
+# Provision a threshold quorum into the CA keystore: run
 # the ceremony's keygen (CMP20 in-process) and store the shares
 # (base64) + the group's public key as the "threshold" entry, ready for
 # POST /api/sign.

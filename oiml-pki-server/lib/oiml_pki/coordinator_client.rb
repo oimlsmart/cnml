@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Client for the confium-tc-coordinator service (TODO 40).
+# Client for the confium-tc-coordinator service.
 #
 # Wraps the lower-level Confium::TC::Coordinator with:
-#   - Multi-endpoint failover (TODO 46 federation)
+#   - Multi-endpoint failover (federation)
 #   - Version negotiation on connect
 #   - Automatic reconnection with exponential backoff
 #   - Structured error reporting (network vs protocol vs coordinator-side)
@@ -12,9 +12,6 @@
 # to drive async threshold signing ceremonies. The CoordinatorClient
 # is the single network endpoint on the Ruby side — all other confium
 # access is in-process via FFI.
-#
-# @see TODO.roadmap/40-confium-integration-architecture.md
-# @see TODO.roadmap/46-disaster-recovery-federation.md
 module OimlPki
   class CoordinatorClient
     # Structured error — distinguishes network failures from protocol

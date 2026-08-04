@@ -1,5 +1,5 @@
 /**
- * Cross-channel trust anchor agreement (TODO 44).
+ * Cross-channel trust anchor agreement.
  *
  * Defends against CDN compromise, DNS spoofing, or any single-channel
  * attack on trust anchor distribution. Fetches the anchor set from
@@ -13,8 +13,6 @@
  *
  * Plus an optional 4th "print" channel that the user enters manually
  * from the BIML Annual Report (offline cross-check).
- *
- * @see TODO.roadmap/44-trust-anchor-bootstrap.md
  */
 
 import {
