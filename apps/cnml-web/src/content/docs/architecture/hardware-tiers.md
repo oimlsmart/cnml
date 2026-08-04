@@ -1,59 +1,82 @@
 ---
 title: Hardware key tiers
-description: The three-tier hardware model for CNML signing keys, covering enterprise HSMs at the BIML Root, personal hardware tokens at the IA intermediate, and browser IndexedDB at the signer tier, with PKCS#11 as the common interface.
+description: How PKCS#11-compatible hardware devices map onto the CNML signing tiers. The technical interface is uniform; capacity and certification regime are the only meaningful differentiators between devices.
 ---
 
 # Hardware key tiers
 
-CNML uses three hardware tiers for signing keys, matched to the sensitivity of the key at each level of the five-tier hierarchy. The enterprise HSM tier covers the BIML Root, where the signing key is the most valuable secret in the system and hardware extraction must be prevented. The personal hardware token tier covers the IA intermediate, where the signing key is held by IA officers who travel and convene. The browser software tier covers the per-cert signer, where the signing key is generated and used in the browser. PKCS#11 is the common interface at the hardware-backed tiers, so that the CA server's key provider dispatch is uniform across vendors.
+CNML uses PKCS#11-compatible hardware devices to hold signing keys at every tier of the five-tier hierarchy. The technical interface is uniform across all devices and all tiers: the device exposes PKCS#11, the CA server's KeyProvider dispatch calls through PKCS#11, and the private key is generated on the device and never leaves the device in plaintext. The choice of device at each tier is a deployment policy driven by capacity and certification requirements, not a software constraint.
 
-The hardware listed in each tier is identified by vendor name as a factual reference. The listing does not constitute an endorsement. Devices that meet the stated certification level and expose a PKCS#11 interface are suitable for the tier.
+The marketing distinction between enterprise hardware security modules and personal hardware tokens is cosmetic from a technical standpoint. Both device classes speak PKCS#11, both generate keys on the device, both refuse to export private key material, and both can serve at any tier in the CNML hierarchy. The only differentiator that matters operationally is capacity: how many private keys the device can hold simultaneously.
 
-## Tier 1: enterprise HSM at the BIML Root
+## Capacity drives the tier mapping
 
-The BIML Root signing key is held in an enterprise hardware security module. Devices in this class include the Thales Luna HSM family and the Utimaco SecurityServer family. These devices ship in FIPS 140-3 Level 3 validated configurations, transitioning from FIPS 140-2 Level 3 under the NIST Cryptographic Module Validation Program modernization, and hold the signing key in tamper-resistant hardware that prevents extraction. The key is generated on the device, marked sensitive and non-extractable, and never leaves the device in plaintext.
+The three signing tiers differ in the number of keys they hold.
+
+The BIML Root tier holds a small number of high-value signing keys. The root signing key is the most valuable secret in the system. Where the deployment operates a threshold quorum at the root tier, the root share for each director is held on a separate device. A device with capacity for one to a handful of root-tier shares is sufficient.
+
+The IA intermediate tier holds one device per IA officer, with each device carrying that officer's threshold share of the IA intermediate signing key. A typical IA configuration uses three officers per IA, so the deployment uses three devices per IA, each carrying one share.
+
+The signer tier holds one device per signer, with each device carrying that signer's end-entity key. Signer-tier deployments may involve many signers per IA, so the deployment uses many devices.
+
+## What the device does at every tier
+
+Regardless of which tier the device serves, the device performs the same role.
 
 The CA host communicates with the device through PKCS#11. The host sends a signing request through the PKCS#11 interface, the device performs the signing operation internally, and the device returns only the signature bytes. The private key never appears in the host's process memory or filesystem. This property defends against malware on the CA host: an attacker who compromises the host can submit signing requests but cannot extract the key.
 
-The enterprise HSM tier is operated by BIML ceremony staff at the air-gapped CA facility described in [CNML architecture choices](/docs/architecture/cnml-architecture-choices). The device is provisioned during the root key generation ceremony, and the provisioning is recorded in the audit log. Backup of the root key, where performed, uses the threshold escrow pattern rather than key export: the key is shared among the directors through distributed key generation, and recovery requires a threshold of directors to participate.
+The device is provisioned through the CA server's KeyProvider dispatch. The dispatch identifies the device by its PKCS#11 module path and slot identifier, opens a session, and submits signing requests as needed. Multiple devices can coexist on the same host, each in its own slot. The CA server's configuration selects the device by slot.
 
-## Tier 2: personal hardware token at the IA intermediate
+## Certification regimes
 
-The IA intermediate signing key is held in a personal hardware token. The recommended device at this tier is the [YubiKey 5 FIPS series](https://www.yubico.com/store/), which provides FIPS 140-2 Level 1 validation overall with PIV applet components validated to Level 2. Yubico is transitioning the YubiKey 5 FIPS series through FIPS 140-3 validation as NIST moves the Cryptographic Module Validation Program to the new standard. The Nitrokey family provides equivalent functionality under different certification regimes. These devices expose 24 distinct PIV key slots and a PKCS#11 interface through the OpenSC driver or the Yubico-supplied `ykcs11` driver.
+Where the deployment operates under a regulatory framework that requires validated cryptographic modules, the device's certification regime becomes a deployment constraint. FIPS 140-2 validation is the United States national regime. FIPS 140-3 is the successor standard, currently in transition under the NIST Cryptographic Module Validation Program modernization. Common Criteria and national certification regimes apply in other jurisdictions.
 
-The personal hardware token tier supports the threshold architecture at the IA level. Each of the three IA officers holds a share of the IA intermediate signing key on their own token. The threshold property means that compromise of a single officer's token cannot produce an IA-tier signature, and loss of a single token does not prevent the remaining officers from signing. The tokens are provisioned through the IA's distributed key generation ceremony, and each token is personally controlled by its officer.
+CNML does not require any specific certification regime. The CA server treats every PKCS#11-compatible device identically. Where a deployment requires FIPS-validated devices, the deployment selects devices validated under the appropriate regime. Where FIPS validation is not required, any PKCS#11-compatible device is suitable.
 
-The FIPS validation status of the chosen device matters for IA deployments that operate under regulatory frameworks requiring validated cryptographic modules. Where FIPS validation is not required, the standard YubiKey 5 series (without FIPS validation) provides the same PKCS#11 surface at lower cost. The choice is a deployment policy, not a software constraint: both variants speak PKCS#11 and work with the CA server's KeyProvider dispatch.
+## Compatible devices
 
-PKCS#11 module locations vary by platform. On macOS, the OpenSC module is at `/opt/homebrew/lib/opensc-pkcs11.so` and the Yubico module is at `/opt/homebrew/lib/libykcs11.dylib`. On Linux, the modules are at `/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so` (Debian and Ubuntu) or `/usr/lib64/pkcs11/opensc-pkcs11.so` (RPM distributions) for OpenSC, and the corresponding libykcs11 path for the Yubico driver. On Windows, the modules are in the installation directories of OpenSC and Yubico PIV Tool respectively.
+The devices listed below are factual references to PKCS#11-compatible hardware that CNML's KeyProvider dispatch can drive. The list is not exhaustive: any PKCS#11-compatible device that exposes the standard PIV or generic key slot interface works. Inclusion in this list does not constitute an endorsement. Vendors are listed alphabetically.
 
-## Tier 3: browser IndexedDB at the signer tier
+| Vendor | Device family | Capacity (typical) | Notable certification regime | PKCS#11 driver |
+|--------|---------------|--------------------|------------------------------|----------------|
+| CryptoTrust | CardOS HSM | tens of keys | Common Criteria EAL 5+ | vendor-supplied |
+| Entrust | nShield HSM family | thousands of keys | FIPS 140-2 Level 3, FIPS 140-3 in transition | vendor-supplied (`pkcs11` library) |
+| Futurex | Vectera Plus, Excipher SSP | thousands of keys | FIPS 140-2 Level 3 | vendor-supplied |
+| Hydrogen | HSM products | varies by model | FIPS 140-2 Level 3 | vendor-supplied |
+| Kryptus | kNET HSM | thousands of keys | FIPS 140-2 Level 3 | vendor-supplied |
+| Marvell | LiquidSecurity HSM adapter | thousands of keys | FIPS 140-2 Level 3 | vendor-supplied |
+| Nitrokey | Nitrokey 3, Nitrokey HSM 2 | 24 to 50 keys per applet | Common Criteria, BSI (German federal) | OpenSC (`opensc-pkcs11.so`) |
+| PrimusTrust | Primus HSM family | thousands of keys | FIPS 140-2 Level 3 | vendor-supplied |
+| Securosys | Primus HSM family | thousands of keys | FIPS 140-2 Level 3, Common Criteria EAL 4+ | vendor-supplied |
+| SoloKeys | Solo 2 | tens of keys | FIDO2, OpenPGP card v3 | OpenSC |
+| Thales | Luna HSM family | thousands of keys | FIPS 140-2 Level 3, FIPS 140-3 in transition | vendor-supplied (`Cryptoki` library) |
+| Trusted Objects | SafeHSM | thousands of keys | Common Criteria | vendor-supplied |
+| Utimaco | SecurityServer HSM family | thousands of keys | FIPS 140-2 Level 3, BSI, Common Criteria | vendor-supplied (`PKCS11` library) |
+| Yubico | YubiKey 5 series, YubiKey 5 FIPS series | 24 PIV key slots per device | YubiKey 5 FIPS validated under FIPS 140-2; YubiKey 5 FIPS series in transition to FIPS 140-3 | OpenSC (`opensc-pkcs11.so`) or Yubico's `ykcs11` driver |
+| Yubico | YubiHSM 2 | hundreds of keys | FIPS 140-2 Level 3 | vendor-supplied (`yubihsm_pkcs11` library) |
 
-The per-cert signer key is generated and held in the signer's browser. The signer (a person at the IA) generates an ECDSA P-256 keypair in the browser. The private key is encrypted with a passphrase-derived AES-GCM key (the passphrase is processed through PBKDF2 with a high iteration count) and stored in the browser's IndexedDB. The key never leaves the browser.
+The Yubico store at https://www.yubico.com/store/ lists current YubiKey variants and certification documentation. Other vendors publish equivalent material on their own sites.
 
-The browser tier does not provide the hardware extraction resistance of the HSM or the personal token tiers. The security model relies on the browser's same-origin policy, the AES-GCM encryption at rest, and the PBKDF2 key derivation from a strong passphrase. The tradeoff is operational simplicity: the signer does not need to carry or provision hardware, and the key is available wherever the signer's browser is available.
+## Software-only fallback at the signer tier
 
-CNML recommends that signers export their signing keypair to a secure backup at provisioning time. The backup may be a PEM file stored in a password manager or a paper backup (a QR-coded representation of the encrypted key) stored in a physical safe. The backup prevents total key loss, which would require the IA to re-issue the signer's end-entity certificate and the signer to regenerate a keypair. Browser-side hardware token signing, which would combine the operational simplicity of the browser tier with the extraction resistance of the token tier, is on the roadmap.
+For development, low-assurance deployments, or signers who do not have access to hardware, browser IndexedDB provides a software-only signer path. The signer generates an ECDSA P-256 keypair in the browser. The private key is encrypted with a passphrase-derived AES-GCM key (the passphrase is processed through PBKDF2 with a high iteration count) and stored in the browser's IndexedDB. The key never leaves the browser.
 
-## Provisioning a personal hardware token
+The browser tier does not provide the hardware extraction resistance of the PKCS#11 device tiers. The security model relies on the browser's same-origin policy, the AES-GCM encryption at rest, and the PBKDF2 key derivation from a strong passphrase. The tradeoff is operational simplicity: the signer does not need to carry or provision hardware, and the key is available wherever the signer's browser is available.
 
-Provisioning a personal hardware token for an IA intermediate certificate follows a standard sequence. The prerequisites are the OpenSC and yubico-piv-tool packages, installed through the platform package manager (Homebrew on macOS, apt on Debian and Ubuntu). The token is verified as detected through `ykman list` or `pkcs11-tool --module <path> -L`.
+CNML recommends that signers export their signing keypair to a secure backup at provisioning time. The backup may be a PEM file stored in a password manager or a paper backup stored in a physical safe. The backup prevents total key loss, which would require the IA to re-issue the signer's end-entity certificate and the signer to regenerate a keypair.
 
-The provisioning sequence sets a strong user PIN (replacing the default), generates a fresh ECDSA P-256 keypair on the device (the private key is generated in hardware and marked sensitive and non-extractable), reads the public key from the device, builds a self-signed intermediate certificate using the device for signing, and stores the certificate and the PKCS#11 configuration in the keystore. The keystore entry contains the PKCS#11 configuration (module path, slot, certificate ID, PIN environment variable) and not the private key. The provisioning is recorded as a `yubikey.provision` entry in the audit log.
+## Provisioning workflow
 
-The CA server's key provider dispatch reads the keystore entry and selects the PKCS#11 backend when it detects the PKCS#11 configuration shape. No code change is required in the route handler. Adding a new backend (a cloud key management service, for example) is additive: the new backend implements the base key provider interface, an autoload entry is added, and a dispatch rule is added to the factory. The open-closed pattern is described in [CNML architecture choices](/docs/architecture/cnml-architecture-choices).
+The provisioning workflow is uniform across vendors.
 
-## Backup and recovery
+The operator runs the CA server's provisioning script with the device's PKCS#11 module path, the slot identifier, and the operator's PIN. The script initializes the slot if it is uninitialized, generates the signing key on the device, exports the public key, and stores the public key plus the device descriptor in the CA server's keystore. The private key never appears in the keystore.
 
-The personal hardware token is a single point of failure for the officer who holds it. If the token is lost, the officer cannot participate in IA-tier signing until a new token is provisioned and a re-sharing ceremony restores the officer's share. The threshold property of the IA quorum means that the loss of one token does not prevent the remaining officers from signing.
+The operator verifies that the key was generated correctly by submitting a test signature through the PKCS#11 interface. The CA server logs the provisioning event in the audit log.
 
-CNML recommends that each IA maintain a backup token for each officer, provisioned with the same keypair during the original ceremony and stored in a different physical location. The dual-token approach means that the loss of the primary token does not require an emergency re-sharing. The backup is kept in a physical safe at a location separate from the primary, so that a single physical event (theft, fire) does not compromise both tokens.
-
-The enterprise HSM tier and the browser tier have different backup models. The enterprise HSM uses threshold escrow, where the key is shared among the directors and recovery requires a threshold. The browser tier uses passphrase-derived encryption, where the backup is the exported PEM or paper backup and recovery requires the passphrase.
+For deployments that use threshold signing, the provisioning workflow includes the distributed key generation protocol. Each device contributes to the key generation, and the resulting shares never appear in plaintext outside their respective devices. The aggregate public key is recorded in the keystore and signed by the parent CA.
 
 ## See also
 
-- [System architecture](/docs/architecture/system) describes the five-tier hierarchy that the hardware tiers support.
-- [CNML architecture choices](/docs/architecture/cnml-architecture-choices) describes the air-gapped CA and the threshold-signing architecture.
-- [For IAs and BIML/CIML](/docs/roles/for-ias-biml-ciml) provides the operational guidance for IA officers and BIML ceremony staff.
-- [For developers](/docs/roles/for-developers) describes the key provider dispatch and the PKCS#11 backend interface.
+- [CNML architecture choices](/docs/architecture/cnml-architecture-choices) develops the air-gapped CA model that the hardware tiers serve.
+- [System architecture](/docs/architecture/system) describes where each tier sits in the five-tier hierarchy.
+- [For IAs and BIML/CIML](/docs/roles/for-ias-biml-ciml) describes the operational role of each tier.
