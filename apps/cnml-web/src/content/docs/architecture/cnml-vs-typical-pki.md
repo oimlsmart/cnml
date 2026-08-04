@@ -9,6 +9,34 @@ The CNML public-key infrastructure and the web Transport Layer Security public-k
 
 ![PKI comparison](/diagrams/pki-comparison.svg)
 
+## Technical components at a glance
+
+The table below lists every technical component used by each system. Components marked **Standard** are shared between the two systems and trace to the same international standard. Components marked **Modernized** are shared in foundation but extended by CNML with newer techniques. Components marked **CNML addition** have no equivalent in the traditional web PKI architecture and represent the architectural evolution described in the [Architectural evolution](#architectural-evolution) section below.
+
+| Component | Web TLS PKI | CNML | Category |
+|---|---|---|---|
+| Certificate format | X.509 v3 (RFC 5280) | X.509 v3 (RFC 5280) | Standard |
+| Canonicalization | TLS handshake framing | Exclusive C14N (W3C Rec) | Standard |
+| XML signature | Not applicable | W3C XMLDSig 1.1 | CNML addition |
+| Classical signing | RSA-2048 or ECDSA P-256 | ECDSA P-256 and Ed25519 (RFC 8032) | Modernized |
+| Post-quantum signing | Not deployed | ML-DSA-65 (NIST FIPS 204) | CNML addition |
+| Composite signatures | Not supported | Ed25519 with ML-DSA-65, both required | CNML addition |
+| Signing authority | Single CA operator | Threshold quorum via FROST | Modernized |
+| Key storage | Cloud HSM, single operator | Distributed threshold across PKCS#11 devices | Modernized |
+| Hardware interface | PKCS#11 (vendor-specific) | PKCS#11 (vendor-neutral, any device) | Standard |
+| Issuance | ACME (RFC 8555), automated | Human-reviewed, threshold ceremony | Different optimization |
+| Certificate lifetime | 1 to 2 years | Approximately 10 years with archival renewal | Different optimization |
+| Revocation checking | OCSP (RFC 6960) and CRL | CRL via static CDN, offline-capable | Modernized |
+| Transparency | Certificate Transparency (RFC 6962) | Merkle log (RFC 6962 model) with Bitcoin anchor | Modernized |
+| Timestamp evidence | Certificate validity period only | OpenTimestamps anchoring to Bitcoin | CNML addition |
+| Scope governance | Policy-only (CA/B Forum) | X.509 v3 extension, cryptographically enforced | CNML addition |
+| Verification mode | Online (requires OCSP and CT reachability) | Offline-capable from cached trust anchors | Different optimization |
+| Long-term archival | Expired certificates become unverifiable | RFC 4998 Evidence Record Syntax, multi-era | CNML addition |
+| Internationalization | Single language per certificate | `xml:lang` per element, multi-language | Modernized |
+| Director rotation | Certificate re-issuance required | Threshold re-sharing preserves public key | CNML addition |
+
+**Standard** components are the foundation both systems share. **Modernized** components are shared in foundation but extended by CNML. **CNML addition** components are architecturally new and have no counterpart in the 1990s web PKI design. The sections below develop each dimension in detail.
+
 ## Certificate purpose
 
 A web TLS certificate authenticates a server identity and binds it to a public key for the purpose of establishing a secure channel. The certificate's job concludes when the TLS handshake completes and the channel is established. The signed payload is small, the verification context is a live connection, and the certificate is one input among several to the channel's security properties.
