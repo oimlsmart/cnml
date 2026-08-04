@@ -19,7 +19,7 @@ import yaml from "yaml";
 import { signCnmlXml, issueSelfSignedCert } from "../../cnml-crypto/src/index.ts";
 import { certToCnmlXml } from "../../cnml-xml/src/index.ts";
 
-const SCHEMA_DIR = new URL("../../cnml-schemas/src/", import.meta.url);
+const SCHEMA_DIR = new URL("../../cnml-schemas/src/schemas/", import.meta.url);
 const SAMPLE_DIR = new URL("../../cnml-schemas/src/samples/", import.meta.url);
 
 interface RecommendationMeta {
@@ -27,6 +27,32 @@ interface RecommendationMeta {
   title: string;
   category: string;
   schemaPath: string;
+  /** A schema-valid edition for the synthesized cert (the schema's OWN
+   *  pin — enum[0] / the max oneOf const — never a hardcoded year). */
+  edition: number;
+  /** The schema's certified-type category pin (its OWN const/enum). */
+  typeCategory: string;
+}
+
+/** The rec schema's edition pin → one valid edition. */
+function deriveEdition(parsed: any, fallback: number): number {
+  const rule = parsed?.properties?.recommendation?.properties?.edition;
+  if (Array.isArray(rule?.enum) && rule.enum.length > 0) return rule.enum[0];
+  if (Array.isArray(rule?.oneOf) && rule.oneOf.length > 0) {
+    const consts = rule.oneOf.map((o: any) => o?.const).filter((c: any) => typeof c === "number");
+    if (consts.length > 0) return Math.max(...consts);
+  }
+  if (typeof rule?.const === "number") return rule.const;
+  return fallback;
+}
+
+/** The rec schema's certified-type category pin (the schema's OWN
+ *  const/enum — the same derivation the issuance bridge performs). */
+function deriveCategory(parsed: any, fallback: string): string {
+  const rule = parsed?.definitions?.CertifiedType?.properties?.category;
+  if (typeof rule?.const === "string") return rule.const;
+  if (Array.isArray(rule?.enum) && rule.enum.length > 0) return rule.enum[0];
+  return fallback;
 }
 
 // Enumerate R schemas directly from disk (avoids requiring Vite's YAML loader)
@@ -42,6 +68,8 @@ const RECOMMENDATIONS: RecommendationMeta[] = readdirSync(SCHEMA_DIR)
       title:     parsed?.title ?? f,
       category:  parsed?.category ?? "Unknown",
       schemaPath: f,
+      edition:   deriveEdition(parsed, 2020),
+      typeCategory: deriveCategory(parsed, parsed?.title ?? f),
     };
   })
   .filter((r, i, arr) => arr.findIndex((x) => x.id === r.id) === i)
@@ -79,10 +107,13 @@ const manifest: Record<string, { filename: string; cert_no: string; signed_at: s
 
 for (const rec of RECOMMENDATIONS) {
   const cert = loadSample(rec.id) ?? {
-    certificate: { number: `${rec.id}/TEST-A-XX1-26.0`, date_issued: "2026-07-23" },
-    recommendation: { id: rec.id, edition: 2020, scheme: "A" as const },
+    certificate: { number: `${rec.id}/TEST-A-XX1-26.0`, date_issued: "2026-07-23", oiml_issuer_id: "XX1" },
+    recommendation: { id: rec.id, edition: rec.edition, scheme: "A" as const },
     issuing_authority: { name: "CNML Test Issuer", person_responsible: "Test Signer" },
-    certified_type: { category: rec.title, type_designations: ["TEST-MODEL"] },
+    applicants: [{ name: "CNML Test Applicant", person_responsible: "Test Requester" }],
+    manufacturers: [{ name: "CNML Test Manufacturer" }],
+    certified_type: { category: rec.typeCategory, type_designations: ["TEST-MODEL"] },
+    characteristics: { type_level: {}, model_level: [], config_level: [] },
   };
   const xml = certToCnmlXml(cert as any);
   const signed = await signCnmlXml(xml, keyPair.privateKey, certPem);

@@ -3,74 +3,163 @@
     <cnml:cnmlSoftware language="en">
       <cnml:name>cnml-web</cnml:name>
       <cnml:version>0.1.0</cnml:version></cnml:cnmlSoftware>
-      <cnml:coreData memberState="Germany">
+      <cnml:coreData memberState="The Netherlands">
         <cnml:identifications>
-          <cnml:oimlNumber>R60/2021-A-DE1-24.02</cnml:oimlNumber></cnml:identifications>
+          <cnml:oimlNumber>R60/2021-A-NL1-26.08</cnml:oimlNumber>
+          <cnml:projectNumber>3961355</cnml:projectNumber></cnml:identifications>
           <cnml:recommendation ref="R60" edition="2021"/>
           <cnml:scheme>A</cnml:scheme>
           <cnml:accuracyClasses>
             <cnml:class>C3</cnml:class></cnml:accuracyClasses>
-            <cnml:dateOfIssue>2024-06-25</cnml:dateOfIssue>
-            <cnml:pageTotal>1</cnml:pageTotal>
-            <cnml:oimlIssuerId>DE1</cnml:oimlIssuerId></cnml:coreData>
+            <cnml:dateOfIssue>2026-06-19</cnml:dateOfIssue>
+            <cnml:pageTotal>2</cnml:pageTotal>
+            <cnml:oimlIssuerId>NL1</cnml:oimlIssuerId></cnml:coreData>
             <cnml:issuingAuthority>
-              <cnml:name>Physikalisch-Technische Bundesanstalt</cnml:name>
+              <cnml:name>NMi Certin B.V.</cnml:name>
               <cnml:addressLines>
-                <cnml:line>Bundesallee 100, 38116 Braunschweig, GERMANY</cnml:line></cnml:addressLines>
-                <cnml:personResponsible>Dr.-Ing. Prof. h. c. Frank Härtig</cnml:personResponsible>
-                <cnml:personTitle>N/A</cnml:personTitle>
-                <cnml:phone>N/A</cnml:phone>
-                <cnml:email>N/A</cnml:email>
-                <cnml:website>N/A</cnml:website>
-                <cnml:oimlIssuerId>DE1</cnml:oimlIssuerId></cnml:issuingAuthority>
+                <cnml:line>Hugo de Grootplein 1</cnml:line>
+                <cnml:line>3314 EG Dordrecht</cnml:line>
+                <cnml:line>the Netherlands</cnml:line></cnml:addressLines>
+                <cnml:personResponsible>M.Ph.D. Schmidt</cnml:personResponsible>
+                <cnml:phone>+31 88 636 2332</cnml:phone>
+                <cnml:email>certin@nmi.nl</cnml:email>
+                <cnml:website>www.nmi.nl</cnml:website>
+                <cnml:oimlIssuerId>NL1</cnml:oimlIssuerId></cnml:issuingAuthority>
                 <cnml:applicants>
                   <cnml:party>
-                    <cnml:name>3S Fabrications (Pvt) Ltd</cnml:name>
+                    <cnml:name>RICE LAKE WEIGHING SYSTEMS INDIA LTD.</cnml:name>
                     <cnml:addressLines>
-                      <cnml:line>Venus Mills, Etiyawela, Daluwela</cnml:line>
-                      <cnml:line>61130 Dankotuwa</cnml:line>
-                      <cnml:line>Sri Lanka</cnml:line></cnml:addressLines></cnml:party></cnml:applicants>
+                      <cnml:line>A 27/1 Sipcot Industrial Growth Centre Orgadam</cnml:line>
+                      <cnml:line>Sriperumbudur Taluk Kancheepuram Dist.</cnml:line>
+                      <cnml:line>Tamil Nadu India</cnml:line></cnml:addressLines></cnml:party></cnml:applicants>
                       <cnml:manufacturers>
                         <cnml:party>
-                          <cnml:name>3S Fabrications (Pvt) Ltd</cnml:name>
+                          <cnml:name>RICE LAKE WEIGHING SYSTEMS INDIA LTD.</cnml:name>
                           <cnml:addressLines>
-                            <cnml:line>Venus Mills, Etiyawela, Daluwela</cnml:line>
-                            <cnml:line>61130 Dankotuwa</cnml:line>
-                            <cnml:line>Sri Lanka</cnml:line></cnml:addressLines></cnml:party></cnml:manufacturers>
+                            <cnml:line>A 27/1 Sipcot Industrial Growth Centre Orgadam</cnml:line>
+                            <cnml:line>Sriperumbudur Taluk Kancheepuram Dist.</cnml:line>
+                            <cnml:line>Tamil Nadu India</cnml:line></cnml:addressLines></cnml:party></cnml:manufacturers>
                             <cnml:certifiedType>
                               <cnml:category>Load cell</cnml:category>
                               <cnml:typeDesignations>
-                                <cnml:designation>SPH</cnml:designation></cnml:typeDesignations>
-                                <cnml:moduleDesignation>analog_passive</cnml:moduleDesignation></cnml:certifiedType>
+                                <cnml:designation>RL5426D</cnml:designation>
+                                <cnml:designation>RL5426DC</cnml:designation></cnml:typeDesignations>
+                                <cnml:moduleDesignation>analog_passive</cnml:moduleDesignation>
+                                <cnml:description>A compression load cell, with strain gauges, equipped with electronics. Registered trade name RICE LAKE WEIGHING SYSTEMS</cnml:description></cnml:certifiedType>
                                 <cnml:revisionHistory>
                                   <cnml:revision>
                                     <cnml:revisionNumber>0</cnml:revisionNumber>
-                                    <cnml:date>2024-06-14/2024-06-25</cnml:date>
-                                    <cnml:changes>Initial issuing/Missing load cell data added</cnml:changes></cnml:revision></cnml:revisionHistory>
+                                    <cnml:date>2026-06-19</cnml:date>
+                                    <cnml:changes>Initial issue.</cnml:changes></cnml:revision></cnml:revisionHistory>
                                     <cnml:footnotes>
                                       <cnml:footnote>
-                                        <cnml:marker>a)</cnml:marker>
-                                        <cnml:text>Minimum dead load: 0%·Emax; Safe overload: 200%·Emax</cnml:text></cnml:footnote></cnml:footnotes></cnml:administrativeData>
+                                        <cnml:marker>1)</cnml:marker>
+                                        <cnml:text>The characteristics for nmax, Y and Z can be reduced separately.</cnml:text></cnml:footnote></cnml:footnotes></cnml:administrativeData>
                                         <cnml:measurementResults>
-                                          <cnml:characteristic name="accuracy_class" layer="type_level">
+                                          <cnml:characteristic name="characterization_of_load_cell_capabilities" layer="type_level">
                                             <cnml:value>
                                               <cnml:scalar>
-                                                <cnml:text>C</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
-                                                <cnml:characteristic name="maximum_number_of_load_cell_intervals_nlc" layer="type_level">
+                                                <cnml:text>analog_passive</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                <cnml:characteristic name="accuracy_class" layer="type_level">
                                                   <cnml:value>
                                                     <cnml:scalar>
-                                                      <cnml:number>3000</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
-                                                      <cnml:characteristic name="apportionment_factor_plc" layer="type_level">
+                                                      <cnml:text>C</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                      <cnml:characteristic name="classification_symbol" layer="type_level">
                                                         <cnml:value>
                                                           <cnml:scalar>
-                                                            <cnml:number>0.7</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
-                                                            <cnml:characteristic name="maximum_capacity" layer="model_level" model="N/A">
+                                                            <cnml:text>C3</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                            <cnml:characteristic name="maximum_capacity" layer="type_level">
                                                               <cnml:value>
-                                                                <cnml:scalar>
-                                                                  <cnml:number>270</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
-                                                                  <cnml:characteristic name="minimum_load_cell_verification_interval_vmin" layer="model_level" model="N/A">
-                                                                    <cnml:value>
-                                                                      <cnml:scalar>
-                                                                        <cnml:text>Emax/12.000</cnml:text></cnml:scalar></cnml:value>
-                                                                        <cnml:footnoteMarkers>
-                                                                          <cnml:marker>a)</cnml:marker></cnml:footnoteMarkers></cnml:characteristic></cnml:measurementResults><ds:Signature Id="cnml-signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>UNJrfEj5UMIu+vY87vchieGFIy/rg+KR/k9ihpR3hRk=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>TiTGHLa59DW66VuvooiOGBSN0LIURySmJSSHcpflCQk+M8tbPOw8+KH6fPVOPXe0AI9W6jhMI8oHDrcogLn8aFc4DXEIWDdaFjFaJ0MvKnVEyCAjlq4fS/byxGESszBbHtF2WDuneESvOfk0A02gTV77j4FIKTtODpyODMwC4EDO3UsQBzyUXs8Rv6hapAaUr+0jwiaY5hz/48y6W/Eq/bkNCHJAqlab9zCXa1f0lYDO1y7B7KeVckEB028vBkyz8L8VK1vCExRpfZ36810vyZYmVcQsG/oYS294ZeexrqEy7DLqmpd7bg8/P6U2Q7FhZJVTlEANJ7t7qB9b+EJW1A==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDDzCCAfmgAwIBAwIRALDepuVIklvbcsDAXrMJpdAwCwYJKoZIhvcNAQELMEUxQzAYBgNVBAoMEUNOTUwgVGVzdCBWZWN0b3JzMBwGA1UEAwwVQ05NTCBUZXN0IFNpZ25lciAyMDI2MAkGA1UEBgwCTkwwHhcNMjYwNzIzMTEwNzA2WhcNMzYwNzIwMTEwNzA2WjBFMUMwGAYDVQQKDBFDTk1MIFRlc3QgVmVjdG9yczAcBgNVBAMMFUNOTUwgVGVzdCBTaWduZXIgMjAyNjAJBgNVBAYMAk5MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmhjtBGMCf0kv3pxDU77h9XiZUPWMFMAeO/DjBA63/GP3UxJlnMm81e9ReV8JMuxY3PMj+NCv3HEpbOLq8arRF/7IVuExVOCFNt1IqPhqH7zhjx7xas5mVH0YtDmuvnhG02XdgEq1pUzX/UubjCrDkc/3H0gkOWFtLXbskhVTvShrbIgW41k4SE78RiZ896jMsZzLzLjXgXdh74+nIbECqyFdpb4eDyI2kTq6XLdWmTYwN4CwQBgitf/AfWLCxGNXOQTvZxTGsWcnKrkB3bz8vh2LUXeTIb+9Kktay8cAyEdMV24/JHijWiSeC/AxR8HNkrkpeYqtmp/seaOiDSc56QIDAQABMAsGCSqGSIb3DQEBCwOCAQEAQN5jNpUavPpEIFQUjZgJO8QaAPoyJ0GmHYut6oJemSmBCaEcnvo+rcO0kWGNQcGGiKUqLjwvNT21Ca0O+CN886649czZFtlDocvpoZ7KFOu+Z7Vp2jx9D708GG48sS41hic14PiwNwzQ9joayuGmcRD9dqT+RtWaebTtZ2VzLwPJL8FBlGI5Oz5Z3bzy3LbDbb46ANQQ6BQbef1xwPgXhnDxCXgSzXT2mR/GoKPouI4g8VwBWqtBwGvMPEAll1+jgI3hoLq6WMLvsaLzJ2Rfvmm3Z43K0ZSj+n1qTY8MW7wn4qZiD8Tc190dih59MJED/yVjgdvDmevXwRDlmtqY2g==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></cnml:certificatNumeriqueMetrologieLegale>
+                                                                <cnml:range>
+                                                                  <cnml:min>
+                                                                    <cnml:number>15</cnml:number></cnml:min>
+                                                                    <cnml:max>
+                                                                      <cnml:number>75</cnml:number></cnml:max>
+                                                                      <unitsml:units unitsml:id="u:metric_ton" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:range></cnml:value></cnml:characteristic>
+                                                                      <cnml:characteristic name="minimum_dead_load" layer="type_level">
+                                                                        <cnml:value>
+                                                                          <cnml:scalar>
+                                                                            <cnml:number>0</cnml:number>
+                                                                            <unitsml:units unitsml:id="u:metric_ton" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                            <cnml:characteristic name="maximum_number_of_load_cell_intervals_nlc" layer="type_level">
+                                                                              <cnml:value>
+                                                                                <cnml:scalar>
+                                                                                  <cnml:number>4000</cnml:number></cnml:scalar></cnml:value>
+                                                                                  <cnml:footnoteMarkers>
+                                                                                    <cnml:marker>1)</cnml:marker></cnml:footnoteMarkers></cnml:characteristic>
+                                                                                    <cnml:characteristic name="ratio_y_emax_over_vmin" layer="type_level">
+                                                                                      <cnml:value>
+                                                                                        <cnml:scalar>
+                                                                                          <cnml:number>8600</cnml:number></cnml:scalar></cnml:value>
+                                                                                          <cnml:footnoteMarkers>
+                                                                                            <cnml:marker>1)</cnml:marker></cnml:footnoteMarkers></cnml:characteristic>
+                                                                                            <cnml:characteristic name="apportioning_factor_plc" layer="type_level">
+                                                                                              <cnml:value>
+                                                                                                <cnml:scalar>
+                                                                                                  <cnml:number>0.8</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                  <cnml:characteristic name="rated_output" layer="type_level">
+                                                                                                    <cnml:value>
+                                                                                                      <cnml:scalar>
+                                                                                                        <cnml:number>2</cnml:number>
+                                                                                                        <unitsml:units unitsml:id="u:millivolt_per_volt" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                        <cnml:characteristic name="input_impedance" layer="type_level">
+                                                                                                          <cnml:value>
+                                                                                                            <cnml:scalar>
+                                                                                                              <cnml:number>700</cnml:number>
+                                                                                                              <unitsml:units unitsml:id="u:ohm" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                              <cnml:characteristic name="output_impedance" layer="type_level">
+                                                                                                                <cnml:value>
+                                                                                                                  <cnml:scalar>
+                                                                                                                    <cnml:number>700</cnml:number>
+                                                                                                                    <unitsml:units unitsml:id="u:ohm" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                    <cnml:characteristic name="temperature_range" layer="type_level">
+                                                                                                                      <cnml:value>
+                                                                                                                        <cnml:range>
+                                                                                                                          <cnml:min>
+                                                                                                                            <cnml:number>-10</cnml:number></cnml:min>
+                                                                                                                            <cnml:max>
+                                                                                                                              <cnml:number>40</cnml:number></cnml:max>
+                                                                                                                              <unitsml:units unitsml:id="u:degree_Celsius" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:range></cnml:value></cnml:characteristic>
+                                                                                                                              <cnml:characteristic name="electromagnetic_environment_class" layer="type_level">
+                                                                                                                                <cnml:value>
+                                                                                                                                  <cnml:scalar>
+                                                                                                                                    <cnml:text>E2</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                    <cnml:characteristic name="humidity_class" layer="type_level">
+                                                                                                                                      <cnml:value>
+                                                                                                                                        <cnml:scalar>
+                                                                                                                                          <cnml:text>CH</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                          <cnml:characteristic name="safe_overload" layer="type_level">
+                                                                                                                                            <cnml:value>
+                                                                                                                                              <cnml:scalar>
+                                                                                                                                                <cnml:number>150</cnml:number>
+                                                                                                                                                <unitsml:units unitsml:id="u:percent" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                <cnml:characteristic name="safe_overload_reference" layer="type_level">
+                                                                                                                                                  <cnml:value>
+                                                                                                                                                    <cnml:scalar>
+                                                                                                                                                      <cnml:text>Emax</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                      <cnml:characteristic name="recommended_excitation" layer="type_level">
+                                                                                                                                                        <cnml:value>
+                                                                                                                                                          <cnml:scalar>
+                                                                                                                                                            <cnml:number>10</cnml:number>
+                                                                                                                                                            <unitsml:units unitsml:id="u:volt" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                            <cnml:characteristic name="excitation_maximum" layer="type_level">
+                                                                                                                                                              <cnml:value>
+                                                                                                                                                                <cnml:scalar>
+                                                                                                                                                                  <cnml:number>15</cnml:number>
+                                                                                                                                                                  <unitsml:units unitsml:id="u:volt" xmlns:unitsml="https://unitsml.org/ns/unitsml"/></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                  <cnml:characteristic name="transducer_material" layer="type_level">
+                                                                                                                                                                    <cnml:value>
+                                                                                                                                                                      <cnml:scalar>
+                                                                                                                                                                        <cnml:text>Stainless steel</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                        <cnml:characteristic name="atmospheric_protection" layer="type_level">
+                                                                                                                                                                          <cnml:value>
+                                                                                                                                                                            <cnml:scalar>
+                                                                                                                                                                              <cnml:text>Hermetically welded</cnml:text></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                              <cnml:characteristic name="number_of_counts_for_emax" layer="type_level">
+                                                                                                                                                                                <cnml:value>
+                                                                                                                                                                                  <cnml:scalar>
+                                                                                                                                                                                    <cnml:number>60000</cnml:number></cnml:scalar></cnml:value></cnml:characteristic>
+                                                                                                                                                                                    <cnml:characteristic name="software_identification" layer="type_level">
+                                                                                                                                                                                      <cnml:value>
+                                                                                                                                                                                        <cnml:scalar>
+                                                                                                                                                                                          <cnml:text>MM:1</cnml:text></cnml:scalar></cnml:value></cnml:characteristic></cnml:measurementResults><ds:Signature Id="cnml-signature"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"/><ds:Reference><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>45GwpZcm2NriXL82KZOlteHibwwWpAWMVjgMyvyXKZo=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>zlLEsqiF7XEuWTbMBTX4Q1tp3CcHnEI9wiqi1t3l+r/pWq1BbyhkQCrvaP3V/AgMBk13AWtk0SFRYN/9qMsuMQ==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIBhzCCAS2gAwIBAwIRAOIBcx3pJpYKj7syWRl8XecwCgYIKoZIzj0EAwIwRTFDMBgGA1UECgwRQ05NTCBUZXN0IFZlY3RvcnMwHAYDVQQDDBVDTk1MIFRlc3QgU2lnbmVyIDIwMjYwCQYDVQQGEwJOTDAeFw0yNjA4MDQxNTAwMzJaFw0zNjA4MDExNTAwMzJaMEUxQzAYBgNVBAoMEUNOTUwgVGVzdCBWZWN0b3JzMBwGA1UEAwwVQ05NTCBUZXN0IFNpZ25lciAyMDI2MAkGA1UEBhMCTkwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASjYAtHvn/vK+6BL+JHV5KfYq6fpw2K6ljO0sP+SmEttmKREmRzsiBe/7FKQIshSz9ZAt32ZQ79xIUVmCt6PyOPMAoGCCqGSM49BAMCA0gAMEUCIQDiz+S9BmpZXMhU589eq0unqDZaZDtpENOVYLLuaTDyxwIgVvUD52L7iARYaLhcbkXsoGX6064ODBMeTyjx+K8tnpw=</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></cnml:certificatNumeriqueMetrologieLegale>
