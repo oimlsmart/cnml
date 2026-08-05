@@ -21,6 +21,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..", "..");
 const DIST = path.resolve(ROOT, "apps", "cnml-web", "dist");
 
+// The Astro base path (see astro.config.mjs). Links in the built HTML are
+// prefixed with this path, but files in dist/ are at the root level. Strip
+// the prefix when resolving links against the local filesystem.
+const BASE_PATH = "/cnml/";
+
 describe("Build artifacts exist", () => {
   test("dist/ directory is present", () => {
     assert.ok(existsSync(DIST), `dist/ not found at ${DIST} — run \`pnpm build\` first`);
@@ -41,6 +46,10 @@ describe("Internal link integrity", () => {
         if (/^(https?:|mailto:|tel:|data:|javascript:)/.test(raw)) continue;
         let norm = raw.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
         if (!norm.startsWith("/")) norm = "/" + norm;
+        // Strip the Astro base prefix so links resolve against dist/ root.
+        if (norm.startsWith(BASE_PATH)) {
+          norm = "/" + norm.slice(BASE_PATH.length);
+        }
         links.add(norm);
       }
     }

@@ -10,7 +10,12 @@ import { visualizer } from 'rollup-plugin-visualizer';
 const ANALYZE = process.env.ANALYZE === '1';
 
 export default defineConfig({
-  site: 'https://cnml.oimlsmart.org',
+  // The CNML site deploys to www.oimlsmart.org/cnml/ (GitHub Pages path
+  // under the OIML SMART org site). The base path is /cnml/ so all
+  // internal links, QR code payloads, and passport URLs resolve under
+  // that prefix. See TODO.cnml/01-design-system-adoption.md.
+  site: 'https://www.oimlsmart.org',
+  base: '/cnml/',
   integrations: [vue()],
   // Disable the dev toolbar — it injects buttons + checkboxes that
   // interfere with e2e tests (Playwright picks them up instead of the

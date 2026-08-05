@@ -10,15 +10,25 @@ interface Props {
 const { title = 'CNML', description = 'OIML Certificat Numérique de Métrologie Légale' } = Astro.props;
 const pageTitle = title === 'CNML' ? title : `${title} · CNML`;
 
+// Astro rebases <link>, <script>, and asset imports under `base`, but does
+// NOT rebase <a href> or <img src> written as absolute paths. Prefix them
+// manually with BASE_URL (always ends with "/") so links resolve under
+// /cnml/ in production. See TODO.cnml/01-design-system-adoption.md.
+const BASE = import.meta.env.BASE_URL; // "/" in dev, "/cnml/" in prod
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 const navItems = [
-  { href: '/',        label: 'About' },
-  { href: '/docs',    label: 'Documentation' },
-  { href: '/app',     label: 'App' },
+  { href: url('/'),        label: 'About' },
+  { href: url('/docs'),    label: 'Documentation' },
+  { href: url('/app'),     label: 'App' },
 ];
 
 const pathname = Astro.url.pathname;
-const isActive = (href: string) =>
-  pathname === href || pathname.startsWith(`${href}/`);
+const isActive = (href: string) => {
+  const normalized = href.replace(/\/$/, '') || '/';
+  const current = pathname.replace(/\/$/, '') || '/';
+  return current === normalized || current.startsWith(`${normalized}/`);
+};
 
 const FONT_URL =
   'https://fonts.googleapis.com/css2?' +
@@ -45,8 +55,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <link rel="stylesheet" href={FONT_URL} />
 
     <!-- Favicon + theme color -->
-    <link rel="icon" type="image/svg+xml" href="/img/oiml-logo_cnml-box-light.svg" />
-    <link rel="apple-touch-icon" href="/img/oiml-logo_cnml-box-light.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('/img/oiml-logo_cnml-box-light.svg')} />
+    <link rel="apple-touch-icon" href={url('/img/oiml-logo_cnml-box-light.svg')} />
     <meta name="theme-color" content="#004996" />
     <meta name="color-scheme" content="light dark" />
 
@@ -55,7 +65,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content="/img/oiml-logo.svg" />
+    <meta property="og:image" content={url('/img/oiml-logo.svg')} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
@@ -67,9 +77,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     </a>
     <header class="bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
       <div class="cnml-header-bar max-w-7xl mx-auto">
-        <a href="/" class="cnml-brand" aria-label="CNML home">
-          <img src="/img/oiml-logo_cnml-box-light.svg" alt="CNML" class="cnml-brand__logo cnml-brand__logo--light" />
-          <img src="/img/oiml-logo_cnml-box-dark.svg" alt="" aria-hidden="true" class="cnml-brand__logo cnml-brand__logo--dark" />
+        <a href={url('/')} class="cnml-brand" aria-label="CNML home">
+          <img src={url('/img/oiml-logo_cnml-box-light.svg')} alt="CNML" class="cnml-brand__logo cnml-brand__logo--light" />
+          <img src={url('/img/oiml-logo_cnml-box-dark.svg')} alt="" aria-hidden="true" class="cnml-brand__logo cnml-brand__logo--dark" />
           <span>
             <span class="block cnml-brand__title">CNML</span>
             <span class="block cnml-brand__sub">Certificat Numérique · Métrologie Légale</span>
