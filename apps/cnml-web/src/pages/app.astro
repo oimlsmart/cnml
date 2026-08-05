@@ -1,47 +1,50 @@
 ---
 import Base from '../layouts/Base.astro';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 const operations = [
   {
     role: 'Issuing Authority',
     title: 'Create a certificate',
     desc: 'Pick an OIML Recommendation, fill in the type-evaluation results, and sign a CNML certificate with a key generated in your browser.',
-    href: '/create',
+    href: url('/create'),
     cta: 'Start creating',
   },
   {
     role: 'Issuing Authority',
     title: 'Generate a CSR',
     desc: 'Build a Certificate Signing Request for a new signing key. The CSR binds the public key to the IA identity and is submitted to BIML for the IA intermediate certificate.',
-    href: '/csr',
+    href: url('/csr'),
     cta: 'Generate a CSR',
   },
   {
     role: 'Issuing Authority',
     title: 'Manage signing keys',
     desc: 'Generate ECDSA P-256 or composite Ed25519 plus ML-DSA-65 keys, import existing PKCS#11-backed keys, export encryped backups, and delete retired keys.',
-    href: '/keys',
+    href: url('/keys'),
     cta: 'Open key manager',
   },
   {
     role: 'Market surveillance, customs, manufacturer',
     title: 'Verify a certificate',
     desc: 'Drop a .cnml.xml file to run the verification pipeline (XML well-formed, schema valid, signature, issuer scope, CRL, timestamp, transparency). Files never leave your browser.',
-    href: '/verify',
+    href: url('/verify'),
     cta: 'Open verifier',
   },
   {
     role: 'Anyone',
     title: 'Browse sample certificates',
     desc: 'Explore real OIML-CS Type Approval certificates reconstructed in CNML. Three samples per Recommendation are drawn from the published certificate corpus.',
-    href: '/certs',
+    href: url('/certs'),
     cta: 'Browse samples',
   },
   {
     role: 'Developer',
     title: 'Browse schemas',
     desc: 'View the per-Recommendation JSON Schemas (draft-07) and the XSD that define the CNML certificate model. Each schema is the source of truth for a Recommendation.',
-    href: '/schemas',
+    href: url('/schemas'),
     cta: 'Open schemas',
   },
 ];
@@ -89,7 +92,7 @@ const groupedByRole = operations.reduce((acc, op) => {
         Production certificate issuance within the OIML-CS framework requires an OIML-Designated Issuing Authority, a hardware key enrolled in the IA's threshold quorum, and a BIML-signed IA intermediate certificate. The tools here do not substitute for that institutional process. They help you understand the format, prototype the data model, and test the verification pipeline.
       </p>
       <p>
-        For the full architecture, the five-tier hierarchy, and the site-wide context, see the <a href="/docs" class="text-[var(--accent)] underline">documentation</a>.
+        For the full architecture, the five-tier hierarchy, and the site-wide context, see the <a href={url('/docs')} class="text-[var(--accent)] underline">documentation</a>.
       </p>
     </div>
   </section>

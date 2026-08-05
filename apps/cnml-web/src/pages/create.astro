@@ -2,6 +2,9 @@
 import Base from '../layouts/Base.astro';
 import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 // Derive the picker grouping from the schema metadata — no hardcoded R lists.
 const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
   if (!acc[r.category]) acc[r.category] = [];
@@ -54,7 +57,7 @@ const categories = [
         <h2 class="text-xs uppercase tracking-wider text-[var(--ink-muted)] font-semibold mb-3">{cat.name}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {cat.rs.map(r => (
-            <a href={`/create/${r.id.toLowerCase()}`}
+            <a href={url(`/create/${r.id.toLowerCase()}`)}
                class="cnml-card cnml-card-hover block r-card"
                data-search={`${r.id} ${r.shortTitle} ${cat.name}`.toLowerCase()}>
               <div class="flex items-center gap-3 mb-1">

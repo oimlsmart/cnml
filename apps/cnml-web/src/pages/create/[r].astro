@@ -7,6 +7,9 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import yaml from 'yaml';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 export function getStaticPaths() {
   const here = fileURLToPath(import.meta.url);
   const certsDir = join(here, '..', '..', '..', '..', 'public', 'certs');
@@ -43,7 +46,7 @@ const samplesJson = JSON.stringify(samples ?? []);
 
 <Base title={`Create ${recommendation} — ${shortTitle}`}>
   <section class="max-w-7xl mx-auto px-6 py-12">
-    <a href="/certs" class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← Back to certificates</a>
+    <a href={url('/certs')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← Back to certificates</a>
     <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-4 mb-2">{recommendation} — {shortTitle}</h1>
 
     <SchemaForm

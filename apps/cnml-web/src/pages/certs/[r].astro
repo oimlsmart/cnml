@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import yaml from 'yaml';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 const here = fileURLToPath(import.meta.url);
 const certsDir = join(here, '..', '..', '..', '..', 'public', 'certs');
 
@@ -56,7 +59,7 @@ for (const f of sampleFiles) {
 
 <Base title={`${rId} certificates`}>
   <section class="max-w-7xl mx-auto px-6 py-12">
-    <a href="/certs" class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← All certificates</a>
+    <a href={url('/certs')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← All certificates</a>
     <div class="mt-4 mb-2 flex items-baseline justify-between flex-wrap gap-4">
       <h1 class="font-serif text-3xl font-semibold text-[var(--accent)]">{rId} — {recommendation.title}</h1>
       <span class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)]">{recommendation.category} · {samples.length} sample{samples.length === 1 ? '' : 's'}</span>
@@ -65,7 +68,7 @@ for (const f of sampleFiles) {
     {samples.length === 0 ? (
       <div class="cnml-card mt-8">
         <p class="text-[var(--ink-soft)]">No bundled samples for {rId}.</p>
-        <a href={`/schemas/${rId}.yaml`} class="cnml-btn cnml-btn-secondary mt-4">View {rId} schema ↓</a>
+        <a href={url(`/schemas/${rId}.yaml`)} class="cnml-btn cnml-btn-secondary mt-4">View {rId} schema ↓</a>
       </div>
     ) : (
       <div class="space-y-6 mt-8">
@@ -80,8 +83,8 @@ for (const f of sampleFiles) {
                   <div class="font-mono text-xs text-[var(--ink-muted)] mt-1">Rev. {s.revision} · {s.schema_typed_count} type_level characteristics</div>
                 </div>
                 <div class="flex gap-2">
-                  <a href={`/create/${rId.toLowerCase()}?sample=${s.filename}`} class="cnml-btn cnml-btn-primary">Load in form →</a>
-                  <a href={`/certs/${s.filename}`} download class="cnml-btn cnml-btn-secondary">YAML ↓</a>
+                  <a href={url(`/create/${rId.toLowerCase()}?sample=${s.filename}`)} class="cnml-btn cnml-btn-primary">Load in form →</a>
+                  <a href={url(`/certs/${s.filename}`)} download class="cnml-btn cnml-btn-secondary">YAML ↓</a>
                 </div>
               </header>
 
@@ -115,8 +118,8 @@ for (const f of sampleFiles) {
     )}
 
     <div class="mt-10 flex gap-3 flex-wrap">
-      <a href={`/create/${rId.toLowerCase()}`} class="cnml-btn cnml-btn-primary">Create new {rId} →</a>
-      <a href={`/schemas/${rId}.yaml`} class="cnml-btn cnml-btn-secondary">View {rId} schema ↓</a>
+      <a href={url(`/create/${rId.toLowerCase()}`)} class="cnml-btn cnml-btn-primary">Create new {rId} →</a>
+      <a href={url(`/schemas/${rId}.yaml`)} class="cnml-btn cnml-btn-secondary">View {rId} schema ↓</a>
     </div>
   </section>
 </Base>

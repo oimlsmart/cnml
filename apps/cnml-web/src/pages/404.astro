@@ -1,11 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 const navItems = [
-  { href: '/create',  label: 'Create a certificate' },
-  { href: '/verify',  label: 'Verify a CNML' },
-  { href: '/certs',   label: 'Browse certificates' },
-  { href: '/docs',    label: 'Read the docs' },
+  { href: url('/create'),  label: 'Create a certificate' },
+  { href: url('/verify'),  label: 'Verify a CNML' },
+  { href: url('/certs'),   label: 'Browse certificates' },
+  { href: url('/docs'),    label: 'Read the docs' },
 ];
 ---
 

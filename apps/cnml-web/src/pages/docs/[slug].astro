@@ -5,6 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { marked } from 'marked';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 export function getStaticPaths() {
   // import.meta.url works in both dev and build; relative path traverses from
   // dist/.prerender/chunks/<file>.mjs back to apps/cnml-web/src/content/docs.
@@ -29,13 +32,19 @@ if (existsSync(mdPath)) {
   // strip first H1 if present, leave the rest of the body
   const h1Idx = lines.findIndex((l) => l.startsWith("# "));
   const body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join("\n") : md;
-  html = marked.parse(body);
+  // Prefix internal absolute links with the configured BASE_URL so they
+  // resolve under /cnml/ in production.
+  const prefix = BASE.endsWith('/') ? BASE : `${BASE}/`;
+  html = marked.parse(body).replace(
+    /((?:href|src)=")\/(?!\/)/g,
+    `$1${prefix}`,
+  );
 }
 ---
 
 <Base title={`${title} · Docs · CNML`}>
   <article class="mx-auto max-w-3xl px-6 py-12">
-    <a href="/docs" class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
+    <a href={url('/docs')} class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
     <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-6 mb-4">{title}</h1>
     <div class="docs-body" set:html={html} />
   </article>

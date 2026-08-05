@@ -1,6 +1,11 @@
 ---
 import '../styles/global.css';
 import PilotWarning from '../components/PilotWarning.astro';
+import NavDropdown from '../components/NavDropdown.vue';
+import MobileNav from '../components/MobileNav.vue';
+import ThemeToggle from '../components/ThemeToggle.vue';
+import type { NavDropdownConfig } from '../components/NavDropdown.vue';
+import type { MobileNavItem } from '../components/MobileNav.vue';
 
 interface Props {
   title?: string;
@@ -17,10 +22,60 @@ const pageTitle = title === 'CNML' ? title : `${title} · CNML`;
 const BASE = import.meta.env.BASE_URL; // "/" in dev, "/cnml/" in prod
 const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
 
-const navItems = [
-  { href: url('/'),        label: 'About' },
-  { href: url('/docs'),    label: 'Documentation' },
-  { href: url('/app'),     label: 'App' },
+// ─── Primary navigation ──────────────────────────────────────────────
+// Three dropdowns (About, Audiences, Features) and two flat links
+// (Documentation, App). All hrefs are rebased via url() so they resolve
+// under /cnml/ in production. See TODO.cnml/03-navigation-restructure.md.
+const aboutDropdown: NavDropdownConfig = {
+  id: 'about',
+  label: 'About',
+  links: [
+    { label: 'What is CNML', href: url('/about/what-is-cnml'), desc: 'Concept introduction and scope' },
+    { label: 'Why CNML', href: url('/about/why-cnml'), desc: 'The problem CNML solves' },
+    { label: 'How it works', href: url('/about/how-it-works'), desc: 'The five-tier hierarchy and verification pipeline' },
+    { label: 'Technology', href: url('/about/technology'), desc: 'The standards and cryptographic algorithms' },
+    { label: 'Contact', href: url('/about/contact'), desc: 'How to engage with the OIML SMART programme' },
+  ],
+};
+
+const audiencesDropdown: NavDropdownConfig = {
+  id: 'audiences',
+  label: 'Audiences',
+  links: [
+    { label: 'Issuing Authorities', href: url('/audiences/issuing-authorities') },
+    { label: 'BIML and CIML', href: url('/audiences/biml-ciml') },
+    { label: 'Manufacturers', href: url('/audiences/manufacturers') },
+    { label: 'Test laboratories', href: url('/audiences/test-laboratories') },
+    { label: 'Verifiers', href: url('/audiences/verifiers') },
+    { label: 'Developers', href: url('/audiences/developers') },
+  ],
+};
+
+const featuresDropdown: NavDropdownConfig = {
+  id: 'features',
+  label: 'Features',
+  links: [
+    { label: 'Threshold signing', href: url('/features/threshold-signing') },
+    { label: 'Composite signatures', href: url('/features/composite-signatures') },
+    { label: 'Scope governance', href: url('/features/scope-governance') },
+    { label: 'Transparency', href: url('/features/transparency') },
+    { label: 'QR code delivery', href: url('/features/qr-code-delivery') },
+    { label: 'SMI interface', href: url('/features/smi-interface') },
+  ],
+};
+
+const flatLinks = [
+  { href: url('/docs'), label: 'Documentation' },
+  { href: url('/app'), label: 'App' },
+];
+
+// Mobile nav: dropdowns + flat links in display order.
+const mobileItems: MobileNavItem[] = [
+  { type: 'dropdown', label: aboutDropdown.label, config: aboutDropdown },
+  { type: 'dropdown', label: audiencesDropdown.label, config: audiencesDropdown },
+  { type: 'dropdown', label: featuresDropdown.label, config: featuresDropdown },
+  { type: 'link', label: 'Documentation', href: url('/docs') },
+  { type: 'link', label: 'App', href: url('/app') },
 ];
 
 const pathname = Astro.url.pathname;
@@ -38,6 +93,8 @@ const FONT_URL =
   '&display=swap';
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+
+const dropdowns = [aboutDropdown, audiencesDropdown, featuresDropdown];
 ---
 
 <!doctype html>
@@ -69,13 +126,28 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+
+    <!-- FOUC prevention: apply the saved theme before the stylesheet
+         paints. The script is synchronous and runs before <body> renders.
+         Reads localStorage; falls back to the OS preference. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('cnml-theme');
+          var dark = stored
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) { /* no-op */ }
+      })();
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main"
        class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-[var(--ink)] focus:text-[var(--paper)]">
       Skip to content
     </a>
-    <header class="bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
+    <header class="cnml-site-header bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
       <div class="cnml-header-bar max-w-7xl mx-auto">
         <a href={url('/')} class="cnml-brand" aria-label="CNML home">
           <img src={url('/img/oiml-logo_cnml-box-light.svg')} alt="CNML" class="cnml-brand__logo cnml-brand__logo--light" />
@@ -85,15 +157,23 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
             <span class="block cnml-brand__sub">Certificat Numérique · Métrologie Légale</span>
           </span>
         </a>
-        <nav class="cnml-nav" aria-label="Primary">
-          {navItems.map(item => (
+        <nav class="cnml-nav cnml-nav--desktop" aria-label="Primary">
+          {dropdowns.map(d => (
+            <NavDropdown client:load config={d} currentPath={pathname} />
+          ))}
+          {flatLinks.map(item => (
             <a href={item.href}
                class="cnml-nav__link"
                aria-current={isActive(item.href) ? 'page' : undefined}>
               {item.label}
             </a>
           ))}
+          <ThemeToggle client:load />
         </nav>
+        <div class="cnml-nav cnml-nav--mobile">
+          <ThemeToggle client:load />
+          <MobileNav client:load items={mobileItems} />
+        </div>
       </div>
     </header>
     <main id="main" class="flex-1">
@@ -113,3 +193,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     </footer>
   </body>
 </html>
+
+<style>
+  /* Desktop nav shows on md and up; mobile nav shows below md. The
+     MobileNav component's hamburger is hidden above 768px via its own
+     scoped styles; here we hide the desktop nav below 768px. */
+  @media (max-width: 768px) {
+    .cnml-nav--desktop { display: none; }
+  }
+  @media (min-width: 769px) {
+    .cnml-nav--mobile { display: none; }
+  }
+</style>
