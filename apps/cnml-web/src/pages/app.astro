@@ -27,6 +27,20 @@ const operations = [
     cta: 'Open key manager',
   },
   {
+    role: 'Manufacturer',
+    title: 'Issue an instance certificate',
+    desc: 'Sign a per-device instance certificate (tier 5) for each instrument produced, using a manufacturer-held delegated key generated in the browser. Produces a QR code and a downloadable certificate bundle.',
+    href: url('/issue/manufacturer-instance'),
+    cta: 'Issue instance certificate',
+  },
+  {
+    role: 'Manufacturer',
+    title: 'Generate a QR code',
+    desc: 'Generate a QR code encoding the passport URL for a CNML instance certificate. The QR code is printed on the device body and resolves to the public passport page when scanned.',
+    href: url('/qr-code'),
+    cta: 'Open QR generator',
+  },
+  {
     role: 'Market surveillance, customs, manufacturer',
     title: 'Verify a certificate',
     desc: 'Drop a .cnml.xml file to run the verification pipeline (XML well-formed, schema valid, signature, issuer scope, CRL, timestamp, transparency). Files never leave your browser.',

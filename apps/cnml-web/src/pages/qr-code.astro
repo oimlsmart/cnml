@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import QrCodeGenerator from '../islands/qr/QrCodeGenerator.vue';
+
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+---
+
+<Base title="QR code · CNML">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <a href={url('/app')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">&larr; Back to app</a>
+    <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mt-4 mb-2">Generate a QR code</h1>
+    <p class="text-[var(--ink-soft)] mb-8">
+      The QR code encodes the passport URL for a CNML instance certificate.
+      Print the QR code on the device body. A market surveillance officer
+      scans it to reach the public passport page.
+    </p>
+    <QrCodeGenerator client:load />
+  </section>
+</Base>
