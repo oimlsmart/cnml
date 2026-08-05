@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, reactive } from "vue";
+
+const CA_SERVER = "http://localhost:4455";
+const PASSPHRASE = "demo123";
 
 const recommendations = ref<{ id: string; title: string }[]>([]);
 const selectedRec = ref("");
@@ -9,16 +12,9 @@ const instrument = reactive({
   manufacturer: "",
   accuracyClass: "",
 });
-const signerKey = ref<CryptoKey | null>(null);
-const signerPublic = ref("");
-const payload = ref("");
-const signature = ref("");
-const output = ref("");
-const phase = ref<"form" | "signed">("form");
 const busy = ref(false);
 const error = ref("");
-
-import { reactive } from "vue";
+const result = ref<any>(null);
 
 onMounted(async () => {
   try {
@@ -36,38 +32,17 @@ onMounted(async () => {
 });
 
 const canSign = computed(() =>
-  selectedRec.value &&
-  instrument.model.trim() &&
-  instrument.serial.trim() &&
-  instrument.manufacturer.trim()
+  selectedRec.value && instrument.model.trim() && instrument.serial.trim() && instrument.manufacturer.trim()
 );
-
-function randomHex(bytes: number): string {
-  const arr = new Uint8Array(bytes);
-  crypto.getRandomValues(arr);
-  return Array.from(arr).map(b => b.toString(16).padStart(2, "0")).join("");
-}
 
 async function signCertificate() {
   busy.value = true;
   error.value = "";
+  result.value = null;
   try {
-    // Generate a signer key for this cert
-    const kp = await crypto.subtle.generateKey(
-      { name: "ECDSA", namedCurve: "P-256" },
-      true,
-      ["sign", "verify"],
-    );
-    signerKey.value = kp.privateKey;
-    const spki = await crypto.subtle.exportKey("spki", kp.publicKey);
-    const fp = await crypto.subtle.digest("SHA-256", spki);
-    signerPublic.value = Array.from(new Uint8Array(fp)).map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 32);
-
-    const certPayload = {
+    const payload = JSON.stringify({
       type: "cnml-certificate",
       format: "CNML",
-      id: `cnml-${selectedRec.value.toLowerCase()}-${randomHex(8)}`,
-      created: new Date().toISOString(),
       recommendation: selectedRec.value,
       instrument: {
         model: instrument.model,
@@ -75,45 +50,40 @@ async function signCertificate() {
         manufacturer: instrument.manufacturer,
         accuracyClass: instrument.accuracyClass || "not specified",
       },
-      typeApproval: {
-        status: "approved",
-        validity: "10 years from issuance date",
-      },
-      signerPublicKey: signerPublic.value,
-    };
-    payload.value = JSON.stringify(certPayload, null, 2);
+      typeApproval: { status: "approved", validity: "10 years" },
+      created: new Date().toISOString(),
+    });
 
-    // Sign the payload
-    const data = new TextEncoder().encode(payload.value);
-    const sig = await crypto.subtle.sign(
-      { name: "ECDSA", hash: "SHA-256" },
-      kp.privateKey,
-      data,
-    );
-    signature.value = btoa(String.fromCharCode(...new Uint8Array(sig)));
+    const resp = await fetch(`${CA_SERVER}/api/sign`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ passphrase: PASSPHRASE, data_b64: btoa(payload) }),
+    });
 
-    output.value = JSON.stringify({
+    if (!resp.ok) {
+      const err = await resp.json();
+      throw new Error(err.error || `Server returned ${resp.status}`);
+    }
+
+    const sig = await resp.json();
+    result.value = {
       certificateType: "cnml-certificate",
-      certificateId: certPayload.id,
       recommendation: selectedRec.value,
-      payload: payload.value,
-      signature: {
-        algorithm: "ECDSA-P256-SHA256",
-        value: signature.value,
-        signerPublicKey: signerPublic.value,
-      },
-      note: "Per-Recommendation CNML certificate. Signed with a single IA signer key. Production issuance uses the IA threshold quorum.",
-    }, null, 2);
-    phase.value = "signed";
+      instrument: { ...instrument },
+      payload,
+      thresholdSignature: sig.signature_b64,
+      attestation: sig.attestation,
+      note: "Per-Recommendation CNML certificate threshold-signed via Confium CMP20 (5-of-7).",
+    };
   } catch (e: any) {
-    error.value = e.message || String(e);
+    error.value = e.message;
   } finally {
     busy.value = false;
   }
 }
 
 function download() {
-  const blob = new Blob([output.value], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(result.value, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -124,14 +94,13 @@ function download() {
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="space-y-6">
     <div v-if="error" class="p-4 rounded-lg border border-red-300 bg-red-50 text-red-800" role="alert">{{ error }}</div>
 
-    <div v-if="phase === 'form'">
+    <div v-if="!result">
       <p class="text-[var(--ink-soft)] leading-relaxed mb-6">
         Issue a per-Recommendation CNML certificate bound to a specific measuring instrument.
-        Fill in the instrument details, then sign with a generated IA signer key. The output
-        is a signed CNML certificate that chains to the IA intermediate and the BIML Root.
+        The CA server's Confium CMP20 quorum threshold-signs the certificate payload.
       </p>
 
       <div class="space-y-4 mb-6">
@@ -154,35 +123,31 @@ function download() {
           <input id="serial" v-model="instrument.serial" class="cnml-input max-w-md" placeholder="e.g. SN-2026-0001" />
         </div>
         <div>
-          <label for="class" class="cnml-label block mb-1">Accuracy class (optional)</label>
+          <label for="class" class="cnml-label block mb-1">Accuracy class</label>
           <input id="class" v-model="instrument.accuracyClass" class="cnml-input max-w-md" placeholder="e.g. III" />
         </div>
       </div>
 
       <button class="cnml-btn cnml-btn-primary" @click="signCertificate" :disabled="busy || !canSign">
-        Generate signer key and sign certificate
+        {{ busy ? 'Threshold signing...' : 'Sign CNML via Confium CMP20' }}
       </button>
     </div>
 
-    <div v-if="phase === 'signed'">
-      <div class="mb-4 p-3 rounded-lg bg-[var(--paper-deep)] text-sm">
-        <span class="text-[var(--ink-muted)]">Cert ID:</span>
-        <span class="font-mono text-[var(--ink)] ml-2">{{ JSON.parse(output).certificateId }}</span>
+    <div v-if="result">
+      <div class="p-4 rounded-lg bg-[var(--paper-deep)] mb-4">
+        <div class="text-sm font-semibold text-[var(--accent)] mb-2">Threshold attestation</div>
+        <div class="text-sm text-[var(--ink-soft)] space-y-1">
+          <div>Scheme: {{ result.attestation.provider }}</div>
+          <div>Quorum: {{ result.attestation.threshold }}-of-{{ result.attestation.num_parties }}</div>
+          <div>Recommendation: {{ result.recommendation }}</div>
+          <div>Instrument: {{ result.instrument.manufacturer }} {{ result.instrument.model }} ({{ result.instrument.serial }})</div>
+          <div>Signed at: {{ result.attestation.at }}</div>
+        </div>
       </div>
-
-      <h3 class="font-sans font-semibold text-[var(--ink)] mb-2">Certificate payload</h3>
-      <pre class="p-4 rounded-lg bg-[var(--paper-deep)] text-xs font-mono overflow-x-auto text-[var(--ink-soft)] mb-4 max-h-48">{{ payload }}</pre>
-
-      <h3 class="font-sans font-semibold text-[var(--ink)] mb-2">Signature</h3>
-      <div class="p-4 rounded-lg bg-[var(--paper-deep)] text-xs font-mono mb-4">
-        <div class="text-[var(--ink-muted)] mb-1">Algorithm: ECDSA-P256-SHA256</div>
-        <div class="text-[var(--ink-muted)] mb-1">Signer: <span class="text-[var(--ink)]">{{ signerPublic }}…</span></div>
-        <div class="text-[var(--ink-soft)] truncate">{{ signature.slice(0, 60) }}…</div>
+      <div class="mb-4">
+        <div class="text-sm font-semibold text-[var(--ink)] mb-1">Threshold signature</div>
+        <pre class="p-3 rounded-lg bg-[var(--paper-deep)] text-xs font-mono overflow-x-auto">{{ result.thresholdSignature }}</pre>
       </div>
-
-      <h3 class="font-sans font-semibold text-[var(--ink)] mb-2">Full certificate bundle</h3>
-      <pre class="p-4 rounded-lg bg-[var(--paper-deep)] text-xs font-mono overflow-x-auto text-[var(--ink-soft)] mb-4 max-h-96">{{ output }}</pre>
-
       <button class="cnml-btn cnml-btn-primary" @click="download">Download CNML certificate</button>
     </div>
   </div>
