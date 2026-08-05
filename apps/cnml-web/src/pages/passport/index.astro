@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+---
+
+<Base title="Passport · CNML">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <a href={url('/app')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">&larr; Back to app</a>
+    <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mt-4 mb-2">CNML passport</h1>
+    <p class="text-[var(--ink-soft)] mb-8">
+      The CNML passport is the public view of an instance certificate. A QR
+      code printed on the device body encodes the passport URL. A market
+      surveillance officer scans the QR code and reaches the passport page,
+      which states the device identity, summarizes the certificate chain,
+      reports the certificate status, and links to the verification pipeline.
+    </p>
+
+    <div class="cnml-card">
+      <h2 class="cnml-section-title">Look up a certificate</h2>
+      <form action={url('/passport')} method="get" class="space-y-3">
+        <label class="block">
+          <span class="cnml-label">Certificate identifier</span>
+          <input id="passport-cert-id" name="cert" autocomplete="off" placeholder="CNML-1A2B3C4D5E6F7G8H" class="cnml-input font-mono" />
+        </label>
+        <p class="text-xs text-[var(--ink-muted)] leading-relaxed">
+          The static build pre-renders a demo passport at the link below.
+          Production deployments render any certificate identifier on
+          demand from the transparency log.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href={url('/passport/CNML-DEMO-INSTANCE')} class="cnml-btn cnml-btn-primary">View demo passport</a>
+          <button type="submit" class="cnml-btn cnml-btn-secondary">Submit identifier</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="cnml-card mt-6">
+      <h2 class="cnml-section-title">What the passport contains</h2>
+      <dl class="space-y-3 text-sm">
+        <div>
+          <dt class="font-medium text-[var(--ink)]">Device identity</dt>
+          <dd class="text-[var(--ink-soft)] mt-1">Manufacturer, model, and serial number read from the instance certificate.</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-[var(--ink)]">Certificate chain</dt>
+          <dd class="text-[var(--ink-soft)] mt-1">The five-tier hierarchy from the instance certificate up through the model certificate, the Issuing Authority intermediate, and the BIML Root trust anchor.</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-[var(--ink)]">Certificate status</dt>
+          <dd class="text-[var(--ink-soft)] mt-1">The result of the CRL check against the issuing IA, reported as valid, revoked, expired, or unknown.</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-[var(--ink)]">Verification link</dt>
+          <dd class="text-[var(--ink-soft)] mt-1">A link to the verifier, where the full seven-check pipeline runs against the certificate file.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+</Base>

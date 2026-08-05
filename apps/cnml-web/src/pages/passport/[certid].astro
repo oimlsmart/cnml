@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
+// In a static build the passport route is pre-rendered for the demo
+// identifier. Production deployments switch this route to on-demand
+// rendering (or to a server endpoint) so any certificate identifier
+// from the transparency log resolves. The getStaticPaths function
+// below enumerates the demo identifier that the index page links to
+// and that the QR code generator targets by default.
+export function getStaticPaths() {
+  return [
+    { params: { certid: 'CNML-DEMO-INSTANCE' } },
+  ];
+}
+
+const rawId = Astro.params.certid as string | undefined;
+const certId = rawId ?? "CNML-DEMO-INSTANCE";
+const passportContext = "https://www.oimlsmart.org/cnml/passport/v1";
+const verifyUrl = `https://www.oimlsmart.org/cnml/verify?cert=${encodeURIComponent(certId)}`;
+const statusCheckedAt = new Date().toISOString();
+---
+
+<Base title={`Passport ${certId} · CNML`}>
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <a href={url('/passport')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">&larr; Passport index</a>
+
+    <div class="mt-4 bp-crosshair cnml-card">
+      <div class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold">CNML Passport</div>
+      <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-2 mb-1 break-all">{certId}</h1>
+      <p class="text-[var(--ink-soft)] text-sm">
+        The CNML passport is the public view of an instance certificate. It
+        states the device identity, summarizes the certificate chain, and
+        links to the verification pipeline.
+      </p>
+    </div>
+
+    <div class="cnml-card mt-6">
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+        <h2 class="cnml-section-title">Certificate status</h2>
+        <span class="cnml-tag cnml-badge-success">Valid</span>
+      </div>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Status</dt>
+          <dd class="text-[var(--ink)] mt-1">Valid</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Last checked</dt>
+          <dd class="text-[var(--ink)] mt-1 font-mono">{statusCheckedAt}</dd>
+        </div>
+      </dl>
+      <p class="text-xs text-[var(--ink-muted)] mt-3 leading-relaxed">
+        The status reflects the CRL check against the issuing IA. For the
+        current milestone, the status of demo passport pages is always
+        reported as valid. Production deployments perform a live CRL fetch.
+      </p>
+    </div>
+
+    <div class="cnml-card mt-6">
+      <h2 class="cnml-section-title">Device identity</h2>
+      <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Manufacturer</dt>
+          <dd class="text-[var(--ink)] mt-1">Unavailable for demo identifier</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Model</dt>
+          <dd class="text-[var(--ink)] mt-1">Unavailable for demo identifier</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Serial</dt>
+          <dd class="text-[var(--ink)] mt-1 font-mono">Unavailable for demo identifier</dd>
+        </div>
+      </dl>
+      <p class="text-xs text-[var(--ink-muted)] mt-3 leading-relaxed">
+        Device identity is read from the instance certificate once the
+        transparency log integration is active. For demo identifiers not
+        present in the test-vector store, the fields are reported as
+        unavailable.
+      </p>
+    </div>
+
+    <div class="cnml-card mt-6">
+      <h2 class="cnml-section-title">Certificate chain</h2>
+      <ol class="space-y-2">
+        <li class="flex items-center gap-3 p-3 rounded-md border border-[var(--rule)]">
+          <span class="cnml-tag">Tier 5</span>
+          <span class="text-sm text-[var(--ink)]">Instance certificate</span>
+          <span class="text-xs font-mono text-[var(--ink-muted)] ml-auto">{certId}</span>
+        </li>
+        <li class="flex items-center gap-3 p-3 rounded-md border border-[var(--rule)]">
+          <span class="cnml-tag">Tier 4</span>
+          <span class="text-sm text-[var(--ink)]">Manufacturer model certificate</span>
+          <span class="text-xs text-[var(--ink-muted)] ml-auto">Pending transparency log</span>
+        </li>
+        <li class="flex items-center gap-3 p-3 rounded-md border border-[var(--rule)]">
+          <span class="cnml-tag">Tier 3</span>
+          <span class="text-sm text-[var(--ink)]">Issuing Authority intermediate</span>
+          <span class="text-xs text-[var(--ink-muted)] ml-auto">Pending transparency log</span>
+        </li>
+        <li class="flex items-center gap-3 p-3 rounded-md border border-[var(--rule)]">
+          <span class="cnml-tag">Tier 1</span>
+          <span class="text-sm text-[var(--ink)]">BIML Root</span>
+          <span class="text-xs text-[var(--ink-muted)] ml-auto">Published trust anchor</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="cnml-card mt-6">
+      <h2 class="cnml-section-title">Verify this certificate</h2>
+      <p class="text-sm text-[var(--ink-muted)] mb-4 leading-relaxed">
+        Run the full verification pipeline (XML well-formed, schema valid,
+        signature, issuer scope, CRL, timestamp, transparency) on the
+        certificate file.
+      </p>
+      <a href={url('/verify')} class="cnml-btn cnml-btn-primary">Open verifier</a>
+    </div>
+
+    <details class="cnml-card mt-6">
+      <summary class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)] cursor-pointer">
+        JSON document (passport v1 context)
+      </summary>
+      <pre class="cnml-code-pane mt-2">{`{
+  "@context": "${passportContext}",
+  "certificateId": "${certId}",
+  "device": {
+    "manufacturer": null,
+    "model": null,
+    "serial": null
+  },
+  "chain": [
+    { "tier": 5, "role": "instance",  "fingerprint": null },
+    { "tier": 4, "role": "model",     "fingerprint": null },
+    { "tier": 3, "role": "ia",        "fingerprint": null },
+    { "tier": 1, "role": "biml-root", "fingerprint": null }
+  ],
+  "status": "valid",
+  "statusCheckedAt": "${statusCheckedAt}",
+  "verify": "${verifyUrl}"
+}`}</pre>
+    </details>
+  </section>
+</Base>
