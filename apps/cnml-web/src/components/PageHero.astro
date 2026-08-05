@@ -1,0 +1,74 @@
+---
+/**
+ * PageHero.astro — reusable hero band for inner pages.
+ *
+ * Renders a Blueprint-styled hero with the engineering grid background,
+ * a coordinate label (the `.bp-coord` and `.bp-section-anchor` classes),
+ * a serif headline, and an optional lede. Used by the about, audience,
+ * and feature pages. The home page renders its own hero inline because
+ * its structure is different (full viewport height, seal visual, stagger
+ * animation).
+ *
+ * Adapted from the oimlsmart.github.io PageHero.astro. The CNML version
+ * drops the ComponentLogo dependency (CNML uses CnmlSeal.astro for its
+ * hero mark) and adds a `coord` prop for the coordinate label that
+ * Blueprint section anchors use.
+ */
+
+interface Props {
+  title?: string
+  lede?: string
+  description?: string
+  align?: 'left' | 'center'
+  /** Coordinate label like "ABOUT / 01" rendered as a bp-section-anchor. */
+  coord?: string
+}
+
+const { title, lede, description, align = 'left', coord } = Astro.props
+const displayLede = lede ?? description
+const alignClass = align === 'center' ? 'text-center mx-auto items-center' : ''
+---
+
+{title && (
+  <section class={`page-hero relative pt-14 pb-10 mb-10 border-b border-rule bp-grid bp-grid--major ${alignClass}`}>
+    <div class="page-hero__inner relative z-10">
+      {coord && (
+        <div class="bp-section-anchor mb-6">
+          <span class="bp-section-anchor__num">{coord}</span>
+          <span class="bp-section-anchor__line"></span>
+        </div>
+      )}
+      <h1 class="page-hero__title font-serif text-[clamp(2rem,5vw,3.25rem)] font-medium tracking-[-0.025em] leading-[1.05] max-w-3xl">
+        {title}
+      </h1>
+      {displayLede && (
+        <p class="page-hero__lede text-[1.125rem] leading-[1.6] text-ink-soft max-w-2xl mt-5">
+          {displayLede}
+        </p>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .page-hero {
+    position: relative;
+  }
+  .page-hero__inner {
+    /* Match the prose container column so titles and body text share the
+       same column width across every page. */
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(to right, var(--accent), transparent 70%);
+    opacity: 0.6;
+  }
+</style>
