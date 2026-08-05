@@ -37,7 +37,7 @@ CNML does not replace the DoMC. It makes the DoMC framework verifiable cryptogra
 
 The OIML SMART programme is the framework within which CNML and related digital initiatives evolve. CNML was developed under the programme for OIML SMART and the relevant OIML R-Recommendations. The implementation is developed by Ribose, and the threshold-cryptography substrate is provided by Confium.
 
-Through the OIML SMART programme, OIML is committed to facilitating adoption of CNML by every national metrology laboratory, their accredited test laboratories, and the market-surveillance authorities that verify instruments in the field. The programme provides open-source software, public specifications, and reproducible schemas so that any OIML member state or corresponding member can participate without licensing fees, per-certificate charges, or subscription requirements.
+Through the OIML SMART programme, OIML is committed to facilitating adoption of CNML by every national metrology laboratory, their accredited test laboratories, and the market-surveillance authorities that verify instruments in the field. The programme provides open-source software, public specifications, and reproducible schemas so that any OIML member state or corresponding member can participate without licensing barriers.
 
 ## How CNML relates to the institutional hierarchy
 
