@@ -1,56 +1,40 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const operations = [
+const scenarios = [
   {
+    num: '01',
+    role: 'BIML',
+    title: 'Issue a BIML Root certificate',
+    desc: 'Generate 7 director keypairs, select 5-of-7 to participate, and produce a threshold-signed sample root certificate. The root is the apex of the CNML trust hierarchy.',
+    href: '/issue/biml-root',
+    cta: 'Issue root certificate',
+  },
+  {
+    num: '02',
     role: 'Issuing Authority',
-    title: 'Create a certificate',
-    desc: 'Pick an OIML Recommendation, fill in the type-evaluation results, and sign a CNML certificate with a key generated in your browser.',
-    href: '/create',
-    cta: 'Start creating',
+    title: 'Issue an IA intermediate certificate',
+    desc: 'Pick an OIML Recommendation (for example R60 load cells or R76 weighing instruments), generate the 3-officer quorum, select 2-of-3, and produce a scoped IA intermediate certificate.',
+    href: '/issue/ia-intermediate',
+    cta: 'Issue IA certificate',
   },
   {
+    num: '03',
     role: 'Issuing Authority',
-    title: 'Generate a CSR',
-    desc: 'Build a Certificate Signing Request for a new signing key. The CSR binds the public key to the IA identity and is submitted to BIML for the IA intermediate certificate.',
-    href: '/csr',
-    cta: 'Generate a CSR',
-  },
-  {
-    role: 'Issuing Authority',
-    title: 'Manage signing keys',
-    desc: 'Generate ECDSA P-256 or composite Ed25519 plus ML-DSA-65 keys, import existing PKCS#11-backed keys, export encryped backups, and delete retired keys.',
-    href: '/keys',
-    cta: 'Open key manager',
-  },
-  {
-    role: 'Market surveillance, customs, manufacturer',
-    title: 'Verify a certificate',
-    desc: 'Drop a .cnml.xml file to run the verification pipeline (XML well-formed, schema valid, signature, issuer scope, CRL, timestamp, transparency). Files never leave your browser.',
-    href: '/verify',
-    cta: 'Open verifier',
-  },
-  {
-    role: 'Anyone',
-    title: 'Browse sample certificates',
-    desc: 'Explore real OIML-CS Type Approval certificates reconstructed in CNML. Three samples per Recommendation are drawn from the published certificate corpus.',
-    href: '/certs',
-    cta: 'Browse samples',
-  },
-  {
-    role: 'Developer',
-    title: 'Browse schemas',
-    desc: 'View the per-Recommendation JSON Schemas (draft-07) and the XSD that define the CNML certificate model. Each schema is the source of truth for a Recommendation.',
-    href: '/schemas',
-    cta: 'Open schemas',
+    title: 'Issue a per-Recommendation CNML certificate',
+    desc: 'Fill in the measuring instrument details (model, serial, manufacturer, accuracy class), sign with a generated IA signer key, and produce a signed CNML certificate bound to the instrument.',
+    href: '/issue/per-recommendation',
+    cta: 'Issue CNML certificate',
   },
 ];
 
-const groupedByRole = operations.reduce((acc, op) => {
-  if (!acc[op.role]) acc[op.role] = [];
-  acc[op.role].push(op);
-  return acc;
-}, {} as Record<string, typeof operations>);
+const tools = [
+  { href: '/verify',  title: 'Verify a certificate', desc: 'Drop a .cnml.xml file to run the verification pipeline.' },
+  { href: '/certs',   title: 'Browse certificates',  desc: 'Explore real OIML-CS sample certificates.' },
+  { href: '/schemas', title: 'Browse schemas',       desc: 'View per-Recommendation JSON Schemas.' },
+  { href: '/keys',    title: 'Manage keys',           desc: 'Generate, import, and manage signing keys.' },
+  { href: '/csr',     title: 'Generate a CSR',        desc: 'Build a Certificate Signing Request.' },
+];
 ---
 
 <Base title="App · CNML">
@@ -58,39 +42,39 @@ const groupedByRole = operations.reduce((acc, op) => {
     <span class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold">CNML Application</span>
     <h1 class="font-serif text-4xl font-semibold text-[var(--ink)] mt-2 mb-4">Certificate operations</h1>
     <p class="text-[var(--ink-soft)] text-lg leading-relaxed max-w-3xl">
-      The tools below generate sample CNML certificates for evaluation purposes. They run entirely in your browser. Private keys are generated on device, encrypted with a passphrase-derived key, and never leave your machine. Every operation is stateless on the server.
+      Three certificate issuance scenarios, each on a separate page, each producing a signed
+      certificate. Keys are generated in your browser. Files never leave your machine.
     </p>
   </section>
 
-  <section class="max-w-6xl mx-auto px-6 pb-16">
-    {Object.entries(groupedByRole).map(([role, ops]) => (
-      <div class="mb-12">
-        <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">{role}</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {ops.map(op => (
-            <a href={op.href} class="cnml-card cnml-card-hover block">
-              <div class="font-semibold text-[var(--ink)] mb-1">{op.title}</div>
-              <div class="text-sm text-[var(--ink-muted)] mb-3 leading-relaxed">{op.desc}</div>
-              <div class="text-sm font-medium text-[var(--accent)]">{op.cta} →</div>
-            </a>
-          ))}
-        </div>
-      </div>
-    ))}
+  <section class="max-w-6xl mx-auto px-6 pb-12">
+    <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">Certificate issuance scenarios</h2>
+    <div class="space-y-4">
+      {scenarios.map(s => (
+        <a href={s.href} class="cnml-card cnml-card-hover block">
+          <div class="flex items-start gap-6">
+            <span class="font-mono text-2xl font-semibold text-[var(--accent)] pt-1">{s.num}</span>
+            <div class="flex-1">
+              <div class="text-xs uppercase tracking-wider text-[var(--ink-muted)] mb-1">{s.role}</div>
+              <div class="font-semibold text-[var(--ink)] mb-1">{s.title}</div>
+              <div class="text-sm text-[var(--ink-muted)] leading-relaxed">{s.desc}</div>
+              <div class="text-sm font-medium text-[var(--accent)] mt-3">{s.cta} →</div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-6 pb-24 border-t border-[var(--rule)] pt-12">
-    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-4">What these tools do and do not do</h2>
-    <div class="space-y-4 text-[var(--ink-soft)] leading-relaxed max-w-3xl">
-      <p>
-        The tools are designed for evaluation of the CNML format and for prototyping new certificate types. They generate sample CNML certificates signed with locally generated keys. The certificates produced are valid according to the CNML schema and signature pipeline, but they are not OIML-CS type approvals.
-      </p>
-      <p>
-        Production certificate issuance within the OIML-CS framework requires an OIML-Designated Issuing Authority, a hardware key enrolled in the IA's threshold quorum, and a BIML-signed IA intermediate certificate. The tools here do not substitute for that institutional process. They help you understand the format, prototype the data model, and test the verification pipeline.
-      </p>
-      <p>
-        For the full architecture, the five-tier hierarchy, and the site-wide context, see the <a href="/docs" class="text-[var(--accent)] underline">documentation</a>.
-      </p>
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <h2 class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold mb-4 border-b border-[var(--rule)] pb-2">Tools</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {tools.map(t => (
+        <a href={t.href} class="cnml-card cnml-card-hover block">
+          <div class="font-semibold text-[var(--ink)] mb-1">{t.title}</div>
+          <div class="text-sm text-[var(--ink-muted)]">{t.desc}</div>
+        </a>
+      ))}
     </div>
   </section>
 </Base>
