@@ -4,7 +4,7 @@ This file provides guidance to AI agents of any framework (Claude Code, the Open
 
 ## What this is
 
-CNML (Certificat Numérique de Métrologie Légale) is the digital certificate format developed under the OIML SMART program to succeed the PDF-based OIML-CS certificate of conformity. The format was produced by analyzing every existing published OIML-CS Type Approval certificate and digitizing the resulting model in a manner compatible with OIML SMART and the relevant OIML R-Recommendations. CNML is complementary to the PTB Digital Calibration Certificate (DCC), which operates at the calibration tier under ISO/IEC 17025. See `README.md` and `TESTING.md` for the project overview and full manual test workflow.
+CNML (Certificat Numérique de Métrologie Légale) is a cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It provides machine-verifiable certification of measuring instruments subject to legal metrology, built on recognized international standards including X.509 v3, W3C XMLDSig, and NIST FIPS 204. CNML is complementary to the PTB Digital Calibration Certificate (DCC), which operates at the calibration tier under ISO/IEC 17025. See `README.md` and `TESTING.md` for the project overview and full manual test workflow.
 
 ## Writing style
 
