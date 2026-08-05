@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 const diagrams = [
   { slug: 'architecture',                    title: 'System Architecture',                desc: 'CNML ecosystem: Ruby source, TS web app, keys, verifier' },
   { slug: 'certificate-layers',              title: 'Certificate Model Layers',           desc: 'CORE to modules to per-R to instance' },
@@ -32,9 +35,9 @@ const diagrams = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {diagrams.map(d => (
-        <a href={`/diagrams/${d.slug}.svg`} class="block rounded-2xl border border-[var(--rule)] overflow-hidden hover:border-[var(--accent)]">
+        <a href={url(`/diagrams/${d.slug}.svg`)} class="block rounded-2xl border border-[var(--rule)] overflow-hidden hover:border-[var(--accent)]">
           <div class="aspect-video bg-white p-4 grid place-items-center">
-            <img src={`/diagrams/${d.slug}.svg`} alt={d.title} class="max-w-full max-h-full" />
+            <img src={url(`/diagrams/${d.slug}.svg`)} alt={d.title} class="max-w-full max-h-full" />
           </div>
           <div class="p-4 border-t border-[var(--rule)]">
             <div class="font-semibold">{d.title}</div>

@@ -5,6 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { marked } from 'marked';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 export function getStaticPaths() {
   const here = fileURLToPath(import.meta.url);
   const docsDir = join(here, '..', '..', '..', '..', 'src', 'content', 'docs');
@@ -46,13 +49,19 @@ if (existsSync(mdPath)) {
   if (h1Line) title = h1Line.slice(2).trim();
   const h1Idx = lines.findIndex((l) => l.startsWith('# '));
   const body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join('\n') : md;
-  html = marked.parse(body);
+  // Prefix internal absolute links (href="/docs/...", src="/diagrams/...")
+  // with the configured BASE_URL so they resolve under /cnml/ in production.
+  const prefix = BASE.endsWith('/') ? BASE : `${BASE}/`;
+  html = marked.parse(body).replace(
+    /((?:href|src)=")\/(?!\/)/g,
+    `$1${prefix}`,
+  );
 }
 ---
 
 <Base title={`${title} · Docs · CNML`}>
   <article class="mx-auto max-w-3xl px-6 py-12">
-    <a href="/docs" class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
+    <a href={url('/docs')} class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
     <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-6 mb-4">{title}</h1>
     <div class="docs-body" set:html={html} />
   </article>

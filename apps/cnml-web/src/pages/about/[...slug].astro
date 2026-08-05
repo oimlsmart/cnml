@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
+import { marked } from 'marked';
+
+export function getStaticPaths() {
+  const here = fileURLToPath(import.meta.url);
+  const dir = join(here, '..', '..', '..', '..', 'src', 'content', 'about');
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => ({ params: { slug: f.slice(0, -3) } }));
+}
+
+const slug = Astro.params.slug!;
+const here = fileURLToPath(import.meta.url);
+const mdPath = join(here, '..', '..', '..', '..', 'src', 'content', 'about', `${slug}.md`);
+
+let title = slug;
+let lede = '';
+let coord = '';
+let html = '<p>Not found.</p>';
+if (existsSync(mdPath)) {
+  const md = readFileSync(mdPath, 'utf8');
+  // Parse YAML-like frontmatter (title, lede, coord) at the top.
+  const fmMatch = md.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  let body = md;
+  if (fmMatch) {
+    const fm = fmMatch[1];
+    body = fmMatch[2];
+    const titleMatch = fm.match(/^title:\s*'?(.*)'?\s*$/m);
+    if (titleMatch) title = titleMatch[1];
+    const ledeMatch = fm.match(/^lede:\s*'?(.*)'?\s*$/m);
+    if (ledeMatch) lede = ledeMatch[1];
+    const coordMatch = fm.match(/^coord:\s*'?(.*)'?\s*$/m);
+    if (coordMatch) coord = coordMatch[1];
+  } else {
+    const lines = md.split('\n');
+    const h1Line = lines.find((l) => l.startsWith('# '));
+    if (h1Line) title = h1Line.slice(2).trim();
+    const h1Idx = lines.findIndex((l) => l.startsWith('# '));
+    body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join('\n') : md;
+  }
+  html = marked.parse(body);
+}
+---
+
+<Base title={`${title} · About · CNML`}>
+  <PageHero title={title} lede={lede} coord={coord} />
+  <article class="mx-auto max-w-3xl px-6 pb-16 docs-body" set:html={html} />
+</Base>

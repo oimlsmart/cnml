@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import yaml from 'yaml';
 
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
 const here = fileURLToPath(import.meta.url);
 const certsDir = join(here, '..', '..', '..', '..', 'public', 'certs');
 
@@ -77,7 +80,7 @@ const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
             const c = certByR[r.id];
             const n = sampleCount[r.id] ?? 0;
             return (
-              <a href={`/certs/${r.id.toLowerCase()}`} class="cnml-card cnml-card-hover block">
+              <a href={url(`/certs/${r.id.toLowerCase()}`)} class="cnml-card cnml-card-hover block">
                 <div class="flex items-baseline justify-between gap-2 mb-2">
                   <span class="font-serif font-semibold text-[var(--accent)] text-lg">{r.id}</span>
                   <span class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)]">{n} sample{n === 1 ? '' : 's'}</span>

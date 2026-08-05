@@ -1,130 +1,524 @@
 ---
 import Base from '../layouts/Base.astro';
 import CnmlSeal from '../components/CnmlSeal.astro';
+
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
+const capabilities = [
+  {
+    num: '01',
+    title: 'Distributed signing authority',
+    body: 'No single party can produce a CNML certificate at the root or Issuing Authority tier. Signing authority is distributed across an international threshold quorum of directors and officers using FROST threshold signatures. A court order directed at one officer cannot complete a signature, and theft of one key holder\'s hardware cannot forge a certificate. The aggregate public key survives director rotation, so all previously issued certificates remain valid without re-issuance.',
+    tag: 'FROST · CMP20',
+  },
+  {
+    num: '02',
+    title: 'Cryptographic verification',
+    body: 'Any party can verify a CNML certificate in a web browser, offline, without contacting the issuer, registering for a service, or holding an account. The verifier downloads a trust-anchor bundle once and can then verify certificates indefinitely. The verification pipeline checks XML structure, schema conformance, signature validity, issuer scope, revocation status, timestamp proof, and transparency-log inclusion.',
+    tag: 'XMLDSig · W3C',
+  },
+  {
+    num: '03',
+    title: 'Post-quantum security',
+    body: 'CNML ships composite signatures combining Ed25519 (classical, RFC 8032) with ML-DSA-65 (post-quantum, NIST FIPS 204). A composite signature is valid only when both components verify. An attacker must break both algorithms to forge a signature. Documents signed today remain secure through the transition to quantum computing.',
+    tag: 'FIPS 204 · ML-DSA',
+  },
+  {
+    num: '04',
+    title: 'Public transparency',
+    body: 'Every issued certificate appears in a public Merkle transparency log. Tree roots are anchored to Bitcoin through OpenTimestamps. No certificate can be silently issued or retroactively inserted. The log is mirrored across independent operators, and gossip protocols prevent equivocation. A verifier that demands an inclusion proof rejects any certificate that did not appear in the log.',
+    tag: 'RFC 6962 · OTS',
+  },
+];
+
+const audiences = [
+  {
+    num: 'I',
+    title: 'Issuing Authorities',
+    desc: 'Certificate issuance workflow, scope governance, and threshold signing ceremonies.',
+    href: url('/audiences/issuing-authorities'),
+  },
+  {
+    num: 'II',
+    title: 'BIML and CIML',
+    desc: 'Root operations, director onboarding, quorum management, and audit.',
+    href: url('/audiences/biml-ciml'),
+  },
+  {
+    num: 'III',
+    title: 'Manufacturers',
+    desc: 'Instance certificate issuance, model delegation, and QR code delivery.',
+    href: url('/audiences/manufacturers'),
+  },
+  {
+    num: 'IV',
+    title: 'Test laboratories',
+    desc: 'Report signing, threshold encryption to the IA, and DCC interoperability.',
+    href: url('/audiences/test-laboratories'),
+  },
+  {
+    num: 'V',
+    title: 'Verifiers',
+    desc: 'Verification pipeline, offline trust anchors, CRL checking, and QR scanning.',
+    href: url('/audiences/verifiers'),
+  },
+  {
+    num: 'VI',
+    title: 'Developers',
+    desc: 'API reference, schema-driven design, library packages, and contribution guide.',
+    href: url('/audiences/developers'),
+  },
+];
 ---
 
 <Base title="CNML">
-  <!-- Section 1: What CNML is -->
-  <section class="max-w-4xl mx-auto px-6 pt-20 pb-16">
-    <div class="cnml-seal-wrap mb-12">
-      <CnmlSeal />
-    </div>
-    <h1 class="cnml-hero__title mb-6">
-      Certificat Numérique de Métrologie Légale
-    </h1>
-    <p class="cnml-hero__lede">
-      CNML is a cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It provides machine-verifiable certification of measuring instruments subject to legal metrology, built on recognized international standards including X.509 v3, W3C XMLDSig, and NIST FIPS 204.
-    </p>
-    <p class="text-[var(--ink-soft)] text-lg leading-relaxed mt-6">
-      CNML covers all 22 OIML Recommendations governing measuring instruments used in trade, health, safety, and environmental protection. Each certificate binds a type-approval evaluation to a cryptographic signature produced by a distributed threshold quorum of international signers. Any party can verify a CNML certificate in a web browser without contacting the issuer.
-    </p>
-  </section>
+  <div class="cnml-home">
+    {/* ═══════════════════════════════════════════════════════════════
+        HERO
+        The signature visual is the CNML certification seal, not the
+        spinning globe used on the parent OIML SMART site. The seal
+        encodes the five-of-seven director quorum at the BIML Root tier.
+        ═══════════════════════════════════════════════════════════════ */}
+    <section class="cnml-hero bp-grid bp-grid--major">
+      <div class="cnml-hero__inner">
+        <div class="cnml-hero__seal hero-stagger" style="--stagger-i:0">
+          <CnmlSeal />
+        </div>
+        <p class="cnml-hero__eyebrow hero-stagger" style="--stagger-i:1">
+          OIML SMART programme · 2026 edition (proposal)
+        </p>
+        <h1 class="cnml-hero__title hero-stagger" style="--stagger-i:2">
+          Certificat Numérique<br />de Métrologie Légale
+        </h1>
+        <p class="cnml-hero__lede hero-stagger" style="--stagger-i:3">
+          CNML is the cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It binds each type-approval evaluation to a distributed threshold signature that any party can verify in a web browser, offline, for the service lifetime of the instrument.
+        </p>
+        <div class="cnml-hero__actions hero-stagger" style="--stagger-i:4">
+          <a class="btn btn-primary bp-magnetic bp-focus-ring" href={url('/about/what-is-cnml')} data-magnetic-strength="0.2">
+            Explore the format <span class="arrow">→</span>
+          </a>
+          <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/docs')} data-magnetic-strength="0.15">
+            Read the docs
+          </a>
+          <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/app')} data-magnetic-strength="0.15">
+            Try the app
+          </a>
+        </div>
+        <div class="cnml-hero__meta hero-stagger" style="--stagger-i:5">
+          <span class="cnml-hero__meta-item">
+            <span class="cnml-hero__meta-dot cnml-hero__meta-dot--brand"></span>
+            X.509 v3 · XMLDSig
+          </span>
+          <span class="cnml-hero__meta-sep">·</span>
+          <span class="cnml-hero__meta-item">
+            <span class="cnml-hero__meta-dot cnml-hero__meta-dot--teal"></span>
+            FIPS 204 · RFC 6962
+          </span>
+          <span class="cnml-hero__meta-sep">·</span>
+          <span class="cnml-hero__meta-item">
+            <span class="cnml-hero__meta-dot cnml-hero__meta-dot--amber"></span>
+            22 OIML Recommendations
+          </span>
+        </div>
+      </div>
+    </section>
 
-  <!-- Section 2: Why CNML exists -->
-  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
-    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-6">Why CNML exists</h2>
-    <div class="space-y-4 text-[var(--ink-soft)] leading-relaxed">
-      <p>
-        Legal metrology governs measuring instruments used in trade, health, safety, and environmental protection. Fuel dispensers, electricity meters, weighbridges, medical thermometers, exhaust gas analyzers, and pressure gauges all require type approval before they can be lawfully placed on the market. Type approval is an international process: an OIML-Designated Issuing Authority evaluates a model against an OIML Recommendation and issues a certificate of conformity.
-      </p>
-      <p>
-        That certificate must be verifiable by any party. A market-surveillance authority inspecting an instrument at a remote site needs to confirm the type approval. A manufacturer shipping instruments across borders needs to demonstrate conformity. Another Issuing Authority participating in the OIML Declaration of Mutual Confidence needs to recognize the certificate. The certificate must remain valid for the service lifetime of the instrument, which in legal metrology is measured in decades.
-      </p>
-      <p>
-        No existing digital certificate technology meets all of these requirements simultaneously. Web TLS public-key infrastructure is designed for short-lived, high-volume channel authentication, not for decades-long document signing under international governance. Single-key PKI concentrates trust in one operator and cannot distribute signing authority across sovereign institutions. CNML was designed from the ground up for the specific requirements of legal-metrology type approval.
-      </p>
-    </div>
-  </section>
+    <div class="bp-ticks" aria-hidden="true"></div>
 
-  <!-- Section 3: What CNML enables -->
-  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
-    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-8">What CNML enables</h2>
-    <div class="space-y-10">
-      <div>
-        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Distributed signing authority</h3>
-        <p class="text-[var(--ink-soft)] leading-relaxed">
-          No single party can produce a CNML certificate at the root or Issuing Authority tier. Signing authority is distributed across an international threshold quorum of directors and officers using FROST threshold signatures. A court order directed at one officer cannot complete a signature. Theft of one key holder's hardware cannot forge a certificate. The aggregate public key survives director rotation, so all previously issued certificates remain valid without re-issuance.
+    {/* ═══════════════════════════════════════════════════════════════
+        CAPABILITIES
+        Four cards describing the core cryptographic properties.
+        ═══════════════════════════════════════════════════════════════ */}
+    <section class="cnml-section bp-grid">
+      <div class="cnml-section__intro bp-reveal">
+        <div class="bp-section-anchor">
+          <span class="bp-section-anchor__num">§ 01</span>
+          <span>Capabilities</span>
+          <span class="bp-section-anchor__line"></span>
+          <span class="bp-coord">Four properties</span>
+        </div>
+        <h2 class="cnml-section__title">What CNML provides</h2>
+        <p class="cnml-section__lede">
+          CNML was designed for the specific requirements of legal-metrology type approval. Four cryptographic properties distinguish it from web PKI and from single-key document signing. Each property is a structural guarantee, not a policy agreement.
         </p>
       </div>
-      <div>
-        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Verification by anyone, anywhere</h3>
-        <p class="text-[var(--ink-soft)] leading-relaxed">
-          Any party can verify a CNML certificate in a web browser, offline, without contacting the issuer, registering for a service, or holding an account. The verifier downloads a trust-anchor bundle once and can then verify certificates indefinitely. The verification pipeline checks XML structure, schema conformance, signature validity, issuer scope, revocation status, timestamp proof, and transparency-log inclusion.
+      <div class="cnml-card-grid cnml-card-grid--4">
+        {capabilities.map((c, i) => (
+          <article
+            class="cnml-card cnml-card-hover bp-card-hover bp-reveal bp-crosshair"
+            style={`--reveal-delay: ${i * 80}ms`}
+          >
+            <div class="cnml-card__header">
+              <span class="cnml-card__num bp-crosshair">{c.num}</span>
+              <span class="cnml-tag">{c.tag}</span>
+            </div>
+            <h3 class="cnml-card__title">{c.title}</h3>
+            <p class="cnml-card__body">{c.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {/* ═══════════════════════════════════════════════════════════════
+        AUDIENCE PATHS
+        Six cards linking to audience-specific pages.
+        ═══════════════════════════════════════════════════════════════ */}
+    <div class="bp-ticks" aria-hidden="true"></div>
+    <section class="cnml-section bp-grid bp-grid--major">
+      <div class="cnml-section__intro bp-reveal">
+        <div class="bp-section-anchor">
+          <span class="bp-section-anchor__num">§ 02</span>
+          <span>Audience paths</span>
+          <span class="bp-section-anchor__line"></span>
+          <span class="bp-coord">Six audiences</span>
+        </div>
+        <h2 class="cnml-section__title">Who CNML is for</h2>
+        <p class="cnml-section__lede">
+          The certificate format touches every role in legal metrology. Each audience page describes the current workflow, the change CNML introduces, the operational detail, and the next step.
         </p>
       </div>
-      <div>
-        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Post-quantum security</h3>
-        <p class="text-[var(--ink-soft)] leading-relaxed">
-          CNML ships composite signatures combining Ed25519 (classical, RFC 8032) with ML-DSA-65 (post-quantum, NIST FIPS 204). A composite signature is valid only when both components verify. An attacker must break both algorithms to forge a signature. Documents signed today remain secure through the transition to quantum computing.
+      <div class="cnml-card-grid cnml-card-grid--2">
+        {audiences.map((a, i) => (
+          <a
+            href={a.href}
+            class="cnml-audience-card cnml-card-hover bp-card-hover bp-reveal bp-crosshair"
+            style={`--reveal-delay: ${i * 60}ms`}
+          >
+            <div class="cnml-audience-card__num">{a.num}</div>
+            <div class="cnml-audience-card__body">
+              <h3 class="cnml-audience-card__title">
+                {a.title}
+                <span class="cnml-audience-card__arrow">→</span>
+              </h3>
+              <p class="cnml-audience-card__desc">{a.desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* ═══════════════════════════════════════════════════════════════
+        TECHNOLOGY SUMMARY
+        ═══════════════════════════════════════════════════════════════ */}
+    <div class="bp-ticks" aria-hidden="true"></div>
+    <section class="cnml-section cnml-section--prose bp-grid">
+      <div class="cnml-section__intro bp-reveal">
+        <div class="bp-section-anchor">
+          <span class="bp-section-anchor__num">§ 03</span>
+          <span>Technology</span>
+          <span class="bp-section-anchor__line"></span>
+          <span class="bp-coord">Standards stack</span>
+        </div>
+        <h2 class="cnml-section__title">What CNML is built on</h2>
+        <p class="cnml-section__lede">
+          CNML builds on established international standards. The certificate chain follows X.509 v3 with a custom scope extension that binds each Issuing Authority to a specific subset of OIML Recommendations. Signatures use W3C XMLDSig with RFC 8784 Exclusive Canonicalization, produced as composite Ed25519 plus ML-DSA-65 per NIST FIPS 204. Transparency is provided by a Merkle log per RFC 6962 Certificate Transparency, with tree roots anchored to Bitcoin through OpenTimestamps. The full treatment of each standard, including the algorithm choices and the hardware tiers, appears on the technology page.
         </p>
+        <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/about/technology')} data-magnetic-strength="0.15">
+          Read the technology page <span class="arrow">→</span>
+        </a>
       </div>
-      <div>
-        <h3 class="font-sans text-lg font-semibold text-[var(--ink)] mb-3">Public transparency</h3>
-        <p class="text-[var(--ink-soft)] leading-relaxed">
-          Every issued certificate appears in a public Merkle transparency log. Tree roots are anchored to Bitcoin through OpenTimestamps. No certificate can be silently issued or retroactively inserted. The log is mirrored across independent operators, and gossip protocols prevent equivocation. A verifier that demands an inclusion proof rejects any certificate that did not appear in the log.
+    </section>
+
+    {/* ═══════════════════════════════════════════════════════════════
+        APP PREVIEW
+        Single call to action linking to the certificate operations app.
+        ═══════════════════════════════════════════════════════════════ */}
+    <div class="bp-ticks" aria-hidden="true"></div>
+    <section class="cnml-app-preview bp-grid bp-grid--major">
+      <div class="cnml-app-preview__scan" aria-hidden="true">
+        <div class="bp-scan"></div>
+      </div>
+      <div class="cnml-app-preview__inner bp-reveal bp-crosshair">
+        <div class="bp-section-anchor">
+          <span class="bp-section-anchor__num">§ 04</span>
+          <span>Try it</span>
+          <span class="bp-section-anchor__line"></span>
+          <span class="bp-coord">In the browser</span>
+        </div>
+        <h2 class="cnml-app-preview__title">
+          Generate and verify CNML certificates in the browser
+        </h2>
+        <p class="cnml-app-preview__body">
+          The interactive tools generate sample CNML certificates for evaluation purposes. They run entirely in the browser. Private keys are generated on device, encrypted with a passphrase-derived key, and never leave the machine. The three issuing scenarios exercise the real threshold-signing coordinator, and the verifier runs the full seven-check pipeline against any CNML file.
         </p>
+        <a class="btn btn-primary bp-magnetic bp-focus-ring" href={url('/app')} data-magnetic-strength="0.2">
+          Open the certificate operations app <span class="arrow">→</span>
+        </a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Section 4: How the technology works -->
-  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
-    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-6">How the technology works</h2>
-    <div class="space-y-4 text-[var(--ink-soft)] leading-relaxed">
-      <p>
-        CNML organizes signing authority in a five-tier certificate hierarchy. The BIML Root tier holds the international root signing key as a threshold secret shared among OIML directors. The Issuing Authority tier holds per-national-authority intermediate keys as threshold secrets shared among IA officers. The Test Laboratory tier signs measurement reports. The Manufacturer Model tier delegates scoped signing authority to instrument manufacturers. The Manufacturer Instance tier issues per-instrument end-entity certificates.
-      </p>
-      <p>
-        At the BIML Root and IA tiers, every signature requires a threshold quorum. Directors and officers participate asynchronously through a coordinator service that buffers protocol messages, so participants in different time zones can contribute when convenient. The coordinator is honest-but-curious: it observes encrypted protocol messages but cannot reconstruct the signing key.
-      </p>
-      <p>
-        BIML binds each Issuing Authority to a specific subset of OIML Recommendations through an X.509 v3 extension. The extension is enforced at verification time, so an IA scoped to load cells cannot produce a valid fuel-dispenser certificate. The scope is a cryptographic property, not a policy agreement.
-      </p>
-      <p>
-        The full architecture, including the transparency log, the hardware-backed key tiers, and the post-quantum migration path, is developed in the <a href="/docs" class="text-[var(--accent)] underline">documentation</a>.
-      </p>
-    </div>
-  </section>
-
-  <!-- Section 5: Who uses CNML and how -->
-  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
-    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-8">Who uses CNML</h2>
-    <div class="space-y-6 text-[var(--ink-soft)] leading-relaxed">
-      <div>
-        <span class="font-sans font-semibold text-[var(--ink)]">Issuing Authorities</span>
-        <span class="text-[var(--ink-muted)]"> issue type-approval certificates within their authorized scope.</span>
-      </div>
-      <div>
-        <span class="font-sans font-semibold text-[var(--ink)]">BIML directors</span>
-        <span class="text-[var(--ink-muted)]"> participate in the threshold quorum that signs IA certificates.</span>
-      </div>
-      <div>
-        <span class="font-sans font-semibold text-[var(--ink)]">Test laboratories</span>
-        <span class="text-[var(--ink-muted)]"> sign measurement reports and submit them as type-evaluation evidence.</span>
-      </div>
-      <div>
-        <span class="font-sans font-semibold text-[var(--ink)]">Manufacturers</span>
-        <span class="text-[var(--ink-muted)]"> issue per-instance certificates under a scoped model delegation.</span>
-      </div>
-      <div>
-        <span class="font-sans font-semibold text-[var(--ink)]">Market-surveillance authorities</span>
-        <span class="text-[var(--ink-muted)]"> verify certificates in the field using a browser, offline.</span>
-      </div>
-      <div>
-        <span class="font-sans font-semibold text-[var(--ink)]">OIML member states</span>
-        <span class="text-[var(--ink-muted)]"> evaluate CNML for national adoption under the DoMC framework.</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 6: App area -->
-  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
-    <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-4">Try it</h2>
-    <p class="text-[var(--ink-soft)] leading-relaxed mb-6">
-      The interactive tools generate sample CNML certificates for evaluation purposes. They run entirely in your browser. Private keys are generated on device, encrypted with a passphrase-derived key, and never leave your machine.
-    </p>
-    <a href="/app" class="cnml-btn cnml-btn-primary inline-flex">
-      Open the certificate operations app
-    </a>
-  </section>
+    {/* Footer calibration ruler */}
+    <div class="bp-ticks bp-ticks--dense" aria-hidden="true"></div>
+  </div>
 </Base>
+
+<style>
+  /* ─── Hero ─────────────────────────────────────────────────────────── */
+  .cnml-home {
+    overflow: hidden;
+  }
+
+  .cnml-hero {
+    position: relative;
+    min-height: min(92vh, 840px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 1.5rem 4rem;
+    text-align: center;
+  }
+  .cnml-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 52rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cnml-hero__seal {
+    width: 220px;
+    max-width: 60vw;
+    margin: 0 auto 2rem;
+    color: var(--ink);
+  }
+  .cnml-hero__seal :global(.cnml-seal) {
+    width: 100%;
+    height: auto;
+  }
+  .cnml-hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1.25rem;
+  }
+  .cnml-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.25rem, 6vw, 4.25rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .cnml-hero__lede {
+    font-size: clamp(1rem, 1.4vw, 1.1875rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 42rem;
+    margin-bottom: 2.5rem;
+  }
+  .cnml-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+  .cnml-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .cnml-hero__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .cnml-hero__meta-dot {
+    display: inline-block;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+  }
+  .cnml-hero__meta-dot--brand { background: var(--accent); }
+  .cnml-hero__meta-dot--teal  { background: var(--accent-2); }
+  .cnml-hero__meta-dot--amber { background: var(--accent-3); }
+  .cnml-hero__meta-sep { opacity: 0.5; }
+
+  /* ─── Section scaffolding ──────────────────────────────────────────── */
+  .cnml-section {
+    padding: 5rem 1.5rem;
+  }
+  .cnml-section--prose {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  .cnml-section__intro {
+    max-width: 48rem;
+    margin: 0 auto 3rem;
+  }
+  .cnml-section__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 1rem 0 1rem;
+  }
+  .cnml-section__lede {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* ─── Card grids ───────────────────────────────────────────────────── */
+  .cnml-card-grid {
+    max-width: 72rem;
+    margin: 0 auto;
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-md);
+    overflow: hidden;
+  }
+  .cnml-card-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .cnml-card-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 960px) {
+    .cnml-card-grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .cnml-card-grid--2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .cnml-card-grid--4 { grid-template-columns: 1fr; }
+  }
+
+  /* ─── Capability cards ─────────────────────────────────────────────── */
+  .cnml-card {
+    background: var(--paper-soft);
+    padding: 1.75rem;
+  }
+  .cnml-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .cnml-card__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: var(--bp-radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+  .cnml-card__title {
+    font-family: var(--font-serif);
+    font-size: 1.1875rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 0.625rem;
+  }
+  .cnml-card__body {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* ─── Audience cards ───────────────────────────────────────────────── */
+  .cnml-audience-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.75rem;
+    background: var(--paper-soft);
+    text-decoration: none;
+    color: inherit;
+  }
+  .cnml-audience-card:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+  .cnml-audience-card__num {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--accent);
+    flex-shrink: 0;
+    min-width: 3rem;
+  }
+  .cnml-audience-card__title {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cnml-audience-card__arrow {
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity var(--bp-transition-fast), transform var(--bp-transition-fast);
+  }
+  .cnml-audience-card:hover .cnml-audience-card__arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+  .cnml-audience-card__desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* ─── App preview ──────────────────────────────────────────────────── */
+  .cnml-app-preview {
+    position: relative;
+    padding: 5rem 1.5rem;
+    overflow: hidden;
+  }
+  .cnml-app-preview__scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    z-index: 0;
+  }
+  .cnml-app-preview__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .cnml-app-preview__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 1rem 0 1.25rem;
+  }
+  .cnml-app-preview__body {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cnml-app-preview__scan { display: none; }
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
+import { marked } from 'marked';
+
+const BASE = import.meta.env.BASE_URL;
+const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+
+export function getStaticPaths() {
+  const here = fileURLToPath(import.meta.url);
+  const featuresDir = join(here, '..', '..', '..', '..', 'src', 'content', 'features');
+  if (!existsSync(featuresDir)) return [];
+  return readdirSync(featuresDir)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => ({ params: { slug: f.slice(0, -3) } }));
+}
+
+const slug = Astro.params.slug!;
+const here = fileURLToPath(import.meta.url);
+const mdPath = join(here, '..', '..', '..', '..', 'src', 'content', 'features', `${slug}.md`);
+
+let title = slug;
+let lede = '';
+let coord = '';
+let html = '<p>Not found.</p>';
+if (existsSync(mdPath)) {
+  const md = readFileSync(mdPath, 'utf8');
+  const lines = md.split('\n');
+
+  // Extract frontmatter (title, lede, coord).
+  if (lines[0]?.trim() === '---') {
+    const closeIdx = lines.indexOf('---', 1);
+    if (closeIdx > 0) {
+      const fm = lines.slice(1, closeIdx);
+      for (const line of fm) {
+        const m = line.match(/^(\w+):\s*(.*)$/);
+        if (!m) continue;
+        const [, key, raw] = m;
+        const val = raw.replace(/^["']|["']$/g, '');
+        if (key === 'title') title = val;
+        else if (key === 'lede') lede = val;
+        else if (key === 'coord') coord = val;
+      }
+      lines.splice(0, closeIdx + 1);
+    }
+  }
+
+  // Drop the first H1 if it restates the title.
+  const h1Idx = lines.findIndex((l) => l.startsWith('# '));
+  const body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join('\n') : lines.join('\n');
+
+  // Prefix internal absolute links with the configured BASE_URL so they
+  // resolve under /cnml/ in production.
+  const prefix = BASE.endsWith('/') ? BASE : `${BASE}/`;
+  html = marked.parse(body).replace(
+    /((?:href|src)=")\/(?!\/)/g,
+    `$1${prefix}`,
+  );
+}
+---
+
+<Base title={`${title} · Features · CNML`} description={lede}>
+  <PageHero title={title} lede={lede} coord={coord} />
+  <article class="mx-auto max-w-3xl px-6 pb-16 docs-body">
+    <a href={url('/#capabilities')} class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← All features</a>
+    <div class="mt-8" set:html={html} />
+  </article>
+</Base>

@@ -9,6 +9,9 @@ import { fingerprintShort } from "./shared";
 const keys = ref<StoredKey[]>([]);
 const loading = ref(true);
 const selectedKeyId = ref<string | null>(null);
+
+// Astro BASE_URL ("/" in dev, "/cnml/" in prod) — used to prefix internal links.
+const baseUrl = import.meta.env.BASE_URL as string;
 const commonName = ref("");
 const organization = ref("");
 const country = ref("");
@@ -79,7 +82,7 @@ function downloadCsr() {
       <div class="text-4xl mb-3">🔑</div>
       <div class="font-medium mb-1">No signing keys found</div>
       <div class="text-sm text-[var(--ink-muted)] mb-4">Generate a key first on the Keys page.</div>
-      <a href="/keys" class="cnml-btn cnml-btn-primary">Go to Keys</a>
+      <a :href="`${baseUrl}keys`" class="cnml-btn cnml-btn-primary">Go to Keys</a>
     </div>
 
     <template v-else>
@@ -153,7 +156,7 @@ function downloadCsr() {
           <li>Download the <code>.csr</code> file</li>
           <li>Send it to your Issuing Authority's CA operator</li>
           <li>Wait for them to sign it and return a <code>.crt</code> file</li>
-          <li>Go to <a href="/keys" class="text-[var(--accent)] underline">Keys</a> → Import certificate</li>
+          <li>Go to <a :href="`${baseUrl}keys`" class="text-[var(--accent)] underline">Keys</a> → Import certificate</li>
           <li>Once imported, you can sign CNMLs with a certified key</li>
         </ol>
       </div>
