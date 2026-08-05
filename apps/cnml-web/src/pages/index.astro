@@ -120,26 +120,11 @@ import CnmlSeal from '../components/CnmlSeal.astro';
   <!-- Section 6: App area -->
   <section class="max-w-4xl mx-auto px-6 py-16 border-t border-[var(--rule)]">
     <h2 class="font-serif text-2xl font-semibold text-[var(--ink)] mb-4">Try it</h2>
-    <p class="text-[var(--ink-soft)] leading-relaxed mb-8">
-      The interactive tools below generate sample CNML certificates for evaluation purposes. They are not production certificate issuance tools. Use them to explore the format, test the verification pipeline, and understand the data model.
+    <p class="text-[var(--ink-soft)] leading-relaxed mb-6">
+      The interactive tools generate sample CNML certificates for evaluation purposes. They run entirely in your browser. Private keys are generated on device, encrypted with a passphrase-derived key, and never leave your machine.
     </p>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <a href="/create" class="cnml-card cnml-card-hover block">
-        <div class="font-semibold text-[var(--ink)] mb-1">Create a certificate</div>
-        <div class="text-sm text-[var(--ink-muted)]">Build a sample CNML from a per-Recommendation form and sign it in the browser.</div>
-      </a>
-      <a href="/verify" class="cnml-card cnml-card-hover block">
-        <div class="font-semibold text-[var(--ink)] mb-1">Verify a certificate</div>
-        <div class="text-sm text-[var(--ink-muted)]">Drop a .cnml.xml file to run the verification pipeline.</div>
-      </a>
-      <a href="/certs" class="cnml-card cnml-card-hover block">
-        <div class="font-semibold text-[var(--ink)] mb-1">Browse certificates</div>
-        <div class="text-sm text-[var(--ink-muted)]">Explore real OIML-CS sample certificates across all Recommendations.</div>
-      </a>
-      <a href="/schemas" class="cnml-card cnml-card-hover block">
-        <div class="font-semibold text-[var(--ink)] mb-1">Browse schemas</div>
-        <div class="text-sm text-[var(--ink-muted)]">View the per-Recommendation JSON Schemas that define the certificate model.</div>
-      </a>
-    </div>
+    <a href="/app" class="cnml-btn cnml-btn-primary inline-flex">
+      Open the certificate operations app
+    </a>
   </section>
 </Base>
