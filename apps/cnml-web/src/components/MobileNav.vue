@@ -8,6 +8,7 @@
  */
 import { ref, onMounted } from 'vue'
 import { useTheme } from '../composables/useTheme'
+import { useFocusTrap } from '../islands/shared/useFocusTrap'
 import type { NavDropdownConfig } from './NavDropdown.vue'
 
 export interface MobileNavItem {
@@ -23,7 +24,12 @@ const props = defineProps<{
 
 const isOpen = ref(false)
 const expandedSection = ref<string | null>(null)
+const panelRef = ref<HTMLElement | null>(null)
 const { isDark, toggle: toggleTheme } = useTheme()
+
+useFocusTrap(isOpen, panelRef, () => {
+  document.body.style.overflow = ''
+})
 
 function toggleMenu() {
   isOpen.value = !isOpen.value
@@ -62,7 +68,7 @@ onMounted(() => {
 
   <!-- Full-screen mobile nav overlay -->
   <Transition name="mobile-nav">
-    <div v-if="isOpen" class="cnml-mobile-nav__overlay">
+    <div v-if="isOpen" ref="panelRef" class="cnml-mobile-nav__overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
       <!-- Panel header with close -->
       <div class="cnml-mobile-nav__header">
         <span class="cnml-mobile-nav__title">CNML</span>

@@ -17,10 +17,19 @@ Workspace is pnpm + a Ruby gem. Run from repo root unless noted.
 ```bash
 pnpm install                              # install all deps
 pnpm dev                                  # Astro dev server, http://localhost:4321
-pnpm build                                # production build + audience-build.ts split
-pnpm gen                                  # regenerate schemas index + TS types from YAML
-pnpm test                                 # TS unit tests (cnml-test-vectors)
+pnpm build                                # production build + audience-build + pagefind index
+pnpm gen                                  # regenerate schemas + TS types + glossary from YAML
+pnpm test                                 # integration vectors + pipeline (cnml-test-vectors)
+pnpm test:crypto                          # per-check unit tests (cnml-crypto)
+pnpm test:web                             # markdown-page helper tests (cnml-web)
+pnpm test:vitest                          # Vue island unit tests (cnml-web, Vitest)
+pnpm test:audit                           # audit suite: links, metadata, security, assets
+pnpm test:lint                            # style-guide linter unit tests
 pnpm test:e2e                             # Playwright (auto-starts dev on :4455)
+pnpm lint:style                           # style-guide linter on the content corpus
+pnpm lint                                 # ESLint flat config
+pnpm budget                               # bundle-size budget gate
+pnpm links:check                          # external link checker (HEAD-checks URLs)
 pnpm vectors:gen                          # regenerate 22 pre-signed test vectors
 pnpm vectors:verify                       # verify all test vectors round-trip
 pnpm smoke                                # minimal sign+verify via Node
