@@ -5,10 +5,11 @@
   "main": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./checks": "./src/checks/index.ts"
+    "./checks": "./src/checks/index.ts",
+    "./smi/twin-client": "./src/smi/twin-client.ts"
   },
   "scripts": {
-    "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/checks/*.test.ts"
+    "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/checks/*.test.ts src/smi/*.test.ts"
   },
   "dependencies": {
     "@oiml/cnml-xml": "workspace:*",

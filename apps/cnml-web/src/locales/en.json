@@ -1,0 +1,19 @@
+{
+  "nav.about": "About",
+  "nav.audiences": "Audiences",
+  "nav.features": "Features",
+  "nav.documentation": "Documentation",
+  "nav.search": "Search",
+  "nav.app": "App",
+  "hero.title": "CNML",
+  "hero.subtitle": "Certificat Numérique · Métrologie Légale",
+  "hero.thesis": "A cryptographically signed digital certificate format for OIML type approvals, developed under the OIML SMART programme.",
+  "hero.cta.explore": "Explore the format",
+  "hero.cta.docs": "Read the docs",
+  "hero.cta.app": "Try the app",
+  "footer.programme": "CNML · OIML SMART programme · 2026 edition (proposal)",
+  "footer.source": "Source",
+  "footer.styleGuide": "Style guide",
+  "theme.light": "Switch to light mode",
+  "theme.dark": "Switch to dark mode"
+}

@@ -25,6 +25,9 @@ jobs:
       - name: Lint (style guide)
         run: pnpm lint:style
 
+      - name: Lint (ESLint)
+        run: pnpm lint
+
       - name: Linter unit tests
         run: pnpm test:lint
 

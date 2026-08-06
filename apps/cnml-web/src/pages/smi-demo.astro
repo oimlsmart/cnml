@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import TwinDemo from '../islands/smi/TwinDemo.vue';
+import ErrorBoundary from '../islands/widgets/ErrorBoundary.vue';
+---
+
+<Base title="SMI twin demo" description="Connect to a SMART Measuring Instrument's twin interface and view the live indication alongside the CNML certificate provenance.">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mb-2">SMI twin demo</h1>
+    <p class="text-[var(--ink-soft)] mb-8">
+      Connect to a SMART Measuring Instrument's twin GraphQL endpoint. The demo
+      shows the live indication, the instrument's state, and the CNML certificate
+      provenance linking the instrument to its type-approval chain. For local
+      development, run the SST simulator on port 8787.
+    </p>
+    <ErrorBoundary client:load>
+      <TwinDemo client:load />
+    </ErrorBoundary>
+  </section>
+</Base>
