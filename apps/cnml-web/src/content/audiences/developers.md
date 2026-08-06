@@ -52,3 +52,9 @@ The implementation source code is published under an open-source license. The si
 ## Your next step
 
 Read the [schema-driven design](../docs/implementation/schema-driven-design) page, clone the [GitHub repository](https://github.com/oimlsmart/cnml), and run `pnpm install && pnpm vectors:verify` to confirm the vectors round-trip on your machine.
+
+## See also
+
+- [Technology](../about/technology) lists the standards and binding paths the packages build on.
+- [For verifiers](../audiences/verifiers) describes the verify page that uses the same packages.
+- [Schemas](../schemas) renders the per-Recommendation JSON Schema index the `cnml-schemas` package produces.

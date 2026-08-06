@@ -21,15 +21,36 @@ module OimlPki
   VERSION = "0.1.0"
 
   # Air-gapped root keystore dir. Created on first access.
-  KEYSTORE_DIR = File.expand_path("~/.oiml-pki")
-  OUTPUT_DIR   = File.expand_path("output", File.join(File.dirname(__FILE__), "..", ".."))
+  # Configurable via OIML_PKI_KEYSTORE_DIR for production deployments
+  # (TODO.cnml/14 from the deep audit). Default keeps the demo path
+  # for back-compat.
+  KEYSTORE_DIR = File.expand_path(ENV.fetch("OIML_PKI_KEYSTORE_DIR", "~/.oiml-pki"))
+  OUTPUT_DIR   = File.expand_path(ENV.fetch("OIML_PKI_OUTPUT_DIR", File.join(File.dirname(__FILE__), "..", "..", "output")))
 
   FileUtils.mkdir_p(KEYSTORE_DIR)
   FileUtils.mkdir_p(OUTPUT_DIR)
 
-  # X.509 OID for the OIML scope extension. Placeholder PEN (99999) —
-  # replace with OIML's IANA-registered Private Enterprise Number.
-  OIML_SCOPE_OID = "1.3.6.1.4.1.99999.1.1"
+  # X.509 OID for the OIML scope extension (TODO.cnml/67).
+  #
+  # The default is a placeholder IANA Private Enterprise Number
+  # (99999). Production deployments set OIML_SCOPE_OID to OIML's
+  # registered PEN. OIML applies for a PEN at
+  # https://www.iana.org/assignments/enterprise-numbers — IANA
+  # typically processes the application in 2–4 weeks.
+  #
+  # The scope extension is the cryptographic enforcement of the
+  # DoMC framework. A placeholder OID is non-conformant with X.509 v3
+  # and would not pass a WebTrust audit. The warning below fires when
+  # the placeholder is in use; production silences it by setting
+  # OIML_SCOPE_OID.
+  OIML_SCOPE_OID = ENV.fetch("OIML_SCOPE_OID", "1.3.6.1.4.1.99999.1.1")
+  PLACEHOLDER_SCOPE_OID = "1.3.6.1.4.1.99999.1.1"
+
+  if OIML_SCOPE_OID == PLACEHOLDER_SCOPE_OID
+    warn "oiml-pki: OIML_SCOPE_OID is the placeholder PEN (1.3.6.1.4.1.99999.1.1)."
+    warn "oiml-pki: Set OIML_SCOPE_OID to OIML's IANA-registered PEN before production issuance."
+    warn "oiml-pki: Apply at https://www.iana.org/assignments/enterprise-numbers"
+  end
 
   # Autoload entries — one per public module. Adding a new module is
   # a one-line change here, plus the implementation file under

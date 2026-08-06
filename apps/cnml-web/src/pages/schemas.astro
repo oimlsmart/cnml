@@ -1,9 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import { RECOMMENDATIONS } from '@oiml/cnml-schemas';
+import { url } from '../lib/url';
 
 const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
   const c = r.category;

@@ -1,0 +1,77 @@
+name: Release CNML CA server
+
+# Build a tarball of the CA server and its docs, attach it to a
+# GitHub Release. Triggered by a tag matching `ca-v*` (e.g.,
+# `ca-v0.2.0`).
+#
+# ADR-0001: the CA server is a separate deployable from the web
+# app. The web app links to the GitHub Release for downloads; it
+# no longer copies the Ruby source into its own dist/.
+
+on:
+  push:
+    tags:
+      - 'ca-v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: oiml-pki-server
+
+      - name: Run RSpec (the CA server ships only from green)
+        working-directory: oiml-pki-server
+        run: bundle exec rspec
+
+      - name: Read version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#ca-v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build tarball
+        run: |
+          mkdir -p staging/cnml-ca-${{ steps.version.outputs.VERSION }}
+          cp -r oiml-pki-server staging/cnml-ca-${{ steps.version.outputs.VERSION }}/
+          cp -r docs/pki-diagrams staging/cnml-ca-${{ steps.version.outputs.VERSION }}/
+          cp docs/pki-architecture.md docs/manual-*.md staging/cnml-ca-${{ steps.version.outputs.VERSION }}/
+          # Write a top-level README pointing at the web app and the source repo.
+          cat > staging/cnml-ca-${{ steps.version.outputs.VERSION }}/README.md <<'EOF'
+          # CNML CA server
+
+          This tarball contains the CNML CA server (Ruby, Sinatra) and the
+          PKI documentation that ships with it. See the project README at
+          https://github.com/oimlsmart/cnml for context.
+
+          ## Layout
+
+          - `oiml-pki-server/` — the Ruby CA server source.
+          - `docs/pki-architecture.md` — the CA server architecture.
+          - `docs/manual-*.md` — per-audience operational manuals.
+          - `docs/pki-diagrams/` — architecture diagrams.
+
+          ## Run
+
+          ```
+          cd oiml-pki-server
+          bundle install
+          ruby app.rb    # http://localhost:4455
+          ```
+          EOF
+          tar -czf cnml-ca-${{ steps.version.outputs.VERSION }}.tar.gz -C staging .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: cnml-ca-${{ steps.version.outputs.VERSION }}.tar.gz
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}

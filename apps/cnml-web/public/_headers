@@ -1,0 +1,67 @@
+# Real HTTP security headers for Cloudflare Pages (ADR-0002, TODO.cnml/63).
+#
+# This file is served by Cloudflare Pages as actual HTTP response
+# headers, replacing the weaker <meta http-equiv> tags in Base.astro.
+# GitHub Pages does not support _headers; that is why the project
+# is moving to Cloudflare Pages.
+#
+# Format documentation:
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  # Content Security Policy. Stricter than the meta-tag version:
+  # adds report-uri (when a reporting endpoint is configured) and
+  # is honored for frame-ancestors (the meta-tag version is not).
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.oimlsmart.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; report-uri /api/csp-report;
+
+  # HSTS — preload-eligible. The root domain must also serve this
+  # on every response for preload inclusion.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+  # Referrer policy — same as the meta-tag version.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Permissions policy — same as the meta-tag version.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+  # X-Content-Type-Options — same as the meta-tag version.
+  X-Content-Type-Options: nosniff
+
+  # Cross-Origin Embedder Policy. Required for the verify page to
+  # use SharedArrayBuffer (WASM threading) if Confium ever needs it.
+  # The browser-side Confium WASM does not today, but the gate is
+  # cheap and forward-compatible.
+  Cross-Origin-Embedder-Policy: require-corp
+
+  # Cross-Origin Opener Policy. Isolates the browsing context,
+  # preventing cross-window attacks.
+  Cross-Origin-Opener-Policy: same-origin
+
+  # Cache control for HTML — short, so users pick up content
+  # updates quickly. Static assets under /_astro/ are immutable
+  # (hashed filenames) and cached aggressively.
+  Cache-Control: public, max-age=300, must-revalidate
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/img/*
+  Cache-Control: public, max-age=86400
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/schemas/*
+  Cache-Control: public, max-age=86400
+
+/trust-anchors.json
+  Cache-Control: public, max-age=3600
+
+/manifest.json
+  Cache-Control: public, max-age=3600
+
+/sitemap-index.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=86400

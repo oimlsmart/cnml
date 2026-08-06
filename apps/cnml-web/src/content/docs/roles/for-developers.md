@@ -55,7 +55,7 @@ oiml-pki-server/                  Ruby air-gapped CA, Sinatra
         key_provider/
           base.rb                 Abstract interface
           software.rb             OpenSSL::PKey backend
-          pkcs11.rb               YubiKey and HSM backend
+          pkcs11.rb               PKCS#11 HSM backend
           confium.rb              Confium threshold backend
   spec/                           RSpec suite
   app.rb                          Sinatra application

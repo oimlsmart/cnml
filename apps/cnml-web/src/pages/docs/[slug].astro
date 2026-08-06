@@ -1,51 +1,68 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
-import { marked } from 'marked';
+import { url } from '../../lib/url';
+import { flatMarkdownStaticPaths, readMarkdownPage, renderMarkdownBody, contentDirFrom } from '../../lib/markdown-page';
+import { extractToc } from '../../lib/toc';
+import { readingTimeMinutes } from '../../lib/reading-time';
+import { sections } from '../../data/docs-sections';
+import DocsReadingAffordances from '../../islands/docs/DocsReadingAffordances.vue';
+import DocsToc from '../../islands/docs/DocsToc.vue';
 
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
-
-export function getStaticPaths() {
-  // import.meta.url works in both dev and build; relative path traverses from
-  // dist/.prerender/chunks/<file>.mjs back to apps/cnml-web/src/content/docs.
-  const here = fileURLToPath(import.meta.url);
-  const docsDir = join(here, '..', '..', '..', '..', 'src', 'content', 'docs');
-  return readdirSync(docsDir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => ({ params: { slug: f.slice(0, -3) } }));
-}
+export const getStaticPaths = () =>
+  flatMarkdownStaticPaths(contentDirFrom(import.meta.url, 'src/content/docs'));
 
 const slug = Astro.params.slug!;
-const here = fileURLToPath(import.meta.url);
-const mdPath = join(here, '..', '..', '..', '..', 'src', 'content', 'docs', `${slug}.md`);
+const page = readMarkdownPage({
+  params: Astro.params,
+  contentDir: contentDirFrom(import.meta.url, 'src/content/docs'),
+  urlDir: '/docs/',
+});
 
-let title = slug;
-let html = '<p>Not found.</p>';
-if (existsSync(mdPath)) {
-  const md = readFileSync(mdPath, "utf8");
-  const lines = md.split("\n");
-  const h1Line = lines.find((l) => l.startsWith("# "));
-  if (h1Line) title = h1Line.slice(2).trim();
-  // strip first H1 if present, leave the rest of the body
-  const h1Idx = lines.findIndex((l) => l.startsWith("# "));
-  const body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join("\n") : md;
-  // Prefix internal absolute links with the configured BASE_URL so they
-  // resolve under /cnml/ in production.
-  const prefix = BASE.endsWith('/') ? BASE : `${BASE}/`;
-  html = marked.parse(body).replace(
-    /((?:href|src)=")\/(?!\/)/g,
-    `$1${prefix}`,
-  );
-}
+// Shiki code highlighting + glossary term auto-linking (TODOs 43, 45).
+const rendered = await renderMarkdownBody(page.html);
+
+// Look up the section this doc belongs to (for the article:section OG tag).
+const flat = sections.flatMap((s) => s.docs.map((d) => ({ ...d, section: s.title })));
+const current = flat.find((d) => d.slug === slug);
+const section = current?.section ?? 'Documentation';
+const tags = ['CNML', 'OIML', 'legal metrology', section];
+
+const minutes = readingTimeMinutes(page.body);
+const toc = extractToc(page.body);
 ---
 
-<Base title={`${title} · Docs · CNML`}>
+<Base
+  title={`${page.title} · Docs`}
+  description={`CNML documentation: ${page.title}.`}
+  article={{ section, tags }}
+>
+  <DocsReadingAffordances client:visible />
+  <script>
+    import { mountCodeCopy } from '../../lib/code-copy';
+    mountCodeCopy();
+  </script>
   <article class="mx-auto max-w-3xl px-6 py-12">
     <a href={url('/docs')} class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
-    <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-6 mb-4">{title}</h1>
-    <div class="docs-body" set:html={html} />
+    <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-6 mb-2">{page.title}</h1>
+    <p class="text-xs text-[var(--ink-muted)] mb-6 font-mono">
+      {minutes} min read · {section}
+    </p>
+
+    {toc.length >= 2 && (
+      <nav class="cnml-card p-4 mb-8 lg:hidden" aria-label="On this page">
+        <DocsToc client:visible entries={toc} />
+      </nav>
+    )}
+
+    <div class="docs-body grid lg:grid-cols-[1fr_180px] gap-8">
+      <div set:html={rendered} />
+      {toc.length >= 2 && (
+        <aside class="hidden lg:block">
+          <div class="sticky top-24 text-sm">
+            <DocsToc client:visible entries={toc} variant="sticky" />
+          </div>
+        </aside>
+      )}
+    </div>
   </article>
 </Base>

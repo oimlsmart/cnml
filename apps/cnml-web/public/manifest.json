@@ -1,0 +1,53 @@
+{
+  "name": "CNML — Certificat Numérique de Métrologie Légale",
+  "short_name": "CNML",
+  "description": "The digital certificate format for OIML type approvals developed under the OIML SMART programme.",
+  "start_url": "/cnml/",
+  "scope": "/cnml/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#004996",
+  "background_color": "#fdfcf9",
+  "lang": "en",
+  "categories": ["education", "government", "utilities"],
+  "icons": [
+    {
+      "src": "/cnml/img/oiml-logo_cnml-box-light.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/cnml/img/oiml-logo_cnml-box-light.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/cnml/img/oiml-logo_cnml-globe-light.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Verify a CNML certificate",
+      "short_name": "Verify",
+      "url": "/cnml/verify",
+      "description": "Drop a .cnml.xml file to run the seven-check pipeline."
+    },
+    {
+      "name": "Documentation",
+      "short_name": "Docs",
+      "url": "/cnml/docs",
+      "description": "Architecture, concepts, implementation, and reference."
+    },
+    {
+      "name": "About CNML",
+      "short_name": "About",
+      "url": "/cnml/about/what-is-cnml",
+      "description": "What the format is and what it covers."
+    }
+  ]
+}

@@ -30,9 +30,9 @@ No single officer can produce a root or IA signature. A court order or other com
 
 The asynchronous coordinator model means signing ceremonies do not require all participants to be online simultaneously. A director in one time zone initiates a signing round, the coordinator holds the partial signature, and directors in other time zones contribute when they next authenticate. The signing completes once the threshold is met, regardless of the wall-clock schedule.
 
-## References
+## See also
 
-- [Threshold cryptography in CNML](/docs/concepts/threshold-cryptography) develops the five-tier model.
-- [Distributed management](/docs/architecture/distributed-management) describes the asynchronous coordinator flow.
-- [Redundancy and continuity](/docs/architecture/redundancy) covers loss-of-director and loss-of-officer recovery.
-- The Confium threshold-cryptography substrate is described in [Confium integration](/docs/architecture/confium-integration).
+- [Threshold cryptography in CNML](../docs/concepts/threshold-cryptography) develops the five-tier model.
+- [Composite signatures](../features/composite-signatures) describes how the threshold quorum's output is carried alongside the post-quantum component.
+- [For BIML and CIML](../audiences/biml-ciml) walks the director onboarding and signing ceremony at the root tier.
+- [Distributed management](../docs/architecture/distributed-management) describes the asynchronous coordinator flow, and [Redundancy and continuity](../docs/architecture/redundancy) covers loss-of-director recovery. The Confium threshold-cryptography substrate is described in [Confium integration](../docs/architecture/confium-integration).

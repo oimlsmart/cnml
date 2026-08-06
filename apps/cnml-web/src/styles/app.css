@@ -300,6 +300,57 @@
     border-radius: 6px; padding: 1rem; overflow-x: auto; margin-bottom: 1.25rem;
   }
   .docs-body pre code { background: transparent; padding: 0; font-size: 0.8125rem; }
+
+  /* CNML code block (TODO 43): Shiki dual-theme + copy button. The
+     wrapper .cnml-code-block holds two <pre> blocks (light + dark)
+     and a .cnml-code-copy button. The .dark class on <html>
+     controls which theme is visible. */
+  .docs-body .cnml-code-block {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .docs-body .cnml-code-block pre.shiki {
+    margin: 0;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+  }
+  .docs-body .cnml-code-block pre.shiki.github-dark { display: none; }
+  .dark .docs-body .cnml-code-block pre.shiki.github-light { display: none; }
+  .dark .docs-body .cnml-code-block pre.shiki.github-dark { display: block; }
+  .docs-body .cnml-code-copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.65;
+    transition: opacity 120ms ease;
+  }
+  .docs-body .cnml-code-block:hover .cnml-code-copy { opacity: 1; }
+  .docs-body .cnml-code-copy:hover { background: var(--accent-soft); color: var(--accent); }
+  /* Glossary auto-link (TODO 45): subtle dashed underline so users
+     can tell auto-linked terms apart from regular links. */
+  .docs-body .cnml-glossary-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--ink-muted);
+  }
+  .docs-body .cnml-glossary-link:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
   .docs-body table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; }
   .docs-body th, .docs-body td { padding: 0.5rem 0.75rem; border: 1px solid var(--rule); text-align: left; font-size: 0.875rem; }
   .docs-body th { background: var(--paper-raised); font-weight: 600; }

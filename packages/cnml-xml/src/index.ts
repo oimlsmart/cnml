@@ -1,5 +1,5 @@
 /**
- * @cnml/cnml-xml — CNML XML serialization (TypeScript, browser-native)
+ * @oiml/cnml-xml — CNML XML serialization (TypeScript, browser-native)
  *
  * Converts a cert object (matching the JSON Schema / YAML data shape)
  * into a CNML (Certificat Numérique de Métrologie Légale) XML document

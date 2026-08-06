@@ -13,7 +13,7 @@ export const schemaValidCheck: Check = {
   id: "schema-valid",
   label: "2. CNML schema valid",
   run: async (xml, ctx): Promise<CheckResult> => {
-    const { parseCnmlXml } = await import("@cnml/cnml-xml");
+    const { parseCnmlXml } = await import("@oiml/cnml-xml");
     let parsed: unknown;
     try {
       parsed = parseCnmlXml(xml);
@@ -59,7 +59,7 @@ export const schemaValidCheck: Check = {
     try {
       await ensureCoreSchemasRegistered();
       const rec = await getRecommendationSchema(rId);
-      const { validateAgainstSchema } = await import("@cnml/cnml-xml/validate");
+      const { validateAgainstSchema } = await import("@oiml/cnml-xml/validate");
       if (!rec?.schema) {
         return {
           checkId: "schema-valid",

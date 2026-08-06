@@ -33,3 +33,9 @@ The 22 pre-signed test vectors exercise the per-Recommendation schema coverage a
 ## Your next step
 
 Read the [operational guide for IAs and BIML/CIML](../docs/roles/for-ias-biml-ciml), then open the [app](../app) and walk the IA intermediate and per-Recommendation issuing flows against the test root.
+
+## See also
+
+- [Scope governance](../features/scope-governance) describes the X.509 v3 extension that binds each IA to its DoMC scope.
+- [Threshold signing](../features/threshold-signing) covers the officer quorum that produces every IA signature.
+- The per-Recommendation issuing flow runs at the [issue entry point](../app); the manufacturer delegation flow continues at [manufacturer instance issuing](../issue/manufacturer-instance).

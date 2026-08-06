@@ -1,8 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import { url } from '../lib/url';
 
 const diagrams = [
   { slug: 'architecture',                    title: 'System Architecture',                desc: 'CNML ecosystem: Ruby source, TS web app, keys, verifier' },
@@ -28,7 +26,7 @@ const diagrams = [
 ];
 ---
 
-<Base title="Diagrams · CNML">
+<Base title="Diagrams">
   <section class="mx-auto max-w-7xl px-6 py-12">
     <h1 class="text-3xl font-bold mb-2">Diagrams</h1>
     <p class="text-[var(--ink-muted)] mb-10">Visual reference for CNML concepts. Click any diagram to view full-size.</p>

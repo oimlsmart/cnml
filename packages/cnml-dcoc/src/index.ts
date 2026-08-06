@@ -1,5 +1,5 @@
 /**
- * @cnml/cnml-dcoc — Digital Certificate of Conformity (D-CoC) for OIML
+ * @oiml/cnml-dcoc — Digital Certificate of Conformity (D-CoC) for OIML
  *
  * Implements the NoBoMet D-CoC data structure (Documentation NoBoMet V1.2,
  * 2023) as RDF. Source: "The Digital Certificate of Conformity", OIML

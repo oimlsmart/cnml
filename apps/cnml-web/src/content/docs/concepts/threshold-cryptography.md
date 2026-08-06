@@ -17,7 +17,7 @@ CNML organizes certificate authority into five tiers, each with distinct signers
 
 **IA Intermediate.** Each Issuing Authority operates its own threshold quorum for IA-intermediate signatures. A typical configuration uses three officers per IA, with a threshold of two. The IA intermediate tier signs end-entity certificates within the scope the root allocated. The IA also issues Manufacturer Model Certificates that delegate instance signing to manufacturers for specific instrument models.
 
-**Test Lab.** Test laboratories hold single-party signing keys, typically backed by YubiKey or equivalent PKCS#11 hardware. The test laboratory signs test reports that it submits to an IA as evidence within a type-approval package. The test laboratory does not issue CNML certificates. The IA reviews the test reports and decides whether to issue.
+**Test Lab.** Test laboratories hold single-party signing keys, typically backed by a PKCS#11-compatible personal hardware token. The test laboratory signs test reports that it submits to an IA as evidence within a type-approval package. The test laboratory does not issue CNML certificates. The IA reviews the test reports and decides whether to issue.
 
 **Manufacturer Model.** A manufacturer producing instruments of an approved model holds a Manufacturer Model Certificate issued by an IA. The certificate is a scoped delegation that authorizes the manufacturer to issue Instance Certificates for one specific model. The manufacturer holds a single-party signing key.
 

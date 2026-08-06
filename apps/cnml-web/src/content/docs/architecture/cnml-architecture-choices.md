@@ -39,9 +39,9 @@ The transparency property complements the threshold property. The threshold prop
 
 CNML uses three hardware tiers matched to the sensitivity of the key at each level.
 
-The enterprise HSM tier covers the BIML Root. Devices such as the Thales Luna and the Utimaco SecurityServer provide FIPS 140-2 Level 3 or Level 4 certification and hold the root signing key in hardware that prevents extraction. The CA host sends signing requests via PKCS#11 and the device returns only the signature bytes.
+The enterprise HSM tier covers the BIML Root. Enterprise-grade HSM devices provide FIPS 140-2 Level 3 or Level 4 certification and hold the root signing key in hardware that prevents extraction. The CA host sends signing requests via PKCS#11 and the device returns only the signature bytes.
 
-The personal hardware token tier covers the IA intermediate. Devices such as the YubiKey 5 series and the Nitrokey provide FIPS 140-2 Level 3 certification in a personal form factor and hold the IA officer signing key in hardware. The same PKCS#11 interface is used.
+The personal hardware token tier covers the IA intermediate. Personal PKCS#11-compatible hardware tokens provide FIPS 140-2 Level 3 certification in a personal form factor and hold the IA officer signing key in hardware. The same PKCS#11 interface is used.
 
 The browser software tier covers the per-cert signer. The signer generates an ECDSA P-256 keypair in the browser, and the private key is encrypted with a passphrase-derived AES-GCM key and stored in IndexedDB. The key never leaves the browser. The full treatment is in [Hardware key tiers](/docs/architecture/hardware-tiers).
 

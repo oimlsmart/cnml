@@ -1,82 +1,59 @@
 ---
 import '../styles/global.css';
+// Self-hosted fonts (TODO.cnml/28). The @fontsource packages ship
+// open-license WOFF2 files and matching @font-face declarations.
+// Astro bundles both into the static site, so no request leaves the
+// origin on first paint. The previous setup leaked every page view
+// to fonts.googleapis.com.
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-sans/600.css';
+import '@fontsource/ibm-plex-sans/700.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/fraunces/400.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/fraunces/700.css';
 import PilotWarning from '../components/PilotWarning.astro';
 import NavDropdown from '../components/NavDropdown.vue';
 import MobileNav from '../components/MobileNav.vue';
 import ThemeToggle from '../components/ThemeToggle.vue';
-import type { NavDropdownConfig } from '../components/NavDropdown.vue';
-import type { MobileNavItem } from '../components/MobileNav.vue';
+import { url } from '../lib/url';
+import { jsonLdForPage } from '../lib/jsonld';
+import {
+  aboutDropdown,
+  audiencesDropdown,
+  featuresDropdown,
+  flatLinks,
+  mobileItems,
+} from '../data/nav';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Path under public/ for the OG image. Defaults to the brand default. */
+  ogImage?: string;
+  /** Article metadata. When present, switches og:type to "article". */
+  article?: {
+    section: string;
+    tags?: string[];
+    publishedTime?: string;
+    modifiedTime?: string;
+  };
 }
 
-const { title = 'CNML', description = 'OIML Certificat Numérique de Métrologie Légale' } = Astro.props;
+const {
+  title = 'CNML',
+  description = 'OIML Certificat Numérique de Métrologie Légale',
+  ogImage,
+  article,
+} = Astro.props;
+// Routes pass a page-level title (e.g., "Why CNML · Docs") without the
+// site suffix; Base appends " · CNML" exactly once. The home page
+// passes the bare title "CNML" and gets no suffix.
 const pageTitle = title === 'CNML' ? title : `${title} · CNML`;
-
-// Astro rebases <link>, <script>, and asset imports under `base`, but does
-// NOT rebase <a href> or <img src> written as absolute paths. Prefix them
-// manually with BASE_URL (always ends with "/") so links resolve under
-// /cnml/ in production. See TODO.cnml/01-design-system-adoption.md.
-const BASE = import.meta.env.BASE_URL; // "/" in dev, "/cnml/" in prod
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
-
-// ─── Primary navigation ──────────────────────────────────────────────
-// Three dropdowns (About, Audiences, Features) and two flat links
-// (Documentation, App). All hrefs are rebased via url() so they resolve
-// under /cnml/ in production. See TODO.cnml/03-navigation-restructure.md.
-const aboutDropdown: NavDropdownConfig = {
-  id: 'about',
-  label: 'About',
-  links: [
-    { label: 'What is CNML', href: url('/about/what-is-cnml'), desc: 'Concept introduction and scope' },
-    { label: 'Why CNML', href: url('/about/why-cnml'), desc: 'The problem CNML solves' },
-    { label: 'How it works', href: url('/about/how-it-works'), desc: 'The five-tier hierarchy and verification pipeline' },
-    { label: 'Technology', href: url('/about/technology'), desc: 'The standards and cryptographic algorithms' },
-    { label: 'Contact', href: url('/about/contact'), desc: 'How to engage with the OIML SMART programme' },
-  ],
-};
-
-const audiencesDropdown: NavDropdownConfig = {
-  id: 'audiences',
-  label: 'Audiences',
-  links: [
-    { label: 'Issuing Authorities', href: url('/audiences/issuing-authorities') },
-    { label: 'BIML and CIML', href: url('/audiences/biml-ciml') },
-    { label: 'Manufacturers', href: url('/audiences/manufacturers') },
-    { label: 'Test laboratories', href: url('/audiences/test-laboratories') },
-    { label: 'Verifiers', href: url('/audiences/verifiers') },
-    { label: 'Developers', href: url('/audiences/developers') },
-  ],
-};
-
-const featuresDropdown: NavDropdownConfig = {
-  id: 'features',
-  label: 'Features',
-  links: [
-    { label: 'Threshold signing', href: url('/features/threshold-signing') },
-    { label: 'Composite signatures', href: url('/features/composite-signatures') },
-    { label: 'Scope governance', href: url('/features/scope-governance') },
-    { label: 'Transparency', href: url('/features/transparency') },
-    { label: 'QR code delivery', href: url('/features/qr-code-delivery') },
-    { label: 'SMI interface', href: url('/features/smi-interface') },
-  ],
-};
-
-const flatLinks = [
-  { href: url('/docs'), label: 'Documentation' },
-  { href: url('/app'), label: 'App' },
-];
-
-// Mobile nav: dropdowns + flat links in display order.
-const mobileItems: MobileNavItem[] = [
-  { type: 'dropdown', label: aboutDropdown.label, config: aboutDropdown },
-  { type: 'dropdown', label: audiencesDropdown.label, config: audiencesDropdown },
-  { type: 'dropdown', label: featuresDropdown.label, config: featuresDropdown },
-  { type: 'link', label: 'Documentation', href: url('/docs') },
-  { type: 'link', label: 'App', href: url('/app') },
-];
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) => {
@@ -85,14 +62,21 @@ const isActive = (href: string) => {
   return current === normalized || current.startsWith(`${normalized}/`);
 };
 
-const FONT_URL =
-  'https://fonts.googleapis.com/css2?' +
-  'family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700' +
-  '&family=IBM+Plex+Sans:wght@400;500;600;700' +
-  '&family=IBM+Plex+Mono:wght@400;500;600' +
-  '&display=swap';
-
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const ogImagePath = ogImage ?? '/img/og-default.svg';
+const ogImageUrl = new URL(url(ogImagePath), Astro.site ?? Astro.url).toString();
+const ogType = article ? 'article' : 'website';
+
+// JSON-LD structured data for search engines (TODO.cnml/34). The
+// builder picks the right type from the URL path; the `article` prop
+// (when set) supplies section/tags.
+const jsonLd = jsonLdForPage({
+  path: Astro.url.pathname.replace(/^\/cnml/, '') || '/',
+  title,
+  description,
+  imageUrl: ogImageUrl,
+  article,
+});
 
 const dropdowns = [aboutDropdown, audiencesDropdown, featuresDropdown];
 ---
@@ -106,26 +90,57 @@ const dropdowns = [aboutDropdown, audiencesDropdown, featuresDropdown];
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    <!-- Fonts: IBM Plex Sans/Mono + Fraunces (the design-system token stack) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={FONT_URL} />
-
     <!-- Favicon + theme color -->
     <link rel="icon" type="image/svg+xml" href={url('/img/oiml-logo_cnml-box-light.svg')} />
     <link rel="apple-touch-icon" href={url('/img/oiml-logo_cnml-box-light.svg')} />
+    <link rel="manifest" href={url('/manifest.json')} />
     <meta name="theme-color" content="#004996" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="CNML" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Security headers (TODO.cnml/36). GitHub Pages does not support
+         _headers; meta http-equiv is the available mechanism. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.oimlsmart.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';"
+    />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 
     <!-- Open Graph + Twitter Card -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={url('/img/oiml-logo.svg')} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content="CNML" />
+    {article && (
+      <>
+        <meta property="article:section" content={article.section} />
+        {article.publishedTime && (
+          <meta property="article:published_time" content={article.publishedTime} />
+        )}
+        {article.modifiedTime && (
+          <meta property="article:modified_time" content={article.modifiedTime} />
+        )}
+        {article.tags?.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:site" content="@oimlsmart" />
+
+    <!-- Schema.org structured data (TODO.cnml/34). One builder picks
+         the right type per page; consumers are Google, DuckDuckGo,
+         aggregators. -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
 
     <!-- FOUC prevention: apply the saved theme before the stylesheet
          paints. The script is synchronous and runs before <body> renders.

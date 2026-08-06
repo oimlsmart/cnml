@@ -2,7 +2,7 @@
  * Every signed vector passes schema-valid + signature through the full
  * pipeline (the corpus gate — the VerifyDrop path's own integrity).
  *
- * Run: pnpm --filter @cnml/cnml-test-vectors test
+ * Run: pnpm --filter @oiml/cnml-test-vectors test
  */
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";

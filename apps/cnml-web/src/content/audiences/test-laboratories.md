@@ -33,3 +33,9 @@ The DCC interop layer is exercised by the test vectors, which include DCC files 
 ## Your next step
 
 Read the [CNML and PTB DCC](../docs/concepts/cnml-and-dcc) page for the tier distinction and the complementarity with the calibration tier, then read the [schema-driven design](../docs/implementation/schema-driven-design) page for the per-Recommendation report schema model.
+
+## See also
+
+- [For Issuing Authorities](../audiences/issuing-authorities) covers the IA threshold decryption ceremony that consumes the signed report.
+- [Composite signatures](../features/composite-signatures) describes the signature profile the laboratory applies to its measurement report.
+- Sign and submit a measurement report through the [certificate creation entry point](../create).

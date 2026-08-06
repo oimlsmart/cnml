@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability (private report)
+    url: https://github.com/oimlsmart/cnml/security/advisories/new
+    about: Report security issues privately. Do not file a public issue for security.
+  - name: Style guide question
+    url: https://github.com/oimlsmart/styleguide/discussions
+    about: Questions about the writing style guide live in the styleguide repo.
+  - name: OIML SMART programme engagement
+    url: https://www.oiml.org
+    about: Member-state engagement goes through official OIML channels.

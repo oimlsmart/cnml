@@ -2,5 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /keys
 Disallow: /csr
+Disallow: /verify
+Disallow: /create
+Disallow: /issue
+Disallow: /passport
 
-Sitemap: https://cnml.oimlsmart.org/sitemap-index.xml
+Sitemap: https://www.oimlsmart.org/cnml/sitemap-index.xml

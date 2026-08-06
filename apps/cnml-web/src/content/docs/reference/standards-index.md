@@ -41,7 +41,7 @@ The OIML R-Recommendations specify the technical requirements for categories of 
 - OIML R 137, Gas meters
 - OIML R 139, Compressed gaseous fuel measuring systems
 
-The authoritative source for OIML publications is the OIML website at [https://www.oiml.org/en/publications](https://www.oiml.org/en/publications).
+The authoritative source for OIML publications is the [OIML website](https://www.oiml.org/en/publications).
 
 ### OIML D 11
 
@@ -65,59 +65,59 @@ ISO/IEC 17065, *Conformity assessment, Requirements for bodies certifying produc
 
 ### RFC 5280
 
-RFC 5280, *Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile*, defines the X.509 certificate format and the CRL format that CNML uses for its certificate chain and its revocation lists. [https://www.rfc-editor.org/rfc/rfc5280](https://www.rfc-editor.org/rfc/rfc5280)
+RFC 5280, *Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile*, defines the X.509 certificate format and the CRL format that CNML uses for its certificate chain and its revocation lists. [Specification](https://www.rfc-editor.org/rfc/rfc5280).
 
 ### RFC 5652
 
-RFC 5652, *Cryptographic Message Syntax (CMS)*, defines a standard envelope for signed data. CMS is referenced where CNML needs to interoperate with systems that consume CMS-signed artifacts. [https://www.rfc-editor.org/rfc/rfc5652](https://www.rfc-editor.org/rfc/rfc5652)
+RFC 5652, *Cryptographic Message Syntax (CMS)*, defines a standard envelope for signed data. CMS is referenced where CNML needs to interoperate with systems that consume CMS-signed artifacts. [Specification](https://www.rfc-editor.org/rfc/rfc5652).
 
 ### RFC 6962
 
-RFC 6962, *Certificate Transparency*, defines the append-only Merkle-tree transparency-log design. CNML's transparency log is modeled on the RFC 6962 design, using domain-separated SHA-256 and inclusion proofs that a verifier validates locally. [https://www.rfc-editor.org/rfc/rfc6962](https://www.rfc-editor.org/rfc/rfc6962)
+RFC 6962, *Certificate Transparency*, defines the append-only Merkle-tree transparency-log design. CNML's transparency log is modeled on the RFC 6962 design, using domain-separated SHA-256 and inclusion proofs that a verifier validates locally. [Specification](https://www.rfc-editor.org/rfc/rfc6962).
 
 ### RFC 8018
 
-RFC 8018, *PKCS 5: Password-Based Cryptography Specification Version 2.1*, defines PBKDF2. CNML uses PBKDF2 with a high iteration count to derive encryption keys from passphrases for the protection of browser-stored signing keys. [https://www.rfc-editor.org/rfc/rfc8018](https://www.rfc-editor.org/rfc/rfc8018)
+RFC 8018, *PKCS 5: Password-Based Cryptography Specification Version 2.1*, defines PBKDF2. CNML uses PBKDF2 with a high iteration count to derive encryption keys from passphrases for the protection of browser-stored signing keys. [Specification](https://www.rfc-editor.org/rfc/rfc8018).
 
 ### RFC 4998
 
-RFC 4998, *Evidence Record Syntax (ERS)*, defines the long-term archival format that allows hash-algorithm renewal without breaking the archival chain. CNML uses ERS for long-term archival renewal, ensuring that certificates issued today remain verifiable across hash-algorithm migrations. [https://www.rfc-editor.org/rfc/rfc4998](https://www.rfc-editor.org/rfc/rfc4998)
+RFC 4998, *Evidence Record Syntax (ERS)*, defines the long-term archival format that allows hash-algorithm renewal without breaking the archival chain. CNML uses ERS for long-term archival renewal, ensuring that certificates issued today remain verifiable across hash-algorithm migrations. [Specification](https://www.rfc-editor.org/rfc/rfc4998).
 
 ### RFC 3161
 
-RFC 3161, *Internet X.509 Public Key Infrastructure Time-Stamp Protocol (TSP)*, defines the time-stamp token format. CNML accepts RFC 3161 time-stamp tokens alongside OpenTimestamps proofs for binding signing times to external time authorities. [https://www.rfc-editor.org/rfc/rfc3161](https://www.rfc-editor.org/rfc/rfc3161)
+RFC 3161, *Internet X.509 Public Key Infrastructure Time-Stamp Protocol (TSP)*, defines the time-stamp token format. CNML accepts RFC 3161 time-stamp tokens alongside OpenTimestamps proofs for binding signing times to external time authorities. [Specification](https://www.rfc-editor.org/rfc/rfc3161).
 
 ## W3C and IETF signature standards
 
 ### W3C XMLDSig
 
-W3C XML Digital Signature, *XML Signature Syntax and Processing Version 1.1*, defines the XML signature format that CNML uses for all certificate signatures. CNML uses the enveloped-signature form. [https://www.w3.org/TR/xmldsig-core1/](https://www.w3.org/TR/xmldsig-core1/)
+W3C XML Digital Signature, *XML Signature Syntax and Processing Version 1.1*, defines the XML signature format that CNML uses for all certificate signatures. CNML uses the enveloped-signature form. [Specification](https://www.w3.org/TR/xmldsig-core1/).
 
 ### Exclusive C14N
 
-W3C Exclusive XML Canonicalization 1.0, *Exclusive XML Canonicalization Version 1.0*, defines the canonicalization algorithm that CNML uses before computing XMLDSig digests. Exclusive C14N ensures that the signed octet stream is identical on the signer and the verifier regardless of the surrounding XML context. [https://www.w3.org/TR/xml-exc-c14n/](https://www.w3.org/TR/xml-exc-c14n/)
+W3C Exclusive XML Canonicalization 1.0, *Exclusive XML Canonicalization Version 1.0*, defines the canonicalization algorithm that CNML uses before computing XMLDSig digests. Exclusive C14N ensures that the signed octet stream is identical on the signer and the verifier regardless of the surrounding XML context. [Specification](https://www.w3.org/TR/xml-exc-c14n/).
 
 ## NIST standards
 
 ### FIPS 203
 
-FIPS 203, *Module-Lattice-Based Key-Encapsulation Mechanism Standard*, defines ML-KEM. CNML uses ML-KEM-768 for threshold encryption of confidential test-report sections. [https://csrc.nist.gov/pubs/fips/203/final](https://csrc.nist.gov/pubs/fips/203/final)
+FIPS 203, *Module-Lattice-Based Key-Encapsulation Mechanism Standard*, defines ML-KEM. CNML uses ML-KEM-768 for threshold encryption of confidential test-report sections. [Specification](https://csrc.nist.gov/pubs/fips/203/final).
 
 ### FIPS 204
 
-FIPS 204, *Module-Lattice-Based Digital Signature Standard*, defines ML-DSA. CNML uses ML-DSA-65 in composite signatures alongside classical signatures, providing post-quantum defense. [https://csrc.nist.gov/pubs/fips/204/final](https://csrc.nist.gov/pubs/fips/204/final)
+FIPS 204, *Module-Lattice-Based Digital Signature Standard*, defines ML-DSA. CNML uses ML-DSA-65 in composite signatures alongside classical signatures, providing post-quantum defense. [Specification](https://csrc.nist.gov/pubs/fips/204/final).
 
 ### NIST IR 8214
 
-NIST IR 8214, *Threshold Schemes for Cryptographic Primitives*, published April 2020, surveys the state of the art in threshold schemes for symmetric and public-key primitives. CNML's threshold-signature architecture adopts the conceptual framework established in this report. The alignment is developed in [Alignment with NIST threshold cryptography research](/docs/concepts/nist-threshold-alignment). [https://doi.org/10.6028/NIST.IR.8214](https://doi.org/10.6028/NIST.IR.8214)
+NIST IR 8214, *Threshold Schemes for Cryptographic Primitives*, published April 2020, surveys the state of the art in threshold schemes for symmetric and public-key primitives. CNML's threshold-signature architecture adopts the conceptual framework established in this report. The alignment is developed in [Alignment with NIST threshold cryptography research](/docs/concepts/nist-threshold-alignment). [Specification](https://doi.org/10.6028/NIST.IR.8214).
 
 ### NIST SP 800-53
 
-NIST SP 800-53, *Security and Privacy Controls for Information Systems and Organizations*, is referenced where CNML's security controls are described in terms of the NIST control families. [https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+NIST SP 800-53, *Security and Privacy Controls for Information Systems and Organizations*, is referenced where CNML's security controls are described in terms of the NIST control families. [Specification](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final).
 
 ### NIST SP 800-38D
 
-NIST SP 800-38D, *Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC*, defines AES-GCM. CNML uses AES-256-GCM for the encrypted keystore that protects signing keys at rest. [https://csrc.nist.gov/publications/detail/sp/800-38d/final](https://csrc.nist.gov/publications/detail/sp/800-38d/final)
+NIST SP 800-38D, *Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC*, defines AES-GCM. CNML uses AES-256-GCM for the encrypted keystore that protects signing keys at rest. [Specification](https://csrc.nist.gov/publications/detail/sp/800-38d/final).
 
 ### NIST SP 800-63
 
@@ -127,13 +127,13 @@ NIST SP 800-63, *Digital Identity Guidelines*, defines the Identity Assurance Le
 
 ### WCAG 2.2 AA
 
-Web Content Accessibility Guidelines 2.2 at conformance level AA, published by the W3C Web Accessibility Initiative, is the accessibility standard that the CNML web application targets. [https://www.w3.org/TR/WCAG22/](https://www.w3.org/TR/WCAG22/)
+Web Content Accessibility Guidelines 2.2 at conformance level AA, published by the W3C Web Accessibility Initiative, is the accessibility standard that the CNML web application targets. [Specification](https://www.w3.org/TR/WCAG22/).
 
 ## Timestamp and blockchain standards
 
 ### OpenTimestamps
 
-OpenTimestamps is a protocol for proving that data existed at a specific time by anchoring its hash to the Bitcoin blockchain. CNML uses OpenTimestamps to anchor certificate signing times, producing timestamp proofs that a verifier validates locally without trusting a remote timestamp authority. [https://opentimestamps.org/](https://opentimestamps.org/)
+OpenTimestamps is a protocol for proving that data existed at a specific time by anchoring its hash to the Bitcoin blockchain. CNML uses OpenTimestamps to anchor certificate signing times, producing timestamp proofs that a verifier validates locally without trusting a remote timestamp authority. [Specification](https://opentimestamps.org/).
 
 ## Metrology and units
 
@@ -153,14 +153,14 @@ The FAIR principles for scientific data (Findable, Accessible, Interoperable, Re
 
 ### OIML Bulletin D-CoC article
 
-The OIML Bulletin article "[Digital Certificate of Conformity](https://www.oiml.org/en/publications/oiml-bulletin/2025-03/20250305)" (March 2025) develops the D-CoC framework that CNML's output interoperates with. It is referenced here as the foundational description of the D-CoC concept and its application to legal metrology. [https://www.oiml.org/en/publications/oiml-bulletin/2025-03/20250305](https://www.oiml.org/en/publications/oiml-bulletin/2025-03/20250305)
+The OIML Bulletin article "[Digital Certificate of Conformity](https://www.oiml.org/en/publications/oiml-bulletin/2025-03/20250305)" (March 2025) develops the D-CoC framework that CNML's output interoperates with. It is referenced here as the foundational description of the D-CoC concept and its application to legal metrology.
 
 ## PTB DCC
 
 The PTB Digital Calibration Certificate is the calibration-tier digital certificate format developed by the Physikalisch-Technische Bundesanstalt (PTB) as part of the Quality Infrastructure Digital initiative. CNML is complementary to DCC: CNML operates at the type-approval tier, DCC operates at the calibration tier. The full relationship is developed in [CNML and PTB DCC](/docs/concepts/cnml-and-dcc).
 
-- PTB DCC project page: [https://www.ptb.de/cms/en/ptb/fachabteilungen/abt1/fb-11/ag-1120/digital-calibration-certificate.html](https://www.ptb.de/cms/en/ptb/fachabteilungen/abt1/fb-11/ag-1120/digital-calibration-certificate.html)
-- DCC within the QI Digital initiative: [https://www.ptb.de/cms/en/ptb/fachabteilungen/abt1/fb-11/ag-114/digital-certificate-of-conformity-within-the-qi-digital-initiative.html](https://www.ptb.de/cms/en/ptb/fachabteilungen/abt1/fb-11/ag-114/digital-certificate-of-conformity-within-the-qi-digital-initiative.html)
+- [PTB DCC project page](https://www.ptb.de/cms/en/ptb/fachabteilungen/abt1/fb-11/ag-1120/digital-calibration-certificate.html)
+- [DCC within the QI Digital initiative](https://www.ptb.de/cms/en/ptb/fachabteilungen/abt1/fb-11/ag-114/digital-certificate-of-conformity-within-the-qi-digital-initiative.html)
 
 ## See also
 

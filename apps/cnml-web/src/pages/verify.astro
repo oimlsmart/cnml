@@ -1,13 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
 import VerifyDrop from '../islands/VerifyDrop.vue';
+import ErrorBoundary from '../islands/widgets/ErrorBoundary.vue';
 ---
 
-<Base title="Verify · CNML">
+<Base title="Verify">
   <section class="mx-auto max-w-3xl px-6 py-12">
     <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mb-2">Verify a CNML</h1>
     <p class="text-[var(--ink-soft)] mb-8">Upload a <code>.cnml.xml</code> file to view its contents and verify the cryptographic signature. Files never leave your browser.</p>
 
-    <VerifyDrop client:load />
+    <ErrorBoundary client:load>
+      <VerifyDrop client:load />
+    </ErrorBoundary>
   </section>
+  <script is:inline>
+    // Register the service worker for offline verify (TODO.cnml/32).
+    // Scoped to /cnml/ — the worker only intercepts same-origin GETs
+    // under the base path. The first visit caches the page; the next
+    // visit works offline.
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/cnml/sw.js').catch(() => {
+          // Silent — the SW is an enhancement, not a requirement.
+        });
+      });
+    }
+  </script>
 </Base>

@@ -34,20 +34,16 @@ jobs:
       - name: Build all audience sites
         run: pnpm build
 
+      - name: Audit (link integrity, page rendering, asset integrity)
+        run: pnpm test:audit
+
       - name: Test vectors (the verify gate — Pages deploys only from green)
         run: pnpm test
 
-      - name: Copy PKI documentation
-        run: |
-          mkdir -p apps/cnml-web/dist/docs/pki
-          cp -r docs/pki-diagrams apps/cnml-web/dist/docs/pki/
-          cp docs/pki-architecture.md apps/cnml-web/dist/docs/pki/
-          cp docs/manual-*.md apps/cnml-web/dist/docs/pki/
-
-      - name: Copy CA server docs
-        run: |
-          mkdir -p apps/cnml-web/dist/pki-server
-          cp -r oiml-pki-server/*.rb oiml-pki-server/Gemfile oiml-pki-server/views oiml-pki-server/public oiml-pki-server/start-ca.command apps/cnml-web/dist/pki-server/
+      # The PKI docs and the CA server source are no longer copied
+      # into the web app's dist/ (ADR-0001, TODO.cnml/62). They
+      # ship as a release tarball via release-ca.yml. The web app
+      # links to the GitHub Release for downloads.
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

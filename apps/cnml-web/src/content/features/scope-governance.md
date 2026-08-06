@@ -26,8 +26,9 @@ Scope is a property of the cryptographic chain, not a documented understanding b
 
 The DoMC framework governs which IAs are authorized for which OIML Recommendations. CNML encodes the DoMC scope as a verifiable cryptographic attribute, so the institutional decision and the technical enforcement share one source of truth.
 
-## References
+## See also
 
-- [Verification pipeline](/docs/implementation/verification-pipeline) describes the check sequence including the scope check.
-- [Scope enforcement flow](/diagrams/scope-enforcement-flow.svg) diagrams the four-layer model.
-- [System architecture](/docs/architecture/system) places the scope extension in the certificate hierarchy.
+- [Verification pipeline](../docs/implementation/verification-pipeline) describes the check sequence including the scope check.
+- [For Issuing Authorities](../audiences/issuing-authorities) walks the IA signing flow that the scope extension constrains.
+- [System architecture](../docs/architecture/system) places the scope extension in the certificate hierarchy.
+- [Scope enforcement flow](../diagrams/scope-enforcement-flow.svg) diagrams the four-layer model.

@@ -22,8 +22,29 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Lint (style guide)
+        run: pnpm lint:style
+
+      - name: Linter unit tests
+        run: pnpm test:lint
+
+      - name: Crypto unit tests (the per-check posture)
+        run: pnpm test:crypto
+
+      - name: Web unit tests (markdown-page helper)
+        run: pnpm test:web
+
+      - name: Vitest island unit tests
+        run: pnpm test:vitest
+
       - name: Build all audience sites
         run: pnpm build
+
+      - name: Audit (link integrity, page rendering, asset integrity)
+        run: pnpm test:audit
+
+      - name: Bundle budget
+        run: pnpm budget
 
       - name: Test vectors (the 65-file corpus + the check postures)
         run: pnpm test

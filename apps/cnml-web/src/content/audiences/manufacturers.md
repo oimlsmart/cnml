@@ -35,3 +35,9 @@ The instance certificate chain validates end to end. The verify page at `/verify
 ## Your next step
 
 Read the [system architecture](../docs/architecture/system) for the five-tier hierarchy, then read the [hardware key tiers](../docs/architecture/hardware-tiers) page for the PKCS#11 model that applies to the manufacturer signing key.
+
+## See also
+
+- [QR code delivery](../features/qr-code-delivery) describes the passport endpoint that the instance certificate feeds.
+- [SMI interface](../features/smi-interface) describes the twin path for SMART instruments.
+- Run the instance signing flow at [manufacturer instance issuing](../issue/manufacturer-instance) and print the certificate QR code at [QR code generation](../qr-code).

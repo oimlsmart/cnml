@@ -1,5 +1,5 @@
 {
-  "name": "@cnml/cnml-crypto",
+  "name": "@oiml/cnml-crypto",
   "version": "0.1.0",
   "type": "module",
   "main": "src/index.ts",
@@ -7,11 +7,17 @@
     ".": "./src/index.ts",
     "./checks": "./src/checks/index.ts"
   },
+  "scripts": {
+    "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/checks/*.test.ts"
+  },
   "dependencies": {
-    "@cnml/cnml-xml": "workspace:*",
-    "@cnml/cnml-schemas": "workspace:*",
+    "@oiml/cnml-xml": "workspace:*",
+    "@oiml/cnml-schemas": "workspace:*",
     "xmldsigjs": "^2.8.7",
     "pkijs": "^3.4.0",
     "asn1js": "^3.0.5"
+  },
+  "devDependencies": {
+    "@xmldom/xmldom": "^0.9.10"
   }
 }

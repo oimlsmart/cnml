@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
+import QRCode from "qrcode";
 import {
   generateKey, getKey, loadCryptoKey, importPublic,
   issueSelfSignedCert, signCnmlXml, sha256Hex,
   type StoredKey,
-} from "@cnml/cnml-crypto";
+} from "@oiml/cnml-crypto";
 import { fingerprintShort } from "../shared";
 
 // Astro BASE_URL ("/" in dev, "/cnml/" in prod) for prefixing internal links.
@@ -45,9 +46,23 @@ const passportUrl = computed(() =>
   `https://www.oimlsmart.org/cnml/passport/${certId.value}`,
 );
 
-const qrCodeUrl = computed(() => {
-  const target = encodeURIComponent(passportUrl.value);
-  return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${target}`;
+// Locally-generated QR SVG (no external API). Regenerated whenever the
+// passport URL changes once a cert id is assigned.
+const qrSvg = ref("");
+watch(passportUrl, async (url) => {
+  qrSvg.value = "";
+  if (!url || !certId.value) return;
+  try {
+    qrSvg.value = await QRCode.toString(url, {
+      type: "svg",
+      errorCorrectionLevel: "M",
+      margin: 1,
+      width: 256,
+      color: { dark: "#000000", light: "#ffffff" },
+    });
+  } catch {
+    // Silent degradation; the dedicated QR page has full error reporting.
+  }
 });
 
 const formValid = computed(() =>
@@ -280,14 +295,13 @@ function resetForm() {
             Print this QR code on the device body. A market surveillance officer
             scans it to reach the public passport page.
           </p>
-          <img
-            v-if="certId"
-            :src="qrCodeUrl"
-            :alt="`QR code for ${passportUrl}`"
-            width="256"
-            height="256"
-            class="mx-auto rounded border border-[var(--rule)] bg-white"
-          />
+          <div
+            v-if="certId && qrSvg"
+            class="mx-auto rounded border border-[var(--rule)] bg-white p-2 max-w-[256px]"
+            v-html="qrSvg"
+            :aria-label="`QR code for ${passportUrl}`"
+            role="img"
+          ></div>
           <div class="text-xs font-mono text-[var(--ink-muted)] mt-3 break-all text-center">
             {{ passportUrl }}
           </div>

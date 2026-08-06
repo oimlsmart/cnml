@@ -28,8 +28,9 @@ A market-surveillance officer scanning a QR code on an instrument in the field s
 
 The QR code is durable. Once printed on the instrument, the certificate is reachable for the service lifetime of the device without any update to the QR code itself. The passport endpoint is the stable resource. If the certificate is re-issued or superseded, the passport page reflects the new state.
 
-## References
+## See also
 
-- [For verifiers](/docs/roles/for-verifiers) covers the field-verification flow including QR scanning.
-- ISO/IEC 18004 is the QR code symbology standard.
-- The passport endpoint and QR generation are implemented as part of the certificate operations flow described in [For IAs and BIML/CIML](/docs/roles/for-ias-biml-ciml).
+- [For verifiers](../audiences/verifiers) covers the field-verification flow including QR scanning.
+- [SMI interface](../features/smi-interface) describes the SMART-instrument delivery path that shares the passport projection.
+- [For manufacturers](../audiences/manufacturers) walks the instance signing and QR printing flow at the production line.
+- The passport endpoint and QR generation are implemented as part of the certificate operations flow described in [For IAs and BIML/CIML](../docs/roles/for-ias-biml-ciml). ISO/IEC 18004 is the QR code symbology standard.

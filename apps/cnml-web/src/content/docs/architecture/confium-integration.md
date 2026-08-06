@@ -37,7 +37,7 @@ The Confium Rust workspace provides multiple crates, each addressing a specific 
 | `confium-transparency` | CA server, browser | FFI and pure-TS port | Merkle log |
 | `confium-patterns::escrow` | CA server | FFI | Threshold key escrow |
 | `confium-patterns::revocation` | CA server | FFI | Threshold CRL signing |
-| `confium-store-openpgp-card` | CA server (YubiKey) | FFI | OpenPGP card and YubiKey backend |
+| `confium-store-openpgp-card` | CA server (OpenPGP card) | FFI | OpenPGP card HSM backend |
 | `confium-test-harness` | Threshold cryptography bench | Rust binary | Performance and conformance |
 
 The matrix shows that the FFI path covers the full capability set, because the CA server is the most capable consumer of Confium. The WASM path covers the subset of capabilities that the browser needs (threshold signing participation, threshold encryption, CMS parsing, transparency verification). The pure-TypeScript ports of the deployment manifest validator and the transparency log verifier mean that the browser verifier does not load WASM for verification alone. WASM loads only when the browser needs to participate in a threshold operation or parse a CMS envelope.

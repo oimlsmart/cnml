@@ -13,7 +13,7 @@ CNML is a proposal for OIML from the OIML SMART programme. The operational model
 
 An IA officer needs three things to create and sign a CNML certificate. First, the IA must be an OIML-recognized Issuing Authority designated under the DoMC framework. Second, the IA must hold a signing keypair chained to the OIML Root CA, obtained through the certificate-signing-request (CSR) flow operated by the BIML certificate team. Third, the officer needs access to the CNML web application, either at the public instance or at a self-hosted instance within the IA's network.
 
-A BIML staff member operating the root tier needs a BIML-issued hardware key (a YubiKey or equivalent PKCS#11 device), a director identity credential, and access to the air-gapped ceremony laptop and the coordinator service.
+A BIML staff member operating the root tier needs a BIML-issued hardware key (a PKCS#11-compatible personal hardware token), a director identity credential, and access to the air-gapped ceremony laptop and the coordinator service.
 
 ## The certificate creation flow
 
@@ -41,7 +41,7 @@ The signed certificate file can be sent directly to the applicant or manufacture
 
 CNML uses threshold signatures at two tiers of the hierarchy. At the BIML Root tier, the root signing key is held as a threshold secret shared among the OIML directors. Producing a root-tier signature requires a configured quorum of directors to participate in a threshold signing protocol. At the IA Intermediate tier, each IA operates its own threshold quorum for its intermediate signatures. The protocol is a FROST construction (Flexible Round-Optimized Schnorr Threshold signatures), operated asynchronously through a coordinator service.
 
-An IA officer participating in a threshold signing session receives a notification from the coordinator. The officer authenticates to the coordinator using their director identity key (a hardware-backed Ed25519 key on a YubiKey), reviews the signing payload, and submits their threshold share through the coordinator interface. The coordinator buffers shares from the officers and, once the quorum threshold is reached, aggregates the shares into a single signature. The coordinator is honest-but-curious: it can observe encrypted protocol messages but cannot reconstruct the signing key or produce a valid signature without the threshold number of shares.
+An IA officer participating in a threshold signing session receives a notification from the coordinator. The officer authenticates to the coordinator using their director identity key (a hardware-backed Ed25519 key on a PKCS#11-compatible personal hardware token), reviews the signing payload, and submits their threshold share through the coordinator interface. The coordinator buffers shares from the officers and, once the quorum threshold is reached, aggregates the shares into a single signature. The coordinator is honest-but-curious: it can observe encrypted protocol messages but cannot reconstruct the signing key or produce a valid signature without the threshold number of shares.
 
 The threshold property means that no single officer can produce a valid IA signature, and that a compromise of fewer than the threshold number of officers cannot produce one. The typical IA configuration is a two-of-three officer quorum. The typical BIML Root configuration is a five-of-seven director quorum.
 
@@ -71,7 +71,7 @@ CNML ceremonies are of two types: the annual root operations ceremony and asynch
 
 The annual ceremony is held in person at a BIML facility. The ceremony covers director rotation, root renewal (if an algorithm migration or compromise recovery is scheduled), and the review of the previous year's audit-log entries. The ceremony is conducted from a signed runbook (the procedural document that the directors follow). A ceremony chair (a rotating BIML staff member) conducts the ceremony, witnesses each step, and signs the transcript.
 
-At the ceremony, a newly appointed director generates their identity keypair on a BIML-provided YubiKey, registers their public identity key with the director identity CA, and participates in a re-sharing protocol to receive their threshold share of the root signing key. A departing director's share is excluded from the new sharing, and the aggregate public key remains unchanged. All previously issued certificates remain valid.
+At the ceremony, a newly appointed director generates their identity keypair on a BIML-provided PKCS#11-compatible hardware token, registers their public identity key with the director identity CA, and participates in a re-sharing protocol to receive their threshold share of the root signing key. A departing director's share is excluded from the new sharing, and the aggregate public key remains unchanged. All previously issued certificates remain valid.
 
 ### Asynchronous signing sessions
 

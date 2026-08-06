@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { parseCnmlXml, type Certificate } from "@cnml/cnml-xml";
+import { parseCnmlXml, type Certificate } from "@oiml/cnml-xml";
 import {
   verifyCnmlXml, listTrustedKeys, cryptoKeyFromTrustedKey,
   type VerificationResult,
-} from "@cnml/cnml-crypto";
-import { runChecks, CHECKS, type CheckResult, type CheckContext } from "@cnml/cnml-crypto/checks";
+} from "@oiml/cnml-crypto";
+import { runChecks, CHECKS, runConfiumVerifyCheck, type CheckResult, type CheckContext } from "@oiml/cnml-crypto/checks";
 
 const file = ref<File | null>(null);
 const xml  = ref("");
@@ -15,6 +15,11 @@ const error = ref("");
 const busy = ref(false);
 const xmlWellFormed = ref(false);
 const checkResults = ref<CheckResult[]>([]);
+// Optional Confium WASM enhanced verification status. Populated after
+// the main pipeline completes. Silent on unavailability.
+const confiumStatus = ref<"idle" | "available" | "skipped">("idle");
+const confiumVersion = ref("");
+const confiumDetail = ref("");
 
 const allPass = computed(() => verification.value?.signatureValid && verification.value.digestValid);
 
@@ -61,6 +66,26 @@ async function handleUpload(uploadedFile: File) {
   } finally {
     busy.value = false;
   }
+
+  // Optional enhanced verification: probe Confium WASM availability.
+  // Silent on failure — this is informational, not a pipeline check.
+  confiumStatus.value = "idle";
+  confiumVersion.value = "";
+  confiumDetail.value = "";
+  try {
+    const confiumResult = await runConfiumVerifyCheck({ xml: xml.value });
+    if (confiumResult.status === "pass" && confiumResult.details &&
+        typeof confiumResult.details === "object" && "version" in confiumResult.details) {
+      confiumStatus.value = "available";
+      confiumVersion.value = String((confiumResult.details as { version: string }).version);
+      confiumDetail.value = confiumResult.reason ?? "";
+    } else if (confiumResult.status === "skip") {
+      confiumStatus.value = "skipped";
+    }
+  } catch {
+    // Silent degradation — Confium WASM is optional.
+    confiumStatus.value = "skipped";
+  }
 }
 
 function onDrop(event: DragEvent) {
@@ -92,6 +117,9 @@ function reset() {
   verification.value = null;
   xmlWellFormed.value = false;
   checkResults.value = [];
+  confiumStatus.value = "idle";
+  confiumVersion.value = "";
+  confiumDetail.value = "";
 }
 
 // Lookup label for a check ID (UI shows the friendly label).
@@ -199,6 +227,13 @@ function statusGlyph(r: CheckResult): string {
         </details>
 
         <button @click="reset" class="cnml-btn cnml-btn-ghost mt-4">← Verify another file</button>
+      </div>
+
+      <!-- Optional Confium WASM enhanced verification status.
+           Silent when unavailable — informational only, not a pipeline check. -->
+      <div v-if="confiumStatus === 'available'" class="cnml-callout cnml-callout--success mt-4" role="status">
+        Confium WASM available: v{{ confiumVersion }}
+        <span v-if="confiumDetail" class="block text-xs text-[var(--ink-muted)] mt-1">{{ confiumDetail }}</span>
       </div>
     </div>
   </div>

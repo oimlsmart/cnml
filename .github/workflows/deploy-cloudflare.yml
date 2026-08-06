@@ -1,0 +1,53 @@
+name: Deploy to Cloudflare Pages
+
+# ADR-0002: the static site moves to Cloudflare Pages for real
+# security headers and Pages Functions. This workflow deploys on
+# push to main, gated by the same audit + tests as deploy.yml.
+# After the DNS cutover is verified, deploy.yml (GitHub Pages) is
+# removed.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build all audience sites
+        run: pnpm build
+
+      - name: Audit (link integrity, page rendering, asset integrity)
+        run: pnpm test:audit
+
+      - name: Test vectors (the verify gate)
+        run: pnpm test
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # wrangler.toml at the repo root points at apps/cnml-web/dist.
+          command: pages deploy apps/cnml-web/dist --project-name=cnml

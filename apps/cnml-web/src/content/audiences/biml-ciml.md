@@ -33,3 +33,9 @@ The root signing flow in the app exercises the Confium CMP20 threshold key gener
 ## Your next step
 
 Read the [system architecture](../docs/architecture/system) for the canonical description of the five-tier hierarchy, then read [distributed management](../docs/architecture/distributed-management) for the asynchronous director participation model.
+
+## See also
+
+- [Threshold signing](../features/threshold-signing) describes the FROST quorum that enforces the CIML-configured threshold.
+- [For Issuing Authorities](../audiences/issuing-authorities) covers the IA tier that the BIML Root signs.
+- [Transparency](../features/transparency) describes the log that records every root and IA ceremony for CIML audit.

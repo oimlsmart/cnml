@@ -28,9 +28,9 @@ No certificate can be silently issued. Every issued certificate appears in the p
 
 A revoked certificate remains in the log with its revocation recorded as a subsequent entry. The log is append-only, so revocation is an additional record rather than a deletion. This preserves the complete history of issuance and revocation for the lifetime of the format.
 
-## References
+## See also
 
-- [Transparency and audit](/docs/architecture/transparency) develops the Merkle log, gossip, and OpenTimestamps anchoring.
-- RFC 6962 is the IETF Certificate Transparency specification that defines the Merkle log data structure.
-- The OpenTimestamps specification defines the Bitcoin anchoring format.
-- [Transparency flow](/diagrams/transparency-flow.svg) diagrams the log, mirrors, and anchor.
+- [Transparency and audit](../docs/architecture/transparency) develops the Merkle log, gossip, and OpenTimestamps anchoring.
+- [For verifiers](../audiences/verifiers) covers the field-verification flow that demands inclusion proofs.
+- [How it works](../about/how-it-works) introduces the transparency log in the verification pipeline. RFC 6962 is the IETF Certificate Transparency specification; the OpenTimestamps specification defines the Bitcoin anchoring format.
+- [Transparency flow](../diagrams/transparency-flow.svg) diagrams the log, mirrors, and anchor.

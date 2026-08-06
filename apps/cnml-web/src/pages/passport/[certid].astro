@@ -1,8 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import { url } from '../../lib/url';
+import { passportDocumentFor, passportVerifyUrl, PASSPORT_CONTEXT } from '../../lib/passport';
 
 // In a static build the passport route is pre-rendered for the demo
 // identifier. Production deployments switch this route to on-demand
@@ -18,12 +17,13 @@ export function getStaticPaths() {
 
 const rawId = Astro.params.certid as string | undefined;
 const certId = rawId ?? "CNML-DEMO-INSTANCE";
-const passportContext = "https://www.oimlsmart.org/cnml/passport/v1";
-const verifyUrl = `https://www.oimlsmart.org/cnml/verify?cert=${encodeURIComponent(certId)}`;
 const statusCheckedAt = new Date().toISOString();
+const verifyUrl = passportVerifyUrl(certId);
+const passportJson = passportDocumentFor(certId, statusCheckedAt);
+const passportContext = PASSPORT_CONTEXT;
 ---
 
-<Base title={`Passport ${certId} · CNML`}>
+<Base title={`Passport ${certId}`}>
   <section class="mx-auto max-w-3xl px-6 py-12">
     <a href={url('/passport')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">&larr; Passport index</a>
 
@@ -34,6 +34,13 @@ const statusCheckedAt = new Date().toISOString();
         The CNML passport is the public view of an instance certificate. It
         states the device identity, summarizes the certificate chain, and
         links to the verification pipeline.
+      </p>
+      <p class="mt-3 text-xs text-[var(--ink-muted)]">
+        Machine clients: this page also serves a JSON-LD document at
+        <a href={url(`/passport/${certId}.json`)} class="font-mono underline">/cnml/passport/{certId}.json</a>
+        (<code>Content-Type: application/ld+json</code>). Use that path
+        for SMART twin clients, market-surveillance scanners, and
+        aggregator integrations.
       </p>
     </div>
 
@@ -119,28 +126,11 @@ const statusCheckedAt = new Date().toISOString();
       <a href={url('/verify')} class="cnml-btn cnml-btn-primary">Open verifier</a>
     </div>
 
-    <details class="cnml-card mt-6">
+    <details class="cnml-card mt-6" open>
       <summary class="font-mono text-xs uppercase tracking-wider text-[var(--ink-muted)] cursor-pointer">
-        JSON document (passport v1 context)
+        JSON-LD document (passport v1 context)
       </summary>
-      <pre class="cnml-code-pane mt-2">{`{
-  "@context": "${passportContext}",
-  "certificateId": "${certId}",
-  "device": {
-    "manufacturer": null,
-    "model": null,
-    "serial": null
-  },
-  "chain": [
-    { "tier": 5, "role": "instance",  "fingerprint": null },
-    { "tier": 4, "role": "model",     "fingerprint": null },
-    { "tier": 3, "role": "ia",        "fingerprint": null },
-    { "tier": 1, "role": "biml-root", "fingerprint": null }
-  ],
-  "status": "valid",
-  "statusCheckedAt": "${statusCheckedAt}",
-  "verify": "${verifyUrl}"
-}`}</pre>
+      <pre class="cnml-code-pane mt-2">{JSON.stringify(passportJson, null, 2)}</pre>
     </details>
   </section>
 </Base>
