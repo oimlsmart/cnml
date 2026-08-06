@@ -1,0 +1,342 @@
+[
+  {
+    "term": "Accuracy class",
+    "anchor": "accuracy-class",
+    "aliases": []
+  },
+  {
+    "term": "Algorithmic agility",
+    "anchor": "algorithmic-agility",
+    "aliases": []
+  },
+  {
+    "term": "Asymmetric cryptography",
+    "anchor": "asymmetric-cryptography",
+    "aliases": []
+  },
+  {
+    "term": "Attestation",
+    "anchor": "attestation",
+    "aliases": []
+  },
+  {
+    "term": "BIML",
+    "anchor": "biml",
+    "aliases": []
+  },
+  {
+    "term": "BIPM",
+    "anchor": "bipm",
+    "aliases": []
+  },
+  {
+    "term": "Bridge CA",
+    "anchor": "bridge-ca",
+    "aliases": []
+  },
+  {
+    "term": "CA",
+    "anchor": "ca",
+    "aliases": []
+  },
+  {
+    "term": "Certificate",
+    "anchor": "certificate",
+    "aliases": []
+  },
+  {
+    "term": "CIML",
+    "anchor": "ciml",
+    "aliases": []
+  },
+  {
+    "term": "CMS",
+    "anchor": "cms",
+    "aliases": []
+  },
+  {
+    "term": "Composite signature",
+    "anchor": "composite-signature",
+    "aliases": []
+  },
+  {
+    "term": "Confium",
+    "anchor": "confium",
+    "aliases": []
+  },
+  {
+    "term": "CRL",
+    "anchor": "crl",
+    "aliases": []
+  },
+  {
+    "term": "CT log",
+    "anchor": "ct-log",
+    "aliases": []
+  },
+  {
+    "term": "D-CoC",
+    "anchor": "d-coc",
+    "aliases": []
+  },
+  {
+    "term": "Decryption ceremony",
+    "anchor": "decryption-ceremony",
+    "aliases": []
+  },
+  {
+    "term": "Delegation (scoped)",
+    "anchor": "delegation-scoped",
+    "aliases": []
+  },
+  {
+    "term": "Director",
+    "anchor": "director",
+    "aliases": []
+  },
+  {
+    "term": "DoMC",
+    "anchor": "domc",
+    "aliases": []
+  },
+  {
+    "term": "Encrypted report",
+    "anchor": "encrypted-report",
+    "aliases": []
+  },
+  {
+    "term": "Encapsulation",
+    "anchor": "encapsulation",
+    "aliases": []
+  },
+  {
+    "term": "End-entity certificate",
+    "anchor": "end-entity-certificate",
+    "aliases": []
+  },
+  {
+    "term": "ERS",
+    "anchor": "ers",
+    "aliases": []
+  },
+  {
+    "term": "FROST",
+    "anchor": "frost",
+    "aliases": []
+  },
+  {
+    "term": "Governance",
+    "anchor": "governance",
+    "aliases": []
+  },
+  {
+    "term": "Gossip protocol",
+    "anchor": "gossip-protocol",
+    "aliases": []
+  },
+  {
+    "term": "Hash",
+    "anchor": "hash",
+    "aliases": []
+  },
+  {
+    "term": "HSM",
+    "anchor": "hsm",
+    "aliases": []
+  },
+  {
+    "term": "IA",
+    "anchor": "ia",
+    "aliases": []
+  },
+  {
+    "term": "IAL",
+    "anchor": "ial",
+    "aliases": []
+  },
+  {
+    "term": "Identity key",
+    "anchor": "identity-key",
+    "aliases": []
+  },
+  {
+    "term": "ISO",
+    "anchor": "iso",
+    "aliases": []
+  },
+  {
+    "term": "KEM",
+    "anchor": "kem",
+    "aliases": []
+  },
+  {
+    "term": "Key escrow",
+    "anchor": "key-escrow",
+    "aliases": []
+  },
+  {
+    "term": "Long-term archival",
+    "anchor": "long-term-archival",
+    "aliases": []
+  },
+  {
+    "term": "LTS",
+    "anchor": "lts",
+    "aliases": []
+  },
+  {
+    "term": "Manifest",
+    "anchor": "manifest",
+    "aliases": []
+  },
+  {
+    "term": "Merkle tree",
+    "anchor": "merkle-tree",
+    "aliases": []
+  },
+  {
+    "term": "ML-DSA",
+    "anchor": "ml-dsa",
+    "aliases": []
+  },
+  {
+    "term": "ML-KEM",
+    "anchor": "ml-kem",
+    "aliases": []
+  },
+  {
+    "term": "OCSP",
+    "anchor": "ocsp",
+    "aliases": []
+  },
+  {
+    "term": "OIML",
+    "anchor": "oiml",
+    "aliases": []
+  },
+  {
+    "term": "OTS",
+    "anchor": "ots",
+    "aliases": []
+  },
+  {
+    "term": "PBKDF2",
+    "anchor": "pbkdf2",
+    "aliases": []
+  },
+  {
+    "term": "PQC",
+    "anchor": "pqc",
+    "aliases": []
+  },
+  {
+    "term": "Privacy",
+    "anchor": "privacy",
+    "aliases": []
+  },
+  {
+    "term": "Quorum",
+    "anchor": "quorum",
+    "aliases": []
+  },
+  {
+    "term": "R-id",
+    "anchor": "r-id",
+    "aliases": []
+  },
+  {
+    "term": "Revocation",
+    "anchor": "revocation",
+    "aliases": []
+  },
+  {
+    "term": "Root CA",
+    "anchor": "root-ca",
+    "aliases": []
+  },
+  {
+    "term": "Roughtime",
+    "anchor": "roughtime",
+    "aliases": []
+  },
+  {
+    "term": "Scope (of an IA certificate)",
+    "anchor": "scope-of-an-ia-certificate",
+    "aliases": []
+  },
+  {
+    "term": "Shamir's Secret Sharing",
+    "anchor": "shamirs-secret-sharing",
+    "aliases": []
+  },
+  {
+    "term": "Subordinate CA",
+    "anchor": "subordinate-ca",
+    "aliases": []
+  },
+  {
+    "term": "Threshold cryptography",
+    "anchor": "threshold-cryptography",
+    "aliases": []
+  },
+  {
+    "term": "Threshold (T)",
+    "anchor": "threshold-t",
+    "aliases": []
+  },
+  {
+    "term": "Transparency log",
+    "anchor": "transparency-log",
+    "aliases": []
+  },
+  {
+    "term": "Trust anchor",
+    "anchor": "trust-anchor",
+    "aliases": []
+  },
+  {
+    "term": "Unit (SI)",
+    "anchor": "unit-si",
+    "aliases": []
+  },
+  {
+    "term": "Verification",
+    "anchor": "verification",
+    "aliases": []
+  },
+  {
+    "term": "Vendor diversification",
+    "anchor": "vendor-diversification",
+    "aliases": []
+  },
+  {
+    "term": "WebAuthn",
+    "anchor": "webauthn",
+    "aliases": []
+  },
+  {
+    "term": "Wycheproof",
+    "anchor": "wycheproof",
+    "aliases": []
+  },
+  {
+    "term": "X.509",
+    "anchor": "x509",
+    "aliases": []
+  },
+  {
+    "term": "XMLDSig",
+    "anchor": "xmldsig",
+    "aliases": []
+  },
+  {
+    "term": "YubiKey",
+    "anchor": "yubikey",
+    "aliases": []
+  },
+  {
+    "term": "Zeroization",
+    "anchor": "zeroization",
+    "aliases": []
+  }
+]

@@ -1,9 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import KeyManager from '../islands/KeyManager.vue';
+import ErrorBoundary from '../islands/widgets/ErrorBoundary.vue';
 ---
 
-<Base title="Keys · CNML">
+<Base title="Keys">
   <section class="mx-auto max-w-3xl px-6 py-12">
     <h1 class="text-3xl font-bold mb-2">Signing keys</h1>
     <p class="text-[var(--ink-muted)] mb-8">
@@ -11,7 +12,9 @@ import KeyManager from '../islands/KeyManager.vue';
       and never leave your device. Private keys are released to sign operations only after you enter the passphrase.
     </p>
 
-    <KeyManager client:load />
+    <ErrorBoundary client:idle>
+      <KeyManager client:idle />
+    </ErrorBoundary>
 
     <div class="mt-10 grid grid-cols-3 gap-4 text-xs text-[var(--ink-muted)]">
       <div class="p-4 rounded-lg border border-[var(--rule)]">

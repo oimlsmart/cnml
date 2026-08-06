@@ -30,9 +30,9 @@ The signing ceremony runs both algorithms in sequence and produces a slightly la
 
 CNML supports multiple `ds:Signature` elements per document so that a future algorithm era can add a third component without disturbing the existing two. The verifier evaluates all present elements.
 
-## References
+## See also
 
-- [CNML architecture choices](/docs/architecture/cnml-architecture-choices) develops the post-quantum migration path.
-- RFC 8032 is the IETF EdDSA specification.
-- FIPS 204 is the NIST standard for ML-DSA.
-- [Standards index](/docs/reference/standards-index) lists every standard CNML references.
+- [CNML architecture choices](../docs/architecture/cnml-architecture-choices) develops the post-quantum migration path.
+- [Threshold signing](../features/threshold-signing) covers the distributed quorum that produces the composite signature.
+- [Technology](../about/technology) lists every standard CNML builds on, including FIPS 204 and RFC 8032.
+- [Standards index](../docs/reference/standards-index) lists every standard CNML references.

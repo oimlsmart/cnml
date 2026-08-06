@@ -1,9 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import { RECOMMENDATIONS } from '@oiml/cnml-schemas';
+import { url } from '../lib/url';
 
 // Derive the picker grouping from the schema metadata — no hardcoded R lists.
 const byCategory = RECOMMENDATIONS.reduce((acc, r) => {
@@ -36,7 +34,7 @@ const categories = [
 ];
 ---
 
-<Base title="Create · CNML">
+<Base title="Create">
   <section class="mx-auto max-w-7xl px-6 py-12">
     <h1 class="text-3xl font-bold mb-2">Create a new certificate</h1>
     <p class="text-[var(--ink-muted)] mb-10">Pick the OIML Recommendation you're issuing under.</p>

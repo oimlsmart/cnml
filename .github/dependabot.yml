@@ -1,0 +1,60 @@
+version: 2
+updates:
+  # Root npm — workspace dependencies and dev tools.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps
+    groups:
+      astro:
+        patterns: ["astro", "@astrojs/*"]
+      vue:
+        patterns: ["vue", "@vitejs/plugin-vue", "@vue/test-utils"]
+      typescript:
+        patterns: ["typescript", "@types/*"]
+      security:
+        update-types: [security-update]
+        patterns: ["*"]
+
+  # cnml-web app dependencies.
+  - package-ecosystem: npm
+    directory: /apps/cnml-web
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps(cnml-web)
+
+  # cnml-crypto package.
+  - package-ecosystem: npm
+    directory: /packages/cnml-crypto
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: deps(cnml-crypto)
+
+  # Ruby CA server gems.
+  - package-ecosystem: bundler
+    directory: /oiml-pki-server
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps(oiml-pki)
+
+  # GitHub Actions themselves — kept current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: ci

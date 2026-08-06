@@ -1,5 +1,5 @@
 {
-  "name": "@cnml/ptb-dcc-compat",
+  "name": "@oiml/ptb-dcc-compat",
   "version": "0.1.0",
   "type": "module",
   "main": "src/index.ts"

@@ -123,5 +123,54 @@ module OimlPki
     def current_actor
       ENV["USER"] || ENV["USERNAME"] || "unknown"
     end
+
+    # ─── Transparency-log anchoring (TODO.cnml/70) ───────────────────────
+    #
+    # The audit log is hash-chained, but the chain lives in a single
+    # file the operator can rewrite. Anchoring the chain's head to the
+    # transparency log (which is itself Bitcoin-anchored via
+    # OpenTimestamps) inherits append-only-ness: rewriting any earlier
+    # entry invalidates the Bitcoin-anchored head.
+    #
+    # The anchor is operator-driven (a script), not automatic, so the
+    # cadence matches the IA's operational rhythm.
+
+    # The current audit-log chain head. Suitable as a transparency-log
+    # leaf value. Returns "genesis" for an empty log.
+    def current_head
+      read_head
+    end
+
+    # Anchor the current audit-log head to the transparency log.
+    # Appends the head (as raw bytes) to the transparency log, then
+    # records an `audit.anchor` audit-log entry pointing at the
+    # transparency-log sequence number. Idempotent within the same
+    # head: re-anchoring the same head is a no-op.
+    #
+    # Returns the transparency-log sequence number, or nil if the
+    # transparency log is unavailable.
+    def anchor_to_transparency_log!
+      head = current_head
+      return nil if head == "genesis"
+      return nil unless defined?(OimlPki::TransparencyPublisher)
+
+      head_bytes = head.dup.force_encoding("BINARY")
+      # The transparency log expects a 32-byte leaf. SHA-256 the
+      # head string to fit.
+      leaf = OpenSSL::Digest::SHA256.digest(head_bytes)
+      seq = OimlPki::TransparencyPublisher.record(leaf)
+
+      # Record the anchor in the audit log itself. This entry's hash
+      # becomes the new head; the next anchor will pin it.
+      append("audit.anchor", details: {
+        audit_head_anchored: head,
+        transparency_log_sequence: seq,
+      }, actor: current_actor, result: "success")
+
+      seq
+    rescue => e
+      append("audit.anchor.failed", details: { error: e.message }, actor: current_actor, result: "failure")
+      nil
+    end
   end
 end

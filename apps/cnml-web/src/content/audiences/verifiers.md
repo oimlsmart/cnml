@@ -35,3 +35,9 @@ The trust-anchor bundle is reproducible from the transparency log and the public
 ## Your next step
 
 Read the [verification pipeline](../docs/implementation/verification-pipeline) documentation, then open the [verify page](../verify) and drop a test vector onto it.
+
+## See also
+
+- [QR code delivery](../features/qr-code-delivery) describes the passport endpoint a field verifier reaches by scanning a device.
+- [Transparency](../features/transparency) covers the inclusion proof the pipeline checks.
+- [For developers](../audiences/developers) describes the library packages that embed the same check pipeline in an integration.

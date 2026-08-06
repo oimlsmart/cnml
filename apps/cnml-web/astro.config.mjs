@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import vue from '@astrojs/vue';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import yaml from '@rollup/plugin-yaml';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -16,7 +17,32 @@ export default defineConfig({
   // that prefix. See TODO.cnml/01-design-system-adoption.md.
   site: 'https://www.oimlsmart.org',
   base: '/cnml/',
-  integrations: [vue()],
+  integrations: [
+    vue(),
+    sitemap({
+      filter: (page) => {
+        // Exclude interactive app pages: they are tools, not search targets.
+        const excluded = [
+          '/cnml/keys',
+          '/cnml/csr',
+          '/cnml/verify',
+          '/cnml/create',
+          '/cnml/issue/',
+          '/cnml/passport/',
+        ];
+        return !excluded.some((p) => page.includes(p));
+      },
+    }),
+  ],
+  // Prefetch links on hover. The strategy is the right default for
+  // a docs-heavy site: hovering a prev/next link or a nav entry
+  // triggers the fetch, so the click is instant. The viewport
+  // strategy would prefetch every link in the initial viewport,
+  // which is wasteful for the docs nav (6+ entries).
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
   // Disable the dev toolbar — it injects buttons + checkboxes that
   // interfere with e2e tests (Playwright picks them up instead of the
   // actual island UI).
@@ -52,12 +78,12 @@ export default defineConfig({
       // processes them through the regular plugin pipeline (YAML plugin
       // for cnml-schemas, TS transform for the rest).
       exclude: [
-        "@cnml/cnml-schemas",
-        "@cnml/cnml-xml",
-        "@cnml/cnml-crypto",
-        "@cnml/cnml-units",
-        "@cnml/cnml-dcoc",
-        "@cnml/ptb-dcc-compat",
+        "@oiml/cnml-schemas",
+        "@oiml/cnml-xml",
+        "@oiml/cnml-crypto",
+        "@oiml/cnml-units",
+        "@oiml/cnml-dcoc",
+        "@oiml/ptb-dcc-compat",
       ],
       esbuildOptions: {
         target: "esnext",
@@ -68,6 +94,14 @@ export default defineConfig({
     },
     build: {
       target: "esnext",
+      // @confium/confium-wasm is loaded lazily at runtime via dynamic
+      // import() in packages/cnml-crypto/src/confium-wasm.ts. It is an
+      // optional dependency (the verifier degrades silently when it is
+      // absent). Mark it external so the build does not try to resolve
+      // it at build time — the loader handles its own failure modes.
+      rolldownOptions: {
+        external: ["@confium/confium-wasm"],
+      },
     },
   },
 });

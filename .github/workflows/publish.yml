@@ -1,0 +1,57 @@
+name: Publish @oiml/cnml-* to npm
+
+# ADR-0003: the TS packages are published under the @oiml scope.
+# This workflow runs on tag matching `pkgs-v*` (e.g., pkgs-v0.2.0).
+# Every package in packages/ with a name starting `@oiml/` is
+# published with that version.
+
+on:
+  push:
+    tags:
+      - 'pkgs-v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verify green
+        run: |
+          pnpm test
+          pnpm test:audit
+          pnpm test:crypto
+          pnpm test:vitest
+          pnpm lint:style
+          pnpm budget
+          pnpm build
+
+      - name: Read version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#pkgs-v}" >> "$GITHUB_OUTPUT"
+
+      - name: Set version on every package
+        run: |
+          pnpm -r --filter="./packages/*" exec npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version --allow-same-version
+
+      - name: Publish
+        run: |
+          pnpm -r --filter="./packages/*" publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

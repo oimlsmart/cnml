@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { certToCnmlXml } from "@cnml/cnml-xml";
+import { certToCnmlXml } from "@oiml/cnml-xml";
 import {
   generateKey, encryptPrivateKey, storeKey, listKeys, getKey,
   loadCryptoKey, signCnmlXml, pemToDer, sha256Hex,
   importPublic, issueSelfSignedCert,
   timestampCnml, embedTimestampInXml,
   type StoredKey, type KeyAlgorithm,
-} from "@cnml/cnml-crypto";
+} from "@oiml/cnml-crypto";
 
 const props = defineProps<{ cert: any; open: boolean }>();
 const emit = defineEmits<{ close: []; signed: [xml: string] }>();

@@ -28,6 +28,6 @@ The test vectors are 22 pre-signed CNML files that exercise the per-Recommendati
 
 ## Further reading
 
-- [What is CNML](../about/what-is-cnml) introduces the format.
+- [What is CNML](what-is-cnml) introduces the format.
 - [Audiences](../audiences/issuing-authorities) describes how each audience participates.
 - The [OIML institutional website](https://www.oiml.org) is the canonical source for OIML governance and member-state engagement.

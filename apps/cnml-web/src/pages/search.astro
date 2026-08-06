@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import SearchBox from '../islands/search/SearchBox.vue';
+---
+
+<Base title="Search" description="Search the CNML documentation, audience, and feature pages.">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mb-2">Search</h1>
+    <p class="text-[var(--ink-soft)] mb-8">
+      Full-text search across the CNML documentation, audience guides, and feature
+      pages. The index is generated at build time and runs entirely in your browser.
+    </p>
+    <SearchBox client:load />
+  </section>
+</Base>

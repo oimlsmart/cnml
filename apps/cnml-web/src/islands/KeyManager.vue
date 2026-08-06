@@ -5,7 +5,7 @@ import {
   exportPublicKeyPem, exportPrivateKeyPem, importPrivateKeyFromPem,
   listTrustedKeys, deleteTrustedKey, importPublicKeyFromPem, storeTrustedKey,
   type StoredKey, type TrustedPublicKey,
-} from "@cnml/cnml-crypto";
+} from "@oiml/cnml-crypto";
 import { fingerprintShort } from "./shared";
 
 // ─── Cert import state ─────────────────────────────────────────────

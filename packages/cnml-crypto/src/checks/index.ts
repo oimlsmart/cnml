@@ -31,6 +31,10 @@ export { readCrlFieldsFromCert } from "./crl.ts";
 export { crlCheck } from "./crl.ts";
 // The ER-binding leg.
 export { erBindingCheck } from "./er_binding.ts";
+// Optional Confium WASM enhanced verification (NOT in CHECKS; invoked
+// separately by VerifyDrop after the main pipeline).
+export { runConfiumVerifyCheck, confiumVerifyCheckId } from "./confium-verify.ts";
+export type { ConfiumVerifyInput } from "./confium-verify.ts";
 // The pipeline's self-sufficiency seams: the core-schema registration +
 // the environment-agnostic per-rec schema lookup.
 export { ensureCoreSchemasRegistered, getRecommendationSchema } from "./core_schemas.ts";

@@ -36,6 +36,6 @@ CNML addresses each requirement directly. The five-tier hierarchy distributes au
 
 ## Further reading
 
-- [How it works](../about/how-it-works) describes the five-tier hierarchy, the signing ceremony, and the verification pipeline.
-- [Technology](../about/technology) lists the standards and algorithms.
-- [Transparency and audit](../about/how-it-works) is developed in the architecture documentation.
+- [How it works](how-it-works) describes the five-tier hierarchy, the signing ceremony, and the verification pipeline.
+- [Technology](technology) lists the standards and algorithms.
+- [Transparency and audit](how-it-works) is developed in the architecture documentation.

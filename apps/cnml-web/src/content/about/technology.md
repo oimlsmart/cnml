@@ -32,7 +32,7 @@ The threshold-cryptography substrate is provided by Confium, which ships FROST v
 
 CNML operates on any PKCS#11-compatible hardware. The choice of device at each tier is a deployment policy driven by capacity and certification requirements, not a constraint of the format.
 
-The BIML Root operates on enterprise-grade HSM hardware held in an air-gapped facility. The IA tier operates on personal hardware tokens (YubiKey or equivalent) held by IA officers. The per-cert signer tier operates in browser IndexedDB, with the private key encrypted under AES-GCM with a PBKDF2-derived key. Any PKCS#11-compatible device can serve at any tier. Hardware is described by capability, certification level, and vendor name, not by price.
+The BIML Root operates on enterprise-grade HSM hardware held in an air-gapped facility. The IA tier operates on personal hardware tokens (a PKCS#11-compatible device) held by IA officers. The per-cert signer tier operates in browser IndexedDB, with the private key encrypted under AES-GCM with a PBKDF2-derived key. Any PKCS#11-compatible device can serve at any tier. Hardware is described by capability, certification level, and vendor name, not by price.
 
 The full hardware model is described in the architecture documentation.
 

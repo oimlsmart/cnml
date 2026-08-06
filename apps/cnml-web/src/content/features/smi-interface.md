@@ -28,9 +28,9 @@ An SMI that reports an indication through its twin also reports the CNML certifi
 
 The full compliance monitoring loop, in which indications are continuously checked against certificate validity and scope, is part of the OIML SMART instrument ecosystem rather than part of CNML itself. CNML provides the certificate reference and the passport projection. The monitoring policy that decides what to do when an instrument's certificate lapses is defined at the SMI layer.
 
-## References
+## See also
 
-- [For verifiers](/docs/roles/for-verifiers) covers the verification flow that the passport projection feeds.
-- [QR code delivery](/features/qr-code-delivery) describes the non-SMART delivery path that shares the passport projection.
+- [QR code delivery](../features/qr-code-delivery) describes the non-SMART delivery path that shares the passport projection.
+- [For verifiers](../audiences/verifiers) covers the verification flow that the passport projection feeds.
+- [System architecture](../docs/architecture/system) places the SMI interface in the overall certificate model.
 - The OIML SMART instrument ecosystem defines the twin GraphQL schema and the compliance monitoring loop.
-- [System architecture](/docs/architecture/system) places the SMI interface in the overall certificate model.

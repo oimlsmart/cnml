@@ -1,8 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import { url } from '../lib/url';
 
 const operations = [
   {
@@ -70,7 +68,7 @@ const groupedByRole = operations.reduce((acc, op) => {
 }, {} as Record<string, typeof operations>);
 ---
 
-<Base title="App · CNML">
+<Base title="App">
   <section class="max-w-6xl mx-auto px-6 pt-16 pb-12">
     <span class="text-xs uppercase tracking-[0.1em] text-[var(--ink-muted)] font-semibold">CNML Application</span>
     <h1 class="font-serif text-4xl font-semibold text-[var(--ink)] mt-2 mb-4">Certificate operations</h1>

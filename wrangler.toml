@@ -1,0 +1,25 @@
+# Cloudflare Pages configuration (ADR-0002, TODO.cnml/63).
+#
+# Run locally: wrangler pages dev apps/cnml-web/dist
+# Deploy:       wrangler pages deploy apps/cnml-web/dist --project-name=cnml
+#
+# In CI, the deploy-cloudflare.yml workflow uses
+# cloudflare/wrangler-action with these settings.
+
+name = "cnml"
+pages_build_output_dir = "apps/cnml-web/dist"
+compatibility_date = "2026-08-01"
+
+# Functions live under apps/cnml-web/functions/ and run on every
+# matching request. They have access to KV bindings, environment
+# variables, and the standard Workers runtime.
+#
+# Live bindings (configured via the Cloudflare dashboard or
+# `wrangler pages secret put`):
+#   - CNML_CERT_INDEX — KV namespace holding the cert-id → metadata
+#     map for the passport endpoint. Optional; the function falls
+#     back to the static JSON file when this is absent.
+
+# Note: the project name on Cloudflare must match the one configured
+# in the dashboard. `cnml` here matches `--project-name=cnml` in the
+# deploy workflow.

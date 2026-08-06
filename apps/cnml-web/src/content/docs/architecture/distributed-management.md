@@ -17,7 +17,7 @@ The geographic distribution is a defense against coercion. A directive that targ
 
 ## The IA officer quorum
 
-Each Issuing Authority operates its own threshold quorum for intermediate signatures. The typical configuration is two-of-three officers. The officers are IA staff who hold their shares on personal hardware tokens (YubiKey or equivalent). The IA operates its own coordinator service or has BIML operate one on its behalf.
+Each Issuing Authority operates its own threshold quorum for intermediate signatures. The typical configuration is two-of-three officers. The officers are IA staff who hold their shares on personal hardware tokens (a PKCS#11-compatible device). The IA operates its own coordinator service or has BIML operate one on its behalf.
 
 The IA quorum is independent of the BIML director quorum. Compromise of the IA quorum cannot produce a root-tier signature, and compromise of the director quorum cannot produce an IA-tier signature. The two quorums are keyed through separate distributed key generation ceremonies, and their aggregate public keys are independent. The IA's aggregate public key is bound to the BIML root through the IA intermediate certificate, which carries the scope extension that limits the IA to its authorized Recommendations.
 

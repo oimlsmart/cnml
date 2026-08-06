@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from "vue";
 import {
   listKeys, getKey, exportPublicKeyPem,
   type StoredKey,
-} from "@cnml/cnml-crypto";
+} from "@oiml/cnml-crypto";
 import { fingerprintShort } from "./shared";
 
 const keys = ref<StoredKey[]>([]);

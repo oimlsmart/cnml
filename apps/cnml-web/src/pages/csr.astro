@@ -1,12 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import CsrGenerator from '../islands/CsrGenerator.vue';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import ErrorBoundary from '../islands/widgets/ErrorBoundary.vue';
+import { url } from '../lib/url';
 ---
 
-<Base title="CSR · CNML">
+<Base title="CSR">
   <section class="mx-auto max-w-3xl px-6 py-12">
     <a href={url('/keys')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">← Back to keys</a>
     <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mt-4 mb-2">Certificate Signing Request</h1>
@@ -14,6 +13,8 @@ const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
       Generate a CSR to request a CA-signed certificate for your signing key.
       Send the downloaded <code>.csr</code> to your Issuing Authority's CA operator.
     </p>
-    <CsrGenerator client:load />
+    <ErrorBoundary client:idle>
+      <CsrGenerator client:idle />
+    </ErrorBoundary>
   </section>
 </Base>

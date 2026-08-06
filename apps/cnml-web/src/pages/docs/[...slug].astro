@@ -1,124 +1,31 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
-import { marked } from 'marked';
+import { url } from '../../lib/url';
+import { nestedMarkdownStaticPaths, readMarkdownPage, renderMarkdownBody, contentDirFrom } from '../../lib/markdown-page';
+import { extractToc } from '../../lib/toc';
+import { readingTimeMinutes } from '../../lib/reading-time';
+import { sections } from '../../data/docs-sections';
+import DocsReadingAffordances from '../../islands/docs/DocsReadingAffordances.vue';
+import DocsToc from '../../islands/docs/DocsToc.vue';
 
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
-
-// Mirror of the sections array in docs.astro. The two must stay in sync;
-// the canonical source is docs.astro. Duplicated here so doc pages can
-// compute prev/next navigation without a cross-page import.
-const sections = [
-  {
-    title: 'Overview',
-    docs: [
-      { slug: 'what-is-cnml', title: 'What is CNML' },
-      { slug: 'why-cnml', title: 'Why CNML' },
-    ],
-  },
-  {
-    title: 'Concepts',
-    docs: [
-      { slug: 'concepts/oiml-institutions', title: 'OIML, BIML, CIML, and OIML-CS' },
-      { slug: 'concepts/threshold-cryptography', title: 'Threshold cryptography in CNML' },
-      { slug: 'concepts/nist-threshold-alignment', title: 'Alignment with NIST threshold cryptography research' },
-      { slug: 'concepts/cnml-and-dcc', title: 'CNML and PTB DCC' },
-      { slug: 'concepts/fair-and-dcoc', title: 'FAIR principles and D-CoC' },
-      { slug: 'concepts/bipm-digital-si', title: 'BIPM Digital SI and measurement units in CNML' },
-    ],
-  },
-  {
-    title: 'Architecture',
-    docs: [
-      { slug: 'architecture/system', title: 'System architecture' },
-      { slug: 'architecture/cnml-vs-typical-pki', title: 'CNML and typical PKI compared' },
-      { slug: 'architecture/cnml-architecture-choices', title: 'CNML architecture choices' },
-      { slug: 'architecture/distributed-management', title: 'Distributed management' },
-      { slug: 'architecture/redundancy', title: 'Redundancy and continuity' },
-      { slug: 'architecture/transparency', title: 'Transparency and audit' },
-      { slug: 'architecture/hardware-tiers', title: 'Hardware key tiers' },
-      { slug: 'architecture/confium-integration', title: 'Confium integration' },
-    ],
-  },
-  {
-    title: 'Implementation',
-    docs: [
-      { slug: 'implementation/schema-driven-design', title: 'Schema-driven design' },
-      { slug: 'implementation/verification-pipeline', title: 'Verification pipeline' },
-      { slug: 'implementation/dcoc-output', title: 'D-CoC output and FAIR interchange' },
-      { slug: 'implementation/internationalization', title: 'Internationalization' },
-    ],
-  },
-  {
-    title: 'Roles',
-    docs: [
-      { slug: 'roles/for-ias-biml-ciml', title: 'For IAs and BIML/CIML' },
-      { slug: 'roles/for-verifiers', title: 'For verifiers' },
-      { slug: 'roles/for-developers', title: 'For developers' },
-    ],
-  },
-  {
-    title: 'Reference',
-    docs: [
-      { slug: 'reference/glossary', title: 'Glossary' },
-      { slug: 'reference/faq', title: 'FAQ' },
-      { slug: 'reference/standards-index', title: 'Standards index' },
-    ],
-  },
-];
-
-export function getStaticPaths() {
-  const here = fileURLToPath(import.meta.url);
-  const docsDir = join(here, '..', '..', '..', '..', 'src', 'content', 'docs');
-
-  // Recursively collect .md files under docs/ and produce slugs that
-  // preserve the subdirectory structure. A file at
-  // content/docs/concepts/foo.md becomes the slug ['concepts', 'foo'],
-  // which Astro renders at /docs/concepts/foo.
-  const walk = (dir, base) => {
-    const out = [];
-    for (const name of readdirSync(dir)) {
-      const full = join(dir, name);
-      const rel = [...base, name];
-      const st = statSync(full);
-      if (st.isDirectory()) {
-        out.push(...walk(full, rel));
-      } else if (name.endsWith('.md')) {
-        out.push(rel.slice(0, -1).concat(name.slice(0, -3)));
-      }
-    }
-    return out;
-  };
-
-  return walk(docsDir, []).map((segments) => ({
-    params: { slug: segments.join('/') },
-  }));
-}
+export const getStaticPaths = () =>
+  nestedMarkdownStaticPaths(contentDirFrom(import.meta.url, 'src/content/docs'));
 
 const slug = Astro.params.slug!;
-const here = fileURLToPath(import.meta.url);
-const mdPath = join(here, '..', '..', '..', '..', 'src', 'content', 'docs', slug) + '.md';
+// Directory part of the slug (everything except the leaf page name).
+// A slug of "architecture/system" resolves to directory
+// "/docs/architecture/", so sibling links ("../foo") and bare slugs
+// ("bar") resolve against that.
+const currentDir = '/docs/' + (slug.includes('/') ? slug.slice(0, slug.lastIndexOf('/') + 1) : '');
+const page = readMarkdownPage({
+  params: Astro.params,
+  contentDir: contentDirFrom(import.meta.url, 'src/content/docs'),
+  urlDir: currentDir,
+});
 
-let title = slug;
-let html = '<p>Not found.</p>';
-if (existsSync(mdPath)) {
-  const md = readFileSync(mdPath, 'utf8');
-  const lines = md.split('\n');
-  const h1Line = lines.find((l) => l.startsWith('# '));
-  if (h1Line) title = h1Line.slice(2).trim();
-  const h1Idx = lines.findIndex((l) => l.startsWith('# '));
-  const body = h1Idx >= 0 ? lines.slice(h1Idx + 1).join('\n') : md;
-  // Prefix internal absolute links (href="/docs/...", src="/diagrams/...")
-  // with the configured BASE_URL so they resolve under /cnml/ in production.
-  const prefix = BASE.endsWith('/') ? BASE : `${BASE}/`;
-  html = marked.parse(body).replace(
-    /((?:href|src)=")\/(?!\/)/g,
-    `$1${prefix}`,
-  );
-}
+// Shiki code highlighting + glossary term auto-linking (TODOs 43, 45).
+// Async because Shiki loads its themes/grammars at first use.
+const rendered = await renderMarkdownBody(page.html);
 
 // Flatten the sections array into an ordered list of docs with section
 // context, then locate the current page to compute prev/next and the
@@ -131,9 +38,24 @@ const currentIndex = flat.findIndex((d) => d.slug === slug);
 const current = currentIndex >= 0 ? flat[currentIndex] : null;
 const prevDoc = currentIndex > 0 ? flat[currentIndex - 1] : null;
 const nextDoc = currentIndex >= 0 && currentIndex < flat.length - 1 ? flat[currentIndex + 1] : null;
+const section = current?.section ?? 'Documentation';
+const tags = ['CNML', 'OIML', 'legal metrology', section];
+
+// Reading-time estimate (TODO 44) and TOC (TODO 42).
+const minutes = readingTimeMinutes(page.body);
+const toc = extractToc(page.body);
 ---
 
-<Base title={`${title} · Docs · CNML`}>
+<Base
+  title={`${page.title} · Docs`}
+  description={`CNML documentation: ${page.title}.`}
+  article={{ section, tags }}
+>
+  <DocsReadingAffordances client:visible />
+  <script>
+    import { mountCodeCopy } from '../../lib/code-copy';
+    mountCodeCopy();
+  </script>
   <article class="mx-auto max-w-3xl px-6 py-12">
     <a href={url('/docs')} class="text-sm text-[var(--ink-muted)] hover:text-[var(--accent)]">← Docs</a>
     {current && (
@@ -141,8 +63,28 @@ const nextDoc = currentIndex >= 0 && currentIndex < flat.length - 1 ? flat[curre
         <a href={url('/docs')} class="hover:text-[var(--accent)]">{current.section}</a>
       </p>
     )}
-    <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-1 mb-4">{title}</h1>
-    <div class="docs-body" set:html={html} />
+    <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-1 mb-2">{page.title}</h1>
+    <p class="text-xs text-[var(--ink-muted)] mb-6 font-mono">
+      {minutes} min read · {section}
+    </p>
+
+    {toc.length >= 2 && (
+      <nav class="cnml-card p-4 mb-8 lg:hidden" aria-label="On this page">
+        <DocsToc client:visible entries={toc} />
+      </nav>
+    )}
+
+    <div class="docs-body grid lg:grid-cols-[1fr_180px] gap-8">
+      <div set:html={rendered} />
+      {toc.length >= 2 && (
+        <aside class="hidden lg:block">
+          <div class="sticky top-24 text-sm">
+            <DocsToc client:visible entries={toc} variant="sticky" />
+          </div>
+        </aside>
+      )}
+    </div>
+
     {(prevDoc || nextDoc) && (
       <nav class="mt-12 pt-6 border-t border-[var(--rule)] grid grid-cols-2 gap-4" aria-label="Doc navigation">
         {prevDoc ? (

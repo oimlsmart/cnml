@@ -1,14 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import SchemaForm from '../../islands/forms/SchemaForm.vue';
-import { RECOMMENDATIONS } from '@cnml/cnml-schemas';
+import { RECOMMENDATIONS } from '@oiml/cnml-schemas';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import yaml from 'yaml';
-
-const BASE = import.meta.env.BASE_URL;
-const url = (path: string) => `${BASE}${path.replace(/^\//, '')}`;
+import { url } from '../../lib/url';
 
 export function getStaticPaths() {
   const here = fileURLToPath(import.meta.url);
@@ -50,7 +48,7 @@ const samplesJson = JSON.stringify(samples ?? []);
     <h1 class="font-serif text-3xl font-semibold text-[var(--ink)] mt-4 mb-2">{recommendation} — {shortTitle}</h1>
 
     <SchemaForm
-      client:load
+      client:idle
       schema={schema}
       rId={recommendation}
       shortTitle={shortTitle}

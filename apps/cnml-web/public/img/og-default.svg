@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="'IBM Plex Sans', 'Helvetica Neue', sans-serif">
+  <defs>
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#004996" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+    <pattern id="ticks" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="0.5" fill="#004996" fill-opacity="0.18"/>
+    </pattern>
+    <linearGradient id="paper" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdfcf9"/>
+      <stop offset="100%" stop-color="#f5f3eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#paper)"/>
+  <rect width="1200" height="630" fill="url(#ticks)"/>
+  <rect x="60" y="60" width="1080" height="510" fill="none" stroke="#004996" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- coord label, blueprint style -->
+  <text x="60" y="48" font-size="11" font-family="'IBM Plex Mono', monospace" letter-spacing="2" fill="#004996" fill-opacity="0.7">CNML / OG / 1200×630</text>
+  <text x="1140" y="48" font-size="11" font-family="'IBM Plex Mono', monospace" letter-spacing="2" fill="#004996" fill-opacity="0.7" text-anchor="end">OIML SMART</text>
+
+  <!-- globe mark, simplified -->
+  <g transform="translate(140, 250)">
+    <circle cx="60" cy="60" r="56" fill="none" stroke="#004996" stroke-width="2"/>
+    <ellipse cx="60" cy="60" rx="56" ry="22" fill="none" stroke="#004996" stroke-width="1.2"/>
+    <ellipse cx="60" cy="60" rx="22" ry="56" fill="none" stroke="#004996" stroke-width="1.2"/>
+    <line x1="4" y1="60" x2="116" y2="60" stroke="#004996" stroke-width="1.2"/>
+    <line x1="60" y1="4" x2="60" y2="116" stroke="#004996" stroke-width="1.2"/>
+    <circle cx="60" cy="60" r="3" fill="#004996"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="290" y="270" font-size="96" font-weight="700" fill="#004996" letter-spacing="-2">CNML</text>
+  <text x="294" y="320" font-size="26" font-weight="500" fill="#1a1a1a">Certificat Numérique · Métrologie Légale</text>
+
+  <!-- thesis -->
+  <text x="60" y="470" font-size="22" fill="#1a1a1a">A cryptographically signed digital certificate format</text>
+  <text x="60" y="500" font-size="22" fill="#1a1a1a">for OIML type approvals, developed under the OIML SMART programme.</text>
+
+  <!-- crosshair corners -->
+  <g stroke="#004996" stroke-width="1.5" fill="none">
+    <path d="M 40 60 L 60 60 M 60 40 L 60 60"/>
+    <path d="M 1140 60 L 1160 60 M 1160 40 L 1160 60"/>
+    <path d="M 40 570 L 60 570 M 60 570 L 60 590"/>
+    <path d="M 1140 570 L 1160 570 M 1160 570 L 1160 590"/>
+  </g>
+</svg>

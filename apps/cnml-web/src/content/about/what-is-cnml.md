@@ -1,10 +1,10 @@
 ---
 title: 'What is CNML'
-lede: 'CNML is the digital certificate format developed under the OIML SMART program to succeed the PDF-based OIML-CS certificate of conformity.'
+lede: 'CNML is the digital certificate format developed under the OIML SMART program for OIML type approvals.'
 coord: 'ABOUT / 01'
 ---
 
-CNML is the Certificat Numerique de Metrologie Legale, a cryptographically signed digital certificate format for OIML type approvals. The work to produce CNML was conducted under the OIML SMART program. It consisted of analyzing every existing published OIML-CS Type Approval certificate and digitizing the resulting model in a manner compatible with OIML SMART and the relevant OIML R-Recommendations. The PDF-based OIML-CS certificate of conformity is the predecessor format that CNML succeeds.
+CNML is the Certificat Numerique de Metrologie Legale, a cryptographically signed digital certificate format for OIML type approvals. The work to produce CNML was conducted under the OIML SMART program. It consisted of analyzing every existing published OIML-CS Type Approval certificate and digitizing the resulting model in a manner compatible with OIML SMART and the relevant OIML R-Recommendations.
 
 CNML provides machine-verifiable certification of measuring instruments subject to legal metrology. Every certificate binds a type-approval evaluation to a cryptographic signature produced by a distributed threshold quorum of independent signers. Any party can verify a CNML certificate in a web browser without contacting the issuer, registering for a service, or holding an account.
 
@@ -20,7 +20,7 @@ CNML provides cryptographic integrity, machine readability, FAIR alignment, and 
 
 ## Standards CNML builds on
 
-Every cryptographic and structural component of CNML traces to a published standard. The certificate format is X.509 v3 (RFC 5280) extended with an OIML-specific scope extension that uses the standard X.509 v3 extension mechanism. The XML signature is W3C XMLDSig 1.1 with Exclusive C14N. The signing algorithms include ECDSA P-256 (NIST FIPS 186), Ed25519 (RFC 8032), and ML-DSA-65 (NIST FIPS 204). The hardware interface is PKCS#11. The transparency log follows the RFC 6962 Certificate Transparency model, with tree roots anchored to Bitcoin through OpenTimestamps. The full list of standards is in the [technology page](../about/technology).
+Every cryptographic and structural component of CNML traces to a published standard. The certificate format is X.509 v3 (RFC 5280) extended with an OIML-specific scope extension that uses the standard X.509 v3 extension mechanism. The XML signature is W3C XMLDSig 1.1 with Exclusive C14N. The signing algorithms include ECDSA P-256 (NIST FIPS 186), Ed25519 (RFC 8032), and ML-DSA-65 (NIST FIPS 204). The hardware interface is PKCS#11. The transparency log follows the RFC 6962 Certificate Transparency model, with tree roots anchored to Bitcoin through OpenTimestamps. The full list of standards is in the [technology page](technology).
 
 ## Complementarity with the PTB Digital Calibration Certificate
 
@@ -28,6 +28,6 @@ CNML and the PTB Digital Calibration Certificate are complementary formats opera
 
 ## Further reading
 
-- [Why CNML](../about/why-cnml) develops the case for the technology.
-- [How it works](../about/how-it-works) describes the five-tier hierarchy and the verification pipeline.
-- [Technology](../about/technology) lists the standards and algorithms CNML builds on.
+- [Why CNML](why-cnml) develops the case for the technology.
+- [How it works](how-it-works) describes the five-tier hierarchy and the verification pipeline.
+- [Technology](technology) lists the standards and algorithms CNML builds on.

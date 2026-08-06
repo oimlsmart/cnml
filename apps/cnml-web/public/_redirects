@@ -1,0 +1,8 @@
+# Cloudflare Pages redirects (ADR-0002).
+#
+# Format: https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Empty initially. Future home for:
+#   - Legacy URL aliases (e.g., /about → /about/what-is-cnml)
+#   - Country or language routing
+#   - Moved pages
