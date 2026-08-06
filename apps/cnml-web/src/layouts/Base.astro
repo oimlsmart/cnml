@@ -20,6 +20,7 @@ import PilotWarning from '../components/PilotWarning.astro';
 import NavDropdown from '../components/NavDropdown.vue';
 import MobileNav from '../components/MobileNav.vue';
 import ThemeToggle from '../components/ThemeToggle.vue';
+import LocaleToggle from '../components/LocaleToggle.vue';
 import { url } from '../lib/url';
 import { jsonLdForPage } from '../lib/jsonld';
 import {
@@ -200,7 +201,8 @@ const dropdowns = [aboutDropdown, audiencesDropdown, featuresDropdown];
         <div class="cnml-colophon">
           CNML · OIML SMART programme · 2026 edition (proposal)
         </div>
-        <div class="cnml-colophon flex flex-wrap gap-4">
+        <div class="cnml-colophon flex flex-wrap items-center gap-4">
+          <LocaleToggle client:idle />
           <a href="https://github.com/oimlsmart/cnml">Source</a>
           <a href="https://github.com/oimlsmart/styleguide/blob/main/WRITING_STYLE.md">Style guide</a>
         </div>

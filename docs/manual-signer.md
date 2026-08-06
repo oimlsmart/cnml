@@ -12,13 +12,13 @@ demonstrate compliance.
 - A web browser (Chrome, Firefox, or Edge)
 - Your signing key (generated in the browser, stored locally)
 - Your CA-signed certificate (received from your IA's CA operator)
-- Access to https://cnml.oiml.org
+- Access to https://www.oimlsmart.org/cnml
 
 ## First-time setup
 
 ### Step 1: Generate your signing key
 
-1. Open https://cnml.oiml.org → **Keys**
+1. Open https://www.oimlsmart.org/cnml → **Keys**
 2. Click **Generate keypair**
 3. Enter an alias (e.g., "M.Schmidt NMi 2026")
 4. Enter a passphrase (minimum 8 characters — this encrypts your key at rest)
