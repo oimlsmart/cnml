@@ -26,19 +26,26 @@
     "vectors:gen": "pnpm --filter @oiml/cnml-test-vectors gen",
     "vectors:verify": "pnpm --filter @oiml/cnml-test-vectors verify",
     "smoke": "node --experimental-strip-types --no-warnings scripts/smoke-test.mjs",
-    "audience:build": "node --experimental-strip-types --no-warnings scripts/audience-build.ts"
+    "audience:build": "node --experimental-strip-types --no-warnings scripts/audience-build.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "links:check": "node --experimental-strip-types --no-warnings scripts/check-external-links.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/test-utils": "^2.4.11",
+    "eslint": "^9.39.5",
     "fake-indexeddb": "^6.2.5",
     "happy-dom": "^20.11.1",
     "pagefind": "^1.5.2",
     "playwright": "^1.61.1",
     "rollup-plugin-visualizer": "^7.0.1",
     "shiki": "^4.4.1",
+    "typescript-eslint": "^8.66.0",
     "vitest": "^4.1.10",
     "yaml": "^2.6.0"
   },

@@ -179,8 +179,9 @@ function statusGlyph(r: CheckResult): string {
       {{ error }}
     </div>
 
-    <!-- Result -->
-    <div v-if="file && checkResults.length > 0">
+    <!-- Result (TODO.cnml/56: role=status aria-live=polite so
+         screen readers announce check completions) -->
+    <div v-if="file && checkResults.length > 0" role="status" aria-live="polite" aria-atomic="false">
       <h3 class="font-semibold mb-3">{{ file.name }}</h3>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
