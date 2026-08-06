@@ -286,5 +286,44 @@ module OimlPki
   </cnml:tlog_proof>
 )
     end
+
+    # ─── Public publication (TODO.cnml/71) ────────────────────────
+    #
+    # Write the current log state as static files for CDN distribution.
+    def publish_to_directory(dir, log_operator: default_log_operator)
+      require "fileutils"
+      require "json"
+      FileUtils.mkdir_p(dir)
+      FileUtils.mkdir_p(File.join(dir, "leaf"))
+      FileUtils.mkdir_p(File.join(dir, "proof"))
+
+      with_persistent_log do |tree|
+        head = {
+          root: tree.root.unpack1("H*"),
+          size: tree.length,
+          timestamp: Time.now.utc.iso8601,
+          operator: log_operator,
+        }
+        File.write(File.join(dir, "head.json"), JSON.pretty_generate(head) + "\n")
+
+        tree.entries.each_with_index do |leaf_hash, seq|
+          File.binwrite(File.join(dir, "leaf", seq.to_s), leaf_hash)
+
+          steps = tree.inclusion_proof(seq)
+          proof = {
+            sequence: seq,
+            leaf_hash: leaf_hash.unpack1("H*"),
+            log_root: tree.root.unpack1("H*"),
+            tree_size: tree.length,
+            inclusion_proof: steps.map { |s|
+              { sibling: s.sibling.unpack1("H*"), side: s.side }
+            },
+          }
+          File.write(File.join(dir, "proof", "#{seq}.json"), JSON.pretty_generate(proof) + "\n")
+        end
+
+        head
+      end
+    end
   end
 end

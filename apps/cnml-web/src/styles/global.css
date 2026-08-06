@@ -428,3 +428,70 @@
     text-decoration: underline;
   }
 }
+
+/* ── Print stylesheet (TODO.cnml/60) ────────────────────────────────
+   Only the article body prints. Nav, footer, sidebars, progress bar,
+   back-to-top, and TOC are hidden. Link URLs appear after the link
+   text in parentheses. Code blocks avoid breaking mid-line.
+   ────────────────────────────────────────────────────────────────── */
+@media print {
+  .cnml-site-header,
+  .cnml-nav,
+  footer,
+  .cnml-reading-progress,
+  .cnml-back-to-top,
+  .docs-toc,
+  .PilotWarning,
+  .cnml-code-copy,
+  nav[aria-label*="navigation"],
+  nav[aria-label*="Doc navigation"],
+  .cnml-island-error {
+    display: none !important;
+  }
+
+  body, main, article {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    background: white !important;
+    color: black !important;
+    font-size: 11pt !important;
+  }
+
+  .docs-body {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+
+  .docs-body aside {
+    display: none !important;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+  }
+
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+
+  pre, .cnml-code-block {
+    page-break-inside: avoid;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  .cnml-card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+}
