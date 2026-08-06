@@ -11,13 +11,13 @@ an OIML-CS digital certificate (CNML).
 - A web browser (any modern browser)
 - The `.cnml.xml` file you received from a manufacturer or found in the
   OIML-CS certificate database
-- Access to https://cnml.oiml.org/verify
+- Access to https://www.oimlsmart.org/cnml/verify
 
 No keys. No accounts. No technical knowledge required.
 
 ## How to verify
 
-1. Open https://cnml.oiml.org/verify
+1. Open https://www.oimlsmart.org/cnml/verify
 2. Drag the `.cnml.xml` file onto the page (or click to browse)
 3. The browser performs all checks automatically
 4. Read the result
