@@ -20,5 +20,6 @@
   },
   "devDependencies": {
     "@xmldom/xmldom": "^0.9.10"
-  }
+  },
+  "description": "The CNML verification pipeline, composite signatures, and SMI twin client"
 }

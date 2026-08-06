@@ -2,5 +2,6 @@
   "name": "@oiml/cnml-units",
   "version": "0.1.0",
   "type": "module",
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "description": "Unit resolver mapping measurement units to BIPM Digital SI definitions"
 }

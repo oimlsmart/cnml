@@ -20,7 +20,7 @@ The site does not set any `localStorage` keys except the user's theme preference
 
 The verify page processes dropped CNML files entirely in the browser. The file is parsed by the in-page XML parser, validated against the schema, and the signature is verified against the trust anchor bundle. The file's content never leaves the user's device. There is no upload step.
 
-The QR code generation page encodes a user-typed certificate identifier into a QR matrix using a pure-JavaScript library. The encoding runs locally. No third-party API is called (the previous implementation called `api.qrserver.com`; that dependency was removed in TODO 18).
+The QR code generation page encodes a user-typed certificate identifier into a QR matrix using a pure-JavaScript library. The encoding runs locally. No third-party API is called (the previous implementation called `api.qrserver.com`; no external API is called).
 
 The key management page generates, stores, and uses cryptographic signing keys in the browser. The private key is encrypted with a passphrase-derived AES-GCM key and stored in IndexedDB. The private key is never transmitted.
 
@@ -34,7 +34,7 @@ The site's external links (to the OIML website, the W3C, the IETF, the NIST, the
 
 ## Service worker
 
-A service worker is registered on the verify page only (TODO 32). The worker caches the verify page, its JavaScript and CSS bundles, and the trust anchor bundle. The cache lives on the user's device. The worker does not transmit any data; it serves as an offline cache for the verify page.
+A service worker is registered on the verify page only. The worker caches the verify page, its JavaScript and CSS bundles, and the trust anchor bundle. The cache lives on the user's device. The worker does not transmit any data; it serves as an offline cache for the verify page.
 
 The worker can be uninstalled by clearing the browser's site data, or it expires when a new version of the worker replaces it (the cache version increments when the worker logic changes).
 

@@ -11,13 +11,19 @@ pnpm dev
 # → open http://localhost:4321
 
 # 3. Run all tests
-pnpm test           # 46 unit tests (TS)
-cd oiml-pki-server && rspec  # 49 Ruby specs
-pnpm test:e2e       # 52 browser tests (Playwright)
+pnpm test              # integration vectors + pipeline
+pnpm test:crypto       # per-check unit tests (cnml-crypto)
+pnpm test:web          # markdown-page helper tests
+pnpm test:vitest       # Vue island unit tests (Vitest)
+pnpm test:audit        # audit suite (links, metadata, security)
+pnpm lint:style        # style-guide linter on content corpus
+pnpm budget            # bundle-size budget gate
+cd oiml-pki-server && bundle exec rspec   # Ruby CA server suite
+pnpm test:e2e          # Playwright browser tests
 
 # 4. Build for production
 pnpm build
-# → produces dist/ with 66 pages
+# → produces dist/ with 103+ pages + Pagefind search index
 
 # 5. Bundle analysis (optional)
 ANALYZE=1 pnpm build

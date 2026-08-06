@@ -5,5 +5,6 @@
   "exports": {
     ".": "./src/cnml-1.0.xsd",
     "./cnml-1.0.xsd": "./src/cnml-1.0.xsd"
-  }
+  },
+  "description": "XML Schema Definition (XSD) for the CNML certificate format"
 }

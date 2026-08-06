@@ -2,5 +2,6 @@
   "name": "@oiml/cnml-dcoc",
   "version": "0.1.0",
   "type": "module",
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "description": "Digital Certificate of Conformity (D-CoC) output in RDF/XML and JSON-LD"
 }

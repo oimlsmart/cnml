@@ -14,5 +14,6 @@
     "./samples/*": "./src/samples/*.yaml",
     "./schemas/*": "./src/schemas/*",
     "./R*": "./src/schemas/R*.yaml"
-  }
+  },
+  "description": "Per-Recommendation JSON Schemas for the CNML certificate format"
 }
