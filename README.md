@@ -52,6 +52,29 @@ The verification pipeline is open and closed. Each check is a module exporting a
 
 The key-storage backend is open and closed. Software keys, PKCS#11 hardware keys, and the threshold-cryptography backend all implement the same `Base` interface. Adding a backend requires one new file, one autoload entry, and one dispatch rule.
 
+### npm packages
+
+The TypeScript packages are published under the `@oiml` scope on npm. External integrators can install them without forking the repository:
+
+```bash
+npm install @oiml/cnml-crypto     # the verification pipeline
+npm install @oiml/cnml-schemas    # per-Recommendation JSON Schemas
+npm install @oiml/cnml-xml        # CNML XML parser
+```
+
+The full package list:
+
+| Package | Purpose |
+|---|---|
+| `@oiml/cnml-crypto` | Check pipeline, composite signatures, SMI twin client |
+| `@oiml/cnml-schemas` | Per-Recommendation JSON Schemas |
+| `@oiml/cnml-types` | Generated TypeScript types |
+| `@oiml/cnml-xml` | XML parser and canonicalization |
+| `@oiml/cnml-units` | Unit resolver (UnitsDB to BIPM Digital SI) |
+| `@oiml/cnml-dcoc` | D-CoC output (RDF/XML and JSON-LD) |
+| `@oiml/cnml-xsd` | XML Schema Definition for CNML |
+| `@oiml/ptb-dcc-compat` | PTB DCC compatibility layer |
+
 ## Roles
 
 | Role | What they do | Where in this repository |
