@@ -72,6 +72,8 @@ export { verifyCnmlXml } from "./xml/verify.ts";
 
 // X.509 self-signed certificate generation
 export { issueSelfSignedCert } from "./cert/self-signed.ts";
+export { verifyCertChain } from "./cert/chain-verify.ts";
+export type { ChainVerificationResult } from "./cert/chain-verify.ts";
 export { buildCsrPem } from "./cert/csr.ts";
 
 // Existing sibling modules (unchanged)
