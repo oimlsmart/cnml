@@ -13,9 +13,9 @@
 // separate test captures the home page in dark mode so the dark
 // theme is also locked.
 
-const { test, expect } = require("@playwright/test");
+const { test, expect } = await import("@playwright/test");
 
-const BASE = "http://127.0.0.1:4455";
+const BASE = "http://127.0.0.1:4455/cnml";
 
 const PAGES = [
   { name: "home", path: "/", widths: [1280, 375] },

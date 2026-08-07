@@ -6,6 +6,8 @@ import { test, expect } from "@playwright/test";
  * delete. IndexedDB is shared per origin so we wipe it before each test.
  */
 
+const BASE = "/cnml";
+
 async function wipeIndexedDB(page) {
   await page.context().clearCookies();
   await page.evaluate(async () => {
@@ -22,19 +24,19 @@ async function waitForHydration(page) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/", { waitUntil: "commit" });
+  await page.goto(`${BASE}/`, { waitUntil: "commit" });
   await wipeIndexedDB(page);
 });
 
 test("keys page: empty state shows generate CTA", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
   await expect(page.getByText(/No signing keys yet/i)).toBeVisible({ timeout: 10_000 });
   await expect(page.getByRole("button", { name: /Generate keypair/ })).toBeVisible();
 });
 
 test("keys page: generate creates a key in IndexedDB", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
@@ -52,7 +54,7 @@ test("keys page: generate creates a key in IndexedDB", async ({ page }) => {
 });
 
 test("keys page: passphrase validation rejects short input", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
@@ -63,7 +65,7 @@ test("keys page: passphrase validation rejects short input", async ({ page }) =>
 });
 
 test("keys page: download public key works", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
@@ -85,7 +87,7 @@ test("keys page: download public key works", async ({ page }) => {
 });
 
 test("keys page: delete removes the key", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
