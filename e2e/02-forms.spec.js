@@ -1,5 +1,6 @@
 
 import { test, expect } from "@playwright/test";
+import { waitForIslandButton } from "./lib/hydration.js";
 
 /**
  * Form-builder tests — every Create flow works: pick R, fill demo, edit,
@@ -8,12 +9,8 @@ import { test, expect } from "@playwright/test";
 
 const BASE = "/cnml";
 
-async function waitForHydration(page) {
-  await page.waitForFunction(() => {
-    const btn = document.querySelector("button");
-    return btn && "__vnode" in btn;
-  }, { timeout: 30_000 });
-}
+// The SchemaForm island hydrates when the "Fill demo data" button binds.
+const waitForHydration = (page) => waitForIslandButton(page, /Fill demo data/);
 
 test("R60 form: 'Fill demo data' populates all sections", async ({ page }) => {
   await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });

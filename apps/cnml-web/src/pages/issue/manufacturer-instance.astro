@@ -3,6 +3,12 @@ import Base from '../../layouts/Base.astro';
 import ManufacturerInstanceFlow from '../../islands/issuing/ManufacturerInstanceFlow.vue';
 import ErrorBoundary from '../../islands/widgets/ErrorBoundary.vue';
 import { url } from '../../lib/url';
+import instanceSchema from '@oiml/cnml-schemas/schemas/_instance.yaml';
+
+// The instance certificate schema (_instance.yaml) is the specification
+// for the tier-5 cert. The form fields, the XML serializer, and the
+// passport projection all derive their field set from this schema.
+// See packages/cnml-xml/src/index.ts → instanceCertToXml().
 ---
 
 <Base title="Manufacturer instance certificate">
@@ -13,7 +19,7 @@ import { url } from '../../lib/url';
       Scenario 4 of 4. The manufacturer signs a per-device certificate for each instrument they produce.
     </p>
     <ErrorBoundary client:idle>
-      <ManufacturerInstanceFlow client:idle />
+      <ManufacturerInstanceFlow client:idle schema={instanceSchema} />
     </ErrorBoundary>
   </section>
 </Base>

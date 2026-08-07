@@ -1,5 +1,6 @@
 
 import { test, expect } from "@playwright/test";
+import { waitForIslandButton } from "./lib/hydration.js";
 
 /**
  * Key management tests — full lifecycle: generate, list, download public,
@@ -8,23 +9,14 @@ import { test, expect } from "@playwright/test";
 
 const BASE = "/cnml";
 
+const waitForHydration = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
+
 async function wipeIndexedDB(page) {
   await page.context().clearCookies();
   await page.evaluate(async () => {
     const dbs = await indexedDB.databases();
     await Promise.all((dbs || []).map((db) => indexedDB.deleteDatabase(db.name)));
   });
-}
-
-async function waitForHydration(page) {
-  // Wait specifically for the KeyManager's "Generate keypair" button
-  // to be hydrated, not just any button on the page (nav buttons
-  // hydrate via a different island and would give a false signal).
-  await page.waitForFunction(() => {
-    const btns = Array.from(document.querySelectorAll("button"));
-    const target = btns.find((b) => /Generate keypair|\+ New key/.test(b.textContent ?? ""));
-    return target && "__vnode" in target;
-  }, { timeout: 30_000 });
 }
 
 test.beforeEach(async ({ page }) => {
