@@ -8,6 +8,12 @@
  */
 import { ref, onMounted } from 'vue'
 import { useTheme } from '../composables/useTheme'
+
+// Astro passes data-astro-cid-* attributes to every island component.
+// MobileNav renders a fragment (trigger button + slide-in panel), so
+// Vue can't auto-inherit the attribute. Disable inheritance to silence
+// the "extraneous non-props attributes" warning.
+defineOptions({ inheritAttrs: false })
 import { useFocusTrap } from '../islands/shared/useFocusTrap'
 import type { NavDropdownConfig } from './NavDropdown.vue'
 
