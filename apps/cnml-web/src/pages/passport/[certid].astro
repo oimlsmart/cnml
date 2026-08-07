@@ -87,6 +87,27 @@ const passportContext = PASSPORT_CONTEXT;
       </p>
     </div>
 
+    {passportJson.recommendation && (
+      <div class="cnml-card mt-6">
+        <h2 class="cnml-section-title">OIML Recommendation</h2>
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Recommendation</dt>
+            <dd class="text-[var(--ink)] mt-1 font-mono">{passportJson.recommendation.id}</dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Subject</dt>
+            <dd class="text-[var(--ink)] mt-1">{passportJson.recommendation.title}</dd>
+          </div>
+        </dl>
+        <p class="text-xs text-[var(--ink-muted)] mt-3 leading-relaxed">
+          The OIML Recommendation under which this instrument is approved.
+          The full per-Recommendation schema is available on the
+          <a href={url('/schemas')} class="text-[var(--accent)] underline">schemas page</a>.
+        </p>
+      </div>
+    )}
+
     <div class="cnml-card mt-6">
       <h2 class="cnml-section-title">Certificate chain</h2>
       <ol class="space-y-2">
