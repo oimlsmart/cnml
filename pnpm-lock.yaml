@@ -222,6 +222,12 @@ importers:
 
   packages/ptb-dcc-compat: {}
 
+  packages/smi-attest:
+    dependencies:
+      '@oiml/cnml-crypto':
+        specifier: workspace:*
+        version: link:../cnml-crypto
+
 packages:
 
   '@asamuzakjp/css-color@6.0.5':
