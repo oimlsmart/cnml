@@ -57,7 +57,13 @@ function saveCache(cache: Map<string, CacheEntry>) {
 function extractUrls(html: string): Set<string> {
   const urls = new Set<string>();
   for (const m of html.matchAll(/href="(https?:\/\/[^"]+)"/g)) {
-    urls.add(m[1]!.split("#")[0]!.split("?")[0]!);
+    const raw = m[1]!.split("#")[0]!.split("?")[0]!;
+    // Skip the site's own canonical/og:url references — those are
+    // self-referential metadata, not links the site vouches for, and
+    // routes like /404/ exist as rendered pages but not under their
+    // canonical URL. Internal page existence is verified by the build.
+    if (raw.startsWith("https://www.oimlsmart.org/cnml/")) continue;
+    urls.add(raw);
   }
   return urls;
 }
