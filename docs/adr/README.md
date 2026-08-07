@@ -14,6 +14,7 @@ but the context, the alternatives, and the consequences.
 | [0003](0003-npm-namespace-oiml.md) | npm namespace `@oiml/cnml-*` | Accepted |
 | [0004](0004-stay-on-github-pages.md) | Stay on GitHub Pages until a concrete trigger fires | Accepted |
 | [0005](0005-federated-transparency-logs.md) | Federated transparency logs with cross-anchoring | Accepted |
+| [0006](0006-cnml-smi-boundary.md) | CNML and SMI responsibility boundary | Accepted |
 
 ## Format
 

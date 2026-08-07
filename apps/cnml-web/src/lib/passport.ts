@@ -23,11 +23,17 @@ export interface PassportChainEntry {
   fingerprint: string | null;
 }
 
+export interface PassportRecommendation {
+  id: string;
+  title: string;
+}
+
 export interface PassportDocument {
   "@context": "https://www.oimlsmart.org/cnml/passport/v1";
   "@type": "MetrologicalCertificatePassport";
   certificateId: string;
   device: PassportDevice;
+  recommendation?: PassportRecommendation;
   chain: PassportChainEntry[];
   status: "valid" | "revoked" | "expired";
   statusCheckedAt: string;
@@ -50,6 +56,10 @@ export function passportDocumentFor(certId: string, statusCheckedAt: string): Pa
       manufacturer: null,
       model: null,
       serial: null,
+    },
+    recommendation: {
+      id: "R60",
+      title: "Metrological regulation for load cells",
     },
     chain: [
       { tier: 5, role: "instance", fingerprint: null },

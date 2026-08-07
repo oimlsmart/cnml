@@ -1,5 +1,11 @@
 # @oiml/smi-attest
 
+> **Note:** This package's canonical home is the SMI project at
+> `~/src/oimlsmart/smi/`. The copy here is a reference implementation
+> placed during the initial design (see ADR-0006). When the SMI
+> project publishes `@oiml/smi-attest` from its own repo, this copy
+> will be removed.
+
 Signed measurement and calibration attestation formats for OIML SMART
 Measuring Instruments (SMI).
 
