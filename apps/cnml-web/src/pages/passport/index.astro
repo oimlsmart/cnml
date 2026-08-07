@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/url';
+import { DEFAULT_DEMO_CERT_ID } from '../../lib/demo-instances';
 ---
 
 <Base title="Passport">
@@ -28,7 +29,7 @@ import { url } from '../../lib/url';
           demand from the transparency log.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href={url('/passport/CNML-DEMO-INSTANCE')} class="cnml-btn cnml-btn-primary">View demo passport</a>
+          <a href={url(`/passport/${DEFAULT_DEMO_CERT_ID}`)} class="cnml-btn cnml-btn-primary">View demo passport</a>
           <button type="submit" class="cnml-btn cnml-btn-secondary">Submit identifier</button>
         </div>
       </form>
