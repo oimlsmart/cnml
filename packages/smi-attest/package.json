@@ -1,0 +1,18 @@
+{
+  "name": "@oiml/smi-attest",
+  "version": "0.1.0",
+  "description": "Signed measurement and calibration attestation formats for OIML SMART Measuring Instruments",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./measurement": "./src/measurement.ts",
+    "./calibration": "./src/calibration.ts"
+  },
+  "scripts": {
+    "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts"
+  },
+  "dependencies": {
+    "@oiml/cnml-crypto": "workspace:*"
+  }
+}
