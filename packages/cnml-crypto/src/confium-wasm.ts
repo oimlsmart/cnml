@@ -143,7 +143,12 @@ async function doLoad(): Promise<ConfiumWasmBundle> {
 
   let mod: ConfiumWasmModule;
   try {
-    const imported = await import("@confium/confium-wasm");
+    // The specifier is hidden behind a variable so Vite's import-analysis
+    // cannot statically resolve it. @confium/confium-wasm is an optional
+    // dependency (not installed in the public build); the runtime catch
+    // below surfaces "package-missing" if the module is absent.
+    const spec = "@confium/confium-wasm";
+    const imported = await import(/* @vite-ignore */ spec);
     // Default export is the WASM instantiate promise for some bundlers.
     if (imported.default && typeof imported.default.then === "function") {
       await imported.default;

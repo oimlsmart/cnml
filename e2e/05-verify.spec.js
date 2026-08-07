@@ -42,7 +42,12 @@ for (const rId of SPOT_CHECK) {
     page.on("pageerror", (e) => errors.push(`pageerror: ${e.message}`));
     page.on("console", (msg) => {
       const t = msg.text();
-      if (msg.type() === "error" && !/504/.test(t)) errors.push(`console: ${t}`);
+      // Known dev-mode noise:
+      // - 504 Outdated Optimize Dep: Vite re-optimizes on first load
+      // - "Error compiling schema ... nonNegativeInteger": AJV strict-mode
+      //   log for a DCC/UnitsDB schema reference. The compiled validator
+      //   still runs; the schema_valid check produces its own tile result.
+      if (msg.type() === "error" && !/504|Error compiling schema/.test(t)) errors.push(`console: ${t}`);
     });
 
     await page.goto(`${BASE}/verify`, { waitUntil: "commit" });

@@ -21,9 +21,12 @@ const PASSPHRASE = "test-passphrase-123";
 const ALIAS = "E2E Signing Key";
 
 async function waitForHydration(page) {
+  // Wait for the KeyManager's generate button to hydrate (not just
+  // any button — nav buttons hydrate via a different island).
   await page.waitForFunction(() => {
-    const btn = document.querySelector("button");
-    return btn && "__vnode" in btn;
+    const btns = Array.from(document.querySelectorAll("button"));
+    const target = btns.find((b) => /Generate keypair|\+ New key/.test(b.textContent ?? ""));
+    return target && "__vnode" in target;
   }, { timeout: 30_000 });
 }
 
@@ -38,12 +41,15 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // ─── Pre-step: create the signing key in the SAME context so IndexedDB
   // persists across pages. (browser.newPage() creates a new context —
   // IndexedDB is per-context, not per-browser.)
-  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
+  // Wipe on a neutral page first, then navigate to /keys fresh so the
+  // KeyManager reads the clean DB without needing a slow reload.
+  await page.goto(`${BASE}/`, { waitUntil: "commit" });
   await wipeIdb(page);
-  await page.reload();
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).first().click();
+  await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.locator('input[placeholder="My authority signing key"]').fill(ALIAS);
   await page.locator('input[type="password"]').first().fill(PASSPHRASE);
   await page.getByRole("button", { name: /Generate ECDSA P-256/ }).click();
@@ -52,7 +58,12 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // ─── Step 1: open /create/r60 in a new page (shares context = shares IndexedDB)
   const formPage = await context.newPage();
   await formPage.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
-  await waitForHydration(formPage);
+  // Wait for the SchemaForm's "Fill demo data" button to hydrate.
+  await formPage.waitForFunction(() => {
+    const btns = Array.from(document.querySelectorAll("button"));
+    const target = btns.find((b) => /Fill demo data/.test(b.textContent ?? ""));
+    return target && "__vnode" in target;
+  }, { timeout: 30_000 });
   await formPage.getByRole("button", { name: /Fill demo data/ }).click();
   await expect(formPage.locator("input").first()).not.toHaveValue("");
 
@@ -121,13 +132,19 @@ test("sign dialog: passphrase validation works in generate mode", async ({ page 
   await wipeIdb(page);
 
   await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
-  await waitForHydration(page);
+  // Wait for the SchemaForm's "Fill demo data" button to hydrate.
+  await page.waitForFunction(() => {
+    const btns = Array.from(document.querySelectorAll("button"));
+    const target = btns.find((b) => /Fill demo data/.test(b.textContent ?? ""));
+    return target && "__vnode" in target;
+  }, { timeout: 30_000 });
   await page.getByRole("button", { name: /Fill demo data/ }).click();
 
   await page.getByRole("button", { name: /Sign and download CNML/ }).click();
   await expect(page.getByRole("heading", { name: /Sign and download CNML/i })).toBeVisible({ timeout: 5_000 });
   await page.getByRole("button", { name: /Generate new/i }).click();
 
+  await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.locator('input[placeholder="My authority signing key"]').fill("Short Pass Test");
   await page.locator('input[placeholder="≥ 8 characters"]').fill("short");
 

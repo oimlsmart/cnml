@@ -17,9 +17,13 @@ async function wipeIndexedDB(page) {
 }
 
 async function waitForHydration(page) {
+  // Wait specifically for the KeyManager's "Generate keypair" button
+  // to be hydrated, not just any button on the page (nav buttons
+  // hydrate via a different island and would give a false signal).
   await page.waitForFunction(() => {
-    const btn = document.querySelector("button");
-    return btn && "__vnode" in btn;
+    const btns = Array.from(document.querySelectorAll("button"));
+    const target = btns.find((b) => /Generate keypair|\+ New key/.test(b.textContent ?? ""));
+    return target && "__vnode" in target;
   }, { timeout: 30_000 });
 }
 
@@ -58,6 +62,7 @@ test("keys page: passphrase validation rejects short input", async ({ page }) =>
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
+  await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.locator('input[placeholder="My authority signing key"]').fill("X");
   await page.locator('input[type="password"]').first().fill("short");
   await page.getByRole("button", { name: /Generate ECDSA P-256/ }).click();
