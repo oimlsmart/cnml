@@ -75,10 +75,15 @@ for (const p of PAGES) {
 
 test("home page shows hero + action cards", async ({ page }) => {
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
-  await expect(page.locator("h1").first()).toContainText(/Certificat Numérique de Métrologie Légale/);
-  await expect(page.getByRole("link", { name: /Create/ }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /Verify/ }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /certificates/i }).first()).toBeVisible();
+  // The hero title uses a <br/> between "Numérique" and "de" which
+  // collapses the space in innerText. Match flexibly.
+  await expect(page.locator("h1").first()).toContainText(/Certificat Numérique\s*de Métrologie Légale/);
+  // The hero carries the three primary CTAs.
+  await expect(page.getByRole("link", { name: /Explore the format/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Read the docs/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Try the app/ })).toBeVisible();
+  // The audience-paths section surfaces at least one audience card.
+  await expect(page.getByRole("link", { name: /Issuing Authorities/ }).first()).toBeVisible();
 });
 
 test("schemas page lists all 22 R schemas", async ({ page }) => {

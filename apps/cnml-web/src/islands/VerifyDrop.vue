@@ -98,19 +98,6 @@ function onFileInput(event: Event) {
   if (f) handleUpload(f);
 }
 
-// Keyboard activation for the dropzone. The native <label> wraps a
-// visually hidden but focusable file input, so Enter and Space already
-// open the picker when focus lands on the input; this handler mirrors
-// that behavior when focus is on the dropzone container itself,
-// satisfying WCAG 2.1.1 (Keyboard) for the drag-drop affordance.
-function onDropKeydown(event: KeyboardEvent) {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    const input = (event.currentTarget as HTMLElement).querySelector<HTMLInputElement>("input[type=file]");
-    input?.click();
-  }
-}
-
 function reset() {
   file.value = null;
   cert.value = null;
@@ -149,29 +136,23 @@ function statusGlyph(r: CheckResult): string {
 
 <template>
   <div>
-    <!-- Drop zone: the <input type="file"> stays in the tab order
-         (visually hidden via .sr-only, not display:none) so the
-         native file picker is keyboard-operable. The wrapping label
-         makes the entire region a click target, and the role/group
-         exposes the affordance to assistive technology. -->
-    <div
+    <!-- Drop zone: a <label> is the single interactive container. It
+         natively activates the hidden file input on click and on Enter
+         (the input inside is focusable), so no role/tabindex/keydown is
+         needed. The drag handlers stay on the label so drag-and-drop
+         works alongside the click target. -->
+    <label
       v-if="!file"
       @dragover.prevent
       @drop.prevent="onDrop"
-      @keydown="onDropKeydown"
-      role="button"
-      tabindex="0"
-      aria-label="Drop a CNML file here, or activate to browse for a .cnml.xml file"
-      class="p-12 border-2 border-dashed border-[var(--rule)] rounded-2xl text-center bg-[var(--paper-raised)] cursor-pointer hover:border-[var(--accent)] focus-visible:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2"
+      class="block p-12 border-2 border-dashed border-[var(--rule)] rounded-2xl text-center bg-[var(--paper-raised)] cursor-pointer hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-2 focus-within:outline-offset-2"
     >
-      <label class="block cursor-pointer">
-        <input type="file" accept=".xml" class="sr-only" @change="onFileInput" />
-        <div class="text-5xl mb-4" aria-hidden="true">📄</div>
-        <div class="font-medium mb-1">Drop a CNML file here</div>
-        <div class="text-sm text-[var(--ink-muted)] mb-6">or click to browse — .cnml.xml, max 5 MB. Files never leave your browser.</div>
-        <span class="cnml-btn cnml-btn-primary">Choose file</span>
-      </label>
-    </div>
+      <input type="file" accept=".xml" class="sr-only" @change="onFileInput" />
+      <div class="text-5xl mb-4" aria-hidden="true">📄</div>
+      <div class="font-medium mb-1">Drop a CNML file here</div>
+      <div class="text-sm text-[var(--ink-muted)] mb-6">or click to browse — .cnml.xml, max 5 MB. Files never leave your browser.</div>
+      <span class="cnml-btn cnml-btn-primary">Choose file</span>
+    </label>
 
     <div v-if="busy" role="status" aria-live="polite" class="mt-4 text-sm text-[var(--ink-muted)]">Verifying…</div>
 
