@@ -34,6 +34,7 @@ const panelRef = ref<HTMLElement | null>(null)
 const { isDark, toggle: toggleTheme } = useTheme()
 
 useFocusTrap(isOpen, panelRef, () => {
+  isOpen.value = false
   document.body.style.overflow = ''
 })
 

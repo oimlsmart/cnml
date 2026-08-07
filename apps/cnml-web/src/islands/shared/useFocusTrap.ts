@@ -24,7 +24,9 @@ export function useFocusTrap(
 
   function onKeydown(e: KeyboardEvent) {
     if (e.key === "Escape") {
-      active.value = false;
+      // Don't write to active.value — it may be a computed ref
+      // (read-only). The parent's onClose handler updates the state,
+      // the watch fires, and the trap tears down.
       onClose?.();
       return;
     }

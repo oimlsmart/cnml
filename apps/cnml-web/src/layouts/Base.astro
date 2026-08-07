@@ -81,17 +81,10 @@ const jsonLd = jsonLdForPage({
 
 const dropdowns = [aboutDropdown, audiencesDropdown, featuresDropdown];
 
-// Content-Security-Policy. Two spec-driven constraints:
-// - frame-ancestors, report-uri, sandbox are NOT enforceable via <meta>
-//   (they require an HTTP header). Omitted rather than carrying dead
-//   directives that give a false sense of protection.
-// - In dev mode Astro injects inline scripts for HMR/hydration; the
-//   production CSP (script-src 'self') would block them and flood the
-//   console. Dev widens to 'unsafe-inline'; production stays strict.
-const scriptSrc = import.meta.env.DEV
-  ? "script-src 'self' 'unsafe-inline'"
-  : "script-src 'self'";
-const csp = `default-src 'self'; ${scriptSrc}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.oimlsmart.org; base-uri 'self'; form-action 'self'; object-src 'none';`;
+// Content-Security-Policy — built by the CSP module (testable).
+// See lib/csp.ts for the dev/prod split rationale.
+import { buildCsp } from '../lib/csp';
+const csp = buildCsp({ dev: import.meta.env.DEV });
 ---
 
 <!doctype html>
