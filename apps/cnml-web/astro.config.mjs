@@ -4,6 +4,9 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import yaml from '@rollup/plugin-yaml';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { fileURLToPath } from 'node:url';
+
+const stub = (rel) => fileURLToPath(new URL(rel, import.meta.url));
 
 // Bundle analysis: emit dist/stats.html when ANALYZE=1.
 // Default off so production builds stay clean for the link audit.
@@ -91,6 +94,16 @@ export default defineConfig({
     },
     server: {
       preTransformRequests: true,
+    },
+    resolve: {
+      // @confium/confium-wasm is an optional dependency (not installed
+      // in the public build). Map it to a stub so the dynamic import in
+      // cnml-crypto/src/confium-wasm.ts resolves cleanly. The runtime
+      // catch surfaces "package-missing" to callers. When the real
+      // package IS installed, the consuming app overrides this alias.
+      alias: {
+        "@confium/confium-wasm": stub("./stubs/confium-wasm.js"),
+      },
     },
     build: {
       target: "esnext",

@@ -635,3 +635,51 @@ function prettyPrintXml(xml: string): string {
     return out;
   }).join("\n");
 }
+
+// ─── Instance certificate (tier 5) ──────────────────────────────────────
+//
+// The per-device instance certificate binds a specific physical
+// instrument to its manufacturer's model certificate (tier 4). The
+// field set mirrors packages/cnml-schemas/src/schemas/_instance.yaml —
+// the schema is the specification; this serializer is its XML projection.
+
+export interface InstanceCertificate {
+  manufacturer: string;
+  model: string;
+  serialNumber: string;
+  firmwareHash?: string;
+  manufacturingDate: string;
+  /** The model cert that delegates signing authority. */
+  modelCertificateId?: string;
+  /** The OIML Recommendation this instrument is approved under. */
+  recommendationId?: string;
+}
+
+export function instanceCertToXml(cert: InstanceCertificate, pretty = true): string {
+  const doc = document.implementation.createDocument(null, null, null);
+  const root = doc.createElementNS(CNML_NS, "cnml:instanceCertificate");
+  root.setAttribute("schemaVersion", SCHEMA_VERSION);
+  root.setAttribute("tier", "5");
+  doc.appendChild(root);
+
+  const admin = el(doc, "administrativeData");
+  root.appendChild(admin);
+
+  const device = el(doc, "device");
+  device.appendChild(el(doc, "manufacturer", cert.manufacturer));
+  device.appendChild(el(doc, "model", cert.model));
+  device.appendChild(el(doc, "serial", cert.serialNumber));
+  if (cert.firmwareHash) {
+    const fw = el(doc, "firmwareHash", cert.firmwareHash);
+    fw.setAttribute("algorithm", "SHA-256");
+    device.appendChild(fw);
+  }
+  device.appendChild(el(doc, "manufacturingDate", cert.manufacturingDate));
+  admin.appendChild(device);
+
+  admin.appendChild(el(doc, "issuedAt", new Date().toISOString()));
+
+  const serialized = new XMLSerializer().serializeToString(doc);
+  if (!pretty) return serialized;
+  return prettyPrintXml(serialized);
+}

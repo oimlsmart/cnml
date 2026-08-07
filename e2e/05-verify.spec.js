@@ -2,6 +2,7 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { waitForIslandElement } from "./lib/hydration.js";
 
 /**
  * Verify page tests — uploads each of the 22 pre-generated test vectors
@@ -11,15 +12,12 @@ import path from "node:path";
 const BASE = "/cnml";
 const VECTORS_DIR = "packages/cnml-test-vectors/src/vectors";
 
-// Helper: wait for the VerifyDrop island to actually hydrate (Vue attached
-// to the file input). Without this, setInputFiles fires the DOM event but
-// Vue's @change handler isn't bound yet, so the upload is silently lost.
+// Wait for the VerifyDrop island to hydrate (Vue attached to the file
+// input). Without this, setInputFiles fires the DOM event but Vue's
+// @change handler isn't bound yet, so the upload is silently lost.
 async function waitForHydration(page) {
   await page.getByText("Drop a CNML file here").waitFor({ state: "visible", timeout: 30_000 });
-  await page.waitForFunction(() => {
-    const input = document.querySelector("input[type=file]");
-    return input && "__vnode" in input;
-  }, { timeout: 30_000 });
+  await waitForIslandElement(page, "input[type=file]");
 }
 
 test("verify page: drop zone is visible", async ({ page }) => {

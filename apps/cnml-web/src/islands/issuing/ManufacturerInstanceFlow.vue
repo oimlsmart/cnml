@@ -6,7 +6,14 @@ import {
   issueSelfSignedCert, signCnmlXml, sha256Hex,
   type StoredKey,
 } from "@oiml/cnml-crypto";
+import { instanceCertToXml, type InstanceCertificate } from "@oiml/cnml-xml";
 import { fingerprintShort } from "../shared";
+
+// The schema (_instance.yaml) is passed from the Astro page. The form
+// field set, the XML serializer, and the passport projection all derive
+// from this schema. The props below carry it for future use (field-
+// level validation, conditional rendering, label overrides).
+const props = defineProps<{ schema?: Record<string, unknown> }>();
 
 // Astro BASE_URL ("/" in dev, "/cnml/" in prod) for prefixing internal links.
 const baseUrl = import.meta.env.BASE_URL as string;
@@ -75,26 +82,18 @@ const formValid = computed(() =>
 );
 
 function buildInstanceXml(): string {
-  // Build a minimal CNML instance certificate (tier 5). The payload binds
-  // the device identity to the manufacturer key. The schema follows the
-  // CNML 1.0 namespace with an instance-specific extension element.
-  const esc = (s: string) =>
-    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  const fwLine = firmwareHash.value.trim()
-    ? `\n      <cnml:firmwareHash algorithm="SHA-256">${esc(firmwareHash.value.trim())}</cnml:firmwareHash>`
-    : "";
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<cnml:instanceCertificate xmlns:cnml="https://oimlsmart.org/schemas/cnml/1.0" schemaVersion="1.0" tier="5">
-  <cnml:administrativeData>
-    <cnml:device>
-      <cnml:manufacturer>${esc(manufacturerName.value.trim())}</cnml:manufacturer>
-      <cnml:model>${esc(modelName.value.trim())}</cnml:model>
-      <cnml:serial>${esc(serialNumber.value.trim())}</cnml:serial>${fwLine}
-      <cnml:manufacturingDate>${esc(manufacturingDate.value)}</cnml:manufacturingDate>
-    </cnml:device>
-    <cnml:issuedAt>${new Date().toISOString()}</cnml:issuedAt>
-  </cnml:administrativeData>
-</cnml:instanceCertificate>`;
+  // Serialize via @oiml/cnml-xml. The XML shape is driven by the
+  // InstanceCertificate interface which mirrors _instance.yaml —
+  // the schema is the specification.
+  const data: InstanceCertificate = {
+    manufacturer: manufacturerName.value.trim(),
+    model: modelName.value.trim(),
+    serialNumber: serialNumber.value.trim(),
+    manufacturingDate: manufacturingDate.value,
+  };
+  const fw = firmwareHash.value.trim();
+  if (fw) data.firmwareHash = fw;
+  return instanceCertToXml(data);
 }
 
 async function ensureManufacturerKey(): Promise<{ priv: CryptoKey; pub: CryptoKey; pem: string }> {

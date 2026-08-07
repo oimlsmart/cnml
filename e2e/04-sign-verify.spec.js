@@ -1,5 +1,6 @@
 
 import { test, expect } from "@playwright/test";
+import { waitForIslandButton } from "./lib/hydration.js";
 
 /**
  * Full sign + verify round-trip test in the browser.
@@ -20,15 +21,10 @@ const BASE = "/cnml";
 const PASSPHRASE = "test-passphrase-123";
 const ALIAS = "E2E Signing Key";
 
-async function waitForHydration(page) {
-  // Wait for the KeyManager's generate button to hydrate (not just
-  // any button — nav buttons hydrate via a different island).
-  await page.waitForFunction(() => {
-    const btns = Array.from(document.querySelectorAll("button"));
-    const target = btns.find((b) => /Generate keypair|\+ New key/.test(b.textContent ?? ""));
-    return target && "__vnode" in target;
-  }, { timeout: 30_000 });
-}
+// Two islands in this suite: the KeyManager (keys page) and the
+// SchemaForm (create page). Each test picks the right one.
+const waitForKeyManager = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
+const waitForSchemaForm = (page) => waitForIslandButton(page, /Fill demo data/);
 
 async function wipeIdb(page) {
   await page.evaluate(async () => {
@@ -46,7 +42,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
   await wipeIdb(page);
   await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
-  await waitForHydration(page);
+  await waitForKeyManager(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).first().click();
   await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
@@ -58,12 +54,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // ─── Step 1: open /create/r60 in a new page (shares context = shares IndexedDB)
   const formPage = await context.newPage();
   await formPage.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
-  // Wait for the SchemaForm's "Fill demo data" button to hydrate.
-  await formPage.waitForFunction(() => {
-    const btns = Array.from(document.querySelectorAll("button"));
-    const target = btns.find((b) => /Fill demo data/.test(b.textContent ?? ""));
-    return target && "__vnode" in target;
-  }, { timeout: 30_000 });
+  await waitForSchemaForm(formPage);
   await formPage.getByRole("button", { name: /Fill demo data/ }).click();
   await expect(formPage.locator("input").first()).not.toHaveValue("");
 
@@ -132,12 +123,7 @@ test("sign dialog: passphrase validation works in generate mode", async ({ page 
   await wipeIdb(page);
 
   await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
-  // Wait for the SchemaForm's "Fill demo data" button to hydrate.
-  await page.waitForFunction(() => {
-    const btns = Array.from(document.querySelectorAll("button"));
-    const target = btns.find((b) => /Fill demo data/.test(b.textContent ?? ""));
-    return target && "__vnode" in target;
-  }, { timeout: 30_000 });
+  await waitForSchemaForm(page);
   await page.getByRole("button", { name: /Fill demo data/ }).click();
 
   await page.getByRole("button", { name: /Sign and download CNML/ }).click();
