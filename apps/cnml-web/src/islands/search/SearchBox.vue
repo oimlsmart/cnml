@@ -22,8 +22,10 @@ const pagefind = ref<PagefindModule | null>(null);
 
 onMounted(async () => {
   // Pagefind emits its runtime at /pagefind/pagefind.js under the
-  // site base. The dynamic import is relative to the current page so
-  // it works under /cnml/ and under any subpath.
+  // site base. The index is generated at build time (pnpm build runs
+  // the pagefind CLI); in dev mode the file is absent and the import
+  // would throw. Skip the load in dev so the console stays clean.
+  if (import.meta.env.DEV) return;
   const base = import.meta.env.BASE_URL;
   try {
     pagefind.value = await import(`${base}pagefind/pagefind.js`) as PagefindModule;
