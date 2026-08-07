@@ -7,10 +7,10 @@
 // test. Known false positives are disabled in the `OVERRIDES`
 // constant — each override has a reason.
 
-const { test, expect } = require("@playwright/test");
-const AxeBuilder = require("@axe-core/playwright").default;
+const { test, expect } = await import("@playwright/test");
+const { default: AxeBuilder } = await import("@axe-core/playwright");
 
-const BASE = "http://127.0.0.1:4455";
+const BASE = "http://127.0.0.1:4455/cnml";
 
 // Pages that represent the critical user journeys. Each gets its own
 // axe scan — they exercise different layouts (home hero, doc prose,

@@ -8,6 +8,7 @@ import path from "node:path";
  * and confirms all 4 checks pass.
  */
 
+const BASE = "/cnml";
 const VECTORS_DIR = "packages/cnml-test-vectors/src/vectors";
 
 // Helper: wait for the VerifyDrop island to actually hydrate (Vue attached
@@ -28,7 +29,7 @@ test("verify page: drop zone is visible", async ({ page }) => {
     if (msg.type() === "error") errors.push(`console: ${msg.text()}`);
   });
 
-  await page.goto("/verify", { waitUntil: "commit" });
+  await page.goto(`${BASE}/verify`, { waitUntil: "commit" });
   await waitForHydration(page);
   expect(errors, `errors:\n${errors.join("\n")}`).toEqual([]);
 });
@@ -44,7 +45,7 @@ for (const rId of SPOT_CHECK) {
       if (msg.type() === "error" && !/504/.test(t)) errors.push(`console: ${t}`);
     });
 
-    await page.goto("/verify", { waitUntil: "commit" });
+    await page.goto(`${BASE}/verify`, { waitUntil: "commit" });
     await waitForHydration(page);
 
     const vectorPath = path.resolve(VECTORS_DIR, `${rId}.cnml.xml`);
@@ -61,7 +62,7 @@ for (const rId of SPOT_CHECK) {
 }
 
 test("verify page: malformed XML shows an error", async ({ page }) => {
-  await page.goto("/verify", { waitUntil: "commit" });
+  await page.goto(`${BASE}/verify`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   const fs = await import("node:fs");

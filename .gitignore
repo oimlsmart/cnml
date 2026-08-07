@@ -36,6 +36,9 @@ Thumbs.db
 *.log
 output/
 
+# External link checker cache (24h TTL, regenerated on each links:check)
+.external-links-cache.json
+
 # Internal planning TODOs — kept locally, NOT published
 # (strategic plans, hallucination-prone cost/timeline drafts, internal
 # architecture rationale). The public roadmap lives in README.md and

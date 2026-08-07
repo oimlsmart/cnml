@@ -15,6 +15,8 @@ import { test, expect } from "@playwright/test";
  *   8. Assert all 4 checks pass
  */
 
+const BASE = "/cnml";
+
 const PASSPHRASE = "test-passphrase-123";
 const ALIAS = "E2E Signing Key";
 
@@ -36,7 +38,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // ─── Pre-step: create the signing key in the SAME context so IndexedDB
   // persists across pages. (browser.newPage() creates a new context —
   // IndexedDB is per-context, not per-browser.)
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await wipeIdb(page);
   await page.reload();
   await waitForHydration(page);
@@ -49,7 +51,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 
   // ─── Step 1: open /create/r60 in a new page (shares context = shares IndexedDB)
   const formPage = await context.newPage();
-  await formPage.goto("/create/r60", { waitUntil: "commit" });
+  await formPage.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForHydration(formPage);
   await formPage.getByRole("button", { name: /Fill demo data/ }).click();
   await expect(formPage.locator("input").first()).not.toHaveValue("");
@@ -88,7 +90,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 
   // ─── Step 3: upload to /verify in another page ───────────────────
   const verifyPage = await context.newPage();
-  await verifyPage.goto("/verify", { waitUntil: "commit" });
+  await verifyPage.goto(`${BASE}/verify`, { waitUntil: "commit" });
   await verifyPage.waitForFunction(() => {
     const input = document.querySelector("input[type=file]");
     return input && "__vnode" in input;
@@ -115,10 +117,10 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 });
 
 test("sign dialog: passphrase validation works in generate mode", async ({ page }) => {
-  await page.goto("/", { waitUntil: "commit" });
+  await page.goto(`${BASE}/`, { waitUntil: "commit" });
   await wipeIdb(page);
 
-  await page.goto("/create/r60", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForHydration(page);
   await page.getByRole("button", { name: /Fill demo data/ }).click();
 
