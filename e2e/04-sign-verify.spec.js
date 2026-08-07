@@ -1,6 +1,7 @@
 
 import { test, expect } from "@playwright/test";
 import { waitForIslandButton } from "./lib/hydration.js";
+import { wipeIndexedDB } from "./lib/db.js";
 
 /**
  * Full sign + verify round-trip test in the browser.
@@ -26,13 +27,6 @@ const ALIAS = "E2E Signing Key";
 const waitForKeyManager = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
 const waitForSchemaForm = (page) => waitForIslandButton(page, /Fill demo data/);
 
-async function wipeIdb(page) {
-  await page.evaluate(async () => {
-    const dbs = await indexedDB.databases();
-    await Promise.all((dbs || []).map((db) => indexedDB.deleteDatabase(db.name)));
-  });
-}
-
 test("full sign + verify round-trip", async ({ page, context }) => {
   // ─── Pre-step: create the signing key in the SAME context so IndexedDB
   // persists across pages. (browser.newPage() creates a new context —
@@ -40,7 +34,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // Wipe on a neutral page first, then navigate to /keys fresh so the
   // KeyManager reads the clean DB without needing a slow reload.
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
-  await wipeIdb(page);
+  await wipeIndexedDB(page);
   await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForKeyManager(page);
 
@@ -120,7 +114,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 
 test("sign dialog: passphrase validation works in generate mode", async ({ page }) => {
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
-  await wipeIdb(page);
+  await wipeIndexedDB(page);
 
   await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForSchemaForm(page);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { ref, computed, watch } from "vue";
 import { certToCnmlXml } from "@oiml/cnml-xml";
 import {
   generateKey, encryptPrivateKey, storeKey, listKeys, getKey,
@@ -8,54 +8,21 @@ import {
   timestampCnml, embedTimestampInXml,
   type StoredKey, type KeyAlgorithm,
 } from "@oiml/cnml-crypto";
+import { useFocusTrap } from "./shared/useFocusTrap";
 
 const props = defineProps<{ cert: any; open: boolean }>();
 const emit = defineEmits<{ close: []; signed: [xml: string] }>();
 
 const dialogRef = ref<HTMLDivElement | null>(null);
-let lastFocused: HTMLElement | null = null;
 
-function onKey(e: KeyboardEvent) {
-  if (!props.open) return;
-  if (e.key === "Escape") {
-    e.preventDefault();
-    emit("close");
-    return;
-  }
-  if (e.key === "Tab" && dialogRef.value) {
-    const focusable = dialogRef.value.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-    );
-    if (focusable.length === 0) return;
-    const first = focusable[0]!;
-    const last = focusable[focusable.length - 1]!;
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  }
-}
-
-onMounted(() => window.addEventListener("keydown", onKey));
-onBeforeUnmount(() => window.removeEventListener("keydown", onKey));
-
-// Focus management: steal focus on open, restore on close
-watch(() => props.open, (open) => {
-  if (open) {
-    lastFocused = document.activeElement as HTMLElement;
-    nextTick(() => {
-      const first = dialogRef.value?.querySelector<HTMLElement>(
-        'button, a[href], input, select, textarea'
-      );
-      first?.focus();
-    });
-  } else {
-    nextTick(() => lastFocused?.focus());
-  }
-});
+// Focus trap: Escape closes, Tab cycles within the dialog, focus
+// returns to the trigger when closed. The composable is shared with
+// MobileNav — one implementation, one bug surface.
+useFocusTrap(
+  computed(() => props.open),
+  dialogRef,
+  () => emit("close"),
+);
 
 // ─── State ──────────────────────────────────────────────────────────
 const mode = ref<"select" | "generate" | "import">("select");

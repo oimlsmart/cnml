@@ -1,6 +1,7 @@
 
 import { test, expect } from "@playwright/test";
 import { waitForIslandButton } from "./lib/hydration.js";
+import { wipeIndexedDB } from "./lib/db.js";
 
 /**
  * Key management tests — full lifecycle: generate, list, download public,
@@ -10,14 +11,6 @@ import { waitForIslandButton } from "./lib/hydration.js";
 const BASE = "/cnml";
 
 const waitForHydration = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
-
-async function wipeIndexedDB(page) {
-  await page.context().clearCookies();
-  await page.evaluate(async () => {
-    const dbs = await indexedDB.databases();
-    await Promise.all((dbs || []).map((db) => indexedDB.deleteDatabase(db.name)));
-  });
-}
 
 test.beforeEach(async ({ page }) => {
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
