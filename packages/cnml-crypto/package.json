@@ -9,7 +9,7 @@
     "./smi/twin-client": "./src/smi/twin-client.ts"
   },
   "scripts": {
-    "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/checks/*.test.ts src/smi/*.test.ts"
+    "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/cert/*.test.ts src/checks/*.test.ts src/smi/*.test.ts src/keys/*.test.ts"
   },
   "dependencies": {
     "@oiml/cnml-xml": "workspace:*",
