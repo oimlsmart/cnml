@@ -117,7 +117,7 @@ module OimlPki
     # Hash an entry by its canonical JSON form (sorted keys, no whitespace).
     def hash_of(entry)
       canonical = JSON.generate(entry, sort: true)
-      "sha256:#{OpenSSL::Digest::SHA256.hexdigest(canonical)}"
+      OimlPki.sha256_hex(canonical)
     end
 
     def current_actor

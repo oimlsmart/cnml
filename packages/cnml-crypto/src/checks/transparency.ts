@@ -15,6 +15,7 @@
  */
 
 import type { Check, CheckContext, CheckResult } from "./types.ts";
+import { toHex, fromHex } from "../shared/hex.ts";
 
 /** SHA-256 over (0x01 || data) — leaf domain separator per RFC 6962. */
 async function hashLeaf(data: Uint8Array): Promise<Uint8Array> {
@@ -43,21 +44,11 @@ export async function sha256(data: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(digest);
 }
 
-/** Hex string → Uint8Array. */
-function fromHex(hex: string): Uint8Array {
-  const clean = hex.trim().replace(/\s+/g, "");
-  if (clean.length % 2 !== 0) throw new Error("odd-length hex");
-  const out = new Uint8Array(clean.length / 2);
-  for (let i = 0; i < clean.length; i += 2) {
-    out[i / 2] = parseInt(clean.slice(i, i + 2), 16);
-  }
-  return out;
-}
+/** Uint8Array → lowercase hex. Re-exported from shared/hex for convenience. */
+export { toHex };
 
-/** Uint8Array → lowercase hex. */
-function toHex(bytes: Uint8Array): string {
-  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
-}
+/** Hex string → Uint8Array. Re-exported from shared/hex for convenience. */
+export { fromHex };
 
 /** Decode base64 (handles both standard and url-safe alphabets). */
 function fromBase64(s: string): Uint8Array {

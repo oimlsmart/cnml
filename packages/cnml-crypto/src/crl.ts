@@ -29,6 +29,8 @@
  * null.
  */
 
+import { toHex } from "./shared/hex.ts";
+
 export interface RevocationEntry {
   /** Hex serial number, uppercase, no leading "0x". */
   serial: string;
@@ -114,7 +116,7 @@ function integerBytesToHex(value: any): string {
   if (!bytes) return "";
   // A leading 0x00 is the two's-complement sign pad, not serial content.
   const raw = bytes.length > 1 && bytes[0] === 0 ? bytes.slice(1) : bytes;
-  const hex = Array.from(raw).map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+  const hex = toHex(raw).toUpperCase();
   return hex.length % 2 === 0 ? hex : "0" + hex;
 }
 

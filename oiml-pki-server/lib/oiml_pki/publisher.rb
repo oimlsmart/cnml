@@ -38,7 +38,7 @@ module OimlPki
         "roots" => roots.map do |r|
           cert = OpenSSL::X509::Certificate.new(r["certificate"])
           {
-            "fingerprint" => "sha256:#{OpenSSL::Digest::SHA256.hexdigest(cert.to_der)}",
+            "fingerprint" => OimlPki.sha256_hex(cert.to_der),
             "subject"     => cert.subject.to_s,
             "validFrom"   => cert.not_before.iso8601,
             "validUntil"  => cert.not_after.iso8601,
@@ -48,7 +48,7 @@ module OimlPki
         "intermediates" => intermediates.map do |i|
           cert = OpenSSL::X509::Certificate.new(i["certificate"])
           {
-            "fingerprint"  => "sha256:#{OpenSSL::Digest::SHA256.hexdigest(cert.to_der)}",
+            "fingerprint"  => OimlPki.sha256_hex(cert.to_der),
             "subject"      => cert.subject.to_s,
             "validFrom"    => cert.not_before.iso8601,
             "validUntil"   => cert.not_after.iso8601,

@@ -1,5 +1,6 @@
 import type { Check, CheckResult } from "./types.ts";
 import { isSerialRevoked, isCrlStale, parseCrl, type Crl } from "../crl.ts";
+import { toHex } from "../shared/hex.ts";
 
 /** Check 5: CRL revocation status.
  *
@@ -116,7 +117,7 @@ export async function readCrlFieldsFromCert(certPem: string): Promise<{ serial: 
 
   const serialBytes: Uint8Array | undefined = cert.serialNumber.valueBlock.valueHexView;
   const rawBytes = serialBytes && serialBytes.length > 1 && serialBytes[0] === 0 ? serialBytes.slice(1) : serialBytes ?? new Uint8Array();
-  const raw = Array.from(rawBytes).map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+  const raw = toHex(rawBytes).toUpperCase();
   const serial = raw.length % 2 === 0 ? raw : "0" + raw;
 
   let crlUrl: string | null = null;
