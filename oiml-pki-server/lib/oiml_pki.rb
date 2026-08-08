@@ -75,4 +75,13 @@ module OimlPki
   autoload :CeremonyTranscript,   "oiml_pki/ceremony_transcript"
   autoload :UpdateIntegrity,      "oiml_pki/update_integrity"
   autoload :FileLock,             "oiml_pki/file_lock"
+
+  # SHA-256 hex digest with the "sha256:" prefix used across the
+  # codebase for fingerprint fields. Consolidates the three inline
+  # copies that were in audit_log.rb and publisher.rb.
+  module_function
+
+  def sha256_hex(data)
+    "sha256:#{OpenSSL::Digest::SHA256.hexdigest(data)}"
+  end
 end
