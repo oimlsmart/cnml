@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { TwinClient, type Indication, type TwinState, type Provenance, type ConnectionStatus } from "@oiml/cnml-crypto/smi/twin-client";
+import ErrorCallout from "../widgets/ErrorCallout.vue";
 
 const endpoint = ref("http://localhost:8787/twin");
 const status = ref<ConnectionStatus>("disconnected");
@@ -63,9 +64,7 @@ onUnmounted(disconnect);
       >Disconnect</button>
     </div>
 
-    <div v-if="error" role="alert" class="cnml-callout cnml-callout--error mb-4 text-sm">
-      {{ error }}
-    </div>
+    <ErrorCallout :message="error" />
 
     <div v-if="status === 'connected' && indication" class="space-y-4">
       <div class="cnml-card">
