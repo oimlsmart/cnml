@@ -7,13 +7,13 @@ import {
 } from "@oiml/cnml-crypto";
 import { runChecks, CHECKS, runConfiumVerifyCheck, type CheckResult, type CheckContext } from "@oiml/cnml-crypto/checks";
 import ErrorCallout from "./widgets/ErrorCallout.vue";
+import { useAsyncAction } from "../composables/useAsyncAction";
 
 const file = ref<File | null>(null);
 const xml  = ref("");
 const cert = ref<Certificate | null>(null);
 const verification = ref<VerificationResult | null>(null);
-const error = ref("");
-const busy = ref(false);
+const { error, busy, run } = useAsyncAction();
 const xmlWellFormed = ref(false);
 const checkResults = ref<CheckResult[]>([]);
 // Optional Confium WASM enhanced verification status. Populated after
@@ -31,8 +31,8 @@ async function handleUpload(uploadedFile: File) {
   verification.value = null;
   xmlWellFormed.value = false;
   checkResults.value = [];
-  busy.value = true;
-  try {
+
+  await run(async () => {
     xml.value = await uploadedFile.text();
 
     // Run the check pipeline — each check populates ctx for the next.
@@ -62,11 +62,7 @@ async function handleUpload(uploadedFile: File) {
       }
       verification.value = result;
     }
-  } catch (e) {
-    error.value = (e as Error).message;
-  } finally {
-    busy.value = false;
-  }
+  });
 
   // Optional enhanced verification: probe Confium WASM availability.
   // Silent on failure — this is informational, not a pipeline check.

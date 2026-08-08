@@ -2,13 +2,14 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { TwinClient, type Indication, type TwinState, type Provenance, type ConnectionStatus } from "@oiml/cnml-crypto/smi/twin-client";
 import ErrorCallout from "../widgets/ErrorCallout.vue";
+import { useAsyncAction } from "../../composables/useAsyncAction";
 
 const endpoint = ref("http://localhost:8787/twin");
 const status = ref<ConnectionStatus>("disconnected");
 const indication = ref<Indication | null>(null);
 const state = ref<TwinState | null>(null);
 const provenance = ref<Provenance | null>(null);
-const error = ref("");
+const { error, run } = useAsyncAction();
 let client: TwinClient | null = null;
 let unsub: (() => void) | null = null;
 
@@ -17,14 +18,12 @@ async function connect() {
   client = new TwinClient(endpoint.value);
   status.value = await client.connect();
   if (status.value === "connected") {
-    try {
-      indication.value = await client.getIndication();
-      state.value = await client.getState();
-      provenance.value = await client.getProvenance();
-      unsub = client.watchState((s) => { state.value = s; });
-    } catch (e) {
-      error.value = (e as Error).message;
-    }
+    await run(async () => {
+      indication.value = await client!.getIndication();
+      state.value = await client!.getState();
+      provenance.value = await client!.getProvenance();
+      unsub = client!.watchState((s) => { state.value = s; });
+    });
   } else {
     error.value = `Could not connect to ${endpoint.value}. Is the SST simulator or SMART instrument running?`;
   }

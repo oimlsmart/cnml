@@ -8,7 +8,7 @@ import { wipeIndexedDB } from "./lib/db.js";
  * delete. IndexedDB is shared per origin so we wipe it before each test.
  */
 
-const BASE = "/cnml";
+import { BASE } from "./lib/constants.js";
 
 const waitForHydration = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
 

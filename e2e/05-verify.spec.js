@@ -9,7 +9,7 @@ import { waitForIslandElement } from "./lib/hydration.js";
  * and confirms all 4 checks pass.
  */
 
-const BASE = "/cnml";
+import { BASE } from "./lib/constants.js";
 const VECTORS_DIR = "packages/cnml-test-vectors/src/vectors";
 
 // Wait for the VerifyDrop island to hydrate (Vue attached to the file
