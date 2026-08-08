@@ -4,17 +4,14 @@ import {
   PASSPORT_CONTEXT,
   PASSPORT_TYPE,
 } from "../../lib/passport";
+import { DEFAULT_DEMO_CERT_ID, demoStaticPaths } from "../../lib/demo-instances";
 
 export const prerender = true;
 
-export function getStaticPaths() {
-  return [
-    { params: { certid: "CNML-DEMO-INSTANCE" } },
-  ];
-}
+export { demoStaticPaths as getStaticPaths };
 
 export const GET: APIRoute = ({ params }) => {
-  const certId = (params.certid as string | undefined) ?? "CNML-DEMO-INSTANCE";
+  const certId = (params.certid as string | undefined) ?? DEFAULT_DEMO_CERT_ID;
   const doc = passportDocumentFor(certId, new Date().toISOString());
   return new Response(JSON.stringify(doc, null, 2), {
     headers: {

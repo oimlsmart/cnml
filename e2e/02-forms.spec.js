@@ -1,20 +1,19 @@
 
 import { test, expect } from "@playwright/test";
+import { waitForIslandButton } from "./lib/hydration.js";
 
 /**
  * Form-builder tests — every Create flow works: pick R, fill demo, edit,
  * save YAML, upload YAML.
  */
 
-async function waitForHydration(page) {
-  await page.waitForFunction(() => {
-    const btn = document.querySelector("button");
-    return btn && "__vnode" in btn;
-  }, { timeout: 30_000 });
-}
+import { BASE } from "./lib/constants.js";
+
+// The SchemaForm island hydrates when the "Fill demo data" button binds.
+const waitForHydration = (page) => waitForIslandButton(page, /Fill demo data/);
 
 test("R60 form: 'Fill demo data' populates all sections", async ({ page }) => {
-  await page.goto("/create/r60", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await expect(page.getByRole("button", { name: /Fill demo data/ })).toBeVisible();
@@ -25,7 +24,7 @@ test("R60 form: 'Fill demo data' populates all sections", async ({ page }) => {
 });
 
 test("R60 form: Reset clears the form", async ({ page }) => {
-  await page.goto("/create/r60", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Fill demo data/ }).click();
@@ -36,7 +35,7 @@ test("R60 form: Reset clears the form", async ({ page }) => {
 });
 
 test("R60 form: Save YAML downloads a file", async ({ page }) => {
-  await page.goto("/create/r60", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Fill demo data/ }).click();
@@ -54,13 +53,13 @@ test("R60 form: Save YAML downloads a file", async ({ page }) => {
 });
 
 test("SchemaForm (generic): renders top-level fields from JSON Schema", async ({ page }) => {
-  await page.goto("/create/r76", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r76`, { waitUntil: "commit" });
   await waitForHydration(page);
   await expect(page.getByText(/Non-automatic weighing instruments/i)).toBeVisible();
 });
 
 test("SchemaForm: Reset returns to defaults", async ({ page }) => {
-  await page.goto("/create/r76", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r76`, { waitUntil: "commit" });
   await waitForHydration(page);
   const textInput = page.locator("input").first();
   await textInput.fill("hello");
@@ -71,7 +70,7 @@ test("SchemaForm: Reset returns to defaults", async ({ page }) => {
 });
 
 test("Sample picker loads cert from /certs/r60 link", async ({ page }) => {
-  await page.goto("/certs/r60", { waitUntil: "commit" });
+  await page.goto(`${BASE}/certs/r60`, { waitUntil: "commit" });
   await expect(page.getByRole("link", { name: /Load in form/ }).first()).toBeVisible({ timeout: 30_000 });
   await page.getByRole("link", { name: /Load in form/ }).first().click();
 
@@ -82,7 +81,7 @@ test("Sample picker loads cert from /certs/r60 link", async ({ page }) => {
 });
 
 test("Sample picker dropdown changes the loaded cert", async ({ page }) => {
-  await page.goto("/create/r60", { waitUntil: "commit" });
+  await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   const select = page.locator("select").first();

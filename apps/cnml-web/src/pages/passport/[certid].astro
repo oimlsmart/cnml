@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/url';
 import { passportDocumentFor, passportVerifyUrl, PASSPORT_CONTEXT } from '../../lib/passport';
+import { DEFAULT_DEMO_CERT_ID, demoStaticPaths } from '../../lib/demo-instances';
 
 // In a static build the passport route is pre-rendered for the demo
 // identifier. Production deployments switch this route to on-demand
@@ -9,14 +10,10 @@ import { passportDocumentFor, passportVerifyUrl, PASSPORT_CONTEXT } from '../../
 // from the transparency log resolves. The getStaticPaths function
 // below enumerates the demo identifier that the index page links to
 // and that the QR code generator targets by default.
-export function getStaticPaths() {
-  return [
-    { params: { certid: 'CNML-DEMO-INSTANCE' } },
-  ];
-}
+export { demoStaticPaths as getStaticPaths };
 
 const rawId = Astro.params.certid as string | undefined;
-const certId = rawId ?? "CNML-DEMO-INSTANCE";
+const certId = rawId ?? DEFAULT_DEMO_CERT_ID;
 const statusCheckedAt = new Date().toISOString();
 const verifyUrl = passportVerifyUrl(certId);
 const passportJson = passportDocumentFor(certId, statusCheckedAt);
@@ -89,6 +86,27 @@ const passportContext = PASSPORT_CONTEXT;
         unavailable.
       </p>
     </div>
+
+    {passportJson.recommendation && (
+      <div class="cnml-card mt-6">
+        <h2 class="cnml-section-title">OIML Recommendation</h2>
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Recommendation</dt>
+            <dd class="text-[var(--ink)] mt-1 font-mono">{passportJson.recommendation.id}</dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Subject</dt>
+            <dd class="text-[var(--ink)] mt-1">{passportJson.recommendation.title}</dd>
+          </div>
+        </dl>
+        <p class="text-xs text-[var(--ink-muted)] mt-3 leading-relaxed">
+          The OIML Recommendation under which this instrument is approved.
+          The full per-Recommendation schema is available on the
+          <a href={url('/schemas')} class="text-[var(--accent)] underline">schemas page</a>.
+        </p>
+      </div>
+    )}
 
     <div class="cnml-card mt-6">
       <h2 class="cnml-section-title">Certificate chain</h2>

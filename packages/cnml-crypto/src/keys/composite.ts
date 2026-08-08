@@ -23,6 +23,7 @@
 
 import * as ed from "@noble/ed25519";
 import { ml_dsa65 } from "@noble/post-quantum/ml-dsa.js";
+import { bytesToBase64, base64ToBytes } from "../shared/base64.ts";
 
 const SEPARATOR = ".";
 
@@ -155,17 +156,4 @@ export function decodeCompositePublicKeys(encoded: string): {
     ed25519: base64ToBytes(encoded.slice(0, sep)),
     mlDsa65: base64ToBytes(encoded.slice(sep + 1)),
   };
-}
-
-function bytesToBase64(bytes: Uint8Array): string {
-  let bin = "";
-  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-  return btoa(bin);
-}
-
-function base64ToBytes(b64: string): Uint8Array {
-  const bin = atob(b64);
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return bytes;
 }

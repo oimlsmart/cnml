@@ -1,5 +1,7 @@
 
 import { test, expect } from "@playwright/test";
+import { waitForIslandButton } from "./lib/hydration.js";
+import { wipeIndexedDB } from "./lib/db.js";
 
 /**
  * Full sign + verify round-trip test in the browser.
@@ -15,33 +17,29 @@ import { test, expect } from "@playwright/test";
  *   8. Assert all 4 checks pass
  */
 
+import { BASE } from "./lib/constants.js";
+
 const PASSPHRASE = "test-passphrase-123";
 const ALIAS = "E2E Signing Key";
 
-async function waitForHydration(page) {
-  await page.waitForFunction(() => {
-    const btn = document.querySelector("button");
-    return btn && "__vnode" in btn;
-  }, { timeout: 30_000 });
-}
-
-async function wipeIdb(page) {
-  await page.evaluate(async () => {
-    const dbs = await indexedDB.databases();
-    await Promise.all((dbs || []).map((db) => indexedDB.deleteDatabase(db.name)));
-  });
-}
+// Two islands in this suite: the KeyManager (keys page) and the
+// SchemaForm (create page). Each test picks the right one.
+const waitForKeyManager = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
+const waitForSchemaForm = (page) => waitForIslandButton(page, /Fill demo data/);
 
 test("full sign + verify round-trip", async ({ page, context }) => {
   // ─── Pre-step: create the signing key in the SAME context so IndexedDB
   // persists across pages. (browser.newPage() creates a new context —
   // IndexedDB is per-context, not per-browser.)
-  await page.goto("/keys", { waitUntil: "commit" });
-  await wipeIdb(page);
-  await page.reload();
-  await waitForHydration(page);
+  // Wipe on a neutral page first, then navigate to /keys fresh so the
+  // KeyManager reads the clean DB without needing a slow reload.
+  await page.goto(`${BASE}/`, { waitUntil: "commit" });
+  await wipeIndexedDB(page);
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
+  await waitForKeyManager(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).first().click();
+  await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.locator('input[placeholder="My authority signing key"]').fill(ALIAS);
   await page.locator('input[type="password"]').first().fill(PASSPHRASE);
   await page.getByRole("button", { name: /Generate ECDSA P-256/ }).click();
@@ -49,8 +47,8 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 
   // ─── Step 1: open /create/r60 in a new page (shares context = shares IndexedDB)
   const formPage = await context.newPage();
-  await formPage.goto("/create/r60", { waitUntil: "commit" });
-  await waitForHydration(formPage);
+  await formPage.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
+  await waitForSchemaForm(formPage);
   await formPage.getByRole("button", { name: /Fill demo data/ }).click();
   await expect(formPage.locator("input").first()).not.toHaveValue("");
 
@@ -88,7 +86,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 
   // ─── Step 3: upload to /verify in another page ───────────────────
   const verifyPage = await context.newPage();
-  await verifyPage.goto("/verify", { waitUntil: "commit" });
+  await verifyPage.goto(`${BASE}/verify`, { waitUntil: "commit" });
   await verifyPage.waitForFunction(() => {
     const input = document.querySelector("input[type=file]");
     return input && "__vnode" in input;
@@ -115,17 +113,18 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 });
 
 test("sign dialog: passphrase validation works in generate mode", async ({ page }) => {
-  await page.goto("/", { waitUntil: "commit" });
-  await wipeIdb(page);
+  await page.goto(`${BASE}/`, { waitUntil: "commit" });
+  await wipeIndexedDB(page);
 
-  await page.goto("/create/r60", { waitUntil: "commit" });
-  await waitForHydration(page);
+  await page.goto(`${BASE}/create/r60`, { waitUntil: "commit" });
+  await waitForSchemaForm(page);
   await page.getByRole("button", { name: /Fill demo data/ }).click();
 
   await page.getByRole("button", { name: /Sign and download CNML/ }).click();
   await expect(page.getByRole("heading", { name: /Sign and download CNML/i })).toBeVisible({ timeout: 5_000 });
   await page.getByRole("button", { name: /Generate new/i }).click();
 
+  await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.locator('input[placeholder="My authority signing key"]').fill("Short Pass Test");
   await page.locator('input[placeholder="≥ 8 characters"]').fill("short");
 

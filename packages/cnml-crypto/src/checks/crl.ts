@@ -1,5 +1,7 @@
 import type { Check, CheckResult } from "./types.ts";
 import { isSerialRevoked, isCrlStale, parseCrl, type Crl } from "../crl.ts";
+import { toHex } from "../shared/hex.ts";
+import { base64ToBytes } from "../shared/base64.ts";
 
 /** Check 5: CRL revocation status.
  *
@@ -107,7 +109,7 @@ export async function readCrlFieldsFromCert(certPem: string): Promise<{ serial: 
   const asn1js = await import("asn1js");
   const pkijs = await import("pkijs");
   const b64 = certPem.replace(/-----[A-Z ]+-----/g, "").replace(/\s+/g, "");
-  const der = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)).buffer;
+  const der = base64ToBytes(b64).buffer;
   const parsed = asn1js.fromBER(der);
   if (parsed.offset === -1 || !parsed.result) {
     throw new Error(`the issuer cert is not a well-formed X.509 (DER parse failed at byte ${-parsed.offset})`);
@@ -116,7 +118,7 @@ export async function readCrlFieldsFromCert(certPem: string): Promise<{ serial: 
 
   const serialBytes: Uint8Array | undefined = cert.serialNumber.valueBlock.valueHexView;
   const rawBytes = serialBytes && serialBytes.length > 1 && serialBytes[0] === 0 ? serialBytes.slice(1) : serialBytes ?? new Uint8Array();
-  const raw = Array.from(rawBytes).map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+  const raw = toHex(rawBytes).toUpperCase();
   const serial = raw.length % 2 === 0 ? raw : "0" + raw;
 
   let crlUrl: string | null = null;

@@ -1,17 +1,17 @@
 /**
  * SHA-256 hash helpers.
  *
- * Leaf utility — no internal dependencies. Used by key generation
- * (fingerprinting), PEM import (fingerprinting), and the trust
- * anchor module.
+ * Leaf utility — uses the shared hex encoder. Used by key generation
+ * (fingerprinting), PEM import (fingerprinting), and the trust anchor
+ * module.
  */
 
-const SUBTLE = globalThis.crypto.subtle;
+import { toHex } from "./shared/hex.ts";
+
+import { SUBTLE } from "./shared/crypto.ts";
 
 export async function sha256Hex(data: ArrayBuffer | Uint8Array): Promise<string> {
   const buf = data instanceof Uint8Array ? data : new Uint8Array(data);
   const hash = await SUBTLE.digest("SHA-256", buf);
-  return Array.from(new Uint8Array(hash))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+  return toHex(new Uint8Array(hash));
 }

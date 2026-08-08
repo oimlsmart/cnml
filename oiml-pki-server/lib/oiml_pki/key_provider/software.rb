@@ -18,41 +18,39 @@ module OimlPki
         unless @private_key_pem
           raise ArgumentError, "Software provider requires entry['privateKey']"
         end
+        # Parse once — PEM decode + ASN.1 parse is not free, and the
+        # key object is immutable for the lifetime of the provider.
+        @key = OpenSSL::PKey.read(@private_key_pem)
       end
 
       def sign(data, digest: "SHA256")
-        key = OpenSSL::PKey.read(@private_key_pem)
         # Ed25519 ignores the digest arg — its sign() takes no hash.
         # Use class-name check (not is_a?) because OpenSSL::PKey::Ed25519
         # may not exist as a constant on older Ruby builds.
-        return key.sign(nil, data) if ed25519?(key)
-        key.sign(digest, data)
+        return @key.sign(nil, data) if ed25519?(@key)
+        @key.sign(digest, data)
       end
 
       # Software path: native OpenSSL cert signing (fastest, native C).
       # The cert must already have subject/issuer/public_key/extensions/
       # validity set. We just compute and attach the signature.
       def sign_cert(cert)
-        key = OpenSSL::PKey.read(@private_key_pem)
-        cert.sign(key, OpenSSL::Digest::SHA256.new)
+        cert.sign(@key, OpenSSL::Digest::SHA256.new)
         cert
       end
 
       def sign_crl(crl)
-        key = OpenSSL::PKey.read(@private_key_pem)
-        crl.sign(key, OpenSSL::Digest::SHA256.new)
+        crl.sign(@key, OpenSSL::Digest::SHA256.new)
         crl
       end
 
       def public_key
-        key = OpenSSL::PKey.read(@private_key_pem)
-        OpenSSL::PKey.read(key.public_to_der)
+        OpenSSL::PKey.read(@key.public_to_der)
       end
 
       def label
-        key = OpenSSL::PKey.read(@private_key_pem)
-        class_name = key.class.name.split("::").last
-        "software (#{class_name} #{algorithm_detail(key)})"
+        class_name = @key.class.name.split("::").last
+        "software (#{class_name} #{algorithm_detail(@key)})"
       end
 
       def extractable?

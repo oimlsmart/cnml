@@ -7,10 +7,10 @@
 // test. Known false positives are disabled in the `OVERRIDES`
 // constant — each override has a reason.
 
-const { test, expect } = require("@playwright/test");
-const AxeBuilder = require("@axe-core/playwright").default;
+const { test, expect } = await import("@playwright/test");
+const { default: AxeBuilder } = await import("@axe-core/playwright");
 
-const BASE = "http://127.0.0.1:4455";
+const BASE = "http://127.0.0.1:4455/cnml";
 
 // Pages that represent the critical user journeys. Each gets its own
 // axe scan — they exercise different layouts (home hero, doc prose,
@@ -30,15 +30,7 @@ const PAGES = [
 // Rule overrides per page. Every override MUST have an inline
 // reason. Adding an override without a reason is a code-review
 // rejection.
-const OVERRIDES = {
-  // The dropzone uses an off-screen file input as the click target.
-  // axe flags this as "form-field-multiple-labels" on some builds;
-  // the label structure is intentional (one visible label, one
-  // hidden control).
-  "verify": {
-    "label": { reason: "dropzone uses a single visible label over a hidden input" },
-  },
-};
+const OVERRIDES = {};
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
@@ -49,27 +41,27 @@ for (const page of PAGES) {
     const pageObj = await context.newPage();
     await pageObj.goto(url, { waitUntil: "load" });
 
-    const builder = new AxeBuilder({ page: pageObj })
-      .withTags(TAGS)
-      .disable([
-        // color-contrast relies on the browser's computed color,
-        // which the headless build sometimes evaluates differently
-        // than the user's screen. The CNML design system uses a
-        // verified contrast ratio (paper/ink tokens).
-        "color-contrast",
-      ]);
-
     const overrides = OVERRIDES[page.name] ?? {};
-    for (const rule of Object.keys(overrides)) {
-      builder.disable(rule);
-    }
+    // disableRules SETS the disabled list (does not append), so collect
+    // every disabled rule into one array and call it once.
+    const disabled = [
+      // color-contrast relies on the browser's computed color,
+      // which the headless build sometimes evaluates differently
+      // than the user's screen. The CNML design system uses a
+      // verified contrast ratio (paper/ink tokens).
+      "color-contrast",
+      ...Object.keys(overrides),
+    ];
 
-    const results = await builder.analyze();
+    const results = await new AxeBuilder({ page: pageObj })
+      .withTags(TAGS)
+      .disableRules(disabled)
+      .analyze();
 
     // Filter the disabled rules out of the report so the override
     // reasons are visible in the test output.
     const relevant = results.violations.filter(
-      (v) => !Object.keys(overrides).includes(v.id),
+      (v) => !disabled.includes(v.id),
     );
 
     expect(relevant, JSON.stringify(relevant, null, 2)).toEqual([]);

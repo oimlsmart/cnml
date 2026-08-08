@@ -10,9 +10,10 @@
  * Run: pnpm links:check
  */
 
-import { readFileSync, existsSync, writeFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { walkDir } from "./_fs.ts";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 const ROOT = join(here, "..");
@@ -26,17 +27,6 @@ interface CacheEntry {
   url: string;
   status: number | null;
   checkedAt: number;
-}
-
-function walk(dir: string, ext: string, out: string[] = []): string[] {
-  if (!existsSync(dir)) return out;
-  for (const f of readdirSync(dir)) {
-    const p = join(dir, f);
-    const s = statSync(p);
-    if (s.isDirectory()) walk(p, ext, out);
-    else if (extname(p) === ext) out.push(p);
-  }
-  return out;
 }
 
 function loadCache(): Map<string, CacheEntry> {
@@ -57,7 +47,13 @@ function saveCache(cache: Map<string, CacheEntry>) {
 function extractUrls(html: string): Set<string> {
   const urls = new Set<string>();
   for (const m of html.matchAll(/href="(https?:\/\/[^"]+)"/g)) {
-    urls.add(m[1]!.split("#")[0]!.split("?")[0]!);
+    const raw = m[1]!.split("#")[0]!.split("?")[0]!;
+    // Skip the site's own canonical/og:url references — those are
+    // self-referential metadata, not links the site vouches for, and
+    // routes like /404/ exist as rendered pages but not under their
+    // canonical URL. Internal page existence is verified by the build.
+    if (raw.startsWith("https://www.oimlsmart.org/cnml/")) continue;
+    urls.add(raw);
   }
   return urls;
 }
@@ -98,7 +94,7 @@ async function main(): Promise<number> {
   }
 
   const cache = loadCache();
-  const pages = walk(DIST, ".html");
+  const pages = walkDir(DIST, ".html");
   const allUrls = new Set<string>();
 
   for (const p of pages) {

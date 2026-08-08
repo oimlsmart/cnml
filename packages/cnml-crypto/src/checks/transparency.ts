@@ -15,6 +15,9 @@
  */
 
 import type { Check, CheckContext, CheckResult } from "./types.ts";
+import { toHex, fromHex } from "../shared/hex.ts";
+import { base64ToBytes } from "../shared/base64.ts";
+import { encodeText } from "../shared/crypto.ts";
 
 /** SHA-256 over (0x01 || data) — leaf domain separator per RFC 6962. */
 async function hashLeaf(data: Uint8Array): Promise<Uint8Array> {
@@ -43,30 +46,17 @@ export async function sha256(data: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(digest);
 }
 
-/** Hex string → Uint8Array. */
-function fromHex(hex: string): Uint8Array {
-  const clean = hex.trim().replace(/\s+/g, "");
-  if (clean.length % 2 !== 0) throw new Error("odd-length hex");
-  const out = new Uint8Array(clean.length / 2);
-  for (let i = 0; i < clean.length; i += 2) {
-    out[i / 2] = parseInt(clean.slice(i, i + 2), 16);
-  }
-  return out;
-}
+/** Uint8Array → lowercase hex. Re-exported from shared/hex for convenience. */
+export { toHex };
 
-/** Uint8Array → lowercase hex. */
-function toHex(bytes: Uint8Array): string {
-  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
-}
+/** Hex string → Uint8Array. Re-exported from shared/hex for convenience. */
+export { fromHex };
 
 /** Decode base64 (handles both standard and url-safe alphabets). */
 function fromBase64(s: string): Uint8Array {
   const normalized = s.trim().replace(/-/g, "+").replace(/_/g, "/");
   const padded = normalized + "=".repeat((4 - (normalized.length % 4)) % 4);
-  const bin = atob(padded);
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
+  return base64ToBytes(padded);
 }
 
 /** One step in a Merkle inclusion proof. */
@@ -212,7 +202,7 @@ export const transparencyCheck: Check = {
     // Compute the leaf hash from the cert content (the entire CNML XML,
     // canonicalized) and compare to the proof's leafHash. This binds the
     // proof to the CNML bytes being verified.
-    const certHash = await sha256(new TextEncoder().encode(xml));
+    const certHash = await sha256(encodeText(xml));
     const expectedLeaf = await hashLeaf(certHash);
 
     const leafMatches = constantTimeEqual(expectedLeaf, proof.leafHash);

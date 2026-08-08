@@ -30,7 +30,7 @@ module.exports = defineConfig({
     // SIGKILL'd previous run) from blocking startup.
     // cwd MUST be apps/cnml-web — that's where astro.config.mjs lives.
     command: "ASTRO_DEV_BACKGROUND=1 ./node_modules/.bin/astro dev --port 4455 --host 127.0.0.1 --ignore-lock",
-    url: "http://127.0.0.1:4455/",
+    url: "http://127.0.0.1:4455/cnml/",
     reuseExistingServer: true,
     timeout: 60_000,
     cwd: require("path").join(__dirname, "apps/cnml-web"),

@@ -1,40 +1,31 @@
 
 import { test, expect } from "@playwright/test";
+import { waitForIslandButton } from "./lib/hydration.js";
+import { wipeIndexedDB } from "./lib/db.js";
 
 /**
  * Key management tests — full lifecycle: generate, list, download public,
  * delete. IndexedDB is shared per origin so we wipe it before each test.
  */
 
-async function wipeIndexedDB(page) {
-  await page.context().clearCookies();
-  await page.evaluate(async () => {
-    const dbs = await indexedDB.databases();
-    await Promise.all((dbs || []).map((db) => indexedDB.deleteDatabase(db.name)));
-  });
-}
+import { BASE } from "./lib/constants.js";
 
-async function waitForHydration(page) {
-  await page.waitForFunction(() => {
-    const btn = document.querySelector("button");
-    return btn && "__vnode" in btn;
-  }, { timeout: 30_000 });
-}
+const waitForHydration = (page) => waitForIslandButton(page, /Generate keypair|\+ New key/);
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/", { waitUntil: "commit" });
+  await page.goto(`${BASE}/`, { waitUntil: "commit" });
   await wipeIndexedDB(page);
 });
 
 test("keys page: empty state shows generate CTA", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
   await expect(page.getByText(/No signing keys yet/i)).toBeVisible({ timeout: 10_000 });
   await expect(page.getByRole("button", { name: /Generate keypair/ })).toBeVisible();
 });
 
 test("keys page: generate creates a key in IndexedDB", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
@@ -52,10 +43,11 @@ test("keys page: generate creates a key in IndexedDB", async ({ page }) => {
 });
 
 test("keys page: passphrase validation rejects short input", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
+  await page.locator('input[placeholder="My authority signing key"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.locator('input[placeholder="My authority signing key"]').fill("X");
   await page.locator('input[type="password"]').first().fill("short");
   await page.getByRole("button", { name: /Generate ECDSA P-256/ }).click();
@@ -63,7 +55,7 @@ test("keys page: passphrase validation rejects short input", async ({ page }) =>
 });
 
 test("keys page: download public key works", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();
@@ -85,7 +77,7 @@ test("keys page: download public key works", async ({ page }) => {
 });
 
 test("keys page: delete removes the key", async ({ page }) => {
-  await page.goto("/keys", { waitUntil: "commit" });
+  await page.goto(`${BASE}/keys`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   await page.getByRole("button", { name: /Generate keypair/ }).click();

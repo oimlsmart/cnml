@@ -11,26 +11,16 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
-import { join, extname, relative } from "node:path";
+import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { walkDir } from "../../../../scripts/_fs.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // apps/cnml-web/test/audit → 4 levels up to repo root.
 const ROOT = path.resolve(__dirname, "..", "..", "..", "..");
 const DIST = path.resolve(ROOT, "apps", "cnml-web", "dist");
 const BASE_PATH = "/cnml/";
-
-function walk(dir: string, ext: string, out: string[] = []): string[] {
-  if (!existsSync(dir)) return out;
-  for (const f of readdirSync(dir)) {
-    const p = join(dir, f);
-    const s = statSync(p);
-    if (s.isDirectory()) walk(p, ext, out);
-    else if (extname(p) === ext) out.push(p);
-  }
-  return out;
-}
 
 describe("Build artifacts exist", () => {
   test("dist/ directory is present", () => {
@@ -41,7 +31,7 @@ describe("Build artifacts exist", () => {
 describe("Internal link integrity", () => {
   test("every internal href resolves", () => {
     if (!existsSync(DIST)) return;
-    const pages = walk(DIST, ".html");
+    const pages = walkDir(DIST, ".html");
     const links = new Set();
     for (const f of pages) {
       const html = readFileSync(f, "utf8");
@@ -69,7 +59,7 @@ describe("Internal link integrity", () => {
 describe("Page rendering sanity", () => {
   test("no empty <main> tags", () => {
     if (!existsSync(DIST)) return;
-    for (const p of walk(DIST, ".html")) {
+    for (const p of walkDir(DIST, ".html")) {
       const html = readFileSync(p, "utf8");
       assert.ok(!/<main[^>]*>\s*<\/main>/.test(html), "empty main: " + relative(DIST, p));
     }
@@ -77,7 +67,7 @@ describe("Page rendering sanity", () => {
 
   test("no empty astro-island", () => {
     if (!existsSync(DIST)) return;
-    for (const p of walk(DIST, ".html")) {
+    for (const p of walkDir(DIST, ".html")) {
       const html = readFileSync(p, "utf8");
       const empty = html.match(/<astro-island[^>]*>\s*<\/astro-island>/g) ?? [];
       assert.equal(empty.length, 0, "broken hydration: " + relative(DIST, p));
@@ -86,7 +76,7 @@ describe("Page rendering sanity", () => {
 
   test("every page has OG/Twitter metadata", () => {
     if (!existsSync(DIST)) return;
-    const pages = walk(DIST, ".html").filter((p) => !relative(DIST, p).endsWith("/manual.html"));
+    const pages = walkDir(DIST, ".html").filter((p) => !relative(DIST, p).endsWith("/manual.html"));
     const required = ["og:type","og:title","og:description","og:url","og:image","twitter:card","twitter:title","twitter:description","twitter:image"];
     for (const p of pages) {
       const html = readFileSync(p, "utf8");
@@ -101,7 +91,7 @@ describe("Page rendering sanity", () => {
     if (!existsSync(DIST)) return;
     const docsDir = join(DIST, "docs");
     if (!existsSync(docsDir)) return;
-    for (const p of walk(docsDir, ".html")) {
+    for (const p of walkDir(docsDir, ".html")) {
       if (relative(DIST, p) === "docs/index.html") continue;
       const html = readFileSync(p, "utf8");
       assert.match(html, /og:type" content="article"/, relative(DIST, p) + " og:type not article");
@@ -111,7 +101,7 @@ describe("Page rendering sanity", () => {
 
   test("every page carries JSON-LD with the right type", () => {
     if (!existsSync(DIST)) return;
-    const pages = walk(DIST, ".html").filter((p) => !relative(DIST, p).endsWith("/manual.html"));
+    const pages = walkDir(DIST, ".html").filter((p) => !relative(DIST, p).endsWith("/manual.html"));
     function expectedType(rel) {
       if (rel === "index.html") return "Organization";
       if (rel.startsWith("docs/")) return "TechArticle";
@@ -184,7 +174,7 @@ describe("Static asset integrity", () => {
 
   test("every page links manifest + security headers", () => {
     if (!existsSync(DIST)) return;
-    const pages = walk(DIST, ".html").filter((p) => !relative(DIST, p).endsWith("/manual.html"));
+    const pages = walkDir(DIST, ".html").filter((p) => !relative(DIST, p).endsWith("/manual.html"));
     const required = [
       { tag: "manifest", re: /<link[^>]+rel="manifest"/i },
       { tag: "CSP", re: /http-equiv="Content-Security-Policy"/i },
@@ -200,7 +190,7 @@ describe("Static asset integrity", () => {
 
   test("no third-party font hosts", () => {
     if (!existsSync(DIST)) return;
-    for (const p of walk(DIST, ".html")) {
+    for (const p of walkDir(DIST, ".html")) {
       const html = readFileSync(p, "utf8");
       assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(html), relative(DIST, p) + " references Google Fonts");
     }

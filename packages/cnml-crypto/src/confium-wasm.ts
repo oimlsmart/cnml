@@ -143,6 +143,10 @@ async function doLoad(): Promise<ConfiumWasmBundle> {
 
   let mod: ConfiumWasmModule;
   try {
+    // The package is resolved via a Vite resolve.alias to a stub when
+    // not installed (see apps/cnml-web/astro.config.mjs). The runtime
+    // catch below surfaces "package-missing" if the stub or real module
+    // is absent.
     const imported = await import("@confium/confium-wasm");
     // Default export is the WASM instantiate promise for some bundlers.
     if (imported.default && typeof imported.default.then === "function") {

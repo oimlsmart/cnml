@@ -5,13 +5,12 @@
  * key encryption at rest (keys/encryption.ts).
  */
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE, encodeText } from "../shared/crypto.ts";
 
 export async function deriveKey(passphrase: string, salt: ArrayBuffer): Promise<CryptoKey> {
-  const enc = new TextEncoder();
   const baseKey = await SUBTLE.importKey(
     "raw",
-    enc.encode(passphrase),
+    encodeText(passphrase),
     { name: "PBKDF2" },
     false,
     ["deriveKey"],

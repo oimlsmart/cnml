@@ -1,0 +1,74 @@
+# Instance certificate schema (TODO.cnml/85, ADR-0006).
+#
+# The instance certificate (tier 5) binds a specific physical instrument
+# to its manufacturer's model certificate (tier 4). Each instrument
+# produced on the manufacturing line gets one. The SMI's signed
+# measurements reference this certificate via the instrument's key.
+#
+# In the chain: Instance → Model → IA → BIML Root.
+
+$schema: "http://json-schema.org/draft-07/schema#"
+$id: "https://www.oimlsmart.org/cnml/schemas/_instance.yaml"
+title: "CNML Instance Certificate"
+description: "Per-device instance certificate (tier 5) issued by the manufacturer under a delegated model certificate."
+
+type: object
+required:
+  - certificateId
+  - serialNumber
+  - firmwareHash
+  - manufacturingDate
+  - modelCertificateId
+  - manufacturer
+  - model
+  - recommendationId
+properties:
+  certificateId:
+    type: string
+    description: "Unique identifier for this instance certificate (URN or opaque ID)."
+  serialNumber:
+    type: string
+    description: "The instrument's serial number as assigned by the manufacturer."
+  firmwareHash:
+    type: string
+    pattern: "^sha256:[0-9a-f]{64}$"
+    description: "SHA-256 hash of the firmware running on the device at the time of issuance."
+  manufacturingDate:
+    type: string
+    format: date
+    description: "ISO 8601 date when the instrument was manufactured."
+  modelCertificateId:
+    type: string
+    description: "The tier-4 model certificate that delegates signing authority to this manufacturer."
+  manufacturer:
+    type: string
+    description: "The manufacturer's legal name."
+  model:
+    type: string
+    description: "The instrument model designation."
+  recommendationId:
+    type: string
+    description: "The OIML Recommendation this instrument is approved under (e.g., R60)."
+  calibrationData:
+    type: object
+    description: "Initial calibration data from the factory, if available."
+    properties:
+      performedAt:
+        type: string
+        format: date-time
+      corrections:
+        type: array
+        items:
+          type: object
+          properties:
+            parameter:
+              type: string
+            value:
+              type: number
+            unit:
+              type: string
+
+x-oiml-tier: 5
+x-oiml-issued-by: "manufacturer"
+x-oiml-chain-parent: "model"
+x-oiml-description: "The per-device certificate that binds an individual instrument to its type-approval chain. Referenced by SMI signed measurements."

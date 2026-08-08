@@ -7,9 +7,13 @@
  * passport contract.
  *
  * In the static build the only identifier served is the demo
- * instance. Production deployments replace `passportDocumentFor`
- * with a lookup against the transparency log + instance cert store.
+ * instance (see demo-instances.ts). Production deployments replace
+ * `passportDocumentFor` with a lookup against the transparency log
+ * + instance cert store.
  */
+
+import { getRecommendation } from "@oiml/cnml-schemas";
+import { findDemoInstance } from "./demo-instances";
 
 export interface PassportDevice {
   manufacturer: string | null;
@@ -23,11 +27,17 @@ export interface PassportChainEntry {
   fingerprint: string | null;
 }
 
+export interface PassportRecommendation {
+  id: string;
+  title: string;
+}
+
 export interface PassportDocument {
   "@context": "https://www.oimlsmart.org/cnml/passport/v1";
   "@type": "MetrologicalCertificatePassport";
   certificateId: string;
   device: PassportDevice;
+  recommendation?: PassportRecommendation;
   chain: PassportChainEntry[];
   status: "valid" | "revoked" | "expired";
   statusCheckedAt: string;
@@ -41,16 +51,25 @@ export function passportVerifyUrl(certId: string): string {
   return `https://www.oimlsmart.org/cnml/verify?cert=${encodeURIComponent(certId)}`;
 }
 
+export function recommendationFromId(id: string): PassportRecommendation | undefined {
+  const meta = getRecommendation(id);
+  if (!meta) return undefined;
+  return { id: meta.id, title: meta.shortTitle };
+}
+
 export function passportDocumentFor(certId: string, statusCheckedAt: string): PassportDocument {
+  const demo = findDemoInstance(certId);
+  const recommendation = demo ? recommendationFromId(demo.recommendationId) : undefined;
   return {
     "@context": PASSPORT_CONTEXT,
     "@type": PASSPORT_TYPE,
     certificateId: certId,
-    device: {
+    device: demo?.device ?? {
       manufacturer: null,
       model: null,
       serial: null,
     },
+    ...(recommendation ? { recommendation } : {}),
     chain: [
       { tier: 5, role: "instance", fingerprint: null },
       { tier: 4, role: "model", fingerprint: null },

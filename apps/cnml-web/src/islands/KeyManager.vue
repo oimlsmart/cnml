@@ -6,7 +6,9 @@ import {
   listTrustedKeys, deleteTrustedKey, importPublicKeyFromPem, storeTrustedKey,
   type StoredKey, type TrustedPublicKey,
 } from "@oiml/cnml-crypto";
-import { fingerprintShort } from "./shared";
+import { useAsyncAction } from "../composables/useAsyncAction";
+import { fingerprintShort } from "./shared/display";
+import { downloadBlob, triggerFileUpload } from "./shared/dom";
 
 // ─── Cert import state ─────────────────────────────────────────────
 const showImportCert = ref(false);
@@ -74,16 +76,10 @@ async function importCertificate() {
 
 function triggerCertUpload(k: StoredKey) {
   importCertKeyId.value = k.id;
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".crt,.pem";
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
+  triggerFileUpload(".crt,.pem", async (file) => {
     importCertText.value = await file.text();
     showImportCert.value = true;
-  };
-  input.click();
+  });
 }
 const keys = ref<StoredKey[]>([]);
 const loading = ref(true);
@@ -94,8 +90,7 @@ const newPassphrase = ref("");
 const importAlias = ref("");
 const importPassphrase = ref("");
 const importPemText = ref("");
-const error = ref("");
-const busy = ref(false);
+const { error, busy, run } = useAsyncAction();
 
 // ─── Trust store state (public keys only) ─────────────────────────
 const trustedKeys = ref<TrustedPublicKey[]>([]);
@@ -124,16 +119,13 @@ async function generate() {
   error.value = "";
   if (!newAlias.value.trim()) { error.value = "Alias required"; return; }
   if (newPassphrase.value.length < 8) { error.value = "Passphrase must be at least 8 characters"; return; }
-  busy.value = true;
-  try {
+  await run(async () => {
     await generateKey({ alias: newAlias.value.trim(), algorithm: "ECDSA", passphrase: newPassphrase.value });
     newAlias.value = "";
     newPassphrase.value = "";
     showGenerate.value = false;
     await refresh();
-  } catch (e) {
-    error.value = (e as Error).message;
-  } finally { busy.value = false; }
+  });
 }
 
 async function remove(id: string) {
@@ -142,19 +134,9 @@ async function remove(id: string) {
   await refresh();
 }
 
-function downloadPem(content: string, filename: string) {
-  const blob = new Blob([content], { type: "application/x-pem-file" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 async function downloadPublic(k: StoredKey) {
   const pem = await exportPublicKeyPem(k);
-  downloadPem(pem, `${k.alias.replace(/\s+/g, "_")}.pub.pem`);
+  downloadBlob(pem, `${k.alias.replace(/\s+/g, "_")}.pub.pem`, "application/x-pem-file");
 }
 
 async function downloadPrivate(k: StoredKey) {
@@ -162,7 +144,7 @@ async function downloadPrivate(k: StoredKey) {
   if (!pass) return;
   try {
     const pem = await exportPrivateKeyPem(k, pass);
-    downloadPem(pem, `${k.alias.replace(/\s+/g, "_")}.private.pem`);
+    downloadBlob(pem, `${k.alias.replace(/\s+/g, "_")}.private.pem`, "application/x-pem-file");
   } catch (e) {
     error.value = `Export failed: ${(e as Error).message}`;
   }
@@ -173,8 +155,7 @@ async function importKey() {
   if (!importPemText.value.trim()) { error.value = "Paste a private key PEM"; return; }
   if (!importAlias.value.trim()) { error.value = "Alias required"; return; }
   if (importPassphrase.value.length < 8) { error.value = "Storage passphrase must be ≥ 8 characters"; return; }
-  busy.value = true;
-  try {
+  await run(async () => {
     const stored = await importPrivateKeyFromPem(importPemText.value, importAlias.value.trim(), importPassphrase.value);
     await storeKey(stored);
     importPemText.value = "";
@@ -182,22 +163,14 @@ async function importKey() {
     importPassphrase.value = "";
     showImport.value = false;
     await refresh();
-  } catch (e) {
-    error.value = (e as Error).message;
-  } finally { busy.value = false; }
+  });
 }
 
 function triggerPrivateKeyUpload() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".pem,.key,.txt";
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
+  triggerFileUpload(".pem,.key,.txt", async (file) => {
     importPemText.value = await file.text();
     showImport.value = true;
-  };
-  input.click();
+  });
 }
 
 // ─── Trust store actions ──────────────────────────────────────────
@@ -206,29 +179,21 @@ async function addTrustedKey() {
   error.value = "";
   if (!trustedPemText.value.trim()) { error.value = "Paste a public key PEM"; return; }
   if (!trustedAlias.value.trim()) { error.value = "Alias required"; return; }
-  try {
+  await run(async () => {
     const trusted = await importPublicKeyFromPem(trustedPemText.value, trustedAlias.value.trim());
     await storeTrustedKey(trusted);
     trustedPemText.value = "";
     trustedAlias.value = "";
     showAddTrusted.value = false;
     await refresh();
-  } catch (e) {
-    error.value = (e as Error).message;
-  }
+  });
 }
 
 function triggerTrustedKeyUpload() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".pem,.key,.txt";
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
+  triggerFileUpload(".pem,.key,.txt", async (file) => {
     trustedPemText.value = await file.text();
     showAddTrusted.value = true;
-  };
-  input.click();
+  });
 }
 
 async function removeTrusted(id: string) {

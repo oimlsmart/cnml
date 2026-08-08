@@ -9,7 +9,7 @@
 
 import { deriveKey } from "./kdf.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 export async function encryptPrivateKey(
   privateKeyPkcs8: ArrayBuffer,

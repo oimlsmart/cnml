@@ -28,6 +28,7 @@ import TextInput from "../widgets/TextInput.vue";
 import EnumSelect from "../widgets/EnumSelect.vue";
 import StructuredValueEditor from "../widgets/StructuredValueEditor.vue";
 import SignDialog from "../SignDialog.vue";
+import { downloadBlob } from "../shared/dom";
 import { useSampleManager } from "./useSampleManager";
 
 defineOptions({ name: "SchemaForm" });  // enables self-recursion in template
@@ -185,28 +186,16 @@ const topProps = computed(() => {
 
 function onSigned(xml: string) {
   signOpen.value = false;
-  const blob = new Blob([xml], { type: "application/xml" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
   const num = (state as any)?.certificate?.number ?? "cnml-cert";
-  a.download = `${num.replace(/[^A-Za-z0-9._-]/g, "-")}.cnml.xml`;
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadBlob(xml, `${num.replace(/[^A-Za-z0-9._-]/g, "-")}.cnml.xml`, "application/xml");
 }
 
 // Save the current form state as a YAML file. Generic — works for any R.
 async function saveYaml() {
   const yamlModule = await import("yaml");
   const text = "---\n" + yamlModule.default.stringify(state) + "\n";
-  const blob = new Blob([text], { type: "text/yaml" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
   const num = (state as any)?.certificate?.number ?? props.rId ?? "cnml-cert";
-  a.download = `${String(num).replace(/[^A-Za-z0-9._-]/g, "-")}.yaml`;
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadBlob(text, `${String(num).replace(/[^A-Za-z0-9._-]/g, "-")}.yaml`, "text/yaml");
 }
 </script>
 

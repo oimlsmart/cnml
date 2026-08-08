@@ -2,23 +2,22 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { waitForIslandElement } from "./lib/hydration.js";
 
 /**
  * Verify page tests — uploads each of the 22 pre-generated test vectors
  * and confirms all 4 checks pass.
  */
 
+import { BASE } from "./lib/constants.js";
 const VECTORS_DIR = "packages/cnml-test-vectors/src/vectors";
 
-// Helper: wait for the VerifyDrop island to actually hydrate (Vue attached
-// to the file input). Without this, setInputFiles fires the DOM event but
-// Vue's @change handler isn't bound yet, so the upload is silently lost.
+// Wait for the VerifyDrop island to hydrate (Vue attached to the file
+// input). Without this, setInputFiles fires the DOM event but Vue's
+// @change handler isn't bound yet, so the upload is silently lost.
 async function waitForHydration(page) {
   await page.getByText("Drop a CNML file here").waitFor({ state: "visible", timeout: 30_000 });
-  await page.waitForFunction(() => {
-    const input = document.querySelector("input[type=file]");
-    return input && "__vnode" in input;
-  }, { timeout: 30_000 });
+  await waitForIslandElement(page, "input[type=file]");
 }
 
 test("verify page: drop zone is visible", async ({ page }) => {
@@ -28,7 +27,7 @@ test("verify page: drop zone is visible", async ({ page }) => {
     if (msg.type() === "error") errors.push(`console: ${msg.text()}`);
   });
 
-  await page.goto("/verify", { waitUntil: "commit" });
+  await page.goto(`${BASE}/verify`, { waitUntil: "commit" });
   await waitForHydration(page);
   expect(errors, `errors:\n${errors.join("\n")}`).toEqual([]);
 });
@@ -41,10 +40,15 @@ for (const rId of SPOT_CHECK) {
     page.on("pageerror", (e) => errors.push(`pageerror: ${e.message}`));
     page.on("console", (msg) => {
       const t = msg.text();
-      if (msg.type() === "error" && !/504/.test(t)) errors.push(`console: ${t}`);
+      // Known dev-mode noise:
+      // - 504 Outdated Optimize Dep: Vite re-optimizes on first load
+      // - "Error compiling schema ... nonNegativeInteger": AJV strict-mode
+      //   log for a DCC/UnitsDB schema reference. The compiled validator
+      //   still runs; the schema_valid check produces its own tile result.
+      if (msg.type() === "error" && !/504|Error compiling schema/.test(t)) errors.push(`console: ${t}`);
     });
 
-    await page.goto("/verify", { waitUntil: "commit" });
+    await page.goto(`${BASE}/verify`, { waitUntil: "commit" });
     await waitForHydration(page);
 
     const vectorPath = path.resolve(VECTORS_DIR, `${rId}.cnml.xml`);
@@ -61,7 +65,7 @@ for (const rId of SPOT_CHECK) {
 }
 
 test("verify page: malformed XML shows an error", async ({ page }) => {
-  await page.goto("/verify", { waitUntil: "commit" });
+  await page.goto(`${BASE}/verify`, { waitUntil: "commit" });
   await waitForHydration(page);
 
   const fs = await import("node:fs");
