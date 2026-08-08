@@ -9,7 +9,7 @@
 
 import { derToPem } from "../pem.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 /**
  * Issue a self-signed X.509 v3 certificate wrapping the given ECDSA P-256

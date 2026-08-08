@@ -8,7 +8,7 @@
 
 import { toHex } from "./shared/hex.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "./shared/crypto.ts";
 
 export async function sha256Hex(data: ArrayBuffer | Uint8Array): Promise<string> {
   const buf = data instanceof Uint8Array ? data : new Uint8Array(data);

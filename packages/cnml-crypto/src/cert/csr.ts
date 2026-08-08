@@ -8,7 +8,7 @@
 
 import { derToPem } from "../pem.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 /** Build a PKCS#10 CSR (PEM) for an ECDSA P-256 pair. The subject DN
  *  uses the "O=…, CN=…, C=…" form (order-insensitive). */
