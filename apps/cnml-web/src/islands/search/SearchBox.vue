@@ -28,7 +28,9 @@ onMounted(async () => {
   if (import.meta.env.DEV) return;
   const base = import.meta.env.BASE_URL;
   try {
-    pagefind.value = await import(`${base}pagefind/pagefind.js`) as PagefindModule;
+    // @vite-ignore: the URL is built from BASE_URL at runtime; Vite
+    // can't statically analyze it, and we don't want it bundled.
+    pagefind.value = await import(/* @vite-ignore */ `${base}pagefind/pagefind.js`) as PagefindModule;
   } catch (e) {
     console.error("Pagefind failed to load", e);
   }

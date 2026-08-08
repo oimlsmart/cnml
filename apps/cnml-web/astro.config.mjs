@@ -88,9 +88,6 @@ export default defineConfig({
         "@oiml/cnml-dcoc",
         "@oiml/ptb-dcc-compat",
       ],
-      esbuildOptions: {
-        target: "esnext",
-      },
     },
     server: {
       preTransformRequests: true,
