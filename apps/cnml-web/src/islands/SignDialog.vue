@@ -8,8 +8,9 @@ import {
   timestampCnml, embedTimestampInXml,
   type StoredKey, type KeyAlgorithm,
 } from "@oiml/cnml-crypto";
-import { useFocusTrap } from "./shared/useFocusTrap";
+import { useFocusTrap } from "../composables/useFocusTrap";
 import ErrorCallout from "./widgets/ErrorCallout.vue";
+import { downloadBlob } from "./shared/dom";
 
 const props = defineProps<{ cert: any; open: boolean }>();
 const emit = defineEmits<{ close: []; signed: [xml: string] }>();
@@ -261,13 +262,7 @@ async function sign() {
 function download() {
   if (!signedXml.value) return;
   const filename = (props.cert?.certificate?.number ?? "cert").replace(/[^A-Za-z0-9._-]/g, "_") + ".cnml.xml";
-  const blob = new Blob([signedXml.value], { type: "application/xml" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadBlob(signedXml.value, filename, "application/xml");
 }
 </script>
 

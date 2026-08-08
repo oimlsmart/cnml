@@ -6,8 +6,9 @@ import {
   listTrustedKeys, deleteTrustedKey, importPublicKeyFromPem, storeTrustedKey,
   type StoredKey, type TrustedPublicKey,
 } from "@oiml/cnml-crypto";
-import { useAsyncAction } from "./shared/useAsyncAction";
+import { useAsyncAction } from "../composables/useAsyncAction";
 import { fingerprintShort } from "./shared/display";
+import { downloadBlob, triggerFileUpload } from "./shared/dom";
 
 // ─── Cert import state ─────────────────────────────────────────────
 const showImportCert = ref(false);
@@ -75,16 +76,10 @@ async function importCertificate() {
 
 function triggerCertUpload(k: StoredKey) {
   importCertKeyId.value = k.id;
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".crt,.pem";
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
+  triggerFileUpload(".crt,.pem", async (file) => {
     importCertText.value = await file.text();
     showImportCert.value = true;
-  };
-  input.click();
+  });
 }
 const keys = ref<StoredKey[]>([]);
 const loading = ref(true);
@@ -139,19 +134,9 @@ async function remove(id: string) {
   await refresh();
 }
 
-function downloadPem(content: string, filename: string) {
-  const blob = new Blob([content], { type: "application/x-pem-file" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 async function downloadPublic(k: StoredKey) {
   const pem = await exportPublicKeyPem(k);
-  downloadPem(pem, `${k.alias.replace(/\s+/g, "_")}.pub.pem`);
+  downloadBlob(pem, `${k.alias.replace(/\s+/g, "_")}.pub.pem`, "application/x-pem-file");
 }
 
 async function downloadPrivate(k: StoredKey) {
@@ -159,7 +144,7 @@ async function downloadPrivate(k: StoredKey) {
   if (!pass) return;
   try {
     const pem = await exportPrivateKeyPem(k, pass);
-    downloadPem(pem, `${k.alias.replace(/\s+/g, "_")}.private.pem`);
+    downloadBlob(pem, `${k.alias.replace(/\s+/g, "_")}.private.pem`, "application/x-pem-file");
   } catch (e) {
     error.value = `Export failed: ${(e as Error).message}`;
   }
@@ -182,16 +167,10 @@ async function importKey() {
 }
 
 function triggerPrivateKeyUpload() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".pem,.key,.txt";
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
+  triggerFileUpload(".pem,.key,.txt", async (file) => {
     importPemText.value = await file.text();
     showImport.value = true;
-  };
-  input.click();
+  });
 }
 
 // ─── Trust store actions ──────────────────────────────────────────
@@ -211,16 +190,10 @@ async function addTrustedKey() {
 }
 
 function triggerTrustedKeyUpload() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".pem,.key,.txt";
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
+  triggerFileUpload(".pem,.key,.txt", async (file) => {
     trustedPemText.value = await file.text();
     showAddTrusted.value = true;
-  };
-  input.click();
+  });
 }
 
 async function removeTrusted(id: string) {
