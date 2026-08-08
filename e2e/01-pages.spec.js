@@ -10,7 +10,7 @@ import path from "node:path";
 
 // The site deploys under /cnml/ (Astro base path). Every navigation in
 // this file is prefixed with BASE so the tests match the deployed URLs.
-const BASE = "/cnml";
+import { BASE } from "./lib/constants.js";
 
 const PAGES = [
   `${BASE}/`,

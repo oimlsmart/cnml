@@ -17,7 +17,7 @@ import { wipeIndexedDB } from "./lib/db.js";
  *   8. Assert all 4 checks pass
  */
 
-const BASE = "/cnml";
+import { BASE } from "./lib/constants.js";
 
 const PASSPHRASE = "test-passphrase-123";
 const ALIAS = "E2E Signing Key";

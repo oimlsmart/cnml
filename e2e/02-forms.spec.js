@@ -7,7 +7,7 @@ import { waitForIslandButton } from "./lib/hydration.js";
  * save YAML, upload YAML.
  */
 
-const BASE = "/cnml";
+import { BASE } from "./lib/constants.js";
 
 // The SchemaForm island hydrates when the "Fill demo data" button binds.
 const waitForHydration = (page) => waitForIslandButton(page, /Fill demo data/);
