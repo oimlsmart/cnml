@@ -26,6 +26,8 @@
 
 import * as xmldsig from "xmldsigjs";
 import { ensureXmldsigEngine } from "./engine.ts";
+import { bytesToBase64 } from "../shared/base64.ts";
+import { encodeText } from "../shared/crypto.ts";
 
 const DSIG_NS = "http://www.w3.org/2000/09/xmldsig#";
 const C14N_INCLUSIVE = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
@@ -56,7 +58,7 @@ export async function signCnmlXmlExternal(
   // ① The reference digest over the root BEFORE the Signature exists —
   //    the enveloped transform's starting state (exc-c14n, SHA-256).
   const canonicalRoot = new xmldsig.XmlCanonicalizer(false, true).Canonicalize(root);
-  const digest = await globalThis.crypto.subtle.digest("SHA-256", new TextEncoder().encode(canonicalRoot));
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", encodeText(canonicalRoot));
 
   // ② Build the Signature subtree (the local path's emitted shape).
   const sig = el("Signature");
@@ -78,7 +80,7 @@ export async function signCnmlXmlExternal(
   digestMethod.setAttribute("Algorithm", SHA256);
   reference.appendChild(transforms);
   reference.appendChild(digestMethod);
-  reference.appendChild(el("DigestValue", base64Encode(new Uint8Array(digest))));
+  reference.appendChild(el("DigestValue", bytesToBase64(new Uint8Array(digest))));
   signedInfo.appendChild(c14nMethod);
   signedInfo.appendChild(sigMethod);
   signedInfo.appendChild(reference);
@@ -105,11 +107,11 @@ export async function signCnmlXmlExternal(
   const canonicalSignedInfo = new xmldsig.XmlCanonicalizer(false, false).Canonicalize(clone);
 
   // ④ The signature happens ELSEWHERE (the quorum, the HSM).
-  const signature = await signer(new TextEncoder().encode(canonicalSignedInfo));
+  const signature = await signer(encodeText(canonicalSignedInfo));
   if (!(signature instanceof Uint8Array) || signature.length === 0) {
     throw new Error(`the external signer returned no signature (got ${signature === null ? "null" : typeof signature})`);
   }
-  sig.appendChild(el("SignatureValue", base64Encode(signature)));
+  sig.appendChild(el("SignatureValue", bytesToBase64(signature)));
 
   // ⑤ The KeyInfo chain (the quorum's GROUP certificate path — the
   //    verifier resolves without a trust store).
@@ -129,10 +131,4 @@ export async function signCnmlXmlExternal(
   }
 
   return new XMLSerializer().serializeToString(doc);
-}
-
-function base64Encode(data: Uint8Array): string {
-  let bin = "";
-  for (const b of data) bin += String.fromCharCode(b);
-  return btoa(bin);
 }

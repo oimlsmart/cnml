@@ -11,6 +11,7 @@
  */
 
 import * as ed from "@noble/ed25519";
+import { bytesToBase64 } from "./shared/base64.ts";
 
 // Check if native Ed25519 is available
 let nativeSupported: boolean | null = null;
@@ -98,7 +99,7 @@ export async function ed25519PublicKeyToPem(publicKey: Uint8Array): Promise<stri
   spki.set(spkiPrefix, 0);
   spki.set(publicKey, spkiPrefix.length);
 
-  const b64 = btoa(String.fromCharCode(...spki));
+  const b64 = bytesToBase64(spki);
   const lines = b64.match(/.{1,64}/g)?.join("\n") ?? b64;
   return `-----BEGIN PUBLIC KEY-----\n${lines}\n-----END PUBLIC KEY-----\n`;
 }

@@ -7,6 +7,8 @@
  * element. We parse via @xmldom/xmldom + a tiny ASN.1 walker.
  */
 
+import { base64ToBytes } from "./shared/base64.ts";
+
 /** OIDs we recognise. Placeholder PEN (99999) — replace with OIML's
  *  IANA-registered Private Enterprise Number before production. */
 export const OIML_SCOPE_OID = "1.3.6.1.4.1.99999.1.1";
@@ -112,8 +114,5 @@ function pemToDer(pem: string): ArrayBuffer {
     .replace(/-----BEGIN [A-Z0-9 ]+-----/g, "")
     .replace(/-----END [A-Z0-9 ]+-----/g, "")
     .replace(/\s+/g, "");
-  const bin = atob(b64);
-  const buf = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
-  return buf.buffer;
+  return base64ToBytes(b64).buffer;
 }
