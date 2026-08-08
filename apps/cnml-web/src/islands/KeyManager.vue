@@ -7,7 +7,7 @@ import {
   type StoredKey, type TrustedPublicKey,
 } from "@oiml/cnml-crypto";
 import { useAsyncAction } from "./shared/useAsyncAction";
-import { fingerprintShort } from "./shared";
+import { fingerprintShort } from "./shared/display";
 
 // ─── Cert import state ─────────────────────────────────────────────
 const showImportCert = ref(false);
