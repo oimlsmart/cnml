@@ -4,7 +4,8 @@ import {
   listKeys, getKey, exportPublicKeyPem,
   type StoredKey,
 } from "@oiml/cnml-crypto";
-import { fingerprintShort } from "./shared";
+import { fingerprintShort } from "./shared/display";
+import { useAsyncAction } from "./shared/useAsyncAction";
 
 const keys = ref<StoredKey[]>([]);
 const loading = ref(true);
@@ -17,8 +18,7 @@ const organization = ref("");
 const country = ref("");
 const oimlIssuerId = ref("");
 const csrPem = ref("");
-const error = ref("");
-const busy = ref(false);
+const { error, busy, run } = useAsyncAction();
 
 onMounted(async () => {
   try { keys.value = await listKeys(); } catch { /* empty */ }
@@ -31,8 +31,7 @@ async function generateCsr() {
   if (!selectedKeyId.value) { error.value = "Select a key first."; return; }
   if (!commonName.value.trim()) { error.value = "Common Name required."; return; }
   error.value = "";
-  busy.value = true;
-  try {
+  await run(async () => {
     // CNML CSR format: JSON-in-PEM-wrapper. The Ruby CA server parses
     // this format (see oiml-pki-server/app.rb → /csr/sign). NOT PKCS#10.
     const stored = await getKey(selectedKeyId.value);
@@ -55,11 +54,7 @@ async function generateCsr() {
     const b64 = btoa(JSON.stringify(csrData, null, 2));
     const lines = b64.match(/.{1,64}/g)?.join("\n") ?? b64;
     csrPem.value = `-----BEGIN CNML CSR-----\n${lines}\n-----END CNML CSR-----\n`;
-  } catch (e) {
-    error.value = (e as Error).message;
-  } finally {
-    busy.value = false;
-  }
+  });
 }
 
 function downloadCsr() {

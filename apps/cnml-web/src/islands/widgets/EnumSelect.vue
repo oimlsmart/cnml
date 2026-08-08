@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FieldLabel from "./FieldLabel.vue";
 defineProps<{
   label: string;
   modelValue: string | null | undefined;
@@ -10,10 +11,7 @@ defineEmits<{ "update:modelValue": [value: string] }>();
 
 <template>
   <label class="block">
-    <span class="cnml-label">
-      {{ label }}
-      <span v-if="required" class="text-[var(--ink)] normal-case font-bold">*</span>
-    </span>
+    <FieldLabel :label="label" :required="required" />
     <select
       :value="modelValue ?? ''"
       @change="$emit('update:modelValue', ($event.target as HTMLSelectElement).value)"

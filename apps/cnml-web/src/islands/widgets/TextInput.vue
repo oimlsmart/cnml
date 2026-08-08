@@ -1,14 +1,12 @@
 <script setup lang="ts">
+import FieldLabel from "./FieldLabel.vue";
 defineProps<{ label: string; modelValue: string | number | null | undefined; placeholder?: string; type?: string; required?: boolean; hint?: string }>();
 defineEmits<{ "update:modelValue": [value: string] }>();
 </script>
 
 <template>
   <label class="block">
-    <span class="cnml-label">
-      {{ label }}
-      <span v-if="required" class="text-[var(--ink)] normal-case font-bold">*</span>
-    </span>
+    <FieldLabel :label="label" :required="required" />
     <input
       :type="type ?? 'text'"
       :value="modelValue ?? ''"

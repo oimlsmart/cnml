@@ -7,7 +7,7 @@ import {
   type StoredKey,
 } from "@oiml/cnml-crypto";
 import { instanceCertToXml, type InstanceCertificate } from "@oiml/cnml-xml";
-import { fingerprintShort } from "../shared";
+import { fingerprintShort } from "../shared/display";
 
 // The schema (_instance.yaml) is passed from the Astro page. The form
 // field set, the XML serializer, and the passport projection all derive
