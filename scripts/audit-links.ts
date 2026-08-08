@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Crawl every internal link in the built CNML site and report broken ones.
 // Run: node --experimental-strip-types scripts/audit-links.mjs
-import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
-import { join, extname } from "node:path";
+import { readFileSync, existsSync } from "node:fs";
+import { walkDir } from "./_fs.ts";
 
 const ROOT = "apps/cnml-web/dist";
 if (!existsSync(ROOT)) {
@@ -11,7 +11,7 @@ if (!existsSync(ROOT)) {
 }
 
 // 1. Collect every internal link from every built HTML file
-const htmlFiles = walk(ROOT, ".html");
+const htmlFiles = walkDir(ROOT, ".html");
 const links = new Set();
 const linkSources = new Map(); // link → [file, ...]
 for (const f of htmlFiles) {
@@ -65,15 +65,6 @@ if (broken.length > 0) {
 }
 
 // --- helpers ---
-function walk(dir, ext, out = []) {
-  for (const f of readdirSync(dir)) {
-    const p = join(dir, f);
-    const s = statSync(p);
-    if (s.isDirectory()) walk(p, ext, out);
-    else if (extname(p) === ext) out.push(p);
-  }
-  return out;
-}
 function push(map, key, val) {
   if (!map.has(key)) map.set(key, []);
   map.get(key)!.push(val);

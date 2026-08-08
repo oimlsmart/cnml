@@ -10,9 +10,10 @@
  * Run: pnpm links:check
  */
 
-import { readFileSync, existsSync, writeFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { walkDir } from "./_fs.ts";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 const ROOT = join(here, "..");
@@ -26,17 +27,6 @@ interface CacheEntry {
   url: string;
   status: number | null;
   checkedAt: number;
-}
-
-function walk(dir: string, ext: string, out: string[] = []): string[] {
-  if (!existsSync(dir)) return out;
-  for (const f of readdirSync(dir)) {
-    const p = join(dir, f);
-    const s = statSync(p);
-    if (s.isDirectory()) walk(p, ext, out);
-    else if (extname(p) === ext) out.push(p);
-  }
-  return out;
 }
 
 function loadCache(): Map<string, CacheEntry> {
@@ -104,7 +94,7 @@ async function main(): Promise<number> {
   }
 
   const cache = loadCache();
-  const pages = walk(DIST, ".html");
+  const pages = walkDir(DIST, ".html");
   const allUrls = new Set<string>();
 
   for (const p of pages) {

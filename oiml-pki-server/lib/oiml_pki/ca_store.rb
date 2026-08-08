@@ -33,16 +33,9 @@ module OimlPki
     end
 
     # Exclusive lock around the entire load-modify-save sequence.
-    # Prevents two concurrent threads from both reading a stale copy
-    # and one overwriting the other's changes. Uses flock(LOCK_EX)
-    # which is automatically released when the file descriptor closes
-    # (even on process crash).
+    # Delegates to OimlPki::FileLock — the shared file-locking helper.
     def with_lock
-      FileUtils.mkdir_p(File.dirname(lock_file))
-      File.open(lock_file, File::CREAT | File::RDWR, 0o600) do |f|
-        f.flock(File::LOCK_EX)
-        yield
-      end
+      OimlPki::FileLock.with_lock(lock_file) { yield }
     end
 
     def load(passphrase)

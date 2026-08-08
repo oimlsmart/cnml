@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import QRCode from "qrcode";
-import { downloadBlob } from "../shared/dom";
+import { downloadBlob, escapeXml } from "../shared/dom";
 
 // Astro BASE_URL ("/" in dev, "/cnml/" in prod).
 const baseUrl = import.meta.env.BASE_URL as string;
@@ -68,12 +68,6 @@ function downloadPreviewSvg() {
   ${labelTextXml}
 </svg>`;
   downloadBlob(svg, `${id}.qr.svg`, "image/svg+xml");
-}
-
-function escapeXml(s: string): string {
-  return s.replace(/[<>&"']/g, (c) => ({
-    "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;",
-  }[c]!));
 }
 </script>
 
