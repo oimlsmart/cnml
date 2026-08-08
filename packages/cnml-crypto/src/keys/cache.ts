@@ -10,7 +10,7 @@
 import type { StoredKey } from "./types.ts";
 import { decryptPrivateKey } from "./encryption.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 interface CachedCryptoKey { public: CryptoKey; private?: CryptoKey; }
 

@@ -10,7 +10,7 @@ import type { TrustedPublicKey } from "./store.ts";
 import { sha256Hex } from "../hash.ts";
 import { pemToDer } from "../pem.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 /**
  * Import a public key from a PEM file (SPKI). Returns a TrustedPublicKey

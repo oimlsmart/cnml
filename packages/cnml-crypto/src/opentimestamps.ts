@@ -9,6 +9,8 @@
  * - POST /verify → submit hash + proof, get Bitcoin block timestamp
  */
 
+import { bytesToBase64, base64ToBytes } from "./shared/base64.ts";
+
 const OTS_STAMP_URL  = "https://opentimestamps.org/api/v1/timestamp/stamp";
 const OTS_VERIFY_URL = "https://opentimestamps.org/api/v1/timestamp/verify";
 
@@ -36,8 +38,7 @@ export async function timestampCnml(xml: string): Promise<string> {
   }
 
   const proofBuf = await res.arrayBuffer();
-  const proofBytes = new Uint8Array(proofBuf);
-  return btoa(String.fromCharCode(...proofBytes));
+  return bytesToBase64(new Uint8Array(proofBuf));
 }
 
 /**
@@ -51,10 +52,7 @@ export async function verifyTimestamp(
   otsProofBase64: string,
 ): Promise<{ timestamp: Date | null; blockHeight: number | null; status: string }> {
   const hashBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(xml));
-
-  const proofBin = atob(otsProofBase64);
-  const proofBytes = new Uint8Array(proofBin.length);
-  for (let i = 0; i < proofBin.length; i++) proofBytes[i] = proofBin.charCodeAt(i);
+  const proofBytes = base64ToBytes(otsProofBase64);
 
   const formData = new FormData();
   formData.append("file", new Blob([hashBuf]), "hash");

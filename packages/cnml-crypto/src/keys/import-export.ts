@@ -13,7 +13,7 @@ import { derToPem, pemToDer } from "../pem.ts";
 import { encryptPrivateKey, decryptPrivateKey } from "./encryption.ts";
 import type { TrustedPublicKey } from "../trust/store.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 /**
  * Export a stored key's PUBLIC key as a SPKI PEM ("-----BEGIN PUBLIC KEY-----").

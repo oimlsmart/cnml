@@ -20,7 +20,7 @@ export interface TrustedPublicKey {
   created: number;
 }
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 const store = createIdbStore<TrustedPublicKey>("cnml-trust", "trusted-keys");
 

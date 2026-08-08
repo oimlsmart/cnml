@@ -13,7 +13,7 @@ import { encryptPrivateKey } from "./encryption.ts";
 import { storeKey } from "./store.ts";
 import { setGeneratedKeyPair } from "./cache.ts";
 
-const SUBTLE = globalThis.crypto.subtle;
+import { SUBTLE } from "../shared/crypto.ts";
 
 export async function generateKey(opts: GenerateOptions): Promise<{ id: string; fingerprint: string }> {
   if (!opts.passphrase || opts.passphrase.length < 8) {
