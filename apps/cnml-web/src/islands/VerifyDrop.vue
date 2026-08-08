@@ -6,6 +6,7 @@ import {
   type VerificationResult,
 } from "@oiml/cnml-crypto";
 import { runChecks, CHECKS, runConfiumVerifyCheck, type CheckResult, type CheckContext } from "@oiml/cnml-crypto/checks";
+import ErrorCallout from "./widgets/ErrorCallout.vue";
 
 const file = ref<File | null>(null);
 const xml  = ref("");
@@ -156,9 +157,7 @@ function statusGlyph(r: CheckResult): string {
 
     <div v-if="busy" role="status" aria-live="polite" class="mt-4 text-sm text-[var(--ink-muted)]">Verifying…</div>
 
-    <div v-if="error" role="alert" aria-live="assertive" class="cnml-callout cnml-callout--error mt-4">
-      {{ error }}
-    </div>
+    <ErrorCallout :message="error" />
 
     <!-- Result (TODO.cnml/56: role=status aria-live=polite so
          screen readers announce check completions) -->

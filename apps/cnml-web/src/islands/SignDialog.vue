@@ -9,6 +9,7 @@ import {
   type StoredKey, type KeyAlgorithm,
 } from "@oiml/cnml-crypto";
 import { useFocusTrap } from "./shared/useFocusTrap";
+import ErrorCallout from "./widgets/ErrorCallout.vue";
 
 const props = defineProps<{ cert: any; open: boolean }>();
 const emit = defineEmits<{ close: []; signed: [xml: string] }>();
@@ -456,9 +457,7 @@ function download() {
         </div>
 
         <!-- Status / error -->
-        <div v-if="status === 'error' && errorMessage" role="alert" aria-live="assertive" class="cnml-callout cnml-callout--error mt-4">
-          {{ errorMessage }}
-        </div>
+        <ErrorCallout :message="status === 'error' ? errorMessage : ''" />
 
         <!-- Success + download -->
         <div v-if="status === 'done'" role="status" aria-live="polite" class="cnml-callout cnml-callout--success mt-4">
