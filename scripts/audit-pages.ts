@@ -6,12 +6,13 @@
 //   - Vue runtime errors inlined
 //   - legacy color token references (CSS regression)
 // Run: node --experimental-strip-types scripts/audit-pages.ts
-import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
-import { join, extname, relative } from "node:path";
+import { readFileSync } from "node:fs";
+import { relative } from "node:path";
+import { walkDir } from "./_fs.ts";
 
 const ROOT = "apps/cnml-web/dist";
 
-const pages = walk(ROOT, ".html");
+const pages = walkDir(ROOT, ".html");
 console.log(`Scanning ${pages.length} built pages…\n`);
 
 const issues = [];
@@ -63,13 +64,3 @@ for (const { page, checks } of issues) {
   for (const c of checks) console.log(`    ${c.kind}: ${c.detail}`);
 }
 process.exit(1);
-
-function walk(dir, ext, out = []) {
-  for (const f of readdirSync(dir)) {
-    const p = join(dir, f);
-    const s = statSync(p);
-    if (s.isDirectory()) walk(p, ext, out);
-    else if (extname(p) === ext) out.push(p);
-  }
-  return out;
-}

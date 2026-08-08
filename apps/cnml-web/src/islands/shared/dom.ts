@@ -44,3 +44,20 @@ export function triggerFileUpload(
   };
   input.click();
 }
+
+const XML_ESCAPE_MAP: Record<string, string> = {
+  "<": "&lt;",
+  ">": "&gt;",
+  "&": "&amp;",
+  '"': "&quot;",
+  "'": "&apos;",
+};
+
+/**
+ * Escape the five XML special characters (<, >, &, ", '). Used by
+ * components that generate XML/SVG content inline (e.g., the QR code
+ * generator embedding a label inside an SVG text element).
+ */
+export function escapeXml(s: string): string {
+  return s.replace(/[<>&"']/g, (c) => XML_ESCAPE_MAP[c] ?? c);
+}

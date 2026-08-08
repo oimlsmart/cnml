@@ -74,4 +74,5 @@ module OimlPki
   autoload :TransparencyPublisher, "oiml_pki/transparency_publisher"
   autoload :CeremonyTranscript,   "oiml_pki/ceremony_transcript"
   autoload :UpdateIntegrity,      "oiml_pki/update_integrity"
+  autoload :FileLock,             "oiml_pki/file_lock"
 end

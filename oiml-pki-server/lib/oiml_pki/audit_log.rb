@@ -53,12 +53,12 @@ module OimlPki
         result:        result,
         previous_hash: read_head,
       }
-      # Atomic append — Ruby's File.open with "a" mode is atomic for
-      # single writes under POSIX on local filesystems.
-      File.open(log_file, "a") do |f|
-        f.flock(File::LOCK_EX)
-        f.puts(JSON.generate(entry))
-        f.flock(File::LOCK_UN)
+      # The lock file serializes concurrent appenders. The log file
+      # is opened in append mode inside the block.
+      OimlPki::FileLock.with_lock("#{log_file}.lock") do
+        File.open(log_file, "a") do |f|
+          f.puts(JSON.generate(entry))
+        end
       end
       write_head(hash_of(entry))
       entry
