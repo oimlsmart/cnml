@@ -14,7 +14,7 @@ import { useTheme } from '../composables/useTheme'
 // Vue can't auto-inherit the attribute. Disable inheritance to silence
 // the "extraneous non-props attributes" warning.
 defineOptions({ inheritAttrs: false })
-import { useFocusTrap } from '../islands/shared/useFocusTrap'
+import { useFocusTrap } from '../composables/useFocusTrap'
 import type { NavDropdownConfig } from './NavDropdown.vue'
 
 export interface MobileNavItem {

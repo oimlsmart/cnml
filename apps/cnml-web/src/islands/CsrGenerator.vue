@@ -5,7 +5,8 @@ import {
   type StoredKey,
 } from "@oiml/cnml-crypto";
 import { fingerprintShort } from "./shared/display";
-import { useAsyncAction } from "./shared/useAsyncAction";
+import { useAsyncAction } from "../composables/useAsyncAction";
+import { downloadBlob } from "./shared/dom";
 
 const keys = ref<StoredKey[]>([]);
 const loading = ref(true);
@@ -59,13 +60,7 @@ async function generateCsr() {
 
 function downloadCsr() {
   if (!csrPem.value) return;
-  const blob = new Blob([csrPem.value], { type: "application/x-pem-file" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${commonName.value.replace(/\s+/g, "_") || "cnml-signer"}.csr`;
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadBlob(csrPem.value, `${commonName.value.replace(/\s+/g, "_") || "cnml-signer"}.csr`, "application/x-pem-file");
 }
 </script>
 

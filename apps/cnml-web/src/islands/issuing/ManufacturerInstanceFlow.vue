@@ -8,6 +8,7 @@ import {
 } from "@oiml/cnml-crypto";
 import { instanceCertToXml, type InstanceCertificate } from "@oiml/cnml-xml";
 import { fingerprintShort } from "../shared/display";
+import { downloadBlob } from "../shared/dom";
 
 // The schema (_instance.yaml) is passed from the Astro page. The form
 // field set, the XML serializer, and the passport projection all derive
@@ -165,13 +166,7 @@ function downloadBundle() {
     "",
     certPem.value,
   ].join("\n");
-  const blob = new Blob([bundle], { type: "application/x-pem-file" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${serialNumber.value.replace(/\s+/g, "_") || "instance"}.cnml.pem`;
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadBlob(bundle, `${serialNumber.value.replace(/\s+/g, "_") || "instance"}.cnml.pem`, "application/x-pem-file");
 }
 
 function resetForm() {
