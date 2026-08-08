@@ -16,6 +16,8 @@
 
 import type { Check, CheckContext, CheckResult } from "./types.ts";
 import { toHex, fromHex } from "../shared/hex.ts";
+import { base64ToBytes } from "../shared/base64.ts";
+import { encodeText } from "../shared/crypto.ts";
 
 /** SHA-256 over (0x01 || data) — leaf domain separator per RFC 6962. */
 async function hashLeaf(data: Uint8Array): Promise<Uint8Array> {
@@ -54,10 +56,7 @@ export { fromHex };
 function fromBase64(s: string): Uint8Array {
   const normalized = s.trim().replace(/-/g, "+").replace(/_/g, "/");
   const padded = normalized + "=".repeat((4 - (normalized.length % 4)) % 4);
-  const bin = atob(padded);
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
+  return base64ToBytes(padded);
 }
 
 /** One step in a Merkle inclusion proof. */
@@ -203,7 +202,7 @@ export const transparencyCheck: Check = {
     // Compute the leaf hash from the cert content (the entire CNML XML,
     // canonicalized) and compare to the proof's leafHash. This binds the
     // proof to the CNML bytes being verified.
-    const certHash = await sha256(new TextEncoder().encode(xml));
+    const certHash = await sha256(encodeText(xml));
     const expectedLeaf = await hashLeaf(certHash);
 
     const leafMatches = constantTimeEqual(expectedLeaf, proof.leafHash);

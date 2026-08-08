@@ -12,6 +12,7 @@
 
 import { loadConfiumWasm, ConfiumWasmUnavailableError } from "../confium-wasm.ts";
 import type { CheckResult } from "./types.ts";
+import { encodeText } from "../shared/crypto.ts";
 
 export const confiumVerifyCheckId = "confium-wasm";
 
@@ -70,7 +71,7 @@ export async function runConfiumVerifyCheck(
     try {
       const verify = (CompositeSignature as { verify: (m: Uint8Array, s: Uint8Array, k: Uint8Array) => boolean }).verify;
       const ok = verify(
-        new TextEncoder().encode(input.xml),
+        encodeText(input.xml),
         input.compositeSignature!,
         input.compositePublicKey!,
       );

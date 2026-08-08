@@ -12,6 +12,7 @@
  */
 
 import { ml_dsa65 } from "@noble/post-quantum/ml-dsa.js";
+import { bytesToBase64, base64ToBytes } from "./shared/base64.ts";
 
 export interface MlDsaKeyPair {
   publicKey: Uint8Array;   // 1952 bytes
@@ -52,17 +53,14 @@ export function mlDsaVerify(
  * Export ML-DSA public key as base64 for embedding in XML.
  */
 export function mlDsaPublicKeyToBase64(publicKey: Uint8Array): string {
-  return btoa(String.fromCharCode(...publicKey));
+  return bytesToBase64(publicKey);
 }
 
 /**
  * Import ML-DSA public key from base64.
  */
 export function mlDsaPublicKeyFromBase64(b64: string): Uint8Array {
-  const bin = atob(b64);
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return bytes;
+  return base64ToBytes(b64);
 }
 
 /**

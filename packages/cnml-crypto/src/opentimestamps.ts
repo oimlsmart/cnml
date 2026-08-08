@@ -10,6 +10,7 @@
  */
 
 import { bytesToBase64, base64ToBytes } from "./shared/base64.ts";
+import { encodeText } from "./shared/crypto.ts";
 
 const OTS_STAMP_URL  = "https://opentimestamps.org/api/v1/timestamp/stamp";
 const OTS_VERIFY_URL = "https://opentimestamps.org/api/v1/timestamp/verify";
@@ -22,7 +23,7 @@ const OTS_VERIFY_URL = "https://opentimestamps.org/api/v1/timestamp/verify";
  * Until anchored, verification returns "pending".
  */
 export async function timestampCnml(xml: string): Promise<string> {
-  const hashBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(xml));
+  const hashBuf = await crypto.subtle.digest("SHA-256", encodeText(xml));
   const hashHex = Array.from(new Uint8Array(hashBuf))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
@@ -51,7 +52,7 @@ export async function verifyTimestamp(
   xml: string,
   otsProofBase64: string,
 ): Promise<{ timestamp: Date | null; blockHeight: number | null; status: string }> {
-  const hashBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(xml));
+  const hashBuf = await crypto.subtle.digest("SHA-256", encodeText(xml));
   const proofBytes = base64ToBytes(otsProofBase64);
 
   const formData = new FormData();
