@@ -40,6 +40,17 @@ export const sections = [
     ],
   },
   {
+    title: 'Guides',
+    docs: [
+      { slug: 'guides/getting-started', title: 'Getting started', desc: 'Install the packages, run the web app, and try the certificate operations.' },
+      { slug: 'guides/signing-a-certificate', title: 'Signing a certificate', desc: 'Key generation, certificate creation, XMLDSig signing, and composite signatures.' },
+      { slug: 'guides/verifying-a-certificate', title: 'Verifying a certificate', desc: 'The seven-check pipeline, how to run it, and how to add new checks.' },
+      { slug: 'guides/qr-code-delivery', title: 'QR code delivery', desc: 'How instance certificates are delivered via QR codes and the passport endpoint.' },
+      { slug: 'guides/smi-integration', title: 'SMI integration', desc: 'How CNML connects to the SMART Measuring Instrument ecosystem via the twin GraphQL interface.' },
+      { slug: 'guides/internationalization', title: 'Internationalization', desc: 'The xml:lang model, locale switching, and the planned language tiers.' },
+    ],
+  },
+  {
     title: 'Roles',
     docs: [
       { slug: 'roles/for-ias-biml-ciml', title: 'For IAs and BIML/CIML', desc: 'The operational guide for IA officers and BIML/CIML staff: certificate creation, threshold signing, scope governance, ceremony participation.' },
@@ -53,6 +64,15 @@ export const sections = [
       { slug: 'reference/glossary', title: 'Glossary', desc: 'Alphabetical terminology reference for non-experts.' },
       { slug: 'reference/faq', title: 'FAQ', desc: 'Audience-grouped questions and answers, with cross-references to the canonical docs.' },
       { slug: 'reference/standards-index', title: 'Standards index', desc: 'A table of every standard CNML references, with role and link.' },
+    ],
+  },
+  {
+    title: 'Specifications',
+    docs: [
+      { slug: 'specifications/cnml-format-spec', title: 'CNML format specification', desc: 'The namespace, document structure, per-Recommendation schema model, and instance certificate format.' },
+      { slug: 'specifications/xmldsig-profile', title: 'XMLDSig profile', desc: 'The canonicalization, signature method, reference transforms, and KeyInfo conventions for CNML signatures.' },
+      { slug: 'specifications/scope-extension-oid', title: 'Scope extension OID', desc: 'The X.509 v3 extension that binds an Issuing Authority to its OIML-CS scope, and the four-layer enforcement model.' },
+      { slug: 'specifications/deployment-manifest', title: 'Deployment manifest', desc: 'The confium.toml format: tier hierarchy, quorum definitions, transparency log endpoints, and validation rules.' },
     ],
   },
 ];
