@@ -197,13 +197,57 @@ const audiences = [
     </section>
 
     {/* ═══════════════════════════════════════════════════════════════
+        HOW IT WORKS — visual diagrams
+        The key workflow diagrams so non-technical audiences can
+        understand CNML at a glance without reading a wall of text.
+        ═══════════════════════════════════════════════════════════════ */}
+    <div class="bp-ticks" aria-hidden="true"></div>
+    <section class="cnml-section bp-grid">
+      <div class="cnml-section__intro bp-reveal">
+        <div class="bp-section-anchor">
+          <span class="bp-section-anchor__num">§ 03</span>
+          <span>How it works</span>
+          <span class="bp-section-anchor__line"></span>
+          <span class="bp-coord">Visual overview</span>
+        </div>
+        <h2 class="cnml-section__title">The trust chain</h2>
+        <p class="cnml-section__lede">
+          Authority flows from the OIML root through Issuing Authorities down to the individual instrument. Each tier is cryptographically bound to the next. No single party can forge a certificate.
+        </p>
+      </div>
+      <div class="cnml-diagram bp-reveal">
+        <img src={url('/diagrams/trust-chain.svg')} alt="CNML trust chain: OIML root cert to issuing authority to per-cert signer to user verification" loading="lazy" />
+      </div>
+
+      <div class="cnml-section__intro cnml-section__intro--spaced bp-reveal">
+        <h3 class="cnml-section__subtitle">Signing a certificate</h3>
+        <p class="cnml-section__lede">
+          The IA officer's key signs the CNML XML using threshold cryptography. Multiple officers must participate; no single key can complete the signature.
+        </p>
+      </div>
+      <div class="cnml-diagram bp-reveal">
+        <img src={url('/diagrams/signing-flow.svg')} alt="CNML signing flow: threshold ceremony produces a signed certificate" loading="lazy" />
+      </div>
+
+      <div class="cnml-section__intro cnml-section__intro--spaced bp-reveal">
+        <h3 class="cnml-section__subtitle">Verifying a certificate</h3>
+        <p class="cnml-section__lede">
+          Anyone can verify a CNML certificate in a browser, offline. The seven-check pipeline validates XML structure, schema, signature, scope, revocation, timestamp, and transparency.
+        </p>
+      </div>
+      <div class="cnml-diagram bp-reveal">
+        <img src={url('/diagrams/verification-flow.svg')} alt="CNML verification flow: seven-check pipeline from XML parse to transparency log inclusion" loading="lazy" />
+      </div>
+    </section>
+
+    {/* ═══════════════════════════════════════════════════════════════
         TECHNOLOGY SUMMARY
         ═══════════════════════════════════════════════════════════════ */}
     <div class="bp-ticks" aria-hidden="true"></div>
     <section class="cnml-section cnml-section--prose bp-grid">
       <div class="cnml-section__intro bp-reveal">
         <div class="bp-section-anchor">
-          <span class="bp-section-anchor__num">§ 03</span>
+          <span class="bp-section-anchor__num">§ 04</span>
           <span>Technology</span>
           <span class="bp-section-anchor__line"></span>
           <span class="bp-coord">Standards stack</span>
@@ -229,7 +273,7 @@ const audiences = [
       </div>
       <div class="cnml-app-preview__inner bp-reveal bp-crosshair">
         <div class="bp-section-anchor">
-          <span class="bp-section-anchor__num">§ 04</span>
+          <span class="bp-section-anchor__num">§ 05</span>
           <span>Try it</span>
           <span class="bp-section-anchor__line"></span>
           <span class="bp-coord">In the browser</span>
@@ -368,6 +412,32 @@ const audiences = [
     font-size: 1.0625rem;
     line-height: 1.65;
     color: var(--ink-soft);
+  }
+
+  /* ─── How-it-works diagrams ─────────────────────────────────────── */
+  .cnml-section__subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .cnml-section__intro--spaced {
+    margin-top: 4rem;
+  }
+  .cnml-diagram {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--bp-radius-md);
+    overflow: hidden;
+  }
+  .cnml-diagram img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   /* ─── Card grids ───────────────────────────────────────────────────── */
