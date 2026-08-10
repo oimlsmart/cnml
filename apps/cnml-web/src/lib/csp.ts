@@ -5,12 +5,16 @@
  * Two constraints drive the shape:
  *
  * - frame-ancestors, report-uri, sandbox are NOT enforceable via <meta>
- *   (they require an HTTP header). Omitting rather than carrying dead
+ *   (they require an HTTP header). Omitted rather than carrying dead
  *   directives that give a false sense of protection.
  *
- * - In dev mode Astro injects inline scripts for HMR/hydration; the
- *   production CSP (script-src 'self') would block them and flood the
- *   console. Dev widens to 'unsafe-inline'; production stays strict.
+ * - Astro generates inline scripts for island hydration (the
+ *   astro-island custom element registration, the FOUC prevention,
+ *   the Vue runtime bootstrap). These inline scripts are essential for
+ *   every Vue island to work. On static hosting (GitHub Pages) there
+ *   is no server to generate nonces, so 'unsafe-inline' is required
+ *   for scripts in both dev and production. The default-src 'self'
+ *   still prevents loading external scripts from untrusted origins.
  */
 
 export interface CspOptions {
@@ -19,12 +23,9 @@ export interface CspOptions {
 }
 
 export function buildCsp(opts: CspOptions): string {
-  const scriptSrc = opts.dev
-    ? "script-src 'self' 'unsafe-inline'"
-    : "script-src 'self'";
   return [
     "default-src 'self'",
-    scriptSrc,
+    "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
