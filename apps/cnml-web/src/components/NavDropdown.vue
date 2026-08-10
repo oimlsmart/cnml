@@ -127,6 +127,8 @@ onBeforeUnmount(() => {
   gap: 0.375rem;
   background: transparent;
   border: none;
+  font: inherit;
+  cursor: pointer;
   cursor: pointer;
   font: inherit;
 }
