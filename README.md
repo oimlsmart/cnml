@@ -171,6 +171,51 @@ Every CA operation appends an entry to an append-only JSONL log. Each entry incl
 
 ## Validation
 
+### Running the app locally
+
+The web app runs entirely in the browser. Start the dev server:
+
+```bash
+pnpm install     # install dependencies
+pnpm dev         # start Astro dev server at http://localhost:4321/cnml/
+```
+
+Open `http://localhost:4321/cnml/` in your browser. The app provides:
+
+- `/cnml/app` landing page listing all certificate operations
+- `/cnml/keys` generate and manage signing keys (stored in IndexedDB)
+- `/cnml/create/r60` create a CNML certificate from the R60 schema (schema-driven form)
+- `/cnml/verify` drop a `.cnml.xml` file to run the seven-check verification pipeline
+- `/cnml/qr-code` generate a QR code linking to a passport page
+- `/cnml/issue/manufacturer-instance` sign a per-device instance certificate
+- `/cnml/passport/CNML-DEMO-INSTANCE` view the demo passport page
+
+Private keys are generated in the browser via WebCrypto, encrypted with a passphrase, and stored in IndexedDB. Nothing leaves your machine.
+
+To run the Ruby CA server (optional, for threshold signing):
+
+```bash
+cd oiml-pki-server && bundle install
+cd oiml-pki-server && ruby app.rb    # Sinatra on http://localhost:4455
+```
+
+### Full test suite
+
+```bash
+pnpm install
+
+pnpm test              # integration vectors (cnml-test-vectors)
+pnpm test:crypto       # crypto unit tests (127 tests)
+pnpm test:web          # markdown-page helper tests
+pnpm test:vitest       # Vue island unit tests
+pnpm test:audit        # build-output audit (links, metadata, security)
+pnpm test:lint         # style-guide linter
+pnpm test:e2e          # Playwright end-to-end (67 tests)
+pnpm links:check       # external link checker
+
+cd oiml-pki-server && bundle exec rspec   # Ruby CA server (186 tests)
+```
+
 ### Unit tests
 
 The TypeScript unit tests live in `packages/cnml-crypto/src/` and `packages/cnml-test-vectors/src/`. They run through Node's built-in test runner with TypeScript stripping enabled. The composite signature tests cover round-trip sign and verify, single-component tampering, public-key mismatch, and the base64 encoding round-trip.

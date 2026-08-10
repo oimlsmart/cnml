@@ -2,19 +2,14 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildCsp } from "./csp.ts";
 
-test("production CSP forbids unsafe-inline for scripts", () => {
-  const csp = buildCsp({ dev: false });
-  // Extract the script-src directive and assert it's just 'self'.
-  const match = csp.match(/script-src '[^']*'(?: '[^']*')*/);
-  assert.ok(match, "script-src directive not found");
-  assert.equal(match[0], "script-src 'self'");
-});
-
-test("dev CSP allows unsafe-inline for scripts (Astro HMR)", () => {
-  const csp = buildCsp({ dev: true });
-  const match = csp.match(/script-src '[^']*'(?: '[^']*')*/);
-  assert.ok(match, "script-src directive not found");
-  assert.equal(match[0], "script-src 'self' 'unsafe-inline'");
+test("both dev and production CSPs allow unsafe-inline for scripts", () => {
+  // Astro generates inline scripts for island hydration on static
+  // hosting (no nonce support). Both modes must allow 'unsafe-inline'.
+  const prod = buildCsp({ dev: false });
+  const dev = buildCsp({ dev: true });
+  const match = (csp: string) => csp.match(/script-src '[^']*'(?: '[^']*')*/);
+  assert.equal(match(prod)?.[0], "script-src 'self' 'unsafe-inline'");
+  assert.equal(match(dev)?.[0], "script-src 'self' 'unsafe-inline'");
 });
 
 test("both CSPs omit frame-ancestors (unenforceable via meta)", () => {
