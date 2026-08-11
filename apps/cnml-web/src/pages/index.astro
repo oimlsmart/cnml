@@ -80,44 +80,46 @@ const audiences = [
         ═══════════════════════════════════════════════════════════════ */}
     <section class="cnml-hero bp-grid bp-grid--major">
       <div class="cnml-hero__inner">
-        <div class="cnml-hero__seal hero-stagger" style="--stagger-i:0">
+        <div class="cnml-hero__content">
+          <p class="cnml-hero__eyebrow hero-stagger" style="--stagger-i:0">
+            OIML SMART programme · 2026 edition (proposal)
+          </p>
+          <h1 class="cnml-hero__title hero-stagger" style="--stagger-i:1">
+            Certificat Numérique<br />de Métrologie Légale
+          </h1>
+          <p class="cnml-hero__lede hero-stagger" style="--stagger-i:2">
+            CNML is the cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It binds each type-approval evaluation to a distributed threshold signature that any party can verify in a web browser, offline, for the service lifetime of the instrument.
+          </p>
+          <div class="cnml-hero__actions hero-stagger" style="--stagger-i:3">
+            <a class="btn btn-primary bp-magnetic bp-focus-ring" href={url('/about/what-is-cnml')} data-magnetic-strength="0.2">
+              Explore the format <span class="arrow">→</span>
+            </a>
+            <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/docs')} data-magnetic-strength="0.15">
+              Read the docs
+            </a>
+            <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/app')} data-magnetic-strength="0.15">
+              Try the app
+            </a>
+          </div>
+          <div class="cnml-hero__meta hero-stagger" style="--stagger-i:4">
+            <span class="cnml-hero__meta-item">
+              <span class="cnml-hero__meta-dot cnml-hero__meta-dot--brand"></span>
+              X.509 v3 · XMLDSig
+            </span>
+            <span class="cnml-hero__meta-sep">·</span>
+            <span class="cnml-hero__meta-item">
+              <span class="cnml-hero__meta-dot cnml-hero__meta-dot--teal"></span>
+              FIPS 204 · RFC 6962
+            </span>
+            <span class="cnml-hero__meta-sep">·</span>
+            <span class="cnml-hero__meta-item">
+              <span class="cnml-hero__meta-dot cnml-hero__meta-dot--amber"></span>
+              22 OIML Recommendations
+            </span>
+          </div>
+        </div>
+        <div class="cnml-hero__visual hero-stagger" style="--stagger-i:1">
           <CnmlSeal />
-        </div>
-        <p class="cnml-hero__eyebrow hero-stagger" style="--stagger-i:1">
-          OIML SMART programme · 2026 edition (proposal)
-        </p>
-        <h1 class="cnml-hero__title hero-stagger" style="--stagger-i:2">
-          Certificat Numérique<br />de Métrologie Légale
-        </h1>
-        <p class="cnml-hero__lede hero-stagger" style="--stagger-i:3">
-          CNML is the cryptographically-signed digital certificate format for OIML type approvals, developed under the OIML SMART program. It binds each type-approval evaluation to a distributed threshold signature that any party can verify in a web browser, offline, for the service lifetime of the instrument.
-        </p>
-        <div class="cnml-hero__actions hero-stagger" style="--stagger-i:4">
-          <a class="btn btn-primary bp-magnetic bp-focus-ring" href={url('/about/what-is-cnml')} data-magnetic-strength="0.2">
-            Explore the format <span class="arrow">→</span>
-          </a>
-          <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/docs')} data-magnetic-strength="0.15">
-            Read the docs
-          </a>
-          <a class="btn btn-ghost bp-magnetic bp-focus-ring" href={url('/app')} data-magnetic-strength="0.15">
-            Try the app
-          </a>
-        </div>
-        <div class="cnml-hero__meta hero-stagger" style="--stagger-i:5">
-          <span class="cnml-hero__meta-item">
-            <span class="cnml-hero__meta-dot cnml-hero__meta-dot--brand"></span>
-            X.509 v3 · XMLDSig
-          </span>
-          <span class="cnml-hero__meta-sep">·</span>
-          <span class="cnml-hero__meta-item">
-            <span class="cnml-hero__meta-dot cnml-hero__meta-dot--teal"></span>
-            FIPS 204 · RFC 6962
-          </span>
-          <span class="cnml-hero__meta-sep">·</span>
-          <span class="cnml-hero__meta-item">
-            <span class="cnml-hero__meta-dot cnml-hero__meta-dot--amber"></span>
-            22 OIML Recommendations
-          </span>
         </div>
       </div>
     </section>
@@ -303,32 +305,53 @@ const audiences = [
 
   .cnml-hero {
     position: relative;
-    min-height: min(92vh, 840px);
+    min-height: min(88vh, 800px);
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 5rem 1.5rem 4rem;
-    text-align: center;
+    padding: 4rem 1.5rem 3rem;
   }
   .cnml-hero__inner {
     position: relative;
     z-index: 1;
-    max-width: 52rem;
+    max-width: 72rem;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
     align-items: center;
   }
-  .cnml-hero__seal {
-    width: 200px;
-    max-width: 55vw;
-    margin: 0 auto 2rem;
-    color: var(--ink);
-    filter: drop-shadow(0 4px 24px color-mix(in srgb, var(--accent) 8%, transparent));
+  @media (min-width: 900px) {
+    .cnml-hero__inner {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+    }
   }
-  .cnml-hero__seal :global(.cnml-seal) {
+  .cnml-hero__content {
+    text-align: left;
+  }
+  .cnml-hero__visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--ink);
+  }
+  .cnml-hero__visual :global(.cnml-seal) {
     width: 100%;
+    max-width: 340px;
     height: auto;
+    filter: drop-shadow(0 8px 40px color-mix(in srgb, var(--accent) 10%, transparent));
+  }
+  @media (max-width: 899px) {
+    .cnml-hero__content {
+      text-align: center;
+    }
+    .cnml-hero__visual {
+      order: -1;
+      margin-bottom: 1rem;
+    }
+    .cnml-hero__visual :global(.cnml-seal) {
+      max-width: 240px;
+    }
   }
   .cnml-hero__eyebrow {
     font-family: var(--font-mono);
@@ -358,7 +381,6 @@ const audiences = [
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    justify-content: center;
     margin-bottom: 2.5rem;
   }
   .cnml-hero__meta {
@@ -366,12 +388,17 @@ const audiences = [
     flex-wrap: wrap;
     gap: 0.75rem;
     align-items: center;
-    justify-content: center;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-muted);
+  }
+  @media (max-width: 899px) {
+    .cnml-hero__actions,
+    .cnml-hero__meta {
+      justify-content: center;
+    }
   }
   .cnml-hero__meta-item {
     display: inline-flex;
