@@ -1,19 +1,16 @@
 ---
 /**
- * CNML certification seal.
+ * CNML trust-chain hero visual.
  *
- * The signature visual element of the site. A certification seal is the
- * most characteristic artifact in legal metrology: every type-approval
- * certificate carries one. The CNML seal encodes substantive content.
+ * Replaces the old certification seal. Shows the five-tier hierarchy
+ * as a vertical chain: from the OIML/BIML root (threshold quorum)
+ * through IA delegation, to manufacturer model and instance certs,
+ * down to signed measurements at the instrument.
  *
- * Outer ring: institutional issuer and programme.
- * Middle ring: the threshold quorum, shown as seven markers arranged
- *   in a circle. Five markers are filled, representing the five-of-seven
- *   director quorum at the BIML Root tier.
- * Center: the edition and status.
+ * A side credential (certified tester) branches from the IA tier.
  *
- * The seal uses currentColor so it inherits the surrounding text color
- * and works on any background. Pass a `class` to size or color it.
+ * Uses currentColor so it works on any background. The design is
+ * intentionally compact for the hero area (220px wide, 280px tall).
  */
 interface Props {
   class?: string;
@@ -22,55 +19,112 @@ const { class: className = "" } = Astro.props;
 ---
 
 <svg
-  viewBox="0 0 240 240"
+  viewBox="0 0 240 320"
   class={`cnml-seal ${className}`}
   role="img"
-  aria-label="CNML certification seal: OIML SMART programme proposal, 2026 edition, five-of-seven director quorum."
+  aria-label="CNML five-tier trust chain: from OIML root through IA, manufacturer model, instance certificate, to signed measurements."
   fill="none"
 >
   <defs>
-    <path id="cnml-seal-arc-top" d="M 24 120 A 96 96 0 0 1 216 120" />
-    <path id="cnml-seal-arc-bot" d="M 216 120 A 96 96 0 0 1 24 120" />
+    <!-- Arrow marker -->
+    <marker id="chain-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L6,4 z" fill="currentColor" opacity="0.5" />
+    </marker>
   </defs>
 
-  <!-- Outer rings -->
-  <circle cx="120" cy="120" r="118" stroke="currentColor" stroke-width="0.5" opacity="0.35" />
-  <circle cx="120" cy="120" r="108" stroke="currentColor" stroke-width="1" />
-  <circle cx="120" cy="120" r="88" stroke="currentColor" stroke-width="0.5" opacity="0.5" />
-
-  <!-- Circumference text -->
-  <text font-family="IBM Plex Mono, monospace" font-size="6.5" letter-spacing="2.6" fill="currentColor">
-    <textPath href="#cnml-seal-arc-top" startOffset="50%" text-anchor="middle">
-      CERTIFICAT NUMÉRIQUE DE MÉTROLOGIE LÉGALE
-    </textPath>
-  </text>
-  <text font-family="IBM Plex Mono, monospace" font-size="6.5" letter-spacing="2.6" fill="currentColor">
-    <textPath href="#cnml-seal-arc-bot" startOffset="50%" text-anchor="middle">
-      OIML SMART PROGRAMME · PROPOSAL · 2026
-    </textPath>
-  </text>
-
-  <!-- Threshold quorum: seven markers around a circle, five filled -->
-  <!-- The BIML Root tier uses a five-of-seven director quorum. -->
+  {/* ── Tier 1: OIML / BIML Root ── */}
   <g>
-    <!-- 1 filled -->
-    <circle cx="120" cy="65" r="3.5" fill="currentColor" />
-    <!-- 2 filled -->
-    <circle cx="163" cy="86" r="3.5" fill="currentColor" />
-    <!-- 3 filled -->
-    <circle cx="174" cy="132" r="3.5" fill="currentColor" />
-    <!-- 4 filled -->
-    <circle cx="144" cy="170" r="3.5" fill="currentColor" />
-    <!-- 5 filled -->
-    <circle cx="96" cy="170" r="3.5" fill="currentColor" />
-    <!-- 6 outlined (not currently participating) -->
-    <circle cx="66" cy="132" r="3.5" stroke="currentColor" stroke-width="1" opacity="0.3" />
-    <!-- 7 outlined (not currently participating) -->
-    <circle cx="77" cy="86" r="3.5" stroke="currentColor" stroke-width="1" opacity="0.3" />
+    <rect x="30" y="8" width="180" height="44" rx="8" fill="currentColor" opacity="0.06" stroke="currentColor" stroke-width="1" />
+    <!-- Threshold quorum dots: 5 filled, 2 outlined -->
+    <g transform="translate(120, 18)">
+      <circle cx="-24" cy="0" r="2.5" fill="currentColor" />
+      <circle cx="-16" cy="0" r="2.5" fill="currentColor" />
+      <circle cx="-8"  cy="0" r="2.5" fill="currentColor" />
+      <circle cx="0"   cy="0" r="2.5" fill="currentColor" />
+      <circle cx="8"   cy="0" r="2.5" fill="currentColor" />
+      <circle cx="16"  cy="0" r="2.5" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.3" />
+      <circle cx="24"  cy="0" r="2.5" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.3" />
+    </g>
+    <text x="120" y="38" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="6.5" letter-spacing="1.5" fill="currentColor" opacity="0.5">5 / 7 QUORUM</text>
+    <text x="120" y="48" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="9" font-weight="600" fill="currentColor">OIML / BIML Root</text>
   </g>
 
-  <!-- Center -->
-  <text x="120" y="108" text-anchor="middle" font-family="'IBM Plex Serif', serif" font-size="8" letter-spacing="2.5" fill="currentColor" opacity="0.7">QUORUM</text>
-  <text x="120" y="127" text-anchor="middle" font-family="'IBM Plex Serif', serif" font-size="18" font-weight="600" fill="currentColor">5 / 7</text>
-  <text x="120" y="145" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="5.5" letter-spacing="1.4" fill="currentColor" opacity="0.6">DIRECTORS</text>
+  {/* Arrow 1→2 */}
+  <line x1="120" y1="54" x2="120" y2="64" stroke="currentColor" stroke-width="1" opacity="0.3" marker-end="url(#chain-arrow)" />
+
+  {/* ── Tier 2: Issuing Authority ── */}
+  <g>
+    <rect x="40" y="66" width="160" height="38" rx="8" fill="currentColor" opacity="0.05" stroke="currentColor" stroke-width="1" />
+    <text x="120" y="82" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="8.5" font-weight="600" fill="currentColor">Issuing Authority</text>
+    <text x="120" y="94" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="6.5" fill="currentColor" opacity="0.55">scoped to Recommendations</text>
+  </g>
+
+  {/* Arrow 2→3 (splits to TL + Manufacturer) */}
+  <line x1="80" y1="106" x2="80" y2="116" stroke="currentColor" stroke-width="1" opacity="0.3" marker-end="url(#chain-arrow)" />
+  <line x1="160" y1="106" x2="160" y2="116" stroke="currentColor" stroke-width="1" opacity="0.3" marker-end="url(#chain-arrow)" />
+
+  {/* ── Tier 3a: Test Laboratory ── */}
+  <g>
+    <rect x="20" y="118" width="72" height="38" rx="6" fill="currentColor" opacity="0.04" stroke="currentColor" stroke-width="0.8" stroke-dasharray="3 2" />
+    <text x="56" y="134" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="7.5" font-weight="500" fill="currentColor">Test Lab</text>
+    <text x="56" y="146" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="6" fill="currentColor" opacity="0.5">signs reports</text>
+  </g>
+
+  {/* ── Tier 3b: Manufacturer Model ── */}
+  <g>
+    <rect x="100" y="118" width="120" height="38" rx="6" fill="currentColor" opacity="0.05" stroke="currentColor" stroke-width="1" />
+    <text x="160" y="134" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="7.5" font-weight="600" fill="currentColor">Manufacturer Model</text>
+    <text x="160" y="146" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="6" fill="currentColor" opacity="0.55">delegated signing key</text>
+  </g>
+
+  {/* Arrow model→instance */}
+  <line x1="160" y1="158" x2="160" y2="168" stroke="currentColor" stroke-width="1" opacity="0.3" marker-end="url(#chain-arrow)" />
+
+  {/* ── Tier 4: Manufacturer Instance ── */}
+  <g>
+    <rect x="90" y="170" width="140" height="38" rx="6" fill="currentColor" opacity="0.06" stroke="currentColor" stroke-width="1" />
+    <text x="160" y="186" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="8" font-weight="600" fill="currentColor">Instance Certificate</text>
+    <text x="160" y="198" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="6" fill="currentColor" opacity="0.55">serial · firmware hash · calibration</text>
+  </g>
+
+  {/* Arrow instance→measurements */}
+  <line x1="160" y1="210" x2="160" y2="220" stroke="currentColor" stroke-width="1" opacity="0.3" marker-end="url(#chain-arrow)" />
+
+  {/* ── Tier 5: Signed Measurements ── */}
+  <g>
+    <rect x="70" y="222" width="180" height="44" rx="8" fill="currentColor" opacity="0.08" stroke="currentColor" stroke-width="1" />
+    <!-- Measurement signature icons -->
+    <g transform="translate(90, 240)" opacity="0.5">
+      <path d="M0,4 L4,0 L4,8 Z M6,2 L10,6 M6,6 L10,2" stroke="currentColor" stroke-width="0.8" fill="none" />
+    </g>
+    <text x="160" y="238" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="8.5" font-weight="600" fill="currentColor">Signed Measurements</text>
+    <text x="160" y="252" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="6" fill="currentColor" opacity="0.55">value · timestamp · conditions · sig</text>
+  </g>
+
+  {/* ── Side: Certified Tester credential ── */}
+  {/* Branches from IA tier (tier 2) to the left */}
+  <g>
+    <path d="M 40 85 Q 15 85 15 105 L 15 130" stroke="currentColor" stroke-width="0.8" opacity="0.25" fill="none" stroke-dasharray="2 2" />
+    <rect x="2" y="130" width="26" height="36" rx="4" fill="currentColor" opacity="0.04" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 2" />
+    <text x="15" y="146" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="5" font-weight="500" fill="currentColor" opacity="0.7">Cert'd</text>
+    <text x="15" y="153" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="5" font-weight="500" fill="currentColor" opacity="0.7">Tester</text>
+    <text x="15" y="161" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="4.5" fill="currentColor" opacity="0.4">R-cred</text>
+  </g>
+
+  {/* ── Tier labels (left margin) ── */}
+  <g font-family="'IBM Plex Mono', monospace" font-size="5" letter-spacing="0.8" fill="currentColor" opacity="0.3">
+    <text x="0" y="32">T1</text>
+    <text x="0" y="88">T2</text>
+    <text x="0" y="140">T3</text>
+    <text x="0" y="192">T4</text>
+    <text x="0" y="248">T5</text>
+  </g>
+
+  {/* ── OpenTimestamps anchor indicator ── */}
+  <g transform="translate(200, 244)" opacity="0.35">
+    <rect x="-8" y="-6" width="16" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="0.6" />
+    <text x="0" y="2" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="4.5" fill="currentColor">OTS</text>
+    <line x1="0" y1="6" x2="0" y2="12" stroke="currentColor" stroke-width="0.6" />
+    <text x="0" y="18" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="3.5" fill="currentColor">₿</text>
+  </g>
 </svg>
