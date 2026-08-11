@@ -127,10 +127,11 @@ onBeforeUnmount(() => {
   gap: 0.375rem;
   background: transparent;
   border: none;
-  font: inherit;
+  /* Buttons don't inherit font-family by default; inherit just the
+     family. Do NOT use font: inherit (shorthand) — it overrides
+     .cnml-nav__link's font-size with the parent's inherited size. */
+  font-family: inherit;
   cursor: pointer;
-  cursor: pointer;
-  font: inherit;
 }
 .cnml-nav-dropdown__caret {
   font-size: 0.625rem;
