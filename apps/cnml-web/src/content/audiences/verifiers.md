@@ -28,7 +28,7 @@ A verifier that integrates CNML validation into an existing system uses the libr
 
 ## Proof
 
-The verify page runs the seven-check pipeline on any CNML file. The 22 pre-signed test vectors exercise the per-Recommendation schema coverage and round-trip through the signer and the verifier. The test vectors are regenerated with `pnpm vectors:gen` and verified with `pnpm vectors:verify`. The passport endpoint is exercised by the e2e test suite, which scans a QR code and validates the served certificate.
+The verify page runs the seven-check pipeline on any CNML file. The 22 pre-signed test vectors exercise the per-Recommendation schema coverage and round-trip through the signer and the verifier. The test vectors are regenerated with `the test vector generation scripts`. The passport endpoint is exercised by integration tests.
 
 The trust-anchor bundle is reproducible from the transparency log and the public certificates. A verifier that demands an independent bundle can construct one from the log.
 

@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6905
-  num: R49/2024-A-CZ1-25.05 Rev. 1
-  applicant: 'Ningbo Yuxing Water Meter Co.,Ltd. '
-  issuing_year: '2026'
-  status: Valid
-  issuer: CZ1
-  recommendation: R49
-  edition_year: 2024
-  extraction_method: glm-extract
-  source_pdf: certificates/R49/2024/r49-2024-cz1-2025-05-rev1.pdf
 certificate:
   number: R49/2024-A-CZ1-25.05
   scheme: A

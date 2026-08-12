@@ -22,7 +22,7 @@ The instance certificate is delivered to the instrument. For non-SMART instrumen
 
 The IA issues the manufacturer model certificate at `/issue/per-recommendation` with the delegation scope extension set to the manufacturer and model. The manufacturer receives the certificate and imports it into the app.
 
-The manufacturer generates a signing key in the app at `/keys`. The key can be held in browser IndexedDB (encrypted under AES-GCM with a PBKDF2-derived passphrase) or in PKCS#11 hardware for higher throughput.
+The manufacturer generates a signing key in the app at `/keys`. The key can be held in browser-local encrypted storage or in PKCS#11 hardware for higher throughput.
 
 For each device produced, the manufacturer runs the instance signing flow at `/issue/manufacturer-instance`. The manufacturer enters the serial number, the firmware hash, the manufacturing date, and the calibration data. The app signs the instance certificate with the manufacturer key and produces the CNML file. The manufacturer prints the QR code at `/qr-code`, which encodes the passport URL for the instance certificate identifier.
 

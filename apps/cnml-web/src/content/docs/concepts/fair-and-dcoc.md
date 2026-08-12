@@ -20,7 +20,7 @@ CNML addresses each FAIR dimension as a property of the format itself. The certi
 | Findable | Persistent certificate identifier; entry in the public transparency log; per-Recommendation metadata in the certificate header |
 | Accessible | XML format readable by any standards-compliant parser; no registration or account required to verify; trust anchors and CRLs distributed through a public CDN |
 | Interoperable | Per-Recommendation JSON Schema vocabulary; D-CoC output in RDF/XML and JSON-LD for downstream semantic-web consumers; units traced through UnitsDB and UnitsML |
-| Reusable | Cryptographic signature establishes provenance; revision history records every amendment; open-source libraries in TypeScript and Ruby for programmatic access |
+| Reusable | Cryptographic signature establishes provenance; revision history records every amendment; open-source libraries for programmatic access |
 
 The transparency log is the central findability mechanism. Every issued certificate is appended to a Merkle log whose tree head is anchored to Bitcoin through OpenTimestamps. A certificate that is not in the log does not verify against a compliant verifier. This makes the log both a findability index and an integrity guarantee.
 
@@ -34,7 +34,7 @@ The foundational description of D-CoC in the OIML context appears in the OIML Bu
 
 ## How CNML produces D-CoC output
 
-CNML produces D-CoC output as a secondary serialization alongside its native XML format. The `@cnml/cnml-dcoc` package converts any CNML `Certificate` into a D-CoC object that the package then serializes to RDF/XML (`application/rdf+xml`) or JSON-LD (`application/ld+json`). A downstream consumer that operates a triple store or a JSON-LD-aware pipeline can ingest the D-CoC output without learning the OIML-specific CNML vocabulary.
+CNML produces D-CoC output as a secondary serialization alongside its native XML format. The `@oiml/cnml-dcoc` package converts any CNML `Certificate` into a D-CoC object that the package then serializes to RDF/XML (`application/rdf+xml`) or JSON-LD (`application/ld+json`). A downstream consumer that operates a triple store or a JSON-LD-aware pipeline can ingest the D-CoC output without learning the OIML-specific CNML vocabulary.
 
 The D-CoC namespace is `https://oimlsmart.org/ns/dcoc/1.0#`. Standard RDF vocabularies are reused where appropriate: vcard for contact details, dcterms for generic metadata, and rdf and xsd for typing. The D-CoC elements map to CNML fields as follows.
 

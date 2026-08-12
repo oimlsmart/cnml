@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2328
-  num: R031/1995-CN1-2009.02
-  applicant: Beijing Jinchuang Combined Gas Meter Co., Ltd
-  issuing_year: '2009'
-  status: Valid
-  issuer: CN1
-  recommendation: R31
-  edition_year: 1995
-  extraction_method: glm-extract
-  source_pdf: certificates/R31/1995/r031-1995-cn1-2009-02.pdf
 certificate:
   number: R031/1995-CN1-2009.02
   scheme: A

@@ -59,7 +59,7 @@ The Yubico store at https://www.yubico.com/store/ lists current YubiKey variants
 
 ## Software-only fallback at the signer tier
 
-For development, low-assurance deployments, or signers who do not have access to hardware, browser IndexedDB provides a software-only signer path. The signer generates an ECDSA P-256 keypair in the browser. The private key is encrypted with a passphrase-derived AES-GCM key (the passphrase is processed through PBKDF2 with a high iteration count) and stored in the browser's IndexedDB. The key never leaves the browser.
+For development, low-assurance deployments, or signers who do not have access to hardware, browser-local encrypted storage provides a software-only signer path. The signer generates a keypair in the browser. The private key is encrypted with a passphrase-derived key and stored locally in the browser. The key never leaves the browser.
 
 The browser tier does not provide the hardware extraction resistance of the PKCS#11 device tiers. The security model relies on the browser's same-origin policy, the AES-GCM encryption at rest, and the PBKDF2 key derivation from a strong passphrase. The tradeoff is operational simplicity: the signer does not need to carry or provision hardware, and the key is available wherever the signer's browser is available.
 

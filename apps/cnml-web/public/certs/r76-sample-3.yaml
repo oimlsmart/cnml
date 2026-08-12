@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4165
-  num: R076/2006-CH1-2017.01
-  applicant: Mettler-Toledo Instrument (Shanghai) Co., Ltd
-  issuing_year: '2017'
-  status: Valid
-  issuer: CH1
-  recommendation: R76
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R76/2006/r076-2006-ch1-2017-01.pdf
 certificate:
   number: R076/2006-CH1-2017.01
   scheme: A

@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6547
-  num: R139/2018-A-CZ1-24.01 Rev. 1
-  applicant: Zenner Meters Ltd
-  issuing_year: '2025'
-  status: Valid
-  issuer: CZ1
-  recommendation: R139
-  edition_year: 2018
-  extraction_method: glm-extract
-  source_pdf: certificates/R139/2018/r139-2018-cz1-2024-01-rev1.pdf
 certificate:
   number: R139/2018-A-CZ1-24.01 Rev. 1
   scheme: A

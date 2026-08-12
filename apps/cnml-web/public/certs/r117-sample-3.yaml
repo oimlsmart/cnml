@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6600
-  num: R117/2019-A-CZ1-25.03
-  applicant: 'SAHM Gulf Industry Company '
-  issuing_year: '2025'
-  status: Valid
-  issuer: CZ1
-  recommendation: R117
-  edition_year: 2019
-  extraction_method: glm-extract
-  source_pdf: certificates/R117/2019/r117-2019-cz1-2025-03.pdf
 certificate:
   number: R117/2019-A-CZ1-25.03
   scheme: A

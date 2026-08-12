@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4283
-  num: R134/2006-CH1-2017.01
-  applicant: Traffic Data Systems GmbH
-  issuing_year: '2017'
-  status: Valid
-  issuer: CH1
-  recommendation: R134
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R134/2006/r134-2006-ch1-2017-01.pdf
 certificate:
   number: R134/2006-CH1-2017.01
   scheme: A

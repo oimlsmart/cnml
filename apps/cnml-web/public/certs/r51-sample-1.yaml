@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4729
-  num: R51/2006-B-CN2-18.01
-  applicant: Xuzhou WIKA Electronics Control Technology Co. Ltd.
-  issuing_year: '2018'
-  status: Valid
-  issuer: CN2
-  recommendation: R51
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R51/2006/r051-2006-cn2-2018-01.pdf
 certificate:
   number: R51/2006-B-CN2-2018.01
   scheme: B

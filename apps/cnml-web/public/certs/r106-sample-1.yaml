@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6048
-  num: R106/2011-A-DK2-23.01
-  applicant: Avery Weigh-Tronix
-  issuing_year: '2023'
-  status: Valid
-  issuer: DK2
-  recommendation: R106
-  edition_year: 2011
-  extraction_method: glm-extract
-  source_pdf: certificates/R106/2011/r106-2011-dk2-2023-01.pdf
 certificate:
   number: R106/2011-A-DK2-23.01
   scheme: A

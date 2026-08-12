@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6843
-  num: R106/2011-A-NL1-25.01 Rev. 1
-  applicant: AMTAB Advanced Measurement Technologies AB
-  issuing_year: '2026'
-  status: Valid
-  issuer: NL1
-  recommendation: R106
-  edition_year: 2011
-  extraction_method: glm-extract
-  source_pdf: certificates/R106/2011/r106-2011-nl1-2025-01-rev1.pdf
 certificate:
   number: R106/2011-A-NL1-25.01 Rev. 1
   scheme: A

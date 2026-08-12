@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 1958
-  num: R051/2006-DE1-2007.01
-  applicant: Mettler-Toledo Garvens GmbH
-  issuing_year: '2007'
-  status: Valid
-  issuer: DE1
-  recommendation: R51
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R51/2006/r051-2006-de1-2007-01.pdf
 certificate:
   number: R051/2006-DE1-2007.01
   scheme: A

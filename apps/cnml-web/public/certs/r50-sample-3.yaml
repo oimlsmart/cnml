@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6095
-  num: R50/2014-A-AU1-23.01 Rev. 0
-  applicant: Control Systems Technology Pty Ltd
-  issuing_year: '2023'
-  status: Valid
-  issuer: AU1
-  recommendation: R50
-  edition_year: 2014
-  extraction_method: glm-extract
-  source_pdf: certificates/R50/2014/r50-2014-au1-2023-01-rev0.pdf
 certificate:
   number: R50/2014-A-AU1-23.01 Rev. 0
   scheme: A

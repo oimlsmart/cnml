@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6904
-  num: R49/2024-A-CZ1-25.06 Rev. 1
-  applicant: 'HEBEI SHANGHONG METERS TECHNOLOGY CO., LTD '
-  issuing_year: '2026'
-  status: Valid
-  issuer: CZ1
-  recommendation: R49
-  edition_year: 2024
-  extraction_method: glm-extract
-  source_pdf: certificates/R49/2024/r49-2024-cz1-2025-06-rev1.pdf
 certificate:
   number: R49/2024-A-CZ1-25.06 Rev. 1
   scheme: A

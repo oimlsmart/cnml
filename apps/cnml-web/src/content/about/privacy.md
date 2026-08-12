@@ -22,7 +22,7 @@ The verify page processes dropped CNML files entirely in the browser. The file i
 
 The QR code generation page encodes a user-typed certificate identifier into a QR matrix using a pure-JavaScript library. The encoding runs locally. No third-party API is called (the previous implementation called `api.qrserver.com`; no external API is called).
 
-The key management page generates, stores, and uses cryptographic signing keys in the browser. The private key is encrypted with a passphrase-derived AES-GCM key and stored in IndexedDB. The private key is never transmitted.
+The key management page generates, stores, and uses cryptographic signing keys in the browser. The private key is encrypted with a passphrase-derived AES-GCM key and stored in browser-local encrypted storage. The private key is never transmitted.
 
 ## What the site loads from external sources
 

@@ -43,7 +43,7 @@ The enterprise HSM tier covers the BIML Root. Enterprise-grade HSM devices provi
 
 The personal hardware token tier covers the IA intermediate. Personal PKCS#11-compatible hardware tokens provide FIPS 140-2 Level 3 certification in a personal form factor and hold the IA officer signing key in hardware. The same PKCS#11 interface is used.
 
-The browser software tier covers the per-cert signer. The signer generates an ECDSA P-256 keypair in the browser, and the private key is encrypted with a passphrase-derived AES-GCM key and stored in IndexedDB. The key never leaves the browser. The full treatment is in [Hardware key tiers](/docs/architecture/hardware-tiers).
+The browser software tier covers the per-cert signer. The signer generates an ECDSA P-256 keypair in the browser, and the private key is encrypted with a passphrase-derived AES-GCM key and stored in browser-local encrypted storage. The key never leaves the browser. The full treatment is in [Hardware key tiers](/docs/architecture/hardware-tiers).
 
 ## Post-quantum readiness
 
@@ -59,7 +59,7 @@ The archival renewal follows the model of Long-Term Archive Service (LTANS) and 
 
 ## Open and auditable
 
-The implementation source code is published under an open-source license. The per-Recommendation schemas are published as YAML, and the generated TypeScript types are reproducible by any contributor. The transparency log is publicly readable, the OpenTimestamps proofs are independently verifiable, and the trust anchors are public. Any party can audit the system, and any party can verify any certificate without contacting the issuer, registering for a service, or holding an account. The system is designed so that no aspect of certificate issuance, distribution, or verification depends on trust in a single party. The OIML SMART programme is the framework within which CNML evolves, and this documentation is a proposal to OIML, not an adopted specification.
+The implementation source code is published under an open-source license. The per-Recommendation schemas are published openly. The transparency log is publicly readable, the OpenTimestamps proofs are independently verifiable, and the trust anchors are public. Any party can audit the system, and any party can verify any certificate without contacting the issuer, registering for a service, or holding an account. The system is designed so that no aspect of certificate issuance, distribution, or verification depends on trust in a single party. The OIML SMART programme is the framework within which CNML evolves, and this documentation is a proposal to OIML, not an adopted specification.
 
 ## See also
 

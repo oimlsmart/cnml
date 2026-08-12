@@ -1,14 +1,3 @@
-_meta:
-  cert_id: 6354
-  num: R60/2021-A-DE1-24.01
-  applicant: 3 S Fabrications (Pvt) Ltd
-  issuing_year: "2024"
-  status: Valid
-  issuer: DE1
-  recommendation: R60
-  edition_year: 2021
-  extraction_method: glm-extract
-  source_pdf: certificates/R60/2021/r60-2021-de1-2024-01.pdf
 certificate:
   number: R60/2021-A-DE1-24.01
   scheme: A

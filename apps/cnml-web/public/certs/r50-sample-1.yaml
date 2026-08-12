@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 3696
-  num: R050/2014-GB1-2015.01
-  applicant: Nanjing Sanai Industrial Automation Co.., Ltd
-  issuing_year: '2015'
-  status: Valid
-  issuer: GB1
-  recommendation: R50
-  edition_year: 2014
-  extraction_method: glm-extract
-  source_pdf: certificates/R50/2014/r050-2014-gb1-2015-01.pdf
 certificate:
   number: R50/2014-GB1-15.01
   scheme: A

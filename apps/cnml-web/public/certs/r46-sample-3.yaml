@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4969
-  num: R46/2012-B-CN2-19.02
-  applicant: DZG Metering GmbH
-  issuing_year: '2019'
-  status: Valid
-  issuer: CN2
-  recommendation: R46
-  edition_year: 2012
-  extraction_method: glm-extract
-  source_pdf: certificates/R46/2012/r046-2012-cn2-2019-02.pdf
 certificate:
   number: R46/2012-B-CN2-19.02
   scheme: B

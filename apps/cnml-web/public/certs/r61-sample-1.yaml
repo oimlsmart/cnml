@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 5669
-  num: R61/2017-A-DK2-22.01
-  applicant: Flintec UK Limited
-  issuing_year: '2022'
-  status: Valid
-  issuer: DK2
-  recommendation: R61
-  edition_year: 2017
-  extraction_method: glm-extract
-  source_pdf: certificates/R61/2017/r061-2017-dk2-2022-01.pdf
 certificate:
   number: R61/2017-A-DK2-22.01
   scheme: A

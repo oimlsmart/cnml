@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2041
-  num: R126/1998-ES1-2008.01
-  applicant: Gruppo Itturi S.A.
-  issuing_year: '2008'
-  status: Valid
-  issuer: ES1
-  recommendation: R126
-  edition_year: 1998
-  extraction_method: glm-extract
-  source_pdf: certificates/R126/1998/r126-1998-es1-2008-01.pdf
 certificate:
   number: R126/1998-ES1-2008.01
   scheme: A

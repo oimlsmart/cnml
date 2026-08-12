@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4970
-  num: R46/2012-B-CN2-19.01
-  applicant: Shenzhen Star Instrument Co,, Ltd.
-  issuing_year: '2019'
-  status: Valid
-  issuer: CN2
-  recommendation: R46
-  edition_year: 2012
-  extraction_method: glm-extract
-  source_pdf: certificates/R46/2012/r046-2012-cn2-2019-01.pdf
 certificate:
   number: R46/2012-B-CN2-19.01
   scheme: B

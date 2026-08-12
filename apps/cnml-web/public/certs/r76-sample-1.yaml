@@ -1,16 +1,4 @@
 ---
-_meta:
-  cert_id: 4440
-  num: R076/2006-BG1-2013.17 Rev. 1
-  applicant: CAS Corporation
-  issuing_year: '2017'
-  status: Valid
-  issuer: BG1
-  recommendation: R76
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R76/2006/r076-2006-bg1-2013-17-rev1.pdf
-  accuracy_class_source: glm-vision-page1
 certificate:
   number: R76/2006-NL1-13.17
   scheme: B

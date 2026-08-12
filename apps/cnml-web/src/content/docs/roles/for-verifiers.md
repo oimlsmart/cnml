@@ -41,7 +41,7 @@ The CRL refresh cadence is monthly. A verifier with internet connectivity fetche
 
 CNML verification is available through open-source libraries for verifiers that need to integrate certificate checking into their existing software.
 
-The TypeScript library `@cnml/cnml-crypto` provides signature verification, scope checking, CRL parsing, OpenTimestamps validation, and transparency-log inclusion checking. It runs in the browser and in Node.js. The library is the same code that powers the web application's Verify page, so a verifier that integrates the library gets the same verification behavior as the web application.
+The library `@oiml/cnml-crypto` provides signature verification, scope checking, CRL parsing, OpenTimestamps validation, and transparency-log inclusion checking. It runs in the browser and in Node.js. The library is the same code that powers the web application's Verify page, so a verifier that integrates the library gets the same verification behavior as the web application.
 
 The Ruby library `oiml_pki` provides server-side verification through the same check pipeline. It is the library that powers the air-gapped CA server, and it can be embedded in a verifier's server-side application.
 
@@ -75,7 +75,7 @@ The verifier loads the trust-anchor bundle and the current CRL onto the local ma
 
 ### How does a verifier integrate CNML checking into existing software?
 
-The verifier integrates the `@cnml/cnml-crypto` TypeScript library, the `oiml_pki` Ruby gem, or the Confium Rust crates into the existing verification application. The libraries provide the same check pipeline that the web application runs. The verifier wraps the library's API in its own application surface.
+The verifier integrates one of the available libraries into the existing verification application. The libraries provide the same check pipeline that the web application runs. The verifier wraps the library's API in its own application surface.
 
 ## See also
 

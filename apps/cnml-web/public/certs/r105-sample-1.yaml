@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 1677
-  num: R105/1993-NO1-2006.01
-  applicant: Invensys Process Systems Inc.
-  issuing_year: '2006'
-  status: Valid
-  issuer: NO1
-  recommendation: R105
-  edition_year: 1993
-  extraction_method: glm-extract
-  source_pdf: certificates/R105/1993/r105-1993-no1-2006-01.pdf
 certificate:
   number: R105/1993-NO1-2006.01
   scheme: A

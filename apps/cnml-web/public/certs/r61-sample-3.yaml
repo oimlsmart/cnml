@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 5054
-  num: R61/2017-B-NL1-20.02
-  applicant: Premier Tech
-  issuing_year: '2020'
-  status: Valid
-  issuer: NL1
-  recommendation: R61
-  edition_year: 2017
-  extraction_method: glm-extract
-  source_pdf: certificates/R61/2017/r061-2017-nl1-2020-02.pdf
 certificate:
   number: R61/2017-B-NL1-20.02
   scheme: B
