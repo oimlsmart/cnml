@@ -45,7 +45,7 @@ CNML is designed for offline-first verification. A verifier that has loaded the 
 
 ### How does a verifier integrate CNML checking into existing software?
 
-CNML verification is available through the `@oiml/cnml-crypto` TypeScript library (for browser and Node.js), the `oiml_pki` Ruby gem (for server-side), and the Confium Rust crates (for native deployments). The libraries provide the same check pipeline that the web application runs. CNML does not provide a REST verification API by design, because the verification model is offline-first. A verifier that needs an API surface wraps the library in its own service. The library integration options are described in [For verifiers](/docs/roles/for-verifiers).
+CNML verification is available through the the CNML verification library (browser and server-side), the `oiml_pki` Ruby gem (for server-side), and the Confium library (for native deployments). The libraries provide the same check pipeline that the web application runs. CNML does not provide a REST verification API by design, because the verification model is offline-first. A verifier that needs an API surface wraps the library in its own service. The library integration options are described in [For verifiers](/docs/roles/for-verifiers).
 
 ### What if a certificate looks valid but the manufacturer says it is forged?
 

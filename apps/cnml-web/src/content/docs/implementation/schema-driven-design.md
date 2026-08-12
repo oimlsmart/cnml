@@ -23,9 +23,9 @@ The web application renders every Recommendation form from the corresponding sch
 
 Adding a new OIML Recommendation to CNML requires three steps that involve no changes to existing source files.
 
-First, a new YAML file is placed at `packages/cnml-schemas/src/schemas/R<NN>.yaml`. The file includes the `x-oiml-*` metadata that the schema generator reads to produce the schema index and the TypeScript types.
+First, a new YAML file is placed at `packages/cnml-schemas/src/schemas/R<NN>.yaml`. The file includes the `x-oiml-*` metadata that the schema generator reads to produce the schema index and the type definitions.
 
-Second, the `pnpm gen` command is run. This regenerates `packages/cnml-schemas/src/index.ts` and the contents of `packages/cnml-types/` from the schema set. The schema index is the registry that the web application, the documentation pages, and the test-vector generator all read.
+Second, the the generation script command is run. This regenerates `packages/cnml-schemas/src/index.ts` and the contents of `packages/cnml-types/` from the schema set. The schema index is the registry that the web application, the documentation pages, and the test-vector generator all read.
 
 Third, the application is rebuilt. The new Recommendation appears automatically in the form selector, in the schemas page, in the documentation set, and in the test-vector corpus. No source file outside the schemas directory is modified.
 
@@ -45,7 +45,7 @@ Adding a new backend requires three additions and no modifications to existing c
 
 ## The generation workflow
 
-The schema-driven design depends on a deterministic generation workflow. The canonical schemas live in the OIML-CS certificates repository. When a schema change is made there, the updated YAML files are synced into `packages/cnml-schemas/src/schemas/` in this repository. Running `pnpm gen` then regenerates the TypeScript types and the schema index from the synced YAML set. Running `pnpm vectors:gen` regenerates the twenty-two pre-signed test vectors. Running `pnpm vectors:verify` confirms that every test vector round-trips through serialization, signing, and verification.
+The schema-driven design depends on a deterministic generation workflow. The canonical schemas live in the OIML-CS certificates repository. When a schema change is made there, the updated YAML files are synced into `packages/cnml-schemas/src/schemas/` in this repository. Running the generation script then regenerates the type definitions and the schema index from the synced YAML set. Running the vector generation script regenerates the twenty-two pre-signed test vectors. Running the vector verification script confirms that every test vector round-trips through serialization, signing, and verification.
 
 When a schema field or a certificate shape disagrees between this repository and the OIML-CS certificates repository, the OIML-CS certificates repository is authoritative. This rule ensures that the schema set remains a faithful copy of the upstream source of truth and that the generation workflow is reproducible.
 
