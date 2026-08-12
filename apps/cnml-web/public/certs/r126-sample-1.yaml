@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2608
-  num: R126/1998-DE1-2011.01
-  applicant: Drager Safety AG & Co. KGAA
-  issuing_year: '2011'
-  status: Valid
-  issuer: DE1
-  recommendation: R126
-  edition_year: 1998
-  extraction_method: glm-extract
-  source_pdf: certificates/R126/1998/r126-1998-de1-2011-01.pdf
 certificate:
   number: R126/1998-DE1-2011.01
   scheme: A

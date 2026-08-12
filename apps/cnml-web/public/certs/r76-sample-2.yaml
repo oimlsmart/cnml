@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2594
-  num: R076/2006-CH1-2008.01
-  applicant: Bühler AG
-  issuing_year: '2008'
-  status: Valid
-  issuer: CH1
-  recommendation: R76
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R76/2006/r076-2006-ch1-2008-01.pdf
 certificate:
   number: R76_2006-CH1-08.01
   scheme: A

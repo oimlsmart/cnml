@@ -1,16 +1,4 @@
 ---
-_meta:
-  cert_id: 3819
-  num: R021/2007-FR2-2015.01 Rev. 2
-  applicant: Automatismes et Techniques Avancées SA
-  issuing_year: '2015'
-  status: Valid
-  issuer: FR2
-  recommendation: R21
-  edition_year: 2007
-  extraction_method: glm-extract
-  source_pdf: certificates/R21/2007/r021-2007-fr2-2015-01-rev2.pdf
-  accuracy_class_note: accuracy_class not stated in source PDF
 certificate:
   number: R21/2007-FR02-2015/01 rev 2
   scheme: A

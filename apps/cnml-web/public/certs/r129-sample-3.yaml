@@ -1,16 +1,4 @@
 ---
-_meta:
-  cert_id: 6494
-  num: R129/2020-A-NL1-25.01 Rev. 0
-  applicant: Teraoka Seiko Co., Ltd.
-  issuing_year: '2025'
-  status: Valid
-  issuer: NL1
-  recommendation: R129
-  edition_year: 2020
-  extraction_method: glm-extract
-  source_pdf: certificates/R129/2020/r129-2020-nl1-2025-01-rev0.pdf
-  accuracy_class_note: accuracy_class not stated in source PDF
 certificate:
   number: R129/2020-A-NL1-25.01
   scheme: A

@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2432
-  num: R126/1998-ES1-2009.02 Rev. 1
-  applicant: ACS (Alcohol Countermeasures Systems)
-  issuing_year: '2010'
-  status: Valid
-  issuer: ES1
-  recommendation: R126
-  edition_year: 1998
-  extraction_method: glm-extract
-  source_pdf: certificates/R126/1998/r126-1998-es1-2009-02-rev1.pdf
 certificate:
   number: R126/1998-ES1-2009.02 Rev. 1
   scheme: A

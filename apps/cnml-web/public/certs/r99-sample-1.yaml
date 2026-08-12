@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2978
-  num: R099/2008-NL1-2012.01
-  applicant: OPUS Prodox AB
-  issuing_year: '2012'
-  status: Valid
-  issuer: NL1
-  recommendation: R99
-  edition_year: 2008
-  extraction_method: glm-extract
-  source_pdf: certificates/R99/2008/r099-2008-nl1-2012-01.pdf
 certificate:
   number: R099/2008-NL1-2012.01
   scheme: A

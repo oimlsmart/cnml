@@ -1,14 +1,3 @@
-_meta:
-  cert_id: 6114
-  num: R60/2021-A-DE1-23.02
-  applicant: Example Instruments Ltd.
-  issuing_year: "2023"
-  status: Valid
-  issuer: DE1
-  recommendation: R60
-  edition_year: 2021
-  extraction_method: glm-extract
-  source_pdf: certificates/R60/2021/r60-2021-de1-2023-02.pdf
 certificate:
   number: R60/2021-A-DE1-23.02
   scheme: A

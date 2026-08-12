@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2599
-  num: R031/1995-CN1-2010.01
-  applicant: Chongqing Shancheng Gas Equipment Co. Ltd
-  issuing_year: '2010'
-  status: Valid
-  issuer: CN1
-  recommendation: R31
-  edition_year: 1995
-  extraction_method: glm-extract
-  source_pdf: certificates/R31/1995/r031-1995-cn1-2010-01.pdf
 certificate:
   number: R031/1995-CN1-2010.01
   scheme: A

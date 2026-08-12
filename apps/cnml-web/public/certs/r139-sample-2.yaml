@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 5566
-  num: R139/2018-B-DK2-20.01 Rev. 1
-  applicant: NEL Hydorgen A/S
-  issuing_year: '2022'
-  status: Valid
-  issuer: DK2
-  recommendation: R139
-  edition_year: 2018
-  extraction_method: glm-extract
-  source_pdf: certificates/R139/2018/r139-2018-dk2-2020-01-rev1.pdf
 certificate:
   number: R139/2018-B-DK2-20.01 Rev. 1
   scheme: B

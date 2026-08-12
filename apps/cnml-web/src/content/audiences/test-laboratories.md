@@ -20,7 +20,7 @@ The relationship between the laboratory's DCC calibration report and the CNML ty
 
 ## What it looks like in practice
 
-The laboratory signs its measurement report in the app. The report is structured XML conforming to the per-Recommendation report schema. The laboratory's signing key is held in PKCS#11 hardware or in browser IndexedDB. The signed report is a CNML evidence file that the IA can validate.
+The laboratory signs its measurement report in the app. The report is structured XML conforming to the per-Recommendation report schema. The laboratory's signing key is held in PKCS#11-compatible hardware or in browser-local encrypted storage. The signed report is a CNML evidence file that the IA can validate.
 
 The laboratory encrypts the signed report to the IA threshold key. The IA threshold public key is published in the IA intermediate certificate. The encryption produces a ciphertext that the IA decrypts through a threshold ceremony. The laboratory transmits the ciphertext over any channel, because the encryption protects the content.
 
@@ -28,7 +28,7 @@ The IA receives the ciphertext, runs the threshold decryption ceremony, and vali
 
 ## Proof
 
-The DCC interop layer is exercised by the test vectors, which include DCC files as test-report evidence in the type-approval flow. The signed-report and threshold-encryption code paths are exercised by the Ruby CA server test suite and the TypeScript unit tests. The verify page validates signed reports dropped onto it.
+The DCC interop layer is exercised by the test vectors, which include DCC files as test-report evidence in the type-approval flow. The verify page validates signed reports dropped onto it.
 
 ## Your next step
 

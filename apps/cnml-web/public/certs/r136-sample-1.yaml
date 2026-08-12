@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2301
-  num: R136/2006-DE1-2009.01
-  applicant: GFal
-  issuing_year: '2009'
-  status: Valid
-  issuer: DE1
-  recommendation: R136
-  edition_year: 2006
-  extraction_method: glm-extract
-  source_pdf: certificates/R136/2006/r136-2006-de1-2009-01.pdf
 certificate:
   number: R136/2006-DE1-09.01
   scheme: B

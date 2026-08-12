@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 6726
-  num: R111/2004-B-CN2-25.01
-  applicant: Changzhou Fuyue Weight Co., Ltd
-  issuing_year: '2025'
-  status: Valid
-  issuer: CN2
-  recommendation: R111
-  edition_year: 2004
-  extraction_method: glm-extract
-  source_pdf: certificates/R111/2004/r111-2004-cn2-2025-01.pdf
 certificate:
   number: R111/2004-B-CN2-25.01
   scheme: B

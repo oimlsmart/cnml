@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4701
-  num: R137/2012-B-CN2-18.01
-  applicant: Qianwei Kromschroder Meters (Chongqing) Co., Ltd
-  issuing_year: '2018'
-  status: Valid
-  issuer: CN2
-  recommendation: R137
-  edition_year: 2012
-  extraction_method: glm-extract
-  source_pdf: certificates/R137/2012/r137-2012-cn2-2018-01.pdf
 certificate:
   number: R137/2012-B-CN2-18.01
   scheme: B

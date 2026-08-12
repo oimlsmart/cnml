@@ -10,7 +10,7 @@ CNML is a component of the OIML SMART program. The documentation set published a
 
 The OIML institutional website is the point of contact for member-state engagement. Member States and Corresponding Members seeking to participate in the OIML SMART program, to evaluate CNML for adoption, or to contribute to the technical work should contact OIML through the official channels published at the OIML website. The BIML secretariat coordinates technical engagement with the OIML SMART program.
 
-The GitHub repository is the point of contact for technical contributions. The source code for the CNML implementation, the per-Recommendation schemas, the Ruby CA server, the TypeScript verifier, and the test vectors is published under an open-source license. Pull requests are welcome. Security reports receive priority handling and should be filed through the repository security advisory mechanism rather than through a public issue.
+The GitHub repository is the point of contact for technical contributions. The source code for the CNML implementation, the per-Recommendation schemas, the Ruby CA server, the browser verifier, and the test vectors is published under an open-source license. Pull requests are welcome. Security reports receive priority handling and should be filed through the repository security advisory mechanism rather than through a public issue.
 
 The style guide is the point of reference for written contributions. The OIML SMART writing style guide defines the register, the prohibited patterns, and the content rules for all public-facing text published under the program. Contributors drafting or editing documentation should read the guide before submitting prose.
 

@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 3513
-  num: R099/2008-NL1-2014.01
-  applicant: EOS S.R.L.
-  issuing_year: '2014'
-  status: Valid
-  issuer: NL1
-  recommendation: R99
-  edition_year: 2008
-  extraction_method: glm-extract
-  source_pdf: certificates/R99/2008/r099-2008-nl1-2014-01.pdf
 certificate:
   number: R099/2008-NL1-14.01
   scheme: A

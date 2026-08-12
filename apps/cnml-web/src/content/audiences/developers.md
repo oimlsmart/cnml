@@ -45,7 +45,7 @@ The contribution workflow follows the standard fork-and-pull-request model. The 
 
 ## Proof
 
-The test vectors are 22 pre-signed CNML files that exercise the per-Recommendation schema coverage. Any contributor can regenerate the vectors with `pnpm vectors:gen` and verify that they round-trip with `pnpm vectors:verify`. The Ruby CA server test suite covers the signing ceremonies and the threshold key management. The TypeScript unit tests cover the XML parser, the check pipeline, and the crypto operations.
+The test vectors are 22 pre-signed CNML files that exercise the per-Recommendation schema coverage. Any contributor can regenerate the vectors with `the test vector generation scripts`. The Ruby CA server test suite covers the signing ceremonies and the threshold key management. 
 
 The implementation source code is published under an open-source license. The signature pipeline, the X.509 certificate factory, the keystore encryption, the audit log hash chain, and the verifier are all in the repository. Security reports receive priority handling through the repository security advisory mechanism.
 

@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2333
-  num: R107/2007-DE1-2009.01
-  applicant: Bizerba SE & Co. KG
-  issuing_year: '2009'
-  status: Valid
-  issuer: DE1
-  recommendation: R107
-  edition_year: 2007
-  extraction_method: glm-extract
-  source_pdf: certificates/R107/2007/r107-2007-de1-2009-01.pdf
 certificate:
   number: R107/2007-DE1-2009.01
   scheme: A

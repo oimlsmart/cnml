@@ -19,7 +19,7 @@ Elements that carry structured data rather than human-readable text (numerical v
 
 Each OIML Recommendation schema declares the language coverage of the fields that are specific to that Recommendation. The shared CORE schema and the shared modules (D 11 environmental classes, power-supply codes, software-identification fields) carry language-neutral controlled vocabularies that reference OIML Recommendation text by clause number. The per-Recommendation fields that carry free text (classification-symbol descriptions, accuracy-class notes, manufacturer-specific remarks) are the fields where `xml:lang` applies.
 
-The schema generator produces TypeScript types that include an optional `xml:lang` attribute on every free-text field. The web application's form component renders a language selector for each free-text field, allowing the signer to enter the text in one or more languages. The XML serializer emits the `xml:lang` attribute on every element that has a language tag set.
+The schema generator produces type definitions that include an optional `xml:lang` attribute on every free-text field. The form component renders a language selector for each free-text field, allowing the signer to enter the text in one or more languages. The XML serializer emits the `xml:lang` attribute on every element that has a language tag set.
 
 ## OIML working languages
 

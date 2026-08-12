@@ -45,7 +45,7 @@ main sections:
 
 ## Per-Recommendation schemas
 
-Each OIML Recommendation has its own JSON Schema (draft-07) that
+Each OIML Recommendation has its own JSON Schema that
 defines the fields specific to that instrument category. The schemas
 live at `packages/cnml-schemas/src/schemas/R*.yaml`.
 

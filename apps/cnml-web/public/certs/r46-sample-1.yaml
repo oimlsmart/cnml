@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4557
-  num: R046/2012-CN1-2017.01
-  applicant: Zhejiang CHINT Instrument & Meters Co., Ltd.
-  issuing_year: '2017'
-  status: Valid
-  issuer: CN1
-  recommendation: R46
-  edition_year: 2012
-  extraction_method: glm-extract
-  source_pdf: certificates/R46/2012/r046-2012-cn1-2017-01.pdf
 certificate:
   number: R046/2012-CN1-2017.01
   scheme: A

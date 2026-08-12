@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 3148
-  num: R107/2007-GB1-2013.01
-  applicant: Societa Cooperativa Bilanciai Campogalliano a.r.l
-  issuing_year: '2013'
-  status: Valid
-  issuer: GB1
-  recommendation: R107
-  edition_year: 2007
-  extraction_method: glm-extract
-  source_pdf: certificates/R107/2007/r107-2007-gb1-2013-01.pdf
 certificate:
   number: R107/2007-GB1-2013.01
   scheme: A

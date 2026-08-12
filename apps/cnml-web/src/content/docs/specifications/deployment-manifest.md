@@ -16,7 +16,7 @@ migration trajectory.
 
 Both the Ruby CA server and the Rust Confium core accept the same
 TOML. The Ruby implementation generates the manifest from the
-keystore; the TypeScript verifier reads it for trust configuration.
+keystore; the verifier reads it for trust configuration.
 
 ## Structure
 

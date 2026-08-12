@@ -17,7 +17,7 @@ CNML distributes signing authority across a threshold quorum of independent dire
 
 ## Transparency
 
-CNML is fully transparent by construction. The implementation source code is published under an open-source license. The per-Recommendation schemas are published as YAML and the generated TypeScript types are reproducible by any contributor. The transparency log that records every issued certificate is publicly readable, and the OpenTimestamps proofs that anchor the log to Bitcoin are independently verifiable. The trust anchors that verifiers pin are public. Any party can audit the system, and any party can verify any certificate without contacting the issuer, registering for a service, or holding an account.
+CNML is fully transparent by construction. The implementation source code is published under an open-source license. The per-Recommendation schemas are published openly. The transparency log that records every issued certificate is publicly readable, and the OpenTimestamps proofs that anchor the log to Bitcoin are independently verifiable. The trust anchors that verifiers pin are public. Any party can audit the system, and any party can verify any certificate without contacting the issuer, registering for a service, or holding an account.
 
 Transparency is the central design property. The system is designed so that no aspect of certificate issuance, distribution, or verification depends on trust in a single party. Where a centralized operator exists, the operator's actions are observable. Where a cryptographic claim is made, the underlying data is published.
 

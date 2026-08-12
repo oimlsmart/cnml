@@ -9,7 +9,7 @@ CNML is built on the principle that the schema is the specification. Every OIML 
 
 ## The schema layer
 
-The canonical OIML-CS certificate schemas are authored as JSON Schema YAML in the OIML-CS certificates repository. This repository holds synced copies of those schemas in the `packages/cnml-schemas/` package and generates TypeScript type definitions and a schema index from them. The schema set has three layers.
+The canonical OIML-CS certificate schemas are authored as JSON Schema YAML in the OIML-CS certificates repository. This repository holds synced copies of those schemas in the `packages/cnml-schemas/` package and generates type definitions and a schema index from them. The schema set has three layers.
 
 The first layer is the CORE schema, defined in `_core.yaml`. It specifies the universal fields that every OIML certificate carries: the certificate metadata (number, scheme, dates, member state), the party structures (applicant, manufacturer, issuing authority), the structured-value shape that wraps every measurement characteristic, the recommendation reference, and the shared envelope types (test reports, revision entries, footnotes, components, model variants). CORE never varies per Recommendation.
 

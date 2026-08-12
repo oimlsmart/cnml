@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 5691
-  num: R137/2012-A-CZ1-22.01
-  applicant: Zhejiang Cangnan instrument Group Co.,Ltd
-  issuing_year: '2022'
-  status: Valid
-  issuer: CZ1
-  recommendation: R137
-  edition_year: 2012
-  extraction_method: glm-extract
-  source_pdf: certificates/R137/2012/r137-2012-cz1-2022-01.pdf
 certificate:
   number: R137/2012-A-CZ1-22.01
   scheme: A

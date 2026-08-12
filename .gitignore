@@ -49,6 +49,7 @@ TODO.cnml/
 TODO.cnml-pki/
 TODO.fixup/
 TODO.ops/
+TODO.chrontif/
 
 # Memory (Claude Code per-project memory — private)
 .claude/

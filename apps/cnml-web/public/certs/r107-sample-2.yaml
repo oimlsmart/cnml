@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 4472
-  num: R107/2007-DK3-2017.01
-  applicant: BAYKON Endustriel Kontrol Sistemleri San ve Tic A.S.
-  issuing_year: '2017'
-  status: Valid
-  issuer: DK3
-  recommendation: R107
-  edition_year: 2007
-  extraction_method: glm-extract
-  source_pdf: certificates/R107/2007/r107-2007-dk3-2017-01.pdf
 certificate:
   number: R107/2007-DK3-2017.01
   scheme: A

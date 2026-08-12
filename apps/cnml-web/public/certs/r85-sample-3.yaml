@@ -1,15 +1,4 @@
 ---
-_meta:
-  cert_id: 2661
-  num: R085/2008-CZ1-2011.03
-  applicant: Start Italiana srl.
-  issuing_year: '2011'
-  status: Valid
-  issuer: CZ1
-  recommendation: R85
-  edition_year: 2008
-  extraction_method: glm-extract
-  source_pdf: certificates/R85/2008/r085-2008-cz1-2011-03.pdf
 certificate:
   number: R85/2008-CZ-11.03
   scheme: A

@@ -27,9 +27,9 @@ The form is rendered from the per-Recommendation JSON Schema. Required fields ar
 
 ### Signing and downloading
 
-When the form is valid, the officer clicks the sign button. The browser performs five operations in sequence. It builds the certificate object from the form state. It serializes the object to CNML XML with UnitsML elements for measurement units. It loads the officer's private key from IndexedDB, decrypting it with the officer's passphrase. It signs the XML using XMLDSig with enveloped signature, Exclusive C14N canonicalization, and the SHA-256 digest algorithm. It triggers a download of the signed file.
+When the form is valid, the officer clicks the sign button. The browser performs five operations in sequence. It builds the certificate object from the form state. It serializes the object to CNML XML with UnitsML elements for measurement units. It loads the officer's private key from browser-local encrypted storage, decrypting it with the passphrase. It signs the XML using XMLDSig with enveloped signature, Exclusive C14N canonicalization, and the SHA-256 digest algorithm. It triggers a download of the signed file.
 
-The private key never leaves the browser. The signature is computed locally in WebCrypto. No certificate data is transmitted to a server during the signing operation.
+The private key never leaves the browser. The signature is computed locally in the browser. No certificate data is transmitted to a server during the signing operation.
 
 ![Signing flow](/diagrams/signing-flow.svg)
 
