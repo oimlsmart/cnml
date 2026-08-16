@@ -41,6 +41,16 @@ export interface CheckContext {
   hasTimestamp?: boolean;
   /** Whether the transparency check found an embedded tlog proof. */
   hasTransparencyProof?: boolean;
+  /** SHA-256 fingerprint (hex) of the signer's cert, set by the signature check. */
+  signerFingerprint?: string;
+  /** Length of the embedded certificate chain, set by the signature check. */
+  chainLength?: number;
+  /** Fingerprint of the chain's top (root-side) cert, set by the signature check. */
+  rootAnchorFingerprint?: string;
+  /** Co-signature dimension entries, set by the dimensions check (Phase 2). */
+  dimensions?: import("./coverage.ts").DimensionCoverage[];
+  /** Signature algorithms observed with registry status (Phase 5). */
+  algorithmStatuses?: { id: string; status: string }[];
 }
 
 export interface Check {

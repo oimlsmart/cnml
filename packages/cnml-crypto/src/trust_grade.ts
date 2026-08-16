@@ -8,6 +8,7 @@
  */
 
 import type { CheckResult, CheckStatus } from "./checks/types.ts";
+import { classify, DEFAULT_CLASSIFICATION_POLICY } from "./checks/classification.ts";
 
 /** Five-grade trust scale. */
 export type Grade = "A+" | "A" | "B" | "C" | "F";
@@ -50,36 +51,6 @@ export const GRADE_GLYPHS: Record<Grade, string> = {
   "B":  "?",
   "C":  "!",
   "F":  "✗",
-};
-
-/** Hard checks — any failure = grade F. */
-const HARD_CHECK_IDS = new Set([
-  "xml-well-formed",
-  "schema-valid",
-  "signature",
-  "scope",
-  "crl",
-]);
-
-/** Soft checks — failure / warning downgrades the grade but does not produce F. */
-const SOFT_CHECK_IDS = new Set([
-  "timestamp",
-  "transparency",
-  "roughtime",
-  "legacy-compatibility",
-]);
-
-/** Mapping from soft-check ID to the grade it downgrades to when absent. */
-const SOFT_DOWNGRADE_WHEN_SKIP: Record<string, Grade> = {
-  "timestamp":    "A",   // no timestamp → A (still valid)
-  "transparency": "B",   // no transparency proof → B (less public accountability)
-  "roughtime":    "A",   // no roughtime → A
-};
-
-const SOFT_DOWNGRADE_WHEN_WARN: Record<string, Grade> = {
-  "timestamp":    "B",
-  "transparency": "B",
-  "roughtime":    "B",
 };
 
 /** Per-grade verdict semantics (English default; i18n hook). */
@@ -130,62 +101,18 @@ export interface TrustGradeResult {
 /**
  * Compute the trust grade from check results.
  *
- * Algorithm:
- *   1. Any hard check failed → grade F
- *   2. Otherwise, start from A+ and downgrade per soft check outcomes
- *   3. Skip on soft check → downgrade to SOFT_DOWNGRADE_WHEN_SKIP
- *   4. Warn on soft check → downgrade to SOFT_DOWNGRADE_WHEN_WARN
- *   5. Take the lowest grade produced
+ * The downgrade engine lives in checks/classification.ts (the
+ * SIGNATIF stage-2 policy). This wrapper adds the presentation
+ * layer: labels, verdicts, colors, shapes, patterns, glyphs.
  */
 export function computeTrustGrade(results: readonly CheckResult[]): TrustGradeResult {
-  const reasons: string[] = [];
-  const breakdown = results.map(r => ({
-    checkId: r.checkId,
-    status: r.status,
-    reason: r.reason,
+  const c = classify(results, undefined, DEFAULT_CLASSIFICATION_POLICY);
+  const breakdown = c.breakdown.map((b) => ({
+    checkId: b.check_id,
+    status: b.status as CheckStatus,
+    reason: b.reason,
   }));
-
-  // Hard check failure → F
-  for (const r of results) {
-    if (r.status === "fail" && HARD_CHECK_IDS.has(r.checkId)) {
-      reasons.push(r.reason ?? `Check ${r.checkId} failed`);
-      return gradeResult("F", reasons, breakdown);
-    }
-  }
-
-  // Start from A+; downgrade per soft check
-  const gradeRank: Record<Grade, number> = { "A+": 4, "A": 3, "B": 2, "C": 1, "F": 0 };
-  let currentGrade: Grade = "A+";
-
-  for (const r of results) {
-    if (!SOFT_CHECK_IDS.has(r.checkId)) continue;
-
-    // Always record a reason for non-pass soft checks — the user wants
-    // to know what was suboptimal even if the grade was already capped
-    // lower by a different check.
-    if (r.status !== "pass" && r.reason) {
-      reasons.push(`${r.checkId}: ${r.reason}`);
-    }
-
-    if (r.status === "skip") {
-      const target = SOFT_DOWNGRADE_WHEN_SKIP[r.checkId] ?? "A";
-      if (gradeRank[target] < gradeRank[currentGrade]) {
-        currentGrade = target;
-      }
-    } else if (r.status === "warn") {
-      const target = SOFT_DOWNGRADE_WHEN_WARN[r.checkId] ?? "B";
-      if (gradeRank[target] < gradeRank[currentGrade]) {
-        currentGrade = target;
-      }
-    } else if (r.status === "fail") {
-      // Soft check failed — still a hard downgrade to C
-      if (gradeRank["C"] < gradeRank[currentGrade]) {
-        currentGrade = "C";
-      }
-    }
-  }
-
-  return gradeResult(currentGrade, reasons, breakdown);
+  return gradeResult(c.label, c.reasons, breakdown);
 }
 
 function gradeResult(
