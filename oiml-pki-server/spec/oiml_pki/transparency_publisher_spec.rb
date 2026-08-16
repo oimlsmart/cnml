@@ -192,3 +192,121 @@ RSpec.describe OimlPki::TransparencyPublisher do
     end
   end
 end
+
+# RFC 6962 consistency proofs + signed tree heads (SIGNATIF Phase 3).
+RSpec.describe OimlPki::MerkleTree, "consistency" do
+  def tree_with(n)
+    t = OimlPki::MerkleTree.new
+    (1..n).each { |i| t.append(OpenSSL::Digest::SHA256.digest("leaf-#{i}")) }
+    t
+  end
+
+  def roots_at(t, size)
+    subset = OimlPki::MerkleTree.new
+    t.entries[0, size].each { |h| subset.append(h) }
+    subset.root
+  end
+
+  it "returns empty proofs for old_size 0 or equal sizes" do
+    t = tree_with(5)
+    expect(t.consistency_proof(0, 5)).to eq([])
+    expect(t.consistency_proof(5, 5)).to eq([])
+  end
+
+  it "rejects out-of-range sizes" do
+    t = tree_with(3)
+    expect { t.consistency_proof(4, 3) }.to raise_error(ArgumentError)
+    expect { t.consistency_proof(1, 9) }.to raise_error(ArgumentError)
+  end
+
+  it "verifies consistency for every size pair up to 17" do
+    t = tree_with(17)
+    (1..17).each do |old_size|
+      (old_size..17).each do |new_size|
+        proof = t.consistency_proof(old_size, new_size)
+        ok = t.verify_consistency(
+          old_size, new_size, proof, roots_at(t, old_size), roots_at(t, new_size)
+        )
+        expect(ok).to be(true), "old=#{old_size} new=#{new_size}"
+      end
+    end
+  end
+
+  it "rejects a doctored proof" do
+    t = tree_with(9)
+    proof = t.consistency_proof(4, 9)
+    proof[0] = OpenSSL::Digest::SHA256.digest("forged")
+    expect(t.verify_consistency(4, 9, proof, roots_at(t, 4), t.root)).to be(false)
+  end
+
+  it "rejects a proof against the wrong old root" do
+    t = tree_with(9)
+    proof = t.consistency_proof(4, 9)
+    wrong = OpenSSL::Digest::SHA256.digest("not-the-old-root")
+    expect(t.verify_consistency(4, 9, proof, wrong, t.root)).to be(false)
+  end
+end
+
+RSpec.describe OimlPki::TransparencyPublisher, "signed heads" do
+  let(:ec_key) { OpenSSL::PKey::EC.generate("prime256v1") }
+
+  after { described_class.log_file_override = nil }
+
+  it "signs a tree head verifiable against the operator public key" do
+    Dir.mktmpdir do |dir|
+      described_class.log_file_override = File.join(dir, "t.log")
+      described_class.record(OpenSSL::Digest::SHA256.digest("a"))
+      described_class.record(OpenSSL::Digest::SHA256.digest("b"))
+
+      tree = nil
+      described_class.send(:with_persistent_log) { |t| tree = t }
+      head = described_class.signed_head(tree, ec_key)
+      expect(head[:signature]).to match(/\A[0-9a-f]{128}\z/)
+
+      to_sign = described_class.head_string(head)
+      raw = [head[:signature]].pack("H*")
+      der = OimlPki::TransparencyPublisherHelpers.p1363_to_der(raw)
+      expect(ec_key.verify(OpenSSL::Digest::SHA256.new, der, to_sign)).to be(true)
+    end
+  end
+
+  it "publishes a signed head and consistency proofs" do
+    Dir.mktmpdir do |dir|
+      described_class.log_file_override = File.join(dir, "t.log")
+      3.times { |i| described_class.record(OpenSSL::Digest::SHA256.digest("x#{i}")) }
+
+      out = File.join(dir, "pub")
+      head = described_class.publish_to_directory(out, operator_key: ec_key)
+      expect(head).to include(:signature, :public_key)
+      expect(File).to exist(File.join(out, "head.json"))
+      expect(File).to exist(File.join(out, "consistency", "2.json"))
+      expect(File).to exist(File.join(out, "proof", "0.json"))
+
+      consistency = JSON.parse(File.read(File.join(out, "consistency", "2.json")))
+      expect(consistency["new_size"]).to eq(3)
+    end
+  end
+
+  it "leaves the head unsigned without an operator key (backward compatible)" do
+    Dir.mktmpdir do |dir|
+      described_class.log_file_override = File.join(dir, "t.log")
+      described_class.record(OpenSSL::Digest::SHA256.digest("a"))
+      head = described_class.publish_to_directory(File.join(dir, "pub"))
+      expect(head).not_to include(:signature)
+    end
+  end
+end
+
+# DER conversion for verifying raw P-1363 signatures in specs.
+module OimlPki
+  module TransparencyPublisherHelpers
+    module_function
+
+    def p1363_to_der(raw)
+      bytes = raw.bytesize / 2
+      r = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[0, bytes], 2))
+      s = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[bytes, bytes], 2))
+      OpenSSL::ASN1::Sequence.new([r, s]).to_der
+    end
+  end
+end

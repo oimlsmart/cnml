@@ -120,7 +120,98 @@ module OimlPki
       constant_time_equal(current, expected_root)
     end
 
+    # RFC 6962 §2.1.4.1 consistency proof: the audit path connecting
+    # tree heads at old_size and new_size. Returns [] when the sizes
+    # are equal or old_size is 0. Node order follows the RFC recursion.
+    # @param old_size [Integer] size of the earlier tree
+    # @param new_size [Integer] size of the later tree (<= length)
+    # @return [Array<String>] 32-byte node hashes
+    def consistency_proof(old_size, new_size)
+      raise ArgumentError, "old_size must be >= 0" if old_size.negative?
+      raise ArgumentError, "old_size must be <= new_size" if old_size > new_size
+      raise ArgumentError, "new_size out of range" if new_size > length
+
+      return [] if old_size.zero? || old_size == new_size
+
+      subproof(old_size, @leaf_hashes[0, new_size], true)
+    end
+
+    # RFC 6962 §2.1.4.2 consistency verification (leaves-known form):
+    # recomputes the old and new tree heads from the leaf hashes and
+    # the proof path, then compares against the claimed heads.
+    # @return [Boolean]
+    def verify_consistency(old_size, new_size, proof, old_root, new_root)
+      return false if old_size.negative? || old_size > new_size || new_size > length
+
+      if old_size.zero?
+        return proof.empty?
+      end
+      if old_size == new_size
+        return proof.empty? && constant_time_equal(old_root, new_root)
+      end
+      return false if proof.empty?
+
+      ok, rest, old_hash, new_hash = subverify(old_size, @leaf_hashes[0, new_size], proof.dup, true)
+      ok && rest.empty? &&
+        constant_time_equal(old_hash, old_root) &&
+        constant_time_equal(new_hash, new_root)
+    end
+
     private
+
+    # Largest power of two strictly smaller than n (n >= 2).
+    def largest_pow2_lt(n)
+      1 << (Math.log2(n - 1).floor)
+    end
+
+    # RFC 6962 SUBPROOF(m, D[n], b):
+    #   m == n  → b ? [] : [MTH(D)]
+    #   m < n   → k = largest power of 2 < n
+    #     m <= k: SUBPROOF(m, D[0;k], b) : [MTH(D[k;n])]
+    #     m >  k: SUBPROOF(m-k, D[k;n], false) : [MTH(D[0;k])]
+    def subproof(m, leaves, b)
+      n = leaves.length
+      if m == n
+        return b ? [] : [compute_root(leaves.dup)]
+      end
+      k = largest_pow2_lt(n)
+      if m <= k
+        subproof(m, leaves[0, k], b) + [compute_root(leaves[k..])]
+      else
+        subproof(m - k, leaves[k..], false) + [compute_root(leaves[0, k])]
+      end
+    end
+
+    # Mirror of subproof for verification. Returns [ok, proof_rest,
+    # old_hash, new_hash]. When b is true the subtree lies entirely
+    # within the old tree and contributes its MTH to both chains.
+    def subverify(m, leaves, proof, b)
+      n = leaves.length
+      if m == n
+        h = compute_root(leaves.dup)
+        if b
+          [true, proof, h, h]
+        else
+          return [false, proof, nil, nil] if proof.empty? || !constant_time_equal(proof.first, h)
+          [true, proof[1..], h, h]
+        end
+      else
+        k = largest_pow2_lt(n)
+        if m <= k
+          ok, rest, old_hash, new_hash = subverify(m, leaves[0, k], proof, b)
+          return [false, rest, nil, nil] unless ok
+          return [false, rest, nil, nil] if rest.empty?
+          right_hash = rest.first
+          [true, rest[1..], old_hash, hash_internal(new_hash, right_hash)]
+        else
+          ok, rest, old_hash, new_hash = subverify(m - k, leaves[k..], proof, false)
+          return [false, rest, nil, nil] unless ok
+          return [false, rest, nil, nil] if rest.empty?
+          left_hash = rest.first
+          [true, rest[1..], hash_internal(left_hash, old_hash), hash_internal(left_hash, new_hash)]
+        end
+      end
+    end
 
     def hash_leaf(data)
       OpenSSL::Digest::SHA256.digest("\x01" + data)
@@ -237,6 +328,47 @@ module OimlPki
       @log_operator_override || "BIML"
     end
 
+    # ─── Signed tree heads (SIGNATIF Phase 3) ─────────────────────
+    #
+    # The log operator signs each tree head so a verifier can trust an
+    # inclusion or consistency proof against that head without trusting
+    # the transport. The signed material is the canonical string:
+    #
+    #   CNML-TLOG-HEAD-v1|<operator>|<size>|<root-hex>|<timestamp>
+    #
+    # @param tree [MerkleTree] the tree to sign
+    # @param operator_key [OpenSSL::PKey::EC] P-256 private key
+    # @param log_operator [String]
+    # @return [Hash] signed head fields (root, size, timestamp,
+    #   operator, signature) — signature is P-1363 raw r||s, hex.
+    def signed_head(tree, operator_key, log_operator: default_log_operator)
+      head = {
+        root: tree.root.unpack1("H*"),
+        size: tree.length,
+        timestamp: Time.now.utc.iso8601,
+        operator: log_operator,
+      }
+      to_sign = head_string(head)
+      raw = der_to_p1363(operator_key.sign(OpenSSL::Digest::SHA256.new, to_sign), 32)
+      head.merge(signature: raw.unpack1("H*"))
+    end
+
+    # The canonical byte string covered by the tree-head signature.
+    def head_string(head)
+      "CNML-TLOG-HEAD-v1|#{head[:operator]}|#{head[:size]}|#{head[:root]}|#{head[:timestamp]}"
+    end
+
+    # Convert a DER ECDSA signature to P-1363 raw r||s (each coordinate
+    # left-padded to `bytes` bytes) — the form WebCrypto expects.
+    def der_to_p1363(der, bytes)
+      asn = OpenSSL::ASN1.decode(der)
+      r = asn.value[0].value.to_s(2).rjust(bytes, "\x00")
+      s = asn.value[1].value.to_s(2).rjust(bytes, "\x00")
+      r + s
+    rescue StandardError
+      raise ArgumentError, "invalid DER ECDSA signature"
+    end
+
     def log_file
       @log_file_override || File.join(OimlPki::KEYSTORE_DIR, "transparency.log")
     end
@@ -290,21 +422,39 @@ module OimlPki
     # ─── Public publication (TODO.cnml/71) ────────────────────────
     #
     # Write the current log state as static files for CDN distribution.
-    def publish_to_directory(dir, log_operator: default_log_operator)
+    def publish_to_directory(dir, log_operator: default_log_operator, operator_key: nil)
       require "fileutils"
       require "json"
       FileUtils.mkdir_p(dir)
       FileUtils.mkdir_p(File.join(dir, "leaf"))
       FileUtils.mkdir_p(File.join(dir, "proof"))
+      FileUtils.mkdir_p(File.join(dir, "consistency"))
 
       with_persistent_log do |tree|
-        head = {
+        head = signed_head(tree, operator_key, log_operator: log_operator) if operator_key
+        head ||= {
           root: tree.root.unpack1("H*"),
           size: tree.length,
           timestamp: Time.now.utc.iso8601,
           operator: log_operator,
         }
+        if operator_key
+          head[:public_key] = export_spki_pem(operator_key)
+        end
         File.write(File.join(dir, "head.json"), JSON.pretty_generate(head) + "\n")
+
+        # Consistency proofs from every prior size to the current head:
+        # a verifier holding head(N) fetches consistency/<N>.json to
+        # check head(M) is a pure extension.
+        (0..tree.length).each do |prior|
+          proof = tree.consistency_proof(prior, tree.length)
+          doc = {
+            old_size: prior,
+            new_size: tree.length,
+            nodes: proof.map { |h| h.unpack1("H*") },
+          }
+          File.write(File.join(dir, "consistency", "#{prior}.json"), JSON.pretty_generate(doc) + "\n")
+        end
 
         tree.entries.each_with_index do |leaf_hash, seq|
           File.binwrite(File.join(dir, "leaf", seq.to_s), leaf_hash)
@@ -324,6 +474,11 @@ module OimlPki
 
         head
       end
+    end
+
+    # Export an EC public key as SPKI PEM (for embedding in head.json).
+    def export_spki_pem(key)
+      key.public_to_pem
     end
   end
 end
