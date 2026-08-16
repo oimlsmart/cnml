@@ -29,10 +29,32 @@
       <xs:element name="administrativeData" type="cnml:AdministrativeDataType"/>
       <xs:element name="measurementResults" type="cnml:MeasurementResultsType"/>
       <xs:element ref="ds:Signature" minOccurs="0"/>
+      <xs:element name="coSignature" type="cnml:CoSignatureType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="schemaVersion" type="xs:string" fixed="1.0" use="required"/>
     <xs:attribute name="id" type="xs:ID" use="optional"/>
   </xs:complexType>
+
+  <!-- Multi-dimensional co-signature (SIGNATIF): an independent
+       attestation on the same canonical payload from a different
+       signer, e.g. the certified tester (person) or the calibration
+       authority (environment). -->
+  <xs:complexType name="CoSignatureType">
+    <xs:sequence>
+      <xs:element ref="ds:Signature"/>
+    </xs:sequence>
+    <xs:attribute name="dimension" type="cnml:TrustDimensionType" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="TrustDimensionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="person"/>
+      <xs:enumeration value="environment"/>
+      <xs:enumeration value="location"/>
+      <xs:enumeration value="time"/>
+      <xs:enumeration value="identity"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <!-- ─── Administrative data ───────────────────────────────────── -->
 

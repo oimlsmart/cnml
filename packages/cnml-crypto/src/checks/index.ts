@@ -17,6 +17,7 @@ import type { Check, CheckContext, CheckResult } from "./types.ts";
 import { xmlWellFormedCheck } from "./xml_well_formed.ts";
 import { schemaValidCheck } from "./schema_valid.ts";
 import { signatureCheck } from "./signature.ts";
+import { dimensionsCheck } from "./dimensions.ts";
 import { scopeCheck } from "./scope.ts";
 import { crlCheck } from "./crl.ts";
 import { erBindingCheck } from "./er_binding.ts";
@@ -66,6 +67,7 @@ export const CHECKS: Check[] = [
   xmlWellFormedCheck,
   schemaValidCheck,
   signatureCheck,
+  dimensionsCheck,
   scopeCheck,
   crlCheck,
   erBindingCheck,
