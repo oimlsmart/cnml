@@ -55,6 +55,9 @@ export interface CheckContext {
   algorithmRegistry?: import("../algorithms.ts").AlgorithmRegistry;
   /** Revoked authority-state hashes; artifacts bound to one fail check 5 (Phase 4). */
   revokedStateHashes?: string[];
+  /** Explicit values for scope-condition evaluation (Phase 6); merged
+   *  over the values extracted from the artifact itself. */
+  scopeConditionValues?: Record<string, unknown>;
 }
 
 export interface Check {
