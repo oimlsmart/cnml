@@ -55,12 +55,15 @@ export const DEFAULT_CLASSIFICATION_POLICY: ClassificationPolicy = {
   hard_warn_grade: "B",
   soft_fail_grade: "C",
   soft_skip_grade: {
+    // Co-signatures are optional coverage: absence does not downgrade.
+    dimensions: "A+",
     timestamp: "A",
     er_binding: "A",
     transparency: "B",
     roughtime: "A",
   },
   soft_warn_grade: {
+    dimensions: "B",
     timestamp: "B",
     er_binding: "B",
     transparency: "B",

@@ -73,6 +73,7 @@ export const HARD_CHECK_IDS = new Set([
 ]);
 
 export const SOFT_CHECK_IDS = new Set([
+  "dimensions",
   "er-binding",
   "timestamp",
   "transparency",

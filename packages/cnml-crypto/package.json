@@ -12,14 +12,15 @@
     "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/cert/*.test.ts src/checks/*.test.ts src/smi/*.test.ts src/keys/*.test.ts src/xml/*.test.ts"
   },
   "dependencies": {
-    "@oiml/cnml-xml": "workspace:*",
     "@oiml/cnml-schemas": "workspace:*",
-    "xmldsigjs": "^2.8.7",
+    "@oiml/cnml-xml": "workspace:*",
+    "asn1js": "^3.0.5",
     "pkijs": "^3.4.0",
-    "asn1js": "^3.0.5"
+    "xmldsigjs": "^2.8.7"
   },
   "devDependencies": {
-    "@xmldom/xmldom": "^0.9.10"
+    "@xmldom/xmldom": "^0.9.10",
+    "xpath": "0.0.34"
   },
   "description": "The CNML verification pipeline, composite signatures, and SMI twin client"
 }
