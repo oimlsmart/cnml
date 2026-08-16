@@ -44,6 +44,18 @@ export type { ClassificationPolicy, ClassificationResult } from "./classificatio
 export { classify, DEFAULT_CLASSIFICATION_POLICY } from "./classification.ts";
 export type { AcceptancePolicy, AcceptanceResult } from "./acceptance.ts";
 export { evaluate, DEFAULT_ACCEPTANCE_POLICY } from "./acceptance.ts";
+// Transparency integrity (SIGNATIF Phase 3): consistency proofs,
+// signed tree heads, fork detection. Cross-verifies with the Ruby
+// TransparencyPublisher.
+export type { SignedTreeHead } from "./transparency-consistency.ts";
+export {
+  verifyConsistency,
+  verifySignedHead,
+  detectFork,
+  headString,
+  leafHashOf,
+  rootOverEntries,
+} from "./transparency-consistency.ts";
 
 // The CRL leg's helpers — the app's revocation
 // propagation extracts the signing cert's serial with these.

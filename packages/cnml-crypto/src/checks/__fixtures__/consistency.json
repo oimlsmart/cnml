@@ -1,0 +1,61 @@
+{
+  "entries_hex": [
+    "4140bf0e8569ed03ec838871ff2f190e9b3ea86bc083d7e9901049f75f00e855",
+    "649837ddcb7e1967086d7d35aaef7b975c513815d96fc6e70015e93a2bfe0f9a",
+    "9fde56c376760bd399b82eb8569229a2dff19219411ac71154dfeab2cf502454",
+    "697f943b9ec5f90eddda8ae7473f5eb688187e3467f312fefa8677dde255042c",
+    "fb1ec199d052a3ce6d141a28c2d706a51b99f09c2a8d61243062a046f06b68f1"
+  ],
+  "roots": [
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "4e7a176fb1c80b4bc1abe84bbecc59897b562f06c8c86cc417b368e3c6d9dd67",
+    "d5d98911db22b93ccb0c0c04682eab7941f15d8a3f68d54a03b9bba630afdda7",
+    "c10e232ec2c3320ab7e4d1ae0d3b28938279b2232d1cf06b76f9b47781a2d40e",
+    "7a0cb977920a37fa2493ff53ea60a70d67f0aaa6612516e5ddadb1cddc67feec",
+    "6cea33a872d219631b6746bd30abfd4e04880307c8f2130d9b0566fb2f7df859"
+  ],
+  "proofs": [
+    {
+      "old_size": 1,
+      "new_size": 5,
+      "nodes": [
+        "3bf4d3d90ac75aed7d6d8ab27c2ea72815c004aba402ba3b0a71633b7aab9777",
+        "9fc9537c7346a82b55b440daa52327c14d81f490a1187f0a9f1918038a3b5497",
+        "eb50998464a43f2351a8c6cec9e91d51e7df33b6c2c4b4d4bbadf909885046c4"
+      ]
+    },
+    {
+      "old_size": 2,
+      "new_size": 5,
+      "nodes": [
+        "9fc9537c7346a82b55b440daa52327c14d81f490a1187f0a9f1918038a3b5497",
+        "eb50998464a43f2351a8c6cec9e91d51e7df33b6c2c4b4d4bbadf909885046c4"
+      ]
+    },
+    {
+      "old_size": 3,
+      "new_size": 5,
+      "nodes": [
+        "34d221037d40378d4bb9870c5657bde30ae32c24b8f9b47cbb780ebe76c4f192",
+        "bf1276e2c91089082e1c04eb62b380745c26ab9d7712bd1582f58cad484d9fb8",
+        "d5d98911db22b93ccb0c0c04682eab7941f15d8a3f68d54a03b9bba630afdda7",
+        "eb50998464a43f2351a8c6cec9e91d51e7df33b6c2c4b4d4bbadf909885046c4"
+      ]
+    },
+    {
+      "old_size": 4,
+      "new_size": 5,
+      "nodes": [
+        "eb50998464a43f2351a8c6cec9e91d51e7df33b6c2c4b4d4bbadf909885046c4"
+      ]
+    }
+  ],
+  "head": {
+    "root": "6cea33a872d219631b6746bd30abfd4e04880307c8f2130d9b0566fb2f7df859",
+    "size": 5,
+    "timestamp": "2026-08-16T09:56:13Z",
+    "operator": "BIML",
+    "signature": "3778072ff08bfbd9294248ed5021fdef5ab38ccc34e72e1280fcd28c0865cede35631e468e3f7d6ac1063f8a7f40552493dfea05050402196f51808cc2d01865",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEAYuPkn5Tumon9Cl1r+aylDt20r4J\nNTzuv7H7yS+o/pwasjinbv8tUTlJGM6sAFcpaWnWhABfY0A+HNb7a79tNw==\n-----END PUBLIC KEY-----\n"
+  }
+}
