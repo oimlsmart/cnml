@@ -146,3 +146,72 @@ test("verifyArtifact reports dimension coverage from co-signatures", async () =>
   });
   assert.equal(withPerson.acceptance.accepted, true, withPerson.acceptance.reasons.join("; "));
 });
+
+// ─── tester credential scope enforcement (gap G) ──────────────────
+
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const FIXTURES = path.join(path.dirname(fileURLToPath(import.meta.url)), "../checks/__fixtures__");
+
+async function testerKeyPair(): Promise<CryptoKeyPair> {
+  const pkcs8 = readFileSync(path.join(FIXTURES, "tester-scope-pkcs8.pem"), "utf8");
+  const b64 = pkcs8.replace(/-----[A-Z ]+-----/g, "").replace(/\s+/g, "");
+  const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  const privateKey = await crypto.subtle.importKey(
+    "pkcs8",
+    bytes,
+    { name: "ECDSA", namedCurve: "P-256" },
+    true,
+    ["sign"],
+  );
+  const spki = readFileSync(path.join(FIXTURES, "tester-scope-pub.pem"), "utf8");
+  const b64p = spki.replace(/-----[A-Z ]+-----/g, "").replace(/\s+/g, "");
+  const publicKey = await crypto.subtle.importKey(
+    "spki",
+    Uint8Array.from(atob(b64p), (c) => c.charCodeAt(0)),
+    { name: "ECDSA", namedCurve: "P-256" },
+    true,
+    ["verify"],
+  );
+  return { privateKey, publicKey };
+}
+
+const R60_XML = SAMPLE_XML.replace("R60/2021-NL1", "R60/2021-NL1");
+
+test("tester co-signature is rejected outside the tester's certified scope", async () => {
+  const ia = await freshKeyPair();
+  const tester = await testerKeyPair();
+  const testerCert = readFileSync(path.join(FIXTURES, "tester-scope-cert.pem"), "utf8");
+
+  // Fixture cert is certified for R60 and R76 — issue an R117 cert.
+  const r117 = SAMPLE_XML.replace("R60/2021-NL1", "R117/2026-NL1");
+  const signed = await signCnmlXmlWithCosignatures(
+    r117,
+    { privateKey: ia.privateKey, certPem: await issueSelfSignedCert(ia.publicKey, ia.privateKey, "CN=IA") },
+    [{ dimension: "person", privateKey: tester.privateKey, certPem: testerCert }],
+  );
+
+  const ctx: CheckContext = { recommendationId: "R117" };
+  const result = await dimensionsCheck.run(signed, ctx, []);
+  assert.equal(result.status, "fail", result.reason);
+  assert.match(result.reason ?? "", /not certified for R117/);
+  void R60_XML;
+});
+
+test("tester co-signature passes inside the tester's certified scope", async () => {
+  const ia = await freshKeyPair();
+  const tester = await testerKeyPair();
+  const testerCert = readFileSync(path.join(FIXTURES, "tester-scope-cert.pem"), "utf8");
+
+  const signed = await signCnmlXmlWithCosignatures(
+    SAMPLE_XML,
+    { privateKey: ia.privateKey, certPem: await issueSelfSignedCert(ia.publicKey, ia.privateKey, "CN=IA") },
+    [{ dimension: "person", privateKey: tester.privateKey, certPem: testerCert }],
+  );
+
+  const ctx: CheckContext = { recommendationId: "R60" };
+  const result = await dimensionsCheck.run(signed, ctx, []);
+  assert.equal(result.status, "pass", result.reason);
+});

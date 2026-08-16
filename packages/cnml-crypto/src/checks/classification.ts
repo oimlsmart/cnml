@@ -20,6 +20,7 @@
  */
 
 import type { Grade } from "../trust_grade.ts";
+import type { ClassificationConfig } from "../manifest.ts";
 import type { CoverageReport } from "./coverage.ts";
 import type { CheckResult } from "./types.ts";
 import { HARD_CHECK_IDS, SOFT_CHECK_IDS } from "./coverage.ts";
@@ -198,4 +199,30 @@ function finish(
 ): ClassificationResult {
   void _policy;
   return { label, base_label: base, reasons, breakdown };
+}
+
+
+/**
+ * Build a ClassificationPolicy from the deployment manifest's
+ * [classification] section. Unspecified fields fall back to the
+ * default policy; the label order is fixed (A+ > A > B > C > F).
+ */
+export function classificationPolicyFromManifest(
+  config: ClassificationConfig | undefined,
+): ClassificationPolicy {
+  if (!config) return DEFAULT_CLASSIFICATION_POLICY;
+  return {
+    ...DEFAULT_CLASSIFICATION_POLICY,
+    soft_fail_grade: (config.downgrades?.soft_fail as Grade) ?? DEFAULT_CLASSIFICATION_POLICY.soft_fail_grade,
+    hard_warn_grade: (config.downgrades?.hard_warn as Grade) ?? DEFAULT_CLASSIFICATION_POLICY.hard_warn_grade,
+    missing_dimension_grade: (config.downgrades?.missing_dimension as Grade) ?? DEFAULT_CLASSIFICATION_POLICY.missing_dimension_grade,
+    top_label: {
+      required_dimensions: config.top_label?.required_dimensions
+        ?? DEFAULT_CLASSIFICATION_POLICY.top_label.required_dimensions,
+      requires_transparency: config.top_label?.requires_transparency
+        ?? DEFAULT_CLASSIFICATION_POLICY.top_label.requires_transparency,
+      requires_timestamp: config.top_label?.requires_timestamp
+        ?? DEFAULT_CLASSIFICATION_POLICY.top_label.requires_timestamp,
+    },
+  };
 }

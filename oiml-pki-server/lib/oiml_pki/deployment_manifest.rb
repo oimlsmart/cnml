@@ -251,7 +251,7 @@ module OimlPki
   class Manifest
     attr_reader :deployment, :mode, :tiers, :quorums, :transparency,
                 :async_signing, :archival, :pqc_migration, :pkcs11_server,
-                :algorithms
+                :algorithms, :classification
 
     def initialize(parsed)
       @deployment   = DeploymentHeader.new(parsed.fetch("deployment", {}))
@@ -264,6 +264,7 @@ module OimlPki
       @pqc_migration = parsed["pqc_migration"] && PqcMigrationPlan.new(parsed["pqc_migration"])
       @pkcs11_server = parsed["pkcs11_server"] && Pkcs11ServerConfig.new(parsed["pkcs11_server"])
       @algorithms   = parsed["algorithms"] && AlgorithmsConfig.new(parsed["algorithms"])
+      @classification = parsed["classification"] && ClassificationConfig.new(parsed["classification"])
     end
 
     # Find the first tier matching a role (e.g., "root", "issuing_authority").
@@ -457,6 +458,27 @@ module OimlPki
       @current     = hash["current"]
       @target_2027 = hash["target_2027"]
       @target_2029 = hash["target_2029"]
+    end
+  end
+
+  # Scheme-declared classification policy (SIGNATIF §classification).
+  class ClassificationConfig
+    attr_reader :labels, :top_label, :downgrades
+
+    def initialize(hash)
+      @labels     = hash["labels"]
+      top         = hash["top_label"]
+      @top_label  = top && {
+        required_dimensions: top["required_dimensions"],
+        requires_transparency: top["requires_transparency"],
+        requires_timestamp: top["requires_timestamp"],
+      }
+      down        = hash["downgrades"]
+      @downgrades = down && {
+        soft_fail: down["soft_fail"],
+        hard_warn: down["hard_warn"],
+        missing_dimension: down["missing_dimension"],
+      }
     end
   end
 

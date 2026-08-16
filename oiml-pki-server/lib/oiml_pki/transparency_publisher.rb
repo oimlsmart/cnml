@@ -136,6 +136,56 @@ module OimlPki
       subproof(old_size, @leaf_hashes[0, new_size], true)
     end
 
+    # Leafless consistency verification (SIGNATIF §transparency): a
+    # verifier holding only the two signed tree heads and the audit
+    # path recomputes both roots from the path alone, mirroring the
+    # SUBPROOF recursion shape. No leaf data required.
+    # @return [Boolean]
+    def verify_consistency_heads(old_size, old_root, new_size, new_root, proof)
+      return false if old_size.negative? || old_size > new_size
+
+      if old_size.zero?
+        return proof.empty?
+      end
+      if old_size == new_size
+        return proof.empty? && constant_time_equal(old_root, new_root)
+      end
+      return false if proof.empty?
+
+      path = proof.dup
+      ok, old_hash, new_hash = heads_subverify(old_size, new_size, true, path, old_root)
+      ok && path.empty? &&
+        constant_time_equal(old_hash, old_root) &&
+        constant_time_equal(new_hash, new_root)
+    end
+
+    # @return [Array(Boolean, String, String)] ok, old_hash, new_hash
+    def heads_subverify(m, n, b, path, old_root)
+      if m == n
+        if b
+          return [true, old_root, old_root]
+        end
+        return [false, nil, nil] if path.empty?
+        node = path.shift
+        [true, node, node]
+      else
+        k = largest_pow2_lt(n)
+        if m <= k
+          ok, old_hash, new_hash = heads_subverify(m, k, b, path, old_root)
+          return [false, nil, nil] unless ok
+          return [false, nil, nil] if path.empty?
+          node = path.shift
+          [true, old_hash, hash_internal(new_hash, node)]
+        else
+          ok, old_hash, new_hash = heads_subverify(m - k, n - k, false, path, old_root)
+          return [false, nil, nil] unless ok
+          return [false, nil, nil] if path.empty?
+          node = path.shift
+          [true, hash_internal(node, old_hash), hash_internal(node, new_hash)]
+        end
+      end
+    end
+
     # RFC 6962 §2.1.4.2 consistency verification (leaves-known form):
     # recomputes the old and new tree heads from the leaf hashes and
     # the proof path, then compares against the claimed heads.
@@ -279,7 +329,8 @@ module OimlPki
   # objects for embedding into CNML XML.
   module TransparencyPublisher
     class << self
-      attr_accessor :log_file_override, :log_operator_override
+      attr_accessor :log_file_override, :log_operator_override,
+                    :state_bindings_file_override
     end
 
     module_function
@@ -419,6 +470,52 @@ module OimlPki
 )
     end
 
+    # ─── State binding index (SIGNATIF §revocation-hash-binding) ──
+    #
+    # The log operator records which authority states each logged
+    # artifact is bound to. Revocation queries the index: a revoked
+    # state hash maps to every artifact bound to it, so revocation
+    # propagates to (and flags) each affected artifact.
+    def record_state_bindings(sequence, hashes)
+      require "json"
+      require "fileutils"
+      index = load_state_bindings
+      index[sequence.to_s] = hashes.map(&:to_s)
+      save_state_bindings(index)
+      sequence
+    end
+
+    # The inverted index: bare-hex state hash → sorted sequences.
+    def state_index
+      index = {}
+      load_state_bindings.each do |seq, hashes|
+        hashes.each do |hash|
+          key = hash.to_s.sub(/\Asha256:/, "").downcase
+          (index[key] ||= []) << seq.to_i
+        end
+      end
+      index.each_value(&:sort!)
+      index
+    end
+
+    def load_state_bindings
+      require "json"
+      return {} unless File.exist?(state_bindings_file)
+      JSON.parse(File.binread(state_bindings_file))
+    rescue StandardError
+      {}
+    end
+
+    def state_bindings_file
+      @state_bindings_file_override ||
+        File.join(OimlPki::KEYSTORE_DIR, "state-bindings.json")
+    end
+
+    def save_state_bindings(index)
+      FileUtils.mkdir_p(File.dirname(state_bindings_file))
+      File.binwrite(state_bindings_file, JSON.pretty_generate(index) + "\n")
+    end
+
     # ─── Public publication (TODO.cnml/71) ────────────────────────
     #
     # Write the current log state as static files for CDN distribution.
@@ -442,6 +539,11 @@ module OimlPki
           head[:public_key] = export_spki_pem(operator_key)
         end
         File.write(File.join(dir, "head.json"), JSON.pretty_generate(head) + "\n")
+
+        bindings = load_state_bindings
+        unless bindings.empty?
+          File.write(File.join(dir, "state-index.json"), JSON.pretty_generate(state_index) + "\n")
+        end
 
         # Consistency proofs from every prior size to the current head:
         # a verifier holding head(N) fetches consistency/<N>.json to

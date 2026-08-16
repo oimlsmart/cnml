@@ -136,6 +136,69 @@ export async function verifyConsistency(
     && newHash !== null && constantTimeEqual(newHash, nw);
 }
 
+/**
+ * Leafless consistency verification (SIGNATIF §transparency): a
+ * verifier holding only the two signed tree heads and the audit
+ * path recomputes both roots from the path alone. Mirrors the
+ * SUBPROOF recursion shape; the b=true anchor is the old head
+ * itself, each unwind folds one sibling — right siblings extend the
+ * new chain, left siblings extend both.
+ */
+export async function verifyConsistencyHeads(
+  oldSize: number,
+  oldRoot: string | Uint8Array,
+  newSize: number,
+  newRoot: string | Uint8Array,
+  nodes: (string | Uint8Array)[],
+): Promise<boolean> {
+  if (oldSize < 0 || oldSize > newSize) return false;
+  const proof = nodes.map((n) => (typeof n === "string" ? fromHex(n) : n));
+  const old = typeof oldRoot === "string" ? fromHex(oldRoot) : oldRoot;
+  const nw = typeof newRoot === "string" ? fromHex(newRoot) : newRoot;
+
+  if (oldSize === 0) return proof.length === 0;
+  if (oldSize === newSize) return proof.length === 0 && constantTimeEqual(old, nw);
+  if (proof.length === 0) return false;
+
+  const [ok, path, oldHash, newHash] = await headsSubverify(oldSize, newSize, true, proof, old);
+  return ok
+    && path.length === 0
+    && oldHash !== null && constantTimeEqual(oldHash, old)
+    && newHash !== null && constantTimeEqual(newHash, nw);
+}
+
+type HeadsResult = [ok: boolean, path: Uint8Array[], oldHash: Uint8Array | null, newHash: Uint8Array | null];
+
+async function headsSubverify(
+  m: number,
+  n: number,
+  b: boolean,
+  path: Uint8Array[],
+  oldRoot: Uint8Array,
+): Promise<HeadsResult> {
+  if (m === n) {
+    if (b) return [true, path, oldRoot, oldRoot];
+    if (path.length === 0) return [false, path, null, null];
+    const node = path[0];
+    return [true, path.slice(1), node, node];
+  }
+  const k = largestPow2Lt(n);
+  if (m <= k) {
+    const [ok, rest, oldHash, newHash] = await headsSubverify(m, k, b, path, oldRoot);
+    if (!ok || rest.length === 0) return [false, rest, null, null];
+    return [true, rest.slice(1), oldHash, await hashInternal(newHash!, rest[0])];
+  }
+  const [ok, rest, oldHash, newHash] = await headsSubverify(m - k, n - k, false, path, oldRoot);
+  if (!ok || rest.length === 0) return [false, rest, null, null];
+  const node = rest[0];
+  return [
+    true,
+    rest.slice(1),
+    await hashInternal(node, oldHash!),
+    await hashInternal(node, newHash!),
+  ];
+}
+
 /** Hash a log entry (raw cert hash) into an RFC 6962 leaf hash. */
 export async function leafHashOf(entry: Uint8Array | string): Promise<Uint8Array> {
   const data = typeof entry === "string" ? encodeText(entry) : entry;
@@ -207,4 +270,73 @@ export function detectFork(heads: SignedTreeHead[]): { fork: boolean; conflictin
     }
   }
   return { fork: false, conflicting: [] };
+}
+
+export interface GossipObservation {
+  /** The source the head was observed from (mirror, witness, log). */
+  source: string;
+  head: SignedTreeHead;
+}
+
+export interface GossipQuorum {
+  /** Distinct independent sources that must agree on the head. */
+  t: number;
+}
+
+/**
+ * Gossip corroboration (SIGNATIF §transparency-mirrors): the tree
+ * head a verifier relies on must be observed by at least the quorum
+ * of independent sources before inclusion proofs are accepted
+ * against it. Sources observing the same root count once each;
+ * agreement is on (size, root).
+ */
+export function gossipQuorumMet(
+  observations: GossipObservation[],
+  target: SignedTreeHead,
+  quorum: GossipQuorum = { t: 2 },
+): { met: boolean; sources: string[] } {
+  const agreeing = new Set<string>();
+  for (const o of observations) {
+    if (
+      o.head.size === target.size
+      && o.head.root.toLowerCase() === target.root.toLowerCase()
+      && o.head.operator === target.operator
+    ) {
+      agreeing.add(o.source);
+    }
+  }
+  return { met: agreeing.size >= quorum.t, sources: [...agreeing] };
+}
+
+export interface InclusionAttestation {
+  /** The log's identity (operator or log id). */
+  log: string;
+  /** Whether the artifact's inclusion proof verified against that
+   *  log's signed head. */
+  verified: boolean;
+}
+
+export interface MultiLogPolicy {
+  m: number;
+  k: number;
+  /** The recognized logs. */
+  logs: readonly string[];
+}
+
+/**
+ * Multi-log attestation (SIGNATIF §transparency-multi-log): validate
+ * each inclusion proof independently (the caller runs verifyInclusion
+ * per log); the artifact meets the quorum when at least M of the K
+ * recognized logs include it.
+ */
+export function multiLogQuorumMet(
+  attestations: InclusionAttestation[],
+  policy: MultiLogPolicy,
+): { met: boolean; count: number } {
+  const recognized = new Set(policy.logs);
+  const verifiedLogs = new Set(
+    attestations.filter((a) => a.verified && recognized.has(a.log)).map((a) => a.log),
+  );
+  if (policy.logs.length < policy.k || policy.m > policy.k) return { met: false, count: verifiedLogs.size };
+  return { met: verifiedLogs.size >= policy.m, count: verifiedLogs.size };
 }

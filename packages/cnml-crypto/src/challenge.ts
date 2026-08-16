@@ -79,6 +79,28 @@ export interface ChallengeResult {
   reason?: string;
 }
 
+/**
+ * Single-use nonce registry (SIGNATIF §challenge-response): the
+ * verifier shall not accept two responses for the same nonce. One
+ * registry per challenge session.
+ */
+export interface ChallengeRegistry {
+  /** Record a nonce; false when it was already used (replay). */
+  consume(nonce: string): boolean;
+}
+
+export function createChallengeRegistry(): ChallengeRegistry {
+  const used = new Set<string>();
+  return {
+    consume(nonce: string): boolean {
+      const key = nonce.toLowerCase();
+      if (used.has(key)) return false;
+      used.add(key);
+      return true;
+    },
+  };
+}
+
 /** Read the nonce and timestamp off a signed measurement. */
 export function readChallengeResponse(xml: string): { nonce: string | null; timestamp: string | null } {
   const doc = new DOMParser().parseFromString(xml, "application/xml");
@@ -103,9 +125,14 @@ export function verifyChallengeResponse(
   expectedNonce: Uint8Array | string,
   policy: ChallengePolicy = DEFAULT_CHALLENGE_POLICY,
   now: number = Date.now(),
+  registry?: ChallengeRegistry,
 ): ChallengeResult {
   const expected = typeof expectedNonce === "string" ? expectedNonce.toLowerCase() : toHex(expectedNonce);
   const { nonce, timestamp } = readChallengeResponse(xml);
+
+  if (registry && !registry.consume(expected)) {
+    return { ok: false, reason: "nonce already consumed — replayed response" };
+  }
 
   if (!nonce) return { ok: false, reason: "no nonce in the response" };
   if (nonce.toLowerCase() !== expected) {

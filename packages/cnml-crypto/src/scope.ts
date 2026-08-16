@@ -22,30 +22,51 @@ export const OIML_SCOPE_OID = "1.3.6.1.4.1.99999.1.1";
  */
 export async function readScopeFromCert(certPem: string): Promise<string[] | null> {
   const asn1js = await import("asn1js");
-  const pkijs = await import("pkijs");
 
   const der = pemToDer(certPem);
   const parsed = asn1js.fromBER(der);
-  // A cert that does not schema-parse reads as "no scope extension"
-  // (null) — the scope check's documented legacy path ("cert predates
-  // scope governance — gracefully accepted, never a failure"), never a
-  // crashed reason string. Well-formed CA certs parse cleanly (the
-  // scope-crl fixtures pin the read path).
+  // A cert that does not parse reads as "no scope extension" (null) —
+  // the scope check's documented legacy path ("cert predates scope
+  // governance — gracefully accepted, never a failure"), never a
+  // crashed reason string.
   if (parsed.offset === -1 || !parsed.result) return null;
-  let cert: InstanceType<typeof pkijs.Certificate>;
-  try {
-    cert = new pkijs.Certificate({ schema: parsed.result });
-  } catch {
-    return null;
-  }
 
-  // pkijs encodes extensions as an array of { extnID, extnValue }
-  const exts = cert.extensions?.extensions ?? [];
-  for (const ext of exts) {
-    if (ext.extnID !== OIML_SCOPE_OID) continue;
-    // extnValue is an OctetString; pkijs gives it as ArrayBuffer.
-    const buf = ext.extnValue.valueBlock.valueHexView?.buffer ?? ext.extnValue.getValue();
-    return parseAsn1ScopeSequence(buf);
+  // Walk tbsCertificate directly: extensions live in the [3] EXPLICIT
+  // wrapper as a SEQUENCE of Extension SEQUENCEs
+  // { extnID OID, critical BOOLEAN optional, extnValue OCTET STRING }.
+  const certSeq = parsed.result as { valueBlock?: { value?: unknown[] } };
+  const tbs = certSeq.valueBlock?.value?.[0] as
+    | { valueBlock?: { value?: unknown[] } }
+    | undefined;
+  const children = (tbs?.valueBlock?.value ?? []) as {
+    idBlock?: { tagClass?: number; tagNumber?: number };
+    valueBlock?: { value?: unknown[] };
+  }[];
+  const extWrapper = children.find(
+    (c) => c.idBlock?.tagClass === 3 && c.idBlock?.tagNumber === 3,
+  );
+  const extSeq = extWrapper?.valueBlock?.value?.[0] as
+    | { valueBlock?: { value?: unknown[] } }
+    | undefined;
+
+  for (const raw of extSeq?.valueBlock?.value ?? []) {
+    const ext = raw as {
+      valueBlock?: { value?: { idBlock?: { tagNumber?: number }; valueBlock?: { valueHexView?: Uint8Array; toString?: () => string } }[] };
+    };
+    const parts = ext.valueBlock?.value ?? [];
+    const oid = parts[0]?.valueBlock?.toString?.();
+    if (oid !== OIML_SCOPE_OID) continue;
+    // extnValue: the OCTET STRING whose content is the scope SEQUENCE.
+    const octet = parts.find((p) => p.idBlock?.tagNumber === 4);
+    const view = octet?.valueBlock?.valueHexView;
+    if (!view) return null;
+    try {
+      return parseAsn1ScopeSequence(
+        view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength),
+      );
+    } catch {
+      return null;
+    }
   }
   return null;
 }

@@ -26,6 +26,7 @@ import { transparencyCheck } from "./transparency.ts";
 import { buildCoverageReport } from "./coverage.ts";
 import { classify } from "./classification.ts";
 import { evaluate } from "./acceptance.ts";
+import { buildSpecResult } from "./result.ts";
 
 export type { Check, CheckContext, CheckResult };
 
@@ -41,15 +42,20 @@ export type {
 } from "./coverage.ts";
 export { buildCoverageReport, HARD_CHECK_IDS, SOFT_CHECK_IDS } from "./coverage.ts";
 export type { ClassificationPolicy, ClassificationResult } from "./classification.ts";
-export { classify, DEFAULT_CLASSIFICATION_POLICY } from "./classification.ts";
+export { classify, DEFAULT_CLASSIFICATION_POLICY, classificationPolicyFromManifest } from "./classification.ts";
 export type { AcceptancePolicy, AcceptanceResult } from "./acceptance.ts";
 export { evaluate, DEFAULT_ACCEPTANCE_POLICY } from "./acceptance.ts";
+// Spec-shaped result structure with typed failure reasons
+// (SIGNATIF §verification-results).
+export type { SpecVerificationResult, FailureEntry, FailureReason, DowngradeEntry } from "./result.ts";
+export { buildSpecResult } from "./result.ts";
 // Transparency integrity (SIGNATIF Phase 3): consistency proofs,
 // signed tree heads, fork detection. Cross-verifies with the Ruby
 // TransparencyPublisher.
 export type { SignedTreeHead } from "./transparency-consistency.ts";
 export {
   verifyConsistency,
+  verifyConsistencyHeads,
   verifySignedHead,
   detectFork,
   headString,
@@ -130,6 +136,9 @@ export interface VerificationOutcome {
   coverage: import("./coverage.ts").CoverageReport;
   classification: import("./classification.ts").ClassificationResult;
   acceptance: import("./acceptance.ts").AcceptanceResult;
+  /** Spec-shaped result: classified_grade, paths, dimensional_coverage,
+   *  typed failures, downgrades. */
+  result: import("./result.ts").SpecVerificationResult;
 }
 
 export async function verifyArtifact(
@@ -144,5 +153,6 @@ export async function verifyArtifact(
   const coverage = await buildCoverageReport(xml, ctx, results);
   const classification = classify(results, coverage, options?.policy);
   const acceptance = evaluate(coverage, classification, options?.acceptance);
-  return { results, coverage, classification, acceptance };
+  const result = buildSpecResult(coverage, classification, results);
+  return { results, coverage, classification, acceptance, result };
 }
