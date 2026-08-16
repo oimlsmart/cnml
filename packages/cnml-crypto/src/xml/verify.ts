@@ -15,6 +15,8 @@ export interface VerificationResult {
   signatureValid:   boolean;
   digestValid:      boolean;
   certificateChain: string[];
+  /** SignatureMethod URI of the verified signature (algorithm agility). */
+  signatureMethod?: string;
   reason?:          string;
 }
 
@@ -45,6 +47,9 @@ export async function verifyCnmlXml(
     };
   }
 
+  const methodEl = sigEl.getElementsByTagNameNS("http://www.w3.org/2000/09/xmldsig#", "SignatureMethod")[0];
+  const signatureMethod = methodEl?.getAttribute("Algorithm") ?? undefined;
+
   const certEl = sigEl.getElementsByTagNameNS("http://www.w3.org/2000/09/xmldsig#", "X509Certificate")[0];
   const chain: string[] = [];
   if (certEl?.textContent) chain.push(certEl.textContent);
@@ -69,6 +74,7 @@ export async function verifyCnmlXml(
       signatureValid,
       digestValid: signatureValid,
       certificateChain: chain,
+      signatureMethod,
       reason: signatureValid
         ? (chain.length === 0 && !opts.trustedPublicKey
             ? "Signature valid; no X.509 cert in KeyInfo"
@@ -81,6 +87,7 @@ export async function verifyCnmlXml(
       signatureValid:   false,
       digestValid:      false,
       certificateChain: chain,
+      signatureMethod,
       reason:           `Verification error: ${e instanceof Error ? e.message : String(e)}`,
     };
   }

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "published": "2026-08-16",
+  "algorithms": [
+    {
+      "id": "ecdsa-p256",
+      "family": "classical",
+      "status": "active",
+      "reference": "FIPS 186-4",
+      "signatureMethodUris": [
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"
+      ]
+    },
+    {
+      "id": "ed25519",
+      "family": "classical",
+      "status": "active",
+      "reference": "RFC 8032",
+      "signatureMethodUris": [
+        "http://www.w3.org/2021/04/xmldsig#ed25519",
+        "urn:ietf:params:xml:ns:cite:ed25519"
+      ]
+    },
+    {
+      "id": "ml-dsa-65",
+      "family": "post-quantum",
+      "status": "active",
+      "reference": "FIPS 204",
+      "signatureMethodUris": [
+        "http://www.w3.org/2007/05/xmldsig-more#ml-dsa-65"
+      ]
+    },
+    {
+      "id": "composite-ed25519-ml-dsa-65",
+      "family": "composite",
+      "status": "active",
+      "reference": "IETF LAMPS composite signatures (draft)"
+    },
+    {
+      "id": "sha256",
+      "family": "hash",
+      "status": "active",
+      "reference": "FIPS 180-4"
+    }
+  ]
+}

@@ -69,6 +69,14 @@ export interface PqcMigrationPlan {
   readonly target2029?: string;
 }
 
+/** Algorithm agility (SIGNATIF Phase 5). */
+export interface AlgorithmsConfig {
+  /** Migration phase: classical-only | composite | post-quantum-only. */
+  readonly phase?: string;
+  /** Registry ids accepted under the current phase. */
+  readonly active?: readonly string[];
+}
+
 /** Deployment manifest (confium.toml). */
 export interface Manifest {
   readonly deployment: DeploymentHeader;
@@ -79,6 +87,7 @@ export interface Manifest {
   readonly asyncSigning?: AsyncSigningConfig;
   readonly archival?: ArchivalConfig;
   readonly pqcMigration?: PqcMigrationPlan;
+  readonly algorithms?: AlgorithmsConfig;
 }
 
 /** Validation report — list of errors and warnings. */
@@ -223,6 +232,7 @@ function coerceToManifest(obj: Record<string, unknown>): Manifest {
     asyncSigning: parseAsyncSigning(obj.async_signing ?? obj.asyncSigning),
     archival: parseArchival(obj.archival),
     pqcMigration: parsePqcMigration(obj.pqc_migration ?? obj.pqcMigration),
+    algorithms: parseAlgorithms(obj.algorithms),
   };
 }
 
@@ -270,6 +280,15 @@ function parseArchival(raw: unknown): ArchivalConfig | undefined {
   return {
     renewalPeriodYears: typeof obj.renewal_period_years === "number" ? obj.renewal_period_years : 5,
     reSignUnder: (obj.re_sign_under ?? obj.reSignUnder) as string | undefined,
+  };
+}
+
+function parseAlgorithms(raw: unknown): AlgorithmsConfig | undefined {
+  if (typeof raw !== "object" || raw === null) return undefined;
+  const obj = raw as Record<string, unknown>;
+  return {
+    phase: obj.phase as string | undefined,
+    active: obj.active as readonly string[] | undefined,
   };
 }
 
