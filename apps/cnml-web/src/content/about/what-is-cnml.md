@@ -8,7 +8,7 @@ coord: 'ABOUT / 01'
 
 CNML stands for **Certificat Numérique de Métrologie Légale**. The name is French because legal metrology is an international discipline whose institutional language follows the Convention du Mètre, the founding treaty of the metric system, signed in Paris in 1875. The International Bureau of Weights and Measures (BIPM), the International Organization of Legal Metrology (OIML), and their member states conduct their formal work in French. The CNML name follows this convention.
 
-**Certificat** — a formal attestation, issued under authority, that carries legal weight. **Numérique** — digital, machine-readable, cryptographically verifiable. **de Métrologie Légale** — of legal metrology, the field of measurement regulation that ensures instruments used in trade, health, safety, and environmental protection meet statutory requirements.
+**Certificat**: a formal attestation, issued under authority, that carries legal weight. **Numérique**: digital, machine-readable, cryptographically verifiable. **de Métrologie Légale**: of legal metrology, the field of measurement regulation that ensures instruments used in trade, health, safety, and environmental protection meet statutory requirements.
 
 ## What it is
 
@@ -32,11 +32,11 @@ The format was produced under the OIML SMART programme by analyzing every existi
 
 The chain runs from the OIML root through issuing authorities and manufacturers to the individual instrument:
 
-1. **OIML / BIML Root** — threshold-signed by a 5-of-7 director quorum. Delegates type-approval authority to issuing authorities.
-2. **Issuing Authority** — scoped to specific Recommendations. Issues type-approval certificates and delegates signing authority to test laboratories and manufacturers.
-3. **Test Laboratory** — signs evaluation reports. **Manufacturer Model** — receives a delegated signing key for a specific instrument model.
-4. **Manufacturer Instance** — per-device certificate binding serial number, firmware hash, and calibration data to the model certificate.
-5. **Signed Measurements** — every measurement signed by the instrument's attested key, timestamped against Bitcoin, traceable to its calibration state.
+1. **OIML / BIML Root**: threshold-signed by a 5-of-7 director quorum. Delegates type-approval authority to issuing authorities.
+2. **Issuing Authority**: scoped to specific Recommendations. Issues type-approval certificates and delegates signing authority to test laboratories and manufacturers.
+3. **Test Laboratory**: signs evaluation reports. **Manufacturer Model**: receives a delegated signing key for a specific instrument model.
+4. **Manufacturer Instance**: per-device certificate binding serial number, firmware hash, and calibration data to the model certificate.
+5. **Signed Measurements**: every measurement signed by the instrument's attested key, timestamped against Bitcoin, traceable to its calibration state.
 
 A certified tester credential branches from the issuing authority, binding individual evaluators to the Recommendations they are authorized to test.
 
@@ -48,6 +48,6 @@ CNML is complementary to the Digital Calibration Certificate: CNML operates at t
 
 ## Further reading
 
-- [Why CNML](why-cnml) — the case for adopting the format.
-- [How it works](how-it-works) — the five-tier hierarchy and verification pipeline.
-- [Technology](technology) — the standards and cryptographic algorithms.
+- [Why CNML](why-cnml): the case for adopting the format.
+- [How it works](how-it-works): the five-tier hierarchy and verification pipeline.
+- [Technology](technology): the standards and cryptographic algorithms.
