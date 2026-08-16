@@ -71,6 +71,8 @@ export const sections = [
     docs: [
       { slug: 'specifications/signatif-profile', title: 'CNML profile of SIGNATIF', desc: 'The conformance claims, hierarchy mapping, scope dimensions, and gap analysis of CNML as a domain profile of the SIGNATIF trust infrastructure framework.' },
       { slug: 'specifications/signatif-conformance-plan', title: 'SIGNATIF conformance plan', desc: 'The phased implementation plan for full SIGNATIF framework conformance: coverage reports, co-signatures, transparency upgrades, and the closure of every declared gap.' },
+      { slug: 'specifications/signatif-test-mapping', title: 'SIGNATIF test mapping', desc: 'The mapping from every CNML test suite to the SIGNATIF abstract test suite, per claimed conformance class.' },
+      { slug: 'specifications/composition', title: 'Interoperability composition', desc: 'How a CNML certificate composes with W3C Verifiable Credentials and the EU Digital Product Passport.' },
       { slug: 'specifications/cnml-format-spec', title: 'CNML format specification', desc: 'The namespace, document structure, per-Recommendation schema model, and instance certificate format.' },
       { slug: 'specifications/xmldsig-profile', title: 'XMLDSig profile', desc: 'The canonicalization, signature method, reference transforms, and KeyInfo conventions for CNML signatures.' },
       { slug: 'specifications/scope-extension-oid', title: 'Scope extension OID', desc: 'The X.509 v3 extension that binds an Issuing Authority to its OIML-CS scope, and the four-layer enforcement model.' },

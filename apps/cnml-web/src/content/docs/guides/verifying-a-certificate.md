@@ -5,10 +5,10 @@ coord: GUIDE / 03
 
 # Verifying a certificate
 
-This guide covers the CNML verification pipeline: the seven checks,
+This guide covers the CNML verification pipeline: the nine checks,
 how to run them, and how to interpret the results.
 
-## The seven-check pipeline
+## The nine-check pipeline
 
 Every CNML certificate is verified through a data-driven pipeline.
 Each check is a module that exports a `Check` object. The pipeline
@@ -19,10 +19,12 @@ iterates the `CHECKS` array and renders results generically.
 | 1 | XML well-formed | The document is parseable XML |
 | 2 | Schema valid | The document conforms to the per-Recommendation JSON Schema |
 | 3 | Signature valid | The XMLDSig signature verifies against the embedded X.509 cert |
-| 4 | Scope valid | The signer's IA is authorized for the Recommendation on the cert |
-| 5 | CRL status | The certificate is not on a revocation list |
-| 6 | Timestamp | An OpenTimestamps proof anchors the cert to Bitcoin |
-| 7 | Transparency | The cert appears in the public Merkle transparency log |
+| 4 | Dimensional co-signatures | Each co-signer (tester, calibration authority) verified on the same canonical payload |
+| 5 | Scope valid | The signer's IA is authorized for the Recommendation on the cert, and scope conditions hold |
+| 6 | CRL status | The certificate is not on a revocation list, and no bound authority state is revoked |
+| 7 | Evaluation report bound | The evaluation report digest matches the certificate's binding |
+| 8 | Timestamp | An OpenTimestamps proof anchors the cert to Bitcoin |
+| 9 | Transparency | The cert appears in the public Merkle transparency log |
 
 Earlier checks short-circuit later ones. If the XML is malformed,
 there is no point checking the signature.

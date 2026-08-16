@@ -75,9 +75,10 @@ for (const p of PAGES) {
 
 test("home page shows hero + action cards", async ({ page }) => {
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
-  // The hero title uses a <br/> between "Numérique" and "de" which
-  // collapses the space in innerText. Match flexibly.
-  await expect(page.locator("h1").first()).toContainText(/Certificat Numérique\s*de Métrologie Légale/);
+  // The hero title is a functional description; the format name is
+  // deliberately not in the H1 (the name lives in the eyebrow/lede).
+  await expect(page.locator("h1").first()).toContainText(/Verifiable type approvals/);
+  await expect(page.locator("h1").first()).toContainText(/signed measurements/);
   // The hero carries the three primary CTAs.
   await expect(page.getByRole("link", { name: /Explore the format/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Read the docs/ })).toBeVisible();

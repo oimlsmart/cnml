@@ -5,6 +5,12 @@ description: The phased implementation plan for full SIGNATIF framework conforma
 
 # Plan: Full SIGNATIF conformance for CNML
 
+**Status (2026-08-16): phases 1 through 10 are implemented.** The
+record of what each phase delivered and the tests that pin it is the
+[test mapping](signatif-test-mapping); the resulting conformance
+claims are the [profile](signatif-profile). This document stands as
+the design record.
+
 ## Goal state
 
 CNML claims every SIGNATIF conformance class that applies to legal
@@ -60,6 +66,8 @@ post-quantum migration.
 
 
 ## Phase 1: Coverage report, classification, acceptance (foundation)
+
+*Implemented. Delivered: checks/coverage.ts, checks/classification.ts, checks/acceptance.ts, verifyArtifact() in checks/index.ts; trust_grade.ts now delegates to the shared classification engine.*
 
 Everything else reports into this. Build it first.
 
@@ -215,6 +223,8 @@ report rather than a list of check results.
 
 ## Phase 2: Multi-dimensional co-signatures (the "S" in SIGNATIF)
 
+*Implemented. Delivered: xml/cosign.ts (standard XPath-transform co-signatures), checks/dimensions.ts, the CoSignatureType XSD element.*
+
 ### 2.1 Add co-signature slots to the XML format
 
 The CNML XML gains a co-signature wrapper:
@@ -322,6 +332,8 @@ signed what). Qualifies for `/conf/multi-dimensional`.
 
 ## Phase 3: Transparency integrity
 
+*Implemented. Delivered: Ruby: consistency_proof/verify_consistency + signed heads + consistency/ publication. TS: transparency-consistency.ts (verifyConsistency, verifySignedHead, detectFork) with a cross-language fixture.*
+
 ### 3.1 Consistency proofs
 
 Add to `MerkleTree` (Ruby) and the TS verifier:
@@ -376,6 +388,8 @@ rewriting. Foundation for `/conf/mirror`.
 
 ## Phase 4: Revocation propagation
 
+*Implemented. Delivered: xml/state-binding.ts, revocation.ts (state index + propagation), the CRL check extension, the StateBindingType XSD element.*
+
 ### 4.1 Hash-binding to authority states
 
 Add to the artifact format:
@@ -418,6 +432,8 @@ produced under it.
 
 
 ## Phase 5: Algorithm agility
+
+*Implemented. Delivered: algorithms.ts + the published /.well-known/cnml/algorithms.json, the [algorithms] manifest section (TS + Ruby), SignatureMethod-to-status wiring with classification enforcement.*
 
 ### 5.1 Algorithm registry
 
@@ -477,6 +493,8 @@ enforce deprecation timelines.
 
 ## Phase 6: Scope enhancements
 
+*Implemented. Delivered: scope-narrowing.ts (the narrowing invariant + the safe condition language), the scope check evaluating conditions against artifact content.*
+
 ### 6.1 Formal narrowing algorithm
 
 Implement the SIGNATIF narrowing algorithm across all scope
@@ -535,6 +553,8 @@ signing authority to the artifact's actual content.
 
 ## Phase 7: Challenge-response
 
+*Implemented. Delivered: challenge.ts (nonce generation, nonce embedding, freshness-window verification).*
+
 ### 7.1 Challenge generation (verifier side)
 
 ```typescript
@@ -573,6 +593,8 @@ measurement cannot satisfy the nonce challenge.
 
 
 ## Phase 8: Trust graph path-finding
+
+*Implemented. Delivered: trust-graph.ts (findAllPaths over the delegation DAG, root diversity, strongest path per dimension).*
 
 For the current hierarchical topology, linear chain walking is
 conforming. But the infrastructure should support DAGs when
@@ -627,6 +649,8 @@ verification.
 
 ## Phase 9: Conformance test suite mapping
 
+*Implemented. Delivered: the [test mapping](signatif-test-mapping) document.*
+
 ### 9.1 Map existing tests to SIGNATIF abstract test suite
 
 | SIGNATIF class | CNML test coverage |
@@ -647,6 +671,8 @@ test, with pass/fail status.
 
 
 ## Phase 10: Composition documents
+
+*Implemented. Delivered: the [interoperability composition](composition) document.*
 
 ### 10.1 W3C VC composition
 

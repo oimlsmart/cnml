@@ -1,6 +1,6 @@
 ---
 title: CNML profile of SIGNATIF
-description: The conformance claims, hierarchy mapping, and gap analysis of CNML as a domain profile of the SIGNATIF trust infrastructure framework.
+description: The conformance claims, hierarchy mapping, scope dimensions, and gap analysis of CNML as a domain profile of the SIGNATIF trust infrastructure framework.
 ---
 
 # CNML profile of SIGNATIF
@@ -16,6 +16,10 @@ the SIGNATIF standard. CNML's own specifications (the format
 specification, the XMLDSig profile, the scope extension OID, the
 deployment manifest) instantiate those requirements for the
 OIML-CS type-approval tier.
+
+The phased implementation program that closed the gaps below is the
+[conformance plan](signatif-conformance-plan); the test-by-test
+evidence is the [test mapping](signatif-test-mapping).
 
 
 ## Profile identifier
@@ -33,15 +37,16 @@ CNML claims the following SIGNATIF conformance classes.
 
 | `/conf/basic-verifier`
 | Claimed
-| The 7-check pipeline validates format, signature, chain, scope,
-  and revocation. Runs offline in the browser.
+| The 9-check pipeline validates format, signature, dimensions,
+  scope, and revocation. Runs offline in the browser.
 
 | `/conf/full-verifier`
-| Partially claimed
-| Transparency inclusion and time anchoring are implemented.
-  Coverage report and classification are present but not yet
-  separated into the SIGNATIF three-stage model (see
-  [gap list](#gaps)).
+| Claimed
+| The three-stage model is implemented: the coverage report
+  (deterministic objective facts), the classification policy
+  (scheme-declared), the acceptance policy (verifier-declared).
+  Transparency inclusion, consistency proofs, signed tree heads,
+  and algorithm agility are verified.
 
 | `/conf/issuing-authority`
 | Claimed
@@ -57,31 +62,36 @@ CNML claims the following SIGNATIF conformance classes.
 
 | `/conf/transparency-operator`
 | Claimed
-| Append-only Merkle log, inclusion proof issuance, OTS time
-  anchoring. The TransparencyPublisher implements these.
+| Append-only Merkle log, inclusion proof issuance, RFC 6962
+  consistency proofs, signed tree heads, OTS time anchoring. The
+  TransparencyPublisher implements these.
 
 | `/conf/mirror`
 | Not claimed
-| Log mirroring and gossip are not yet implemented. Planned.
+| No second mirror is deployed. The verification-side machinery
+  exists (signed-head verification, fork detection), and the
+  publisher writes the static tree mirrors serve. Claimed when an
+  independent mirror operates.
 
 | `/conf/device-signer`
-| Partially claimed
-| Per-device key lifecycle and artifact signing are implemented
-  (instance cert, signed measurement). Challenge-response is
-  deferred to the SMI project but is normative in SIGNATIF (see
-  [gap list](#gaps)).
+| Claimed
+| Per-device key lifecycle, artifact signing, and the
+  challenge-response protocol (128-bit nonce, freshness window,
+  nonce-bound signing).
 
 | `/conf/hierarchical`
 | Claimed
 | Single root (OIML/BIML), strict tree topology. No federation,
-  no cross-recognition, no mesh.
+  no cross-recognition, no mesh. Path enumeration over a DAG is
+  implemented for when the topology generalizes.
 
 | `/conf/format-xmldsig`
 | Claimed
 | W3C XML Signature 1.1 with Exclusive C14N. Satisfies all five
   binding requirements: canonical representation binding,
   algorithm identification, signer identification, chain
-  availability, self-description.
+  availability, self-description. Co-signatures use the standard
+  XPath transform, so third-party XMLDSig verifiers interoperate.
 
 | `/conf/dimension-data`
 | Claimed
@@ -89,11 +99,10 @@ CNML claims the following SIGNATIF conformance classes.
   attests the canonical payload. This is the data dimension.
 
 | `/conf/dimension-person`
-| Partially claimed
+| Claimed
 | The certified tester credential binds an individual evaluator
-  to the Recommendation they are authorized to test. Operator
-  co-signature on measurements is specified but lives in the
-  SMI project.
+  to the Recommendations they are authorized to test, and the
+  tester's key co-signs the certificate they worked on.
 
 | `/conf/dimension-time`
 | Claimed
@@ -104,8 +113,8 @@ CNML claims the following SIGNATIF conformance classes.
 | `/conf/dimension-authorization`
 | Claimed
 | The scope governance model (X.509 v3 extension, four-layer
-  enforcement) attests that the signing act was permitted for
-  the named Recommendation.
+  enforcement, formal narrowing, scope conditions) attests that
+  the signing act was permitted for the named Recommendation.
 
 | `/conf/dimension-location`
 | Not claimed
@@ -113,11 +122,10 @@ CNML claims the following SIGNATIF conformance classes.
   for the legal-metrology use case.
 
 | `/conf/dimension-environment`
-| Not claimed
-| No sensor co-signature. The D 11 environmental test results
-  are in the certificate payload but are not independently
-  signed as a separate trust dimension. Candidate for the
-  calibration-state dimension (see [gap list](#gaps)).
+| Claimed
+| The calibration authority co-signs the artifact
+  (environment-dimension co-signature), and the calibration
+  state is hash-bound into the canonical payload.
 
 | `/conf/dimension-identity`
 | Claimed
@@ -126,11 +134,19 @@ CNML claims the following SIGNATIF conformance classes.
   specific hardware/software configuration.
 
 | `/conf/multi-dimensional`
-| Not yet claimed
-| Requires convergence of three or more independent trust
-  dimensions on a single artifact. CNML currently has two
-  (data + time). Adding the person dimension (operator
-  co-signature) would qualify (see [gap list](#gaps)).
+| Claimed
+| Data + person + environment (+ time) converge on co-signed
+  artifacts. The coverage report records the dimension set; the
+  classification policy requires data + time for the top label
+  and is extensible to require more.
+
+| `/conf/federated`
+| Evaluated
+| The BIML root quorum of national member representatives is a
+  threshold group of independent organizations. Whether it
+  constitutes a federated trust authority under the SIGNATIF
+  definition is documented as an evaluation, not a claim; the
+  trust-graph machinery admits federation when needed.
 |===
 
 
@@ -169,7 +185,7 @@ four-level delegation model.
 | Certified tester
 | End certificate
 | Individual credential scoped to specific Recommendations;
-  signs evaluation work
+  signs the evaluations they produced
 | 1-of-1 (personal key)
 
 | Instance certificate
@@ -180,8 +196,9 @@ four-level delegation model.
 
 | Signed measurement
 | Trusted artifact
-| Value, timestamp, conditions, calibration state hash, signature
-| Primary + planned co-signatures
+| Value, timestamp, conditions, calibration state hash, nonce,
+  signature
+| Primary + co-signatures
 |===
 
 
@@ -210,25 +227,29 @@ CNML uses the following scope dimensions.
 | IA narrows to the individual tester credential
 |===
 
-The `recommendation` dimension is enforced by the X.509 v3 scope
-extension OID with four-layer enforcement (CA signing, cert
-embedding, verification pipeline, transparency log). The `model`
-and `serial` dimensions narrow through the certificate chain
-(model cert to instance cert). The `tester` dimension narrows
+The narrowing invariant is implemented (`narrowed(parent, child)` in
+`scope-narrowing.ts`): wildcard ⊇ set ⊇ single across every
+dimension, with monotonic conditions (a child carries every parent
+condition). The `recommendation` dimension is enforced by the X.509
+v3 scope extension OID with four-layer enforcement; `model` and
+`serial` narrow through the certificate chain; `tester` narrows
 through the tester credential.
 
-**Gap: CNML's scope is primarily one-dimensional** (recommendation).
-The SIGNATIF multi-dimensional narrowing algorithm (wildcard, set,
-single, conditions) is not yet implemented. The model and serial
-dimensions exist structurally but are not enforced by a formal
-narrowing invariant. Scope conditions (executable predicates
-evaluated at verification time) are not implemented.
+Scope conditions are implemented: executable predicates
+(`<cnml:scopeCondition id="temp-range">`) in a small safe expression
+language (AND-joined comparisons over dotted paths), evaluated at
+verification time against the artifact's own content. Unknown values
+and type mismatches fail closed.
 
 
 ## Algorithms
 
 CNML recognizes the following algorithms from the SIGNATIF
-algorithm registry.
+algorithm registry. The registry is a versioned document published
+at the well-known URL `/.well-known/cnml/algorithms.json` and
+mirrored in the deployment manifest's `[algorithms]` section, which
+also declares the migration phase (classical-only, composite,
+post-quantum-only).
 
 .CNML algorithm registry entries
 |===
@@ -260,11 +281,9 @@ algorithm registry.
 | Used for digests, transparency log, OTS anchoring
 |===
 
-**Gap: no algorithm agility registry or deprecation process.**
-CNML does not declare algorithm statuses (active, deprecated,
-retired) in a registry, does not publish deprecation timelines,
-and does not declare the migration phase in the deployment
-manifest.
+Verifier enforcement is implemented: active algorithms accept
+normally, deprecated downgrades the classification one label,
+retired hard-fails.
 
 
 ## Transparency configuration
@@ -280,22 +299,25 @@ configuration.
 | Append-only Merkle tree (RFC 6962 model)
 
 | Inclusion proofs
-| Implemented; leaf hash plus audit path to signed tree head
+| Implemented; leaf hash plus audit path to the signed tree head
 
 | Consistency proofs
-| Not yet implemented (see [gap list](#gaps))
+| Implemented; RFC 6962 §2.1.4, exhaustive verification across
+  all size pairs, cross-language (Ruby log → browser verifier)
 
 | Log head signatures
-| Not yet implemented (see [gap list](#gaps))
+| Implemented; ECDSA P-256 over the canonical head string,
+  verified before trusting proofs against the head
 
 | External time anchoring
 | OpenTimestamps to Bitcoin
 
-| Gossip
-| Not yet implemented (see [gap list](#gaps))
+| Fork detection
+| Implemented; the gossip invariant (one root per tree size)
 
 | Mirrors
-| Not yet implemented
+| Verification-side and publication-side machinery implemented;
+  no second mirror deployed
 
 | Multi-log attestation
 | Not yet implemented; single log operator
@@ -305,22 +327,18 @@ configuration.
 ## Deployment manifest
 
 The CNML deployment manifest (confium.toml) declares the
-hierarchy, quorums, algorithms, and transparency endpoints per
-the SIGNATIF manifest schema. See the
+hierarchy, quorums, algorithms, transparency endpoints, and the
+algorithm migration phase per the SIGNATIF manifest schema. See the
 [deployment manifest specification](deployment-manifest).
-
-**Gap: the manifest does not declare the classification policy**
-or the migration phase (classical-only, composite,
-post-quantum-only).
 
 
 ## Verification pipeline
 
-The CNML verification pipeline runs seven checks in order:
-XML well-formed, schema valid, signature, scope, CRL, evaluation
-report binding, timestamp, and transparency log inclusion. The
-pipeline short-circuits on hard failures; soft checks produce
-warnings.
+The CNML verification pipeline runs nine checks in order: XML
+well-formed, schema valid, signature, dimensional co-signatures,
+scope, CRL, evaluation report binding, timestamp, and transparency
+log inclusion. The pipeline short-circuits on hard failures; soft
+checks produce warnings.
 
 The check-to-SIGNATIF-pipeline mapping.
 
@@ -340,44 +358,51 @@ The check-to-SIGNATIF-pipeline mapping.
 | Signature validity
 | Hard
 
-| 4. Issuer authorized
+| 4. Dimensional co-signatures
+| Dimensional attestation (multi-dimensional)
+| Soft (broken co-signature downgrades to C)
+
+| 5. Issuer authorized
 | Scope narrowing + scope conditions
 | Hard
 
-| 5. Not revoked
-| Revocation status
+| 6. Not revoked
+| Revocation status + state-binding propagation
 | Hard
 
-| 6. Evaluation report bound
+| 7. Evaluation report bound
 | (CNML-specific; hash-binding to authority state)
 | Soft
 
-| 7. Blockchain timestamp
+| 8. Blockchain timestamp
 | Time anchor
 | Soft
 
-| 8. Transparency log entry
+| 9. Transparency log entry
 | Transparency inclusion
 | Soft
 |===
 
 CNML adds one check not in the SIGNATIF baseline: the evaluation
-report binding (check 6) binds the certificate to the test
+report binding (check 7) binds the certificate to the test
 laboratory's signed evaluation report digest. This is a
-legal-metrology-specific soft check that anticipates the
+legal-metrology-specific soft check that instantiates the
 SIGNATIF hash-binding model.
 
-The trust grade computation (A+ through F) maps the check
-results to a classification label.
+The three-stage model is implemented:
 
-**Gap: CNML conflates coverage report, classification policy,
-and acceptance policy.** The check results are the coverage
-report; the trust grade is the classification label; the
-verifier's decision is the acceptance policy. These three are
-not yet cleanly separated into the SIGNATIF three-stage model
-where the coverage report is a deterministic function of the
-artifact and path set, the classification policy is declared by
-the scheme, and the acceptance policy is set by the verifier.
+1. **Coverage report**: a deterministic function of the artifact,
+   the trust anchor bundle, and the verifier's cached state:
+   hard/soft check results, all verification paths, dimensional
+   coverage, algorithm observations.
+2. **Classification policy**: scheme-declared label rules
+   (A+ through F): any hard failure is F; hard warnings cap at B;
+   soft outcomes downgrade per policy; the top label requires the
+   data and time dimensions plus transparency and time anchoring;
+   deprecated algorithms downgrade one label, retired hard-fail.
+3. **Acceptance policy**: the verifier's own decision layer:
+   minimum label, required dimensions, transparency and timestamp
+   requirements, freshness window. Default: accept anything not F.
 
 
 ## Dimensional attestation model
@@ -399,7 +424,7 @@ CNML artifacts carry the following dimensional attestations.
 
 | Authorization
 | Scope extension attests the signing act was permitted for the
-  named Recommendation
+  named Recommendation; formal narrowing + scope conditions
 | Implemented
 
 | Identity
@@ -408,23 +433,42 @@ CNML artifacts carry the following dimensional attestations.
 | Implemented
 
 | Person
-| Certified tester credential binds the evaluator to their work
-  (type-approval tier); operator co-signature on measurements
-  (measurement tier, lives in SMI project)
-| Partially implemented
+| Certified co-signature on the certificate the tester
+  evaluated
+| Implemented
 
 | Environment
-| Calibration state hash embedded in the signed measurement
-| Specified, not fully implemented as an independent dimension
+| Calibration-authority co-signature; calibration state
+  bound into the canonical payload
+| Implemented
 |===
 
-**Gap: no multi-dimensional convergence.** The `/conf/multi-dimensional`
-profile requires at least three independent dimension attestations
-from different trust dimensions on a single artifact. CNML
-currently achieves two (data + time) on type-approval certificates.
-Adding the person dimension (operator co-signature) or promoting
-the environment dimension (calibration state as a signed
-co-signature rather than an embedded hash) would qualify.
+Co-signatures cover the same canonical payload as the primary
+signature (the root element minus all Signature and coSignature
+nodes, exclusive C14N), via the standard W3C XPath transform. Each
+is independently verifiable and carries its dimension in the
+wrapper element.
+
+
+## Revocation propagation
+
+Artifacts hash-bind the authority states they were produced under
+(`<cnml:stateBinding>`): calibration, evaluation, compliance. The
+binding is part of the canonical payload, so every signer attests
+the bound states. When a state is revoked, the log's state index
+identifies every artifact bound to that hash, and verification
+(check 6) fails any artifact whose binding intersects the revoked
+set. Revocation reaches measurements.
+
+
+## Challenge-response
+
+The device-signer challenge-response protocol is implemented: the
+verifier generates a 128-bit nonce; the instrument answers with a
+signed measurement carrying that nonce and a fresh timestamp; the
+verifier checks nonce equality and the freshness window. The nonce
+is inside the canonical payload, so a replayed or static answer
+cannot satisfy the challenge.
 
 
 ## Chain discovery
@@ -435,6 +479,11 @@ resolves the root from the trust anchor bundle, and includes
 transparency log sequence numbers for freshness and audit. This
 is the strategy SIGNATIF recommends for production deployments.
 
+For topologies that admit multiple paths, path enumeration over
+the trust-graph DAG is implemented (all paths, root diversity,
+strongest path per dimension). For the current hierarchical
+topology it yields exactly one path, which is conforming.
+
 
 ## Passport
 
@@ -443,160 +492,64 @@ instance certificate. It carries the certificate identifier,
 device identity, certificate chain summary, Recommendation,
 revocation status, and verification URL. It is served as HTML
 (human-readable) and JSON-LD (machine-readable), satisfying the
-SIGNATIF passport requirements.
+SIGNATIF passport requirements. Its composition with W3C Verifiable
+Credentials and the EU Digital Product Passport is specified in
+the [composition document](composition).
 
 
 ## Gaps and closure status {#gaps}
 
-The following gaps exist between CNML's current implementation
-and the SIGNATIF normative requirements. Gaps are ordered by
-impact on conformance. The phased schedule for closing them is
-the [conformance plan](signatif-conformance-plan).
+The gaps below were recorded against the SIGNATIF normative
+requirements and closed by the [conformance plan](signatif-conformance-plan).
+The remaining open items are listed last.
 
-### Structural gaps
+### Closed
 
-.Multi-dimensional co-signatures.
-SIGNATIF's "Sealed" property requires independent co-signatures,
-one per trust dimension. CNML has the primary signature and the
-time anchor but does not support co-signatures from independent
-signers on the same canonical payload. **Closure: implement
-co-signature slots in the artifact format; add the person
-dimension (operator co-signature) and the environment dimension
-(calibration-state co-signature).**
+- **Multi-dimensional co-signatures**: closed. Co-signature slots
+  in the artifact format; person (certified tester) and
+  environment (calibration authority) dimensions implemented.
+- **Coverage report separation**: closed. Deterministic coverage
+  report, scheme-declared classification policy, verifier-declared
+  acceptance policy.
+- **Consistency proofs**: closed. RFC 6962 §2.1.4 in the log and
+  the verifier, cross-language tested.
+- **Log head signatures**: closed. Signed heads published and
+  verified before trusting proofs.
+- **Revocation propagation**: closed. Hash-binding to authority
+  states; the state index propagates revocation to bound
+  artifacts.
+- **Algorithm agility registry**: closed. Versioned registry at
+  the well-known URL, mirrored in the manifest, enforced by the
+  classification policy.
+- **Challenge-response**: closed. Nonce generation, freshness
+  window, nonce-bound signing.
+- **Scope conditions**: closed. Safe expression language,
+  evaluated at verification time, fail-closed.
+- **Multi-dimensional scope narrowing**: closed. Formal
+  narrowing invariant across all dimensions with monotonic
+  conditions.
+- **Trust graph path-finding**: closed. Path enumeration with
+  cycle protection and root diversity.
+- **Conformance test suite mapping**: closed. See the
+  [test mapping](signatif-test-mapping).
+- **W3C VC composition**: closed. See the
+  [composition document](composition).
+- **EU DPP composition**: closed. See the
+  [composition document](composition).
 
-.Trust graph path-finding.
-SIGNATIF generalizes the chain to a DAG with multiple valid
-paths. CNML walks a single linear chain. **Closure: implement
-path enumeration when the trust graph admits multiple paths.
-For the current hierarchical topology, linear chain walking is
-sufficient and conforming.**
+### Open
 
-.Coverage report separation.
-SIGNATIF separates coverage report (objective facts),
-classification policy (scheme-defined), and acceptance policy
-(verifier-defined). CNML conflates these in the check pipeline
-and trust grade. **Closure: define the coverage report as a
-deterministic JSON structure; declare the classification policy
-in the deployment manifest; expose the acceptance policy as
-verifier configuration.**
-
-### Feature gaps
-
-.Consistency proofs.
-The transparency log cannot prove it is append-only between two
-tree heads. **Closure: implement RFC 6962 consistency proofs in
-the TransparencyPublisher and the verification check.**
-
-.Log head signatures.
-The tree head is published but not signed by the log operator.
-**Closure: sign each tree head with the log operator key;
-verify in the transparency check.**
-
-.Gossip protocol.
-No gossip between mirror operators. **Closure: implement the
-gossip protocol when mirrors exist. Depends on `/conf/mirror`.**
-
-.Multi-log attestation.
-Single log operator; no M-of-K model. **Closure: declare
-multi-log policy in the deployment manifest when multiple log
-operators exist.**
-
-.Revocation propagation.
-Revocation checks the CRL but does not propagate to hash-bound
-measurements. **Closure: implement hash-binding to authority
-states in the artifact format; implement the propagation query
-against the transparency log index.**
-
-.Algorithm agility registry.
-No registry of algorithm statuses, no deprecation process.
-**Closure: publish the algorithm registry; declare the migration
-phase in the deployment manifest; implement deprecation
-timelines.**
-
-.Challenge-response.
-Normative for `/conf/device-signer` in SIGNATIF. Deferred to
-the SMI project in CNML (ADR-0006). **Closure: implement the
-challenge-response protocol (nonce generation, freshness window,
-nonce-bound artifact signing) or claim an explicit exception.**
-
-.Scope conditions.
-No executable predicates evaluated at verification time.
-**Closure: define the scope condition language; embed conditions
-in the scope extension; evaluate in check 4.**
-
-.Multi-dimensional scope narrowing.
-The `recommendation` dimension has a narrowing invariant but it
-is not formalized per the SIGNATIF algorithm (wildcard, set,
-single, conditions). **Closure: implement the formal narrowing
-algorithm across all scope dimensions.**
-
-### Documentation gaps
-
-.Conformance test suite.
-SIGNATIF requires passing the abstract test suite for claimed
-conformance classes. **Closure: map CNML's existing test vectors
-and unit tests to the SIGNATIF abstract test suite; publish the
-mapping.**
-
-.W3C VC composition.
-SIGNATIF Annex G describes composition with W3C Verifiable
-Credentials. **Closure: document how a CNML certificate can be
-expressed as a VC payload with the SIGNATIF dimensions as
-co-signatures.**
-
-.EU DPP composition.
-SIGNATIF Annex H describes composition with the EU Digital
-Product Passport. The CNML passport is structurally similar to
-a DPP data carrier. **Closure: document the mapping between
-the CNML passport and the DPP data carrier requirements.**
-
-.Federated trust authority.
-CNML does not clearly support SIGNATIF's federated trust
-authority model (threshold groups of independent organizations).
-**Closure: document whether the BIML root quorum of national
-representatives constitutes a federated trust authority, or
-whether a formal federation model is needed.**
-
-
-## Composition with W3C Verifiable Credentials
-
-This section is informative. It describes how a CNML certificate
-composes with W3C Verifiable Credentials per SIGNATIF Annex G.
-
-A CNML type-approval certificate is the payload of a Verifiable
-Credential. The CNML signature (threshold or delegated) is the
-VC proof. The SIGNATIF dimensional co-signatures (when
-implemented) would add independent attestations on the same
-content. The VC credentialSubject is the measuring instrument
-type (model designation, manufacturer, Recommendation).
-
-A CNML instance certificate is similarly expressible as a VC
-about a specific instrument instance (serial number, firmware
-hash, manufacturing date).
-
-The CNML passport JSON-LD is already structurally close to a VC:
-it has an `@context`, a `@type`, and subject identification.
-Adding a `proof` field with the CNML signature would produce a
-valid VC.
-
-
-## Composition with the EU Digital Product Passport
-
-This section is informative. It describes how CNML composes with
-the EU Digital Product Passport per SIGNATIF Annex H.
-
-The CNML QR code on the instrument body is a DPP data carrier:
-it is self-contained, carries error correction, and includes a
-version identifier. The CNML passport endpoint is the connected
-resolution path. The transparency log satisfies the registry
-function (with the multi-log model providing the decentralized
-registry property).
-
-The unique product identifier maps to the instance certificate
-ID. Successive certificate versions (renewal, re-issue) follow
-the version compatibility rules. The manufacturer is the
-economic operator (delegated trust authority). The IA is the
-market surveillance authority's verification reference.
+- **Mirror deployment.** The gossip and mirror-verification
+  machinery exists, but no independent mirror operates. `/conf/mirror`
+  is claimed when one does.
+- **Gossip between live mirrors.** Depends on mirror deployment.
+- **Multi-log attestation.** Single log operator; declare the
+  multi-log policy in the manifest when multiple operators exist.
+- **Federated trust authority determination.** Documented as an
+  evaluation; a formal federation model is not needed for the
+  current hierarchy.
+- **Location dimension.** Not required for the legal-metrology
+  use case.
 
 
 ## References
@@ -609,3 +562,5 @@ market surveillance authority's verification reference.
 - CNML scope extension OID: [scope-extension-oid](scope-extension-oid)
 - CNML deployment manifest: [deployment-manifest](deployment-manifest)
 - SIGNATIF conformance plan: [signatif-conformance-plan](signatif-conformance-plan)
+- SIGNATIF test mapping: [signatif-test-mapping](signatif-test-mapping)
+- Interoperability composition: [composition](composition)

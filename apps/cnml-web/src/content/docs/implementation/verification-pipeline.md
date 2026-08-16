@@ -1,6 +1,6 @@
 ---
 title: Verification pipeline
-description: The seven-check verification pipeline, the Check registry pattern, and the scope check that binds the OIML-CS DoMC framework to the verifier.
+description: The nine-check verification pipeline, the Check registry pattern, the SIGNATIF three-stage model, and the scope check that binds the OIML-CS DoMC framework to the verifier.
 ---
 
 # Verification pipeline
@@ -15,15 +15,17 @@ Every check is a module that exports a `Check` object. The `Check` interface is 
 
 The verifier component in the web application (`VerifyDrop.vue`) iterates the `CHECKS` array from `packages/cnml-crypto/src/checks/index.ts`. It runs each check in order, renders the outcome generically, and stops the pipeline at the first failure. The ordering is deliberate: a check that depends on a property established by an earlier check can assume that property holds.
 
-## The seven checks
+## The nine checks
 
-The current pipeline runs seven checks in the following order.
+The current pipeline runs nine checks in the following order.
 
 **XML well-formedness.** The submitted file must parse as valid XML. This check catches encoding errors, truncated files, and malformed markup. A file that fails this check cannot be processed further.
 
 **Schema validity.** The parsed XML must conform to the CNML XSD schema and to the per-Recommendation JSON Schema. The verifier reads the recommendation identifier from the certificate, selects the corresponding Recommendation schema from the schema registry, and validates the certificate against it. A file that fails this check may have missing required fields, invalid field values, or a recommendation identifier that does not correspond to a loaded schema.
 
 **Signature validity.** The XMLDSig signature embedded in the certificate must be mathematically correct. The verifier canonicalizes the signed element using Exclusive C14N, recomputes the digest, and validates the signature against the public key in the `ds:KeyInfo` element. This check confirms that the certificate has not been tampered with after signing. It does not confirm that the signer is trusted, which is the purpose of later checks.
+
+**Dimensional co-signatures.** Each `cnml:coSignature` wrapper on the certificate is verified against the same canonical payload as the primary signature. Every verified co-signature records its trust dimension (person, environment) in the coverage report. A broken co-signature is evidence of tampering and downgrades the classification; absent co-signatures are simply unattested dimensions.
 
 **Scope enforcement.** The recommendation identifier in the certificate must fall within the scope of the Issuing Authority that signed it. The scope check reads the `oimlAuthorizedRecommendations` X.509 v3 extension from the IA intermediate certificate in the chain, or falls back to the `trust-anchors.json` manifest entry that matches the intermediate's fingerprint. If the recommendation identifier is not in the authorized list, the check fails. This check is developed further below.
 
@@ -32,6 +34,16 @@ The current pipeline runs seven checks in the following order.
 **Timestamp anchoring.** The certificate must carry an OpenTimestamps proof or an RFC 3161 time-stamp token that binds the signing time to an external time authority. The verifier validates the timestamp proof and confirms that the signing time falls within the certificate's validity period.
 
 **Transparency-log inclusion.** The certificate must appear in the public Merkle transparency log. The verifier checks the inclusion proof against the current log head. A certificate that is not in the log may be a forgery, since every legitimately issued certificate is appended to the log at issuance time.
+
+## The three-stage model
+
+The check engine feeds a three-stage verification model (the SIGNATIF framework's separation of concerns):
+
+1. **Coverage report.** A deterministic function of the artifact, the trust anchor bundle, and the verifier's cached state: the hard and soft check results, all valid verification paths to the root anchors, the dimensional coverage (which trust dimensions are attested and by whom), and the algorithms observed with their registry status. Two conforming verifiers with the same inputs produce identical coverage reports.
+2. **Classification policy.** The scheme declares how a coverage report maps to a label (A+ through F). Any hard check failure is F; hard warnings cap at B; soft outcomes downgrade per policy; the top label requires the data and time dimensions plus transparency inclusion and a time anchor; deprecated algorithms downgrade one label and retired algorithms hard-fail.
+3. **Acceptance policy.** The verifier configures which labels it accepts (a customs inspection may require B or better while a routine check accepts C), which dimensions it demands beyond the classification, and how fresh its verification state must be. The default accepts anything that is not F.
+
+The verify page surfaces all three: the check tiles, the classification label with the attested dimensions, and the acceptance verdict.
 
 ## Adding a new check
 
