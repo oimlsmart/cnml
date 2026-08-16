@@ -22,8 +22,27 @@ import { crlCheck } from "./crl.ts";
 import { erBindingCheck } from "./er_binding.ts";
 import { timestampCheck } from "./timestamp.ts";
 import { transparencyCheck } from "./transparency.ts";
+import { buildCoverageReport } from "./coverage.ts";
+import { classify } from "./classification.ts";
+import { evaluate } from "./acceptance.ts";
 
 export type { Check, CheckContext, CheckResult };
+
+// SIGNATIF three-stage verification model:
+// coverage (objective facts) → classification (scheme policy) →
+// acceptance (verifier policy).
+export type {
+  CoverageReport,
+  HardCheckResult,
+  SoftCheckResult,
+  VerificationPath,
+  DimensionCoverage,
+} from "./coverage.ts";
+export { buildCoverageReport, HARD_CHECK_IDS, SOFT_CHECK_IDS } from "./coverage.ts";
+export type { ClassificationPolicy, ClassificationResult } from "./classification.ts";
+export { classify, DEFAULT_CLASSIFICATION_POLICY } from "./classification.ts";
+export type { AcceptancePolicy, AcceptanceResult } from "./acceptance.ts";
+export { evaluate, DEFAULT_ACCEPTANCE_POLICY } from "./acceptance.ts";
 
 // The CRL leg's helpers — the app's revocation
 // propagation extracts the signing cert's serial with these.
@@ -81,4 +100,35 @@ export async function runChecks(
     if (result.status === "fail" && !check.continueOnFail) break;
   }
   return results;
+}
+
+/**
+ * The SIGNATIF three-stage verification entry point.
+ *
+ * Stage 1: the coverage report (objective, deterministic facts).
+ * Stage 2: classification under a scheme-declared policy.
+ * Stage 3: acceptance under the verifier's own policy.
+ *
+ * runChecks remains the raw check engine; verifyArtifact wraps it.
+ */
+export interface VerificationOutcome {
+  results: CheckResult[];
+  coverage: import("./coverage.ts").CoverageReport;
+  classification: import("./classification.ts").ClassificationResult;
+  acceptance: import("./acceptance.ts").AcceptanceResult;
+}
+
+export async function verifyArtifact(
+  xml: string,
+  ctx: CheckContext,
+  options?: {
+    policy?: import("./classification.ts").ClassificationPolicy;
+    acceptance?: import("./acceptance.ts").AcceptancePolicy;
+  },
+): Promise<VerificationOutcome> {
+  const results = await runChecks(xml, ctx);
+  const coverage = await buildCoverageReport(xml, ctx, results);
+  const classification = classify(results, coverage, options?.policy);
+  const acceptance = evaluate(coverage, classification, options?.acceptance);
+  return { results, coverage, classification, acceptance };
 }

@@ -1,5 +1,15 @@
 import type { Check, CheckResult } from "./types.ts";
 import { verifyCnmlXml } from "../index.ts";
+import { sha256Hex } from "../hash.ts";
+import { base64ToBytes } from "../shared/base64.ts";
+
+async function fingerprintCert(base64Der: string): Promise<string> {
+  try {
+    return await sha256Hex(base64ToBytes(base64Der));
+  } catch {
+    return "";
+  }
+}
 
 /** Check 3: XMLDSig signature. Wraps the existing verifyCnmlXml and
  *  translates its output to a CheckResult. Sets ctx.issuerScope for
@@ -47,6 +57,11 @@ export const signatureCheck: Check = {
     // Stash the certificate chain for the scope check.
     if (result.certificateChain.length > 0) {
       ctx.trustedCerts = result.certificateChain;
+      ctx.chainLength = result.certificateChain.length;
+      ctx.signerFingerprint = await fingerprintCert(result.certificateChain[0]);
+      ctx.rootAnchorFingerprint = await fingerprintCert(
+        result.certificateChain[result.certificateChain.length - 1],
+      );
     }
 
     if (result.signatureValid && result.digestValid) {
