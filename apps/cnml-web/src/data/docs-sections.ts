@@ -69,6 +69,7 @@ export const sections = [
   {
     title: 'Specifications',
     docs: [
+      { slug: 'specifications/signatif-profile', title: 'CNML profile of SIGNATIF', desc: 'The conformance claims, hierarchy mapping, scope dimensions, and gap analysis of CNML as a domain profile of the SIGNATIF trust infrastructure framework.' },
       { slug: 'specifications/cnml-format-spec', title: 'CNML format specification', desc: 'The namespace, document structure, per-Recommendation schema model, and instance certificate format.' },
       { slug: 'specifications/xmldsig-profile', title: 'XMLDSig profile', desc: 'The canonicalization, signature method, reference transforms, and KeyInfo conventions for CNML signatures.' },
       { slug: 'specifications/scope-extension-oid', title: 'Scope extension OID', desc: 'The X.509 v3 extension that binds an Issuing Authority to its OIML-CS scope, and the four-layer enforcement model.' },
