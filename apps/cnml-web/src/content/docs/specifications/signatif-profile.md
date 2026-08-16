@@ -450,7 +450,8 @@ SIGNATIF passport requirements.
 
 The following gaps exist between CNML's current implementation
 and the SIGNATIF normative requirements. Gaps are ordered by
-impact on conformance.
+impact on conformance. The phased schedule for closing them is
+the [conformance plan](signatif-conformance-plan).
 
 ### Structural gaps
 
@@ -607,3 +608,4 @@ market surveillance authority's verification reference.
 - CNML XMLDSig profile: [xmldsig-profile](xmldsig-profile)
 - CNML scope extension OID: [scope-extension-oid](scope-extension-oid)
 - CNML deployment manifest: [deployment-manifest](deployment-manifest)
+- SIGNATIF conformance plan: [signatif-conformance-plan](signatif-conformance-plan)
