@@ -537,19 +537,37 @@ The remaining open items are listed last.
 - **EU DPP composition**: closed. See the
   [composition document](composition).
 
+### Federated trust authority evaluation
+
+SIGNATIF defines a federated trust authority as a threshold group of
+independent organizations jointly operating a root. The BIML root
+quorum (5-of-7 CIML directors, each a national member
+representative) satisfies that definition in substance: the signers
+are independent organizations, no single signer can produce a
+signature, and the ceremony records bind each signing act to its
+director. CNML therefore documents the BIML quorum as a de-facto
+federated trust authority and does not build a separate federation
+construct. Should cross-recognition with another root arrive, the
+trust-graph machinery (path enumeration, root diversity) already
+admits the multi-root topology, and a formal federation model can be
+adopted then.
+
 ### Open
 
-- **Mirror deployment.** The gossip and mirror-verification
-  machinery exists, but no independent mirror operates. `/conf/mirror`
-  is claimed when one does.
-- **Gossip between live mirrors.** Depends on mirror deployment.
-- **Multi-log attestation.** Single log operator; declare the
-  multi-log policy in the manifest when multiple operators exist.
-- **Federated trust authority determination.** Documented as an
-  evaluation; a formal federation model is not needed for the
-  current hierarchy.
-- **Location dimension.** Not required for the legal-metrology
-  use case.
+- **Mirror deployment.** The verification machinery is complete:
+  signed-head verification, leafless consistency verification, fork
+  detection, and the gossip-quorum check (t-of-n sources must agree
+  on a head). `/conf/mirror` is claimed when an independent mirror
+  actually operates.
+- **Multi-log deployment.** The M-of-K policy and quorum evaluation
+  are implemented; a second log operator is not yet run. The policy
+  is declared when one is.
+- **Registry signing ceremony.** The signature machinery is
+  implemented (sign + verify over the canonical registry string);
+  the published registry is signed when the scheme operator performs
+  the ceremony. Verifiers may require a signed registry.
+- **Location dimension.** Not required for the legal-metrology use
+  case; the co-signature format supports it if needed.
 
 
 ## References

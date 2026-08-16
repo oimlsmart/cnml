@@ -32,6 +32,11 @@ export interface AlgorithmRegistry {
   version: number;
   published: string;
   algorithms: readonly AlgorithmEntry[];
+  /** P-1363 raw r||s hex over registryString() — present when the
+   *  scheme operator has signed the registry. */
+  signature?: string;
+  /** SPKI PEM of the signing key. */
+  public_key?: string;
 }
 
 export const ALGORITHMS_WELL_KNOWN_URL = "/.well-known/cnml/algorithms.json";
@@ -82,6 +87,69 @@ export const DEFAULT_ALGORITHM_REGISTRY: AlgorithmRegistry = {
     },
   ],
 };
+
+/**
+ * The canonical string covered by a registry signature: version,
+ * publication date, and each algorithm's id and status in order.
+ */
+export function registryString(registry: AlgorithmRegistry): string {
+  const algos = registry.algorithms
+    .map((a) => `${a.id}:${a.status}`)
+    .join(";");
+  return `CNML-ALG-REGISTRY-v1|${registry.version}|${registry.published}|${algos}`;
+}
+
+export interface RegistryVerification {
+  signed: boolean;
+  verified: boolean;
+  reason?: string;
+}
+
+/**
+ * Verify the registry's operator signature. An unsigned registry is
+ * reported as such (verified: true only when signing is not required
+ * by the caller); a signed registry must verify or it is rejected.
+ */
+export async function verifyAlgorithmRegistry(
+  registry: AlgorithmRegistry,
+  requireSigned = false,
+): Promise<RegistryVerification> {
+  if (!registry.signature) {
+    return requireSigned
+      ? { signed: false, verified: false, reason: "registry is not signed" }
+      : { signed: false, verified: true };
+  }
+  if (!registry.public_key) {
+    return { signed: true, verified: false, reason: "signature without a public key" };
+  }
+  const b64 = registry.public_key
+    .replace(/-----BEGIN [A-Z0-9 ]+-----/g, "")
+    .replace(/-----END [A-Z0-9 ]+-----/g, "")
+    .replace(/\s+/g, "");
+  const spki = new Uint8Array(atob(b64).split("").map((c) => c.charCodeAt(0)));
+  let key: CryptoKey;
+  try {
+    key = await crypto.subtle.importKey(
+      "spki",
+      spki,
+      { name: "ECDSA", namedCurve: "P-256" },
+      true,
+      ["verify"],
+    );
+  } catch (e) {
+    return { signed: true, verified: false, reason: `bad public key: ${(e as Error).message}` };
+  }
+  const sig = new Uint8Array(registry.signature.match(/.{2}/g)?.map((h) => parseInt(h, 16)) ?? []);
+  const ok = await crypto.subtle.verify(
+    { name: "ECDSA", hash: "SHA-256" },
+    key,
+    sig,
+    new TextEncoder().encode(registryString(registry)),
+  );
+  return ok
+    ? { signed: true, verified: true }
+    : { signed: true, verified: false, reason: "signature mismatch" };
+}
 
 /** Look up an algorithm's registry status. Unknown → undefined. */
 export function statusForAlgorithm(

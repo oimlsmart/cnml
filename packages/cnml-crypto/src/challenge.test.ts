@@ -11,6 +11,7 @@ import {
   embedChallenge,
   verifyChallengeResponse,
   readChallengeResponse,
+  createChallengeRegistry,
 } from "./challenge.ts";
 import { signCnmlXml } from "./xml/sign.ts";
 import { verifyCnmlXml } from "./xml/verify.ts";
@@ -105,4 +106,17 @@ test("nonce is covered by the instrument's signature", async () => {
     `<cnml:nonce>${"0".repeat(32)}</cnml:nonce>`,
   );
   assert.equal((await verifyCnmlXml(swapped)).signatureValid, false);
+});
+
+// ─── single-use nonce (gap F) ─────────────────────────────────────
+
+test("a nonce is accepted once and rejected on replay", () => {
+  const registry = createChallengeRegistry();
+  const nonce = generateChallenge();
+  const embedded = embedChallenge(MEASUREMENT_XML, nonce, new Date().toISOString());
+  const r1 = verifyChallengeResponse(embedded, nonce, { freshness_window_ms: 0 }, Date.now(), registry);
+  assert.equal(r1.ok, true, r1.reason);
+  const r2 = verifyChallengeResponse(embedded, nonce, { freshness_window_ms: 0 }, Date.now(), registry);
+  assert.equal(r2.ok, false);
+  assert.match(r2.reason ?? "", /replay/);
 });

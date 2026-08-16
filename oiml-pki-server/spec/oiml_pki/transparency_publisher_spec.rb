@@ -239,6 +239,25 @@ RSpec.describe OimlPki::MerkleTree, "consistency" do
     expect(t.verify_consistency(4, 9, proof, roots_at(t, 4), t.root)).to be(false)
   end
 
+  it "verifies head-to-head (leafless) for every size pair up to 40" do
+    t = tree_with(40)
+    (1..40).each do |old_size|
+      (old_size..40).each do |new_size|
+        proof = t.consistency_proof(old_size, new_size)
+        ok = t.verify_consistency_heads(
+          old_size, roots_at(t, old_size), new_size, roots_at(t, new_size), proof
+        )
+        expect(ok).to be(true), "old=#{old_size} new=#{new_size}"
+      end
+    end
+  end
+
+  it "rejects a truncated proof head-to-head" do
+    t = tree_with(9)
+    proof = t.consistency_proof(3, 9)[0, 1]
+    expect(t.verify_consistency_heads(3, roots_at(t, 3), 9, t.root, proof)).to be(false)
+  end
+
   it "rejects a proof against the wrong old root" do
     t = tree_with(9)
     proof = t.consistency_proof(4, 9)
@@ -307,6 +326,49 @@ module OimlPki
       r = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[0, bytes], 2))
       s = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[bytes, bytes], 2))
       OpenSSL::ASN1::Sequence.new([r, s]).to_der
+    end
+  end
+end
+
+# State binding index + CRL anchoring (SIGNATIF gap H).
+RSpec.describe OimlPki::TransparencyPublisher, "state index" do
+  after do
+    described_class.log_file_override = nil
+    described_class.state_bindings_file_override = nil
+  end
+
+  def with_keystore(dir)
+    described_class.log_file_override = File.join(dir, "t.log")
+    described_class.state_bindings_file_override = File.join(dir, "state-bindings.json")
+    yield
+  end
+
+  it "records bindings and builds the inverted index", :aggregate_failures do
+    Dir.mktmpdir do |dir|
+      with_keystore(dir) do
+        3.times { |i| described_class.record(OpenSSL::Digest::SHA256.digest("s#{i}")) }
+        described_class.record_state_bindings(0, ["sha256:AA"])
+        described_class.record_state_bindings(1, ["sha256:BB", "AA"])
+        described_class.record_state_bindings(2, ["sha256:AA"])
+
+        index = described_class.state_index
+        # Bare hex (no sha256: prefix) normalizes too.
+        expect(index["aa"]).to eq([0, 1, 2])
+        expect(index["bb"]).to eq([1])
+      end
+    end
+  end
+
+  it "publishes state-index.json alongside the proofs" do
+    Dir.mktmpdir do |dir|
+      with_keystore(dir) do
+        described_class.record(OpenSSL::Digest::SHA256.digest("s0"))
+        described_class.record_state_bindings(0, ["sha256:CC"])
+        out = File.join(dir, "pub")
+        described_class.publish_to_directory(out)
+        published = JSON.parse(File.read(File.join(out, "state-index.json")))
+        expect(published["cc"]).to eq([0])
+      end
     end
   end
 end

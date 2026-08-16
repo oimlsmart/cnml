@@ -14,8 +14,11 @@ import assert from "node:assert/strict";
 import fixture from "./__fixtures__/consistency.json" with { type: "json" };
 import {
   verifyConsistency,
+  verifyConsistencyHeads,
   verifySignedHead,
   detectFork,
+  gossipQuorumMet,
+  multiLogQuorumMet,
   headString,
   leafHashOf,
   rootOverEntries,
@@ -109,4 +112,90 @@ test("detectFork passes on an honest head sequence", () => {
   }));
   const r = detectFork(heads);
   assert.equal(r.fork, false);
+});
+
+
+test("leafless head-to-head verification matches the leaves-known form", async () => {
+  for (const p of fixture.proofs as { old_size: number; new_size: number; nodes: string[] }[]) {
+    const ok = await verifyConsistencyHeads(
+      p.old_size,
+      ROOTS[p.old_size],
+      p.new_size,
+      ROOTS[p.new_size],
+      p.nodes,
+    );
+    assert.equal(ok, true, `old=${p.old_size} new=${p.new_size}`);
+  }
+});
+
+test("leafless verification rejects doctored nodes and wrong heads", async () => {
+  const p = fixture.proofs[2]; // old=3 new=5
+  const doctored = p.nodes.slice();
+  doctored[0] = "cd".repeat(32);
+  assert.equal(
+    await verifyConsistencyHeads(p.old_size, ROOTS[p.old_size], p.new_size, ROOTS[p.new_size], doctored),
+    false,
+  );
+  assert.equal(
+    await verifyConsistencyHeads(p.old_size, ROOTS[p.old_size + 1], p.new_size, ROOTS[p.new_size], p.nodes),
+    false,
+  );
+  assert.equal(
+    await verifyConsistencyHeads(p.old_size, ROOTS[p.old_size], p.new_size, ROOTS[p.new_size], p.nodes.slice(0, 1)),
+    false,
+  );
+});
+
+
+test("gossip quorum requires t independent agreeing sources", () => {
+  const head = { size: 5, root: ROOTS[5], timestamp: "t1", operator: "BIML" };
+  const other = { size: 5, root: ROOTS[4], timestamp: "t2", operator: "BIML" };
+  const obs = (source: string, h: unknown) => ({ source, head: h as SignedTreeHead });
+
+  const one = gossipQuorumMet([obs("mirror-a", head)], head);
+  assert.equal(one.met, false);
+
+  const two = gossipQuorumMet([obs("mirror-a", head), obs("mirror-b", head), obs("mirror-c", other)], head);
+  assert.equal(two.met, true);
+  assert.deepEqual(two.sources.sort(), ["mirror-a", "mirror-b"]);
+
+  const three = gossipQuorumMet(
+    [obs("a", head), obs("b", other), obs("c", other), obs("d", other)],
+    head,
+    { t: 3 },
+  );
+  assert.equal(three.met, false);
+});
+
+test("multi-log quorum requires m of k recognized logs", () => {
+  const policy = { m: 2, k: 3, logs: ["log-a", "log-b", "log-c"] };
+  const ok = multiLogQuorumMet(
+    [
+      { log: "log-a", verified: true },
+      { log: "log-b", verified: true },
+      { log: "log-c", verified: false },
+    ],
+    policy,
+  );
+  assert.equal(ok.met, true);
+  assert.equal(ok.count, 2);
+
+  const notEnough = multiLogQuorumMet(
+    [
+      { log: "log-a", verified: true },
+      { log: "log-c", verified: false },
+    ],
+    policy,
+  );
+  assert.equal(notEnough.met, false);
+
+  // Unrecognized logs never count.
+  const unrecognized = multiLogQuorumMet(
+    [
+      { log: "log-a", verified: true },
+      { log: "stranger", verified: true },
+    ],
+    policy,
+  );
+  assert.equal(unrecognized.met, false);
 });

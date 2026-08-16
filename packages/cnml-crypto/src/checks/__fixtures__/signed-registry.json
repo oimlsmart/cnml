@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "published": "2026-08-16",
+  "algorithms": [
+    {
+      "id": "ecdsa-p256",
+      "family": "classical",
+      "status": "active",
+      "reference": "FIPS 186-4",
+      "signatureMethodUris": [
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"
+      ]
+    },
+    {
+      "id": "ed25519",
+      "family": "classical",
+      "status": "active",
+      "reference": "RFC 8032",
+      "signatureMethodUris": [
+        "http://www.w3.org/2021/04/xmldsig#ed25519",
+        "urn:ietf:params:xml:ns:cite:ed25519"
+      ]
+    },
+    {
+      "id": "ml-dsa-65",
+      "family": "post-quantum",
+      "status": "active",
+      "reference": "FIPS 204",
+      "signatureMethodUris": [
+        "http://www.w3.org/2007/05/xmldsig-more#ml-dsa-65"
+      ]
+    },
+    {
+      "id": "composite-ed25519-ml-dsa-65",
+      "family": "composite",
+      "status": "active",
+      "reference": "IETF LAMPS composite signatures (draft)"
+    },
+    {
+      "id": "sha256",
+      "family": "hash",
+      "status": "active",
+      "reference": "FIPS 180-4"
+    }
+  ],
+  "signature": "eebf6358b9fc3f690909122b7135970fafc4ab3ad109183de8275cfd58c0cb86f5a1fa40c454ea5526b37e7cc89aef35f5646d90d2d48e3d49ba0e2350cf0750",
+  "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEe6+Lahjr9+t/aooNsRpk2KmPhLhH\nin97Cf1OTWj4JfOyF0YSa48YHIE/rRStoVV6vVfys8fvlCvEVZ3bUzXWgA==\n-----END PUBLIC KEY-----\n"
+}

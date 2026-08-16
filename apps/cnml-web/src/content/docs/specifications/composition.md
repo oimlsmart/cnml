@@ -59,6 +59,14 @@ instance: `credentialSubject` carries the serial number, firmware
 hash, and manufacturing date; the manufacturer's delegated key is
 the proof.
 
+### Emission
+
+The mapping is implemented: `certificateToVerifiableCredential()` and
+`instanceToVerifiableCredential()` (in `@oiml/cnml-crypto`) emit the
+VC JSON from a parsed certificate plus the coverage report's proof
+facts, with each verified co-signature landing in the proof set under
+its trust dimension.
+
 ### What CNML adds over a bare VC
 
 A VC proof says "this issuer signed this subject." It does not say:

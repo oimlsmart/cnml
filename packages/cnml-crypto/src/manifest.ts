@@ -69,6 +69,21 @@ export interface PqcMigrationPlan {
   readonly target2029?: string;
 }
 
+/** Scheme-declared classification policy (SIGNATIF §classification). */
+export interface ClassificationConfig {
+  labels?: readonly string[];
+  top_label?: {
+    required_dimensions?: readonly string[];
+    requires_transparency?: boolean;
+    requires_timestamp?: boolean;
+  };
+  downgrades?: {
+    soft_fail?: string;
+    hard_warn?: string;
+    missing_dimension?: string;
+  };
+}
+
 /** Algorithm agility (SIGNATIF Phase 5). */
 export interface AlgorithmsConfig {
   /** Migration phase: classical-only | composite | post-quantum-only. */
@@ -88,6 +103,7 @@ export interface Manifest {
   readonly archival?: ArchivalConfig;
   readonly pqcMigration?: PqcMigrationPlan;
   readonly algorithms?: AlgorithmsConfig;
+  readonly classification?: ClassificationConfig;
 }
 
 /** Validation report — list of errors and warnings. */
@@ -233,6 +249,7 @@ function coerceToManifest(obj: Record<string, unknown>): Manifest {
     archival: parseArchival(obj.archival),
     pqcMigration: parsePqcMigration(obj.pqc_migration ?? obj.pqcMigration),
     algorithms: parseAlgorithms(obj.algorithms),
+    classification: parseClassificationConfig(obj.classification),
   };
 }
 
@@ -280,6 +297,31 @@ function parseArchival(raw: unknown): ArchivalConfig | undefined {
   return {
     renewalPeriodYears: typeof obj.renewal_period_years === "number" ? obj.renewal_period_years : 5,
     reSignUnder: (obj.re_sign_under ?? obj.reSignUnder) as string | undefined,
+  };
+}
+
+function parseClassificationConfig(raw: unknown): ClassificationConfig | undefined {
+  if (typeof raw !== "object" || raw === null) return undefined;
+  const obj = raw as Record<string, unknown>;
+  const top = obj.top_label ?? obj.topLabel;
+  const down = obj.downgrades;
+  return {
+    labels: obj.labels as readonly string[] | undefined,
+    top_label: typeof top === "object" && top !== null
+      ? {
+          required_dimensions: ((top as Record<string, unknown>).required_dimensions
+            ?? (top as Record<string, unknown>).requiredDimensions) as readonly string[] | undefined,
+          requires_transparency: (top as Record<string, unknown>).requires_transparency as boolean | undefined,
+          requires_timestamp: (top as Record<string, unknown>).requires_timestamp as boolean | undefined,
+        }
+      : undefined,
+    downgrades: typeof down === "object" && down !== null
+      ? {
+          soft_fail: (down as Record<string, unknown>).soft_fail as string | undefined,
+          hard_warn: (down as Record<string, unknown>).hard_warn as string | undefined,
+          missing_dimension: (down as Record<string, unknown>).missing_dimension as string | undefined,
+        }
+      : undefined,
   };
 }
 

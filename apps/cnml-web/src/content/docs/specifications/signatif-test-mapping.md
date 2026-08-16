@@ -14,10 +14,10 @@ Suite totals at publication:
 
 | Suite | Command | Tests |
 |---|---|---|
-| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 208 |
+| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 231 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
-| CA server (Ruby RSpec) | `bundle exec rspec` | 194 |
+| CA server (Ruby RSpec) | `bundle exec rspec` | 198 |
 | Web islands (Vitest) | `pnpm test:vitest` | 25 |
 | Markdown-page helpers | `pnpm test:web` | 12 |
 | End-to-end (Playwright) | `pnpm test:e2e` | 29 |
@@ -42,7 +42,10 @@ Suite totals at publication:
 |---|---|
 | Three-stage separation (coverage / classification / acceptance) | `checks/coverage.test.ts` (classification mapping, acceptance evaluation, custom policies) |
 | Transparency inclusion | `checks/transparency.test.ts` |
-| Consistency proofs | `transparency_publisher_spec.rb` (all size pairs to 17), `checks/transparency-consistency.test.ts` (cross-language: Ruby proofs verify in TS) |
+| Consistency proofs | `transparency_publisher_spec.rb` (all size pairs to 17, head-to-head to 40), `checks/transparency-consistency.test.ts` (cross-language: Ruby proofs verify in TS; leafless head-to-head) |
+| Gossip quorum | `checks/transparency-consistency.test.ts` (t-of-n agreement) |
+| Multi-log attestation | `checks/transparency-consistency.test.ts` (m-of-k recognized logs) |
+| Typed verification result | `checks/coverage.test.ts` (typed failures, downgrades, chain_broken) |
 | Signed tree heads | `transparency_publisher_spec.rb` (signed heads), `checks/transparency-consistency.test.ts` (Ruby signature verifies in TS, tamper rejected) |
 | Gossip / fork detection | `checks/transparency-consistency.test.ts` (detectFork) |
 | Trust graph path enumeration | `trust-graph.test.ts` (linear, diamond, cross-recognition, cycles, pruning) |
@@ -103,7 +106,7 @@ Suite totals at publication:
 | Class | CNML tests |
 |---|---|
 | `/conf/dimension-data` | `checks/signature.test.ts`, coverage tests (data dimension on signature pass) |
-| `/conf/dimension-person` | `xml/cosign.test.ts` (tester co-signature, dimension coverage, acceptance requiring person) |
+| `/conf/dimension-person` | `xml/cosign.test.ts` (tester co-signature, dimension coverage, acceptance requiring person, scope enforcement on the tester credential) |
 | `/conf/dimension-environment` | `xml/cosign.test.ts` (calibration co-signature), `checks/state-binding.test.ts` |
 | `/conf/dimension-time` | `checks/timestamp.test.ts`, OTS tests, coverage tests (time dimension) |
 | `/conf/dimension-authorization` | `checks/scope.test.ts`, `checks/scope-narrowing.test.ts` |

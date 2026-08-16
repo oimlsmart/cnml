@@ -209,6 +209,13 @@ post "/api/crl/revoke" do
 
   crl = OimlPki::CertFactory.create_crl(ca["privateKey"], ca["certificate"], revoked)
   path = OimlPki::Publisher.publish_crl(crl, ca["alias"])
+  # SIGNATIF §revocation-crl: the CRL itself is recorded in the
+  # transparency log, enabling audit of revocation decisions.
+  begin
+    OimlPki::TransparencyPublisher.record(OpenSSL::Digest::SHA256.digest(crl.to_der))
+  rescue StandardError => e
+    OimlPki::AuditLog.append("transparency.crl_record_failed", details: { error: e.message })
+  end
   OimlPki::AuditLog.append("api.crl.revoke", details: {
     ca_id: body["ca_id"],
     serial: serial,
@@ -309,6 +316,13 @@ post "/crl/create" do
 
   crl = OimlPki::CertFactory.create_crl(ca["privateKey"], ca["certificate"], revoked)
   path = OimlPki::Publisher.publish_crl(crl, ca["alias"])
+  # SIGNATIF §revocation-crl: the CRL itself is recorded in the
+  # transparency log, enabling audit of revocation decisions.
+  begin
+    OimlPki::TransparencyPublisher.record(OpenSSL::Digest::SHA256.digest(crl.to_der))
+  rescue StandardError => e
+    OimlPki::AuditLog.append("transparency.crl_record_failed", details: { error: e.message })
+  end
   OimlPki::AuditLog.append("crl.create", details: {
     ca_id: params[:ca_id],
     revoked_count: revoked.length,

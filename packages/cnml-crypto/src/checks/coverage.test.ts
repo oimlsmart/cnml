@@ -179,3 +179,91 @@ test("grade ranks are totally ordered in the default policy", () => {
   const labels = DEFAULT_CLASSIFICATION_POLICY.labels as readonly Grade[];
   assert.deepEqual([...labels], ["A+", "A", "B", "C", "F"]);
 });
+
+// ─── spec-shaped result (SIGNATIF §verification-results) ─────────
+
+import { buildSpecResult } from "./result.ts";
+
+test("spec result: full pass has no failures and records downgrades", async () => {
+  const results = [...ALL_HARD_PASS, skip("timestamp"), skip("transparency")];
+  const report = await buildCoverageReport(XML, { rootAnchorFingerprint: "anchor" }, results);
+  const c = classify(results, report);
+  const r = buildSpecResult(report, c, results);
+  assert.equal(r.classified_grade, "B");
+  assert.equal(r.failures.length, 0);
+  assert.ok(r.downgrades.some((d) => d.check === "timestamp" && d.value === "skip"));
+  assert.ok(r.downgrades.some((d) => d.check === "transparency" && d.value === "skip"));
+});
+
+test("spec result: hard failures carry typed reasons", () => {
+  const results = [
+    fail("xml-well-formed", "not XML"),
+    fail("signature", "bad sig"),
+    fail("scope", "not authorized"),
+    fail("crl", "revoked 2026-01-01"),
+  ];
+  const c = classify(results, undefined);
+  const r = buildSpecResult({ paths: [], dimensions: [], algorithms: [], hard_checks: [], soft_checks: [], artifact_id: "x", verification_time: "t" }, c, results);
+  const reasons = r.failures.map((f) => f.reason);
+  assert.ok(reasons.includes("format_invalid"));
+  assert.ok(reasons.includes("signature_invalid"));
+  assert.ok(reasons.includes("scope_widened"));
+  assert.ok(reasons.includes("revoked"));
+});
+
+test("spec result: scope condition violation is typed distinctly", () => {
+  const results = fail("scope", "Scope condition(s) not satisfied: temp-range");
+  const c = classify([results], undefined);
+  const r = buildSpecResult({ paths: [], dimensions: [], algorithms: [], hard_checks: [], soft_checks: [], artifact_id: "x", verification_time: "t" }, c, [results]);
+  assert.equal(r.failures[0].reason, "scope_condition_failed");
+});
+
+test("spec result: broken chain is a typed failure", async () => {
+  // Hard checks pass, signature passed, but no path reached an anchor.
+  const results = [...ALL_HARD_PASS];
+  const report = await buildCoverageReport(XML, {}, results); // no anchor fingerprint
+  const c = classify(results, report);
+  const r = buildSpecResult(report, c, results);
+  assert.equal(r.failures[0].reason, "chain_broken");
+});
+
+test("spec result: transparency soft failure maps to transparency_missing downgrade", () => {
+  const results = [...ALL_HARD_PASS, fail("transparency", "no proof")];
+  const c = classify(results, undefined);
+  const r = buildSpecResult({ paths: [{ root_anchor_fingerprint: "anchor", path_length: 1, dimensions: ["data"] }], dimensions: [], algorithms: [], hard_checks: [], soft_checks: [], artifact_id: "x", verification_time: "t" }, c, results);
+  assert.equal(r.failures.length, 0);
+  assert.ok(r.downgrades.some((d) => d.check === "transparency" && d.value === "fail"));
+});
+
+// ─── manifest-declared classification policy (Gap D) ─────────────
+
+import { classificationPolicyFromManifest } from "./classification.ts";
+import { parseManifestHash } from "../manifest.ts";
+
+const MANIFEST_HASH = {
+  deployment: { name: "T", operator: "O", manifest_version: 1 },
+  mode: "certificate_pki",
+  tiers: [{ name: "root", role: "RTA" }],
+  classification: {
+    top_label: { required_dimensions: ["data", "time", "person"] },
+    downgrades: { soft_fail: "B", hard_warn: "A" },
+  },
+};
+
+test("classification policy builds from the manifest", async () => {
+  const manifest = parseManifestHash(MANIFEST_HASH);
+  const policy = classificationPolicyFromManifest(manifest.classification);
+  assert.equal(policy.top_label.required_dimensions.includes("person"), true);
+  assert.equal(policy.soft_fail_grade, "B");
+  assert.equal(policy.hard_warn_grade, "A");
+
+  const results = [...ALL_HARD_PASS, pass("timestamp"), pass("transparency")];
+  const report = await buildCoverageReport(XML, { rootAnchorFingerprint: "a" }, results);
+  // person dimension absent → capped at missing_dimension_grade
+  assert.equal(classify(results, report, policy).label, "A");
+});
+
+test("undefined classification section yields the default policy", () => {
+  const p = classificationPolicyFromManifest(undefined);
+  assert.deepEqual(p.top_label, classificationPolicyFromManifest({}).top_label);
+});

@@ -75,8 +75,12 @@ export { embedStateBinding, extractStateBindings, bareHash } from "./xml/state-b
 export type { BoundState, StateInput } from "./xml/state-binding.ts";
 export { buildStateIndex, propagate, isBoundToRevoked } from "./revocation.ts";
 export type { StateIndexEntry, StateIndex, PropagationHit } from "./revocation.ts";
-export { generateChallenge, embedChallenge, verifyChallengeResponse, readChallengeResponse } from "./challenge.ts";
-export type { ChallengePolicy, ChallengeResult } from "./challenge.ts";
+export { generateChallenge, embedChallenge, verifyChallengeResponse, readChallengeResponse, createChallengeRegistry } from "./challenge.ts";
+export type { ChallengePolicy, ChallengeResult, ChallengeRegistry } from "./challenge.ts";
+export { certificateToVerifiableCredential, instanceToVerifiableCredential } from "./vc.ts";
+export type { VerifiableCredential, VcProof, CnmlCertificateView, CnmlProofFacts } from "./vc.ts";
+export { registryString, verifyAlgorithmRegistry } from "./algorithms.ts";
+export type { AlgorithmRegistry, RegistryVerification } from "./algorithms.ts";
 export { findAllPaths, anchorBundle, rootDiversity, strongestPathFor } from "./trust-graph.ts";
 export type {
   SignatureChainLink,

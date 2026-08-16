@@ -19,8 +19,15 @@ import { sha256Hex } from "../hash.ts";
 import { base64ToBytes } from "../shared/base64.ts";
 import { ensureXmldsigEngine } from "../xml/engine.ts";
 import { CNML_NS } from "../xml/cosign.ts";
+import { readScopeFromCert, isRecommendationInScope } from "../scope.ts";
 
 const DS_NS = "http://www.w3.org/2000/09/xmldsig#";
+
+/** Wrap a base64 DER cert (KeyInfo form) as PEM for scope reading. */
+function base64DerToPem(b64: string): string {
+  const lines = b64.replace(/\s+/g, "").match(/.{1,64}/g) ?? [];
+  return `-----BEGIN CERTIFICATE-----\n${lines.join("\n")}\n-----END CERTIFICATE-----`;
+}
 
 export const dimensionsCheck: Check = {
   id: "dimensions",
@@ -77,6 +84,20 @@ export const dimensionsCheck: Check = {
           fingerprint = await sha256Hex(base64ToBytes(certEl.textContent));
         } catch {
           fingerprint = "";
+        }
+
+        // The person dimension is a certified tester credential: the
+        // tester's scope extension must cover the artifact's
+        // Recommendation. A credential without the extension is a
+        // legacy credential (consistent with check 4's legacy path).
+        if (dimension === "person" && ctx.recommendationId) {
+          const scope = await readScopeFromCert(base64DerToPem(certEl.textContent));
+          if (scope !== null && !isRecommendationInScope(ctx.recommendationId, scope)) {
+            failures.push(
+              `person: tester not certified for ${ctx.recommendationId} (certified: ${scope.join(", ")})`,
+            );
+            continue;
+          }
         }
       }
 
