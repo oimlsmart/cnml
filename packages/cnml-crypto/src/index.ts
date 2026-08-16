@@ -69,6 +69,12 @@ export { signCnmlXmlExternal } from "./xml/sign-external.ts";
 export type { ExternalSigner } from "./xml/sign-external.ts";
 export type { VerificationResult, VerifyOptions } from "./xml/verify.ts";
 export { verifyCnmlXml } from "./xml/verify.ts";
+export { signCnmlXmlWithCosignatures } from "./xml/cosign.ts";
+export type { CosignerSpec } from "./xml/cosign.ts";
+export { embedStateBinding, extractStateBindings, bareHash } from "./xml/state-binding.ts";
+export type { BoundState, StateInput } from "./xml/state-binding.ts";
+export { buildStateIndex, propagate, isBoundToRevoked } from "./revocation.ts";
+export type { StateIndexEntry, StateIndex, PropagationHit } from "./revocation.ts";
 
 // X.509 self-signed certificate generation
 export { issueSelfSignedCert } from "./cert/self-signed.ts";
