@@ -2,8 +2,10 @@ import type { Check, CheckResult } from "./types.ts";
 import { isSerialRevoked, isCrlStale, parseCrl, type Crl } from "../crl.ts";
 import { toHex } from "../shared/hex.ts";
 import { base64ToBytes } from "../shared/base64.ts";
+import { extractStateBindings } from "../xml/state-binding.ts";
+import { isBoundToRevoked } from "../revocation.ts";
 
-/** Check 5: CRL revocation status.
+/** Check 5: CRL revocation status + state-binding propagation.
  *
  * The signing cert (the KeyInfo's first, fed through ctx.trustedCerts
  * by the signature check) names its CRL distribution point as an X.509
@@ -16,12 +18,20 @@ import { base64ToBytes } from "../shared/base64.ts";
  *   CRL past nextUpdate    → warn (stale — refresh recommended)
  *   serial absent          → pass
  * `ctx.crlUrl` overrides the DP (tests, an explicit distribution
- * point for deployments whose cert predates the extension). */
+ * point for deployments whose cert predates the extension).
+ *
+ * Revocation also propagates through state bindings (SIGNATIF Phase 4):
+ * if the artifact's <cnml:stateBinding> includes a hash listed in
+ * ctx.revokedStateHashes, the artifact is bound-to-revoked — a hard
+ * fail, independent of the cert's own CRL status. */
 export const crlCheck: Check = {
   id: "crl",
   label: "5. Not revoked",
   continueOnFail: true,
-  run: async (_xml, ctx): Promise<CheckResult> => {
+  run: async (xml, ctx): Promise<CheckResult> => {
+    const binding = stateBindingResult(xml, ctx);
+    if (binding) return binding;
+
     const certPem = ctx.trustedCerts?.[0];
     if (!certPem) {
       return {
@@ -101,6 +111,24 @@ export const crlCheck: Check = {
     return { checkId: "crl", status: "pass" };
   },
 };
+
+/** Bound-to-revoked when any bound state hash is revoked (hard fail). */
+function stateBindingResult(
+  xml: string,
+  ctx: { revokedStateHashes?: string[] },
+): CheckResult | null {
+  if (!ctx.revokedStateHashes?.length) return null;
+  const states = extractStateBindings(xml);
+  if (states.length === 0) return null;
+  const { bound, matched } = isBoundToRevoked(states, ctx.revokedStateHashes);
+  if (!bound) return null;
+  const state = states.find((s) => s.hash === matched);
+  return {
+    checkId: "crl",
+    status: "fail",
+    reason: `artifact is bound to revoked state ${state?.type ?? "unknown"} (${matched})`,
+  };
+}
 
 /** The serial + CRL distribution point off a PEM cert (pkijs). The
  *  serial is the uppercase-hex form isSerialRevoked expects (padded to

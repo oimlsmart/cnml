@@ -28,12 +28,36 @@
     <xs:sequence>
       <xs:element name="administrativeData" type="cnml:AdministrativeDataType"/>
       <xs:element name="measurementResults" type="cnml:MeasurementResultsType"/>
+      <xs:element name="stateBinding" type="cnml:StateBindingType" minOccurs="0"/>
       <xs:element ref="ds:Signature" minOccurs="0"/>
       <xs:element name="coSignature" type="cnml:CoSignatureType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="schemaVersion" type="xs:string" fixed="1.0" use="required"/>
     <xs:attribute name="id" type="xs:ID" use="optional"/>
   </xs:complexType>
+
+  <!-- State binding (SIGNATIF): the artifact binds, by hash, the
+       authority states it was produced under. Part of the canonical
+       payload — every signer attests the bound states. Revocation of
+       a bound state propagates to the artifact. -->
+  <xs:complexType name="StateBindingType">
+    <xs:sequence>
+      <xs:element name="boundState" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="type" type="cnml:StateTypeType" use="required"/>
+          <xs:attribute name="hash" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="StateTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="calibration"/>
+      <xs:enumeration value="evaluation"/>
+      <xs:enumeration value="compliance"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <!-- Multi-dimensional co-signature (SIGNATIF): an independent
        attestation on the same canonical payload from a different

@@ -51,6 +51,8 @@ export interface CheckContext {
   dimensions?: import("./coverage.ts").DimensionCoverage[];
   /** Signature algorithms observed with registry status (Phase 5). */
   algorithmStatuses?: { id: string; status: string }[];
+  /** Revoked authority-state hashes; artifacts bound to one fail check 5 (Phase 4). */
+  revokedStateHashes?: string[];
 }
 
 export interface Check {
