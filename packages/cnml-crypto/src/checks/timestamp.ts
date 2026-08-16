@@ -6,7 +6,7 @@ import { extractTimestampFromXml, verifyTimestamp } from "../opentimestamps.ts";
  *  (timestamps are optional — many CNMLs won't have them). */
 export const timestampCheck: Check = {
   id: "timestamp",
-  label: "7. Blockchain timestamp",
+  label: "8. Blockchain timestamp",
   continueOnFail: true,
   run: async (xml, ctx): Promise<CheckResult> => {
     const extracted = extractTimestampFromXml(xml);

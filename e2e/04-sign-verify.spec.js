@@ -106,7 +106,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // Check pipeline renumbered: signature is now tile 3 ("3. Signature valid").
   // Use the tile element specifically (not parent of text match — the label
   // also appears in the reason callout, which would violate strict mode).
-  const signatureTile = verifyPage.locator(".cnml-tile:has-text('Signature')");
+  const signatureTile = verifyPage.locator(".cnml-tile", { hasText: /^3\. Signature valid/ });
   await expect(signatureTile).toContainText(/[✓?]/, { timeout: 30_000 });
 
   fs.unlinkSync(tmpPath);

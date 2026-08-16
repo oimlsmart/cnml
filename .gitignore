@@ -54,3 +54,6 @@ TODO.chrontif/
 # Memory (Claude Code per-project memory — private)
 .claude/
 
+
+# Playwright visual baselines (regenerated per platform)
+e2e/*-snapshots/

@@ -58,7 +58,9 @@ for (const rId of SPOT_CHECK) {
     await expect(page.getByText(/XML well-formed/i).first()).toBeVisible({ timeout: 30_000 });
     // Check pipeline renumbered: signature is now tile 3. Use tile selector
     // to avoid matching the reason callout (strict mode violation).
-    await expect(page.locator(".cnml-tile:has-text('Signature')")).toContainText(/[✓?]/, { timeout: 30_000 });
+    // Exact heading match: the co-signatures tile also contains the
+    // substring "signature".
+    await expect(page.locator(".cnml-tile", { hasText: /^3\. Signature valid/ })).toContainText(/[✓?]/, { timeout: 30_000 });
 
     expect(errors, `errors during ${rId} verify:\n${errors.join("\n")}`).toEqual([]);
   });

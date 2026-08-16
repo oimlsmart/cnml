@@ -31,7 +31,7 @@ interface EvaluationReportRefLike {
  * pipeline path); parses the XML itself standalone. */
 export const erBindingCheck: Check = {
   id: "er-binding",
-  label: "6. Evaluation report bound",
+  label: "7. Evaluation report bound",
   continueOnFail: true,
   run: async (xml, ctx): Promise<CheckResult> => {
     let er: EvaluationReportRefLike | undefined;
