@@ -77,6 +77,13 @@ export { buildStateIndex, propagate, isBoundToRevoked } from "./revocation.ts";
 export type { StateIndexEntry, StateIndex, PropagationHit } from "./revocation.ts";
 export { generateChallenge, embedChallenge, verifyChallengeResponse, readChallengeResponse } from "./challenge.ts";
 export type { ChallengePolicy, ChallengeResult } from "./challenge.ts";
+export { findAllPaths, anchorBundle, rootDiversity, strongestPathFor } from "./trust-graph.ts";
+export type {
+  SignatureChainLink,
+  TrustAnchor,
+  TrustAnchorBundle,
+  TrustedArtifact,
+} from "./trust-graph.ts";
 
 // X.509 self-signed certificate generation
 export { issueSelfSignedCert } from "./cert/self-signed.ts";
