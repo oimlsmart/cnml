@@ -409,6 +409,14 @@ module OimlPki
       "CNML-TLOG-HEAD-v1|#{head[:operator]}|#{head[:size]}|#{head[:root]}|#{head[:timestamp]}"
     end
 
+    # Inverse of der_to_p1363: raw r||s -> DER ECDSA signature.
+    def p1363_to_der(raw)
+      bytes = raw.bytesize / 2
+      r = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[0, bytes], 2))
+      s = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[bytes, bytes], 2))
+      OpenSSL::ASN1::Sequence.new([r, s]).to_der
+    end
+
     # Convert a DER ECDSA signature to P-1363 raw r||s (each coordinate
     # left-padded to `bytes` bytes) — the form WebCrypto expects.
     def der_to_p1363(der, bytes)

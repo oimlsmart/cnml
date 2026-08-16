@@ -61,8 +61,12 @@ test("co-signatures verify through the dimensions check", async () => {
   const ia = await freshKeyPair();
   const tester = await freshKeyPair();
 
+  const withId = SAMPLE_XML.replace(
+    "schemaVersion=\"1.0\"",
+    "schemaVersion=\"1.0\" id=\"R60-2026-0001\"",
+  );
   const signed = await signCnmlXmlWithCosignatures(
-    SAMPLE_XML,
+    withId,
     { privateKey: ia.privateKey, certPem: await issueSelfSignedCert(ia.publicKey, ia.privateKey, "CN=IA") },
     [{ dimension: "person", privateKey: tester.privateKey, certPem: await issueSelfSignedCert(tester.publicKey, tester.privateKey, "CN=Tester") }],
   );
@@ -205,8 +209,69 @@ test("tester co-signature passes inside the tester's certified scope", async () 
   const tester = await testerKeyPair();
   const testerCert = readFileSync(path.join(FIXTURES, "tester-scope-cert.pem"), "utf8");
 
+  const withId = SAMPLE_XML.replace(
+    "schemaVersion=\"1.0\"",
+    "schemaVersion=\"1.0\" id=\"R60-2026-0001\"",
+  );
+  const signed = await signCnmlXmlWithCosignatures(
+    withId,
+    { privateKey: ia.privateKey, certPem: await issueSelfSignedCert(ia.publicKey, ia.privateKey, "CN=IA") },
+    [{ dimension: "person", privateKey: tester.privateKey, certPem: testerCert }],
+  );
+
+  const ctx: CheckContext = { recommendationId: "R60" };
+  const result = await dimensionsCheck.run(signed, ctx, []);
+  assert.equal(result.status, "pass", result.reason);
+});
+
+// ─── co-signature replay binding (§security-replay) ───────────────
+
+import { artifactIdentifier } from "../checks/dimensions.ts";
+
+test("artifact identifier resolves from the root id or log sequence", async () => {
+  assert.equal(artifactIdentifier(SAMPLE_XML), null);
+
+  const withId = SAMPLE_XML.replace(
+    "schemaVersion=\"1.0\"",
+    "schemaVersion=\"1.0\" id=\"R60-2026-0001\"",
+  );
+  assert.equal(artifactIdentifier(withId), "id:R60-2026-0001");
+
+  const logged = SAMPLE_XML.replace(
+    "</cnml:certificatNumeriqueMetrologieLegale>",
+    "<cnml:tlog_proof><cnml:sequence>7</cnml:sequence></cnml:tlog_proof></cnml:certificatNumeriqueMetrologieLegale>",
+  );
+  assert.equal(artifactIdentifier(logged), "tlog:7");
+});
+
+test("co-signatures without a unique artifact identifier warn", async () => {
+  const ia = await freshKeyPair();
+  const tester = await testerKeyPair();
+  const testerCert = readFileSync(path.join(FIXTURES, "tester-scope-cert.pem"), "utf8");
+
   const signed = await signCnmlXmlWithCosignatures(
     SAMPLE_XML,
+    { privateKey: ia.privateKey, certPem: await issueSelfSignedCert(ia.publicKey, ia.privateKey, "CN=IA") },
+    [{ dimension: "person", privateKey: tester.privateKey, certPem: testerCert }],
+  );
+
+  const ctx: CheckContext = { recommendationId: "R60" };
+  const result = await dimensionsCheck.run(signed, ctx, []);
+  assert.equal(result.status, "warn");
+  assert.match(result.reason ?? "", /unique identifier/);
+});
+
+test("co-signatures with a root id pass fully", async () => {
+  const ia = await freshKeyPair();
+  const tester = await testerKeyPair();
+  const testerCert = readFileSync(path.join(FIXTURES, "tester-scope-cert.pem"), "utf8");
+
+  const withId = SAMPLE_XML.replace(
+    "schemaVersion=\"1.0\"",
+    "schemaVersion=\"1.0\" id=\"R60-2026-0001\"",
+  );
+  const signed = await signCnmlXmlWithCosignatures(
+    withId,
     { privateKey: ia.privateKey, certPem: await issueSelfSignedCert(ia.publicKey, ia.privateKey, "CN=IA") },
     [{ dimension: "person", privateKey: tester.privateKey, certPem: testerCert }],
   );

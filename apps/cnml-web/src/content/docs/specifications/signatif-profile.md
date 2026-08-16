@@ -68,10 +68,12 @@ CNML claims the following SIGNATIF conformance classes.
 
 | `/conf/mirror`
 | Not claimed
-| No second mirror is deployed. The verification-side machinery
-  exists (signed-head verification, fork detection), and the
-  publisher writes the static tree mirrors serve. Claimed when an
-  independent mirror operates.
+| The mirror is implemented (TransparencyMirror: rebuilds the tree
+  from published leaves, validates the consistency proof between
+  consecutive heads, rejects forks, republishes with an observation
+  record) and the verifier-side machinery exists (signed-head
+  verification, fork detection, gossip quorum). Claimed when an
+  independent party operates one.
 
 | `/conf/device-signer`
 | Claimed
@@ -554,18 +556,13 @@ adopted then.
 
 ### Open
 
-- **Mirror deployment.** The verification machinery is complete:
-  signed-head verification, leafless consistency verification, fork
-  detection, and the gossip-quorum check (t-of-n sources must agree
-  on a head). `/conf/mirror` is claimed when an independent mirror
-  actually operates.
-- **Multi-log deployment.** The M-of-K policy and quorum evaluation
-  are implemented; a second log operator is not yet run. The policy
-  is declared when one is.
-- **Registry signing ceremony.** The signature machinery is
-  implemented (sign + verify over the canonical registry string);
-  the published registry is signed when the scheme operator performs
-  the ceremony. Verifiers may require a signed registry.
+- **Mirror operation.** The mirror software and the verifier's
+  gossip machinery are complete and tested; `/conf/mirror` is
+  claimed when an independent party operates one.
+- **Multi-log operation.** The M-of-K policy and quorum evaluation
+  are implemented; a second log operator is not yet run.
+- **Registry signing.** The ceremony tooling is implemented; the
+  published registry is signed when the scheme operator runs it.
 - **Location dimension.** Not required for the legal-metrology use
   case; the co-signature format supports it if needed.
 

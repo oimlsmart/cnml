@@ -23,6 +23,22 @@ import { readScopeFromCert, isRecommendationInScope } from "../scope.ts";
 
 const DS_NS = "http://www.w3.org/2000/09/xmldsig#";
 
+/**
+ * The artifact's unique identifier for co-signature replay binding
+ * (spec §security-replay): a transparency log sequence number, or the
+ * root element's xs:ID when the artifact is not yet logged.
+ */
+export function artifactIdentifier(xml: string): string | null {
+  const doc = new DOMParser().parseFromString(xml, "application/xml");
+  const root = doc.documentElement;
+  const id = root?.getAttribute("id");
+  if (id) return `id:${id}`;
+  const seq = doc.getElementsByTagNameNS(CNML_NS, "tlog_proof")[0]
+    ?.getElementsByTagNameNS(CNML_NS, "sequence")[0]?.textContent?.trim();
+  if (seq) return `tlog:${seq}`;
+  return null;
+}
+
 /** Wrap a base64 DER cert (KeyInfo form) as PEM for scope reading. */
 function base64DerToPem(b64: string): string {
   const lines = b64.replace(/\s+/g, "").match(/.{1,64}/g) ?? [];
@@ -114,6 +130,18 @@ export const dimensionsCheck: Check = {
         checkId: "dimensions",
         status: "fail",
         reason: failures.join("; "),
+      };
+    }
+
+    // Replay protection (spec §security-replay): a co-signature binds
+    // to the canonical payload AND a unique artifact identifier. An
+    // artifact carrying none cannot make that binding — warn, not
+    // fail: the co-signatures are still valid for this document.
+    if (!artifactIdentifier(xml)) {
+      return {
+        checkId: "dimensions",
+        status: "warn",
+        reason: "co-signatures verified, but the artifact carries no unique identifier (root @id or log sequence) — replay binding is unavailable",
       };
     }
 

@@ -72,6 +72,8 @@ module OimlPki
   autoload :MerkleTree,           "oiml_pki/transparency_publisher"
   autoload :TransparencyProof,    "oiml_pki/transparency_publisher"
   autoload :TransparencyPublisher, "oiml_pki/transparency_publisher"
+  autoload :TransparencyMirror,    "oiml_pki/transparency_mirror"
+  autoload :AlgorithmRegistry,     "oiml_pki/algorithm_registry"
   autoload :CeremonyTranscript,   "oiml_pki/ceremony_transcript"
   autoload :UpdateIntegrity,      "oiml_pki/update_integrity"
   autoload :FileLock,             "oiml_pki/file_lock"
