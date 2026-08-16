@@ -28,7 +28,8 @@ module OimlPki
     REQUIRED_PARTICIPANT_ROLES = %w[chair scribe].freeze
 
     attr_reader :ceremony_id, :ceremony_type, :started_at, :ended_at,
-                :participants, :steps, :artifacts, :outcome
+                :participants, :steps, :artifacts, :outcome,
+                :quorum, :payload_hash, :aggregate_signature, :log_sequence
 
     def initialize(attrs)
       @ceremony_id    = attrs.fetch(:ceremony_id)
@@ -39,6 +40,10 @@ module OimlPki
       @steps          = attrs[:steps] || []
       @artifacts      = attrs[:artifacts] || []
       @outcome        = attrs[:outcome]
+      @quorum         = attrs[:quorum]
+      @payload_hash   = attrs[:payload_hash]
+      @aggregate_signature = attrs[:aggregate_signature]
+      @log_sequence   = attrs[:log_sequence]
     end
 
     # Returns true if every required field is present and every required
@@ -51,6 +56,20 @@ module OimlPki
 
       filled_roles = @participants.map(&:role).compact
       REQUIRED_PARTICIPANT_ROLES.all? { |r| filled_roles.include?(r) }
+    end
+
+    # SIGNATIF §ceremony-records completeness: quorum parameters, the
+    # canonical payload hash, the aggregate threshold signature, the
+    # log cross-reference, and every member signature. An incomplete
+    # transcript is not accepted as evidence of a valid ceremony.
+    def complete?
+      return false unless valid?
+      return false unless quorum.is_a?(Hash) && quorum["t"] && quorum["n"]
+      return false unless quorum["contributed"] && quorum["contributed"] >= quorum["t"]
+      return false unless payload_hash
+      return false unless aggregate_signature
+      return false unless log_sequence
+      @participants.all? { |p| p.signature && p.signed_payload }
     end
 
     # Verify every participant signature against the provided public key
@@ -79,6 +98,10 @@ module OimlPki
         "participants"  => @participants.map(&:to_h),
         "steps"         => @steps.map(&:to_h),
         "artifacts"     => @artifacts,
+        "quorum"        => @quorum,
+        "payload_hash"  => @payload_hash,
+        "aggregate_signature" => @aggregate_signature,
+        "log_sequence"  => @log_sequence,
       }
     end
 
@@ -96,6 +119,10 @@ module OimlPki
         participants:  (hash["participants"] || []).map { |p| Participant.from_h(p) },
         steps:         (hash["steps"] || []).map { |s| Step.from_h(s) },
         artifacts:     hash["artifacts"] || [],
+        quorum:        hash["quorum"],
+        payload_hash:  hash["payload_hash"],
+        aggregate_signature: hash["aggregate_signature"],
+        log_sequence:  hash["log_sequence"],
       )
     end
 

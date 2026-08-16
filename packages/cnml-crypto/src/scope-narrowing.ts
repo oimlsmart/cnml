@@ -37,6 +37,13 @@ function covers(parent: ScopeValue, child: ScopeValue): boolean {
   return child.every((v) => parent.includes(v));
 }
 
+/** Spec §scope-narrowing step 1: a singleton set {x} is equivalent
+ *  to the single value x and is normalized before comparison. */
+function normalize(value: ScopeValue | undefined): ScopeValue | undefined {
+  if (Array.isArray(value) && value.length === 1) return value[0];
+  return value;
+}
+
 /**
  * The narrowing invariant: `child` narrows (or equals) `parent` on
  * every declared dimension, and carries every condition the parent
@@ -46,12 +53,12 @@ export function narrowed(parent: Scope, child: Scope): boolean {
   const dims = new Set([...Object.keys(parent), ...Object.keys(child)] as (keyof Scope)[]);
   for (const dim of dims) {
     if (dim === "conditions") continue;
-    const p = parent[dim];
-    const c = child[dim];
+    const p = normalize(parent[dim]);
+    const c = normalize(child[dim]);
     if (p === undefined && c === undefined) continue;
     if (p === undefined) continue; // parent unconstrained: anything narrows it
     if (c === undefined) return false; // parent constrained, child widened to nothing
-    if (!covers(p as ScopeValue, c as ScopeValue)) return false;
+    if (!covers(p, c)) return false;
   }
   const pc = parent.conditions ?? [];
   const cc = child.conditions ?? [];

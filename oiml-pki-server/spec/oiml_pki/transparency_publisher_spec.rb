@@ -322,10 +322,7 @@ module OimlPki
     module_function
 
     def p1363_to_der(raw)
-      bytes = raw.bytesize / 2
-      r = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[0, bytes], 2))
-      s = OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(raw[bytes, bytes], 2))
-      OpenSSL::ASN1::Sequence.new([r, s]).to_der
+      OimlPki::TransparencyPublisher.p1363_to_der(raw)
     end
   end
 end

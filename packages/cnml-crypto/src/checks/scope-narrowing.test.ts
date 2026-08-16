@@ -140,3 +140,12 @@ test("out-of-range content fails its conditions", () => {
   const values = { ...conditionValuesFromXml(CONDITION_XML), "measurement.temperature": 55 };
   assert.equal(evaluateScopeExpression(conds[0].expression, values), false);
 });
+
+test("singleton sets normalize to single values (spec step 1)", () => {
+  // {R60} ≡ R60: parent single, child singleton set → narrowed.
+  assert.equal(narrowed({ recommendation: "R60" }, { recommendation: ["R60"] }), true);
+  assert.equal(narrowed({ recommendation: ["R60"] }, { recommendation: "R60" }), true);
+  assert.equal(narrowed({ recommendation: ["R60"] }, { recommendation: ["R60"] }), true);
+  // A genuine two-element set under a single parent value still widens.
+  assert.equal(narrowed({ recommendation: "R60" }, { recommendation: ["R60", "R76"] }), false);
+});
