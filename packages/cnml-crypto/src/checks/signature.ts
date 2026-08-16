@@ -2,6 +2,11 @@ import type { Check, CheckResult } from "./types.ts";
 import { verifyCnmlXml } from "../index.ts";
 import { sha256Hex } from "../hash.ts";
 import { base64ToBytes } from "../shared/base64.ts";
+import {
+  DEFAULT_ALGORITHM_REGISTRY,
+  algorithmIdForSignatureMethod,
+  statusForAlgorithm,
+} from "../algorithms.ts";
 
 async function fingerprintCert(base64Der: string): Promise<string> {
   try {
@@ -62,6 +67,17 @@ export const signatureCheck: Check = {
       ctx.rootAnchorFingerprint = await fingerprintCert(
         result.certificateChain[result.certificateChain.length - 1],
       );
+    }
+
+    // Algorithm agility: map the SignatureMethod to its registry
+    // status; the classification policy downgrades or hard-fails
+    // on deprecated / retired algorithms.
+    if (result.signatureMethod) {
+      const registry = ctx.algorithmRegistry ?? DEFAULT_ALGORITHM_REGISTRY;
+      const id = algorithmIdForSignatureMethod(registry, result.signatureMethod);
+      if (id) {
+        ctx.algorithmStatuses = [{ id, status: statusForAlgorithm(registry, id) ?? "active" }];
+      }
     }
 
     if (result.signatureValid && result.digestValid) {

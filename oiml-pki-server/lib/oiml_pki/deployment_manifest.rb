@@ -250,7 +250,8 @@ module OimlPki
   # Provides typed accessors for navigation without exposing the raw Hash.
   class Manifest
     attr_reader :deployment, :mode, :tiers, :quorums, :transparency,
-                :async_signing, :archival, :pqc_migration, :pkcs11_server
+                :async_signing, :archival, :pqc_migration, :pkcs11_server,
+                :algorithms
 
     def initialize(parsed)
       @deployment   = DeploymentHeader.new(parsed.fetch("deployment", {}))
@@ -262,6 +263,7 @@ module OimlPki
       @archival     = parsed["archival"] && ArchivalConfig.new(parsed["archival"])
       @pqc_migration = parsed["pqc_migration"] && PqcMigrationPlan.new(parsed["pqc_migration"])
       @pkcs11_server = parsed["pkcs11_server"] && Pkcs11ServerConfig.new(parsed["pkcs11_server"])
+      @algorithms   = parsed["algorithms"] && AlgorithmsConfig.new(parsed["algorithms"])
     end
 
     # Find the first tier matching a role (e.g., "root", "issuing_authority").
@@ -455,6 +457,16 @@ module OimlPki
       @current     = hash["current"]
       @target_2027 = hash["target_2027"]
       @target_2029 = hash["target_2029"]
+    end
+  end
+
+  # Algorithm agility (SIGNATIF Phase 5): migration phase + active set.
+  class AlgorithmsConfig
+    attr_reader :phase, :active
+
+    def initialize(hash)
+      @phase  = hash["phase"]
+      @active = hash["active"]
     end
   end
 
