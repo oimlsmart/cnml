@@ -11,7 +11,7 @@ CNML is a proposal for OIML from the OIML SMART programme. The verification mode
 
 ## The verification flow
 
-A verifier opens the Verify page in the web application and submits a CNML certificate file. The application runs the seven-check verification pipeline and renders the result of each check.
+A verifier opens the Verify page in the web application and submits a CNML certificate file. The application runs the nine-check verification pipeline and renders the result of each check.
 
 ![Verification flow](/diagrams/verification-flow.svg)
 
@@ -79,6 +79,6 @@ The verifier integrates one of the available libraries into the existing verific
 
 ## See also
 
-- [Verification pipeline](/docs/implementation/verification-pipeline) describes the seven-check pipeline in detail.
+- [Verification pipeline](/docs/implementation/verification-pipeline) describes the nine-check pipeline in detail.
 - [Transparency and audit](/docs/architecture/transparency) describes the Merkle transparency log that the inclusion check verifies against.
 - [For IAs and BIML/CIML](/docs/roles/for-ias-biml-ciml) covers the IA and BIML operational model from the issuer's perspective.

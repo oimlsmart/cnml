@@ -5,6 +5,7 @@
 // the codebase is clean.
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
@@ -18,6 +19,24 @@ export default [
       "apps/cnml-web/dist/**",
       "packages/cnml-types/**",
     ],
+  },
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser },
+    },
+  },
+  {
+    files: ["**/*.ts"],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser },
+    },
+    rules: {
+      // TypeScript's own checker catches undefined identifiers;
+      // no-undef false-positives on TS-specific syntax and DOM/node
+      // globals in the mixed monorepo.
+      "no-undef": "off",
+    },
   },
   {
     rules: {
