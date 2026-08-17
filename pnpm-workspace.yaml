@@ -4,6 +4,7 @@ packages:
 allowBuilds:
   esbuild: false
   sharp: false
+  workerd: false
 
 overrides:
   sharp: 0.35.2

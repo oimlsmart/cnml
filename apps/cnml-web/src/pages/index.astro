@@ -284,9 +284,9 @@ const audiences = [
           Generate and verify CNML certificates in the browser
         </h2>
         <p class="cnml-app-preview__body">
-          The interactive tools generate sample CNML certificates for evaluation purposes. They run entirely in the browser. Private keys are generated on device, encrypted with a passphrase-derived key, and never leave the machine. The three issuing scenarios exercise the real threshold-signing coordinator, and the verifier runs the full seven-check pipeline against any CNML file.
+          The interactive tools generate sample CNML certificates for evaluation purposes. They run entirely in the browser. Private keys are generated on device, encrypted with a passphrase-derived key, and never leave the machine. The three issuing scenarios exercise the real threshold-signing coordinator, and the verifier runs the full nine-check pipeline against any CNML file.
         </p>
-        <a class="btn btn-primary bp-magnetic bp-focus-ring" href={url('/app')} data-magnetic-strength="0.2">
+        <a class="btn btn-primary bp-magnetic bp-focus-ring cnml-app-preview__cta" href={url('/app')} data-magnetic-strength="0.2">
           Open the certificate operations app <span class="arrow">→</span>
         </a>
       </div>
@@ -592,7 +592,13 @@ const audiences = [
     opacity: 0.25;
     z-index: 0;
   }
-  .cnml-app-preview__inner {
+  .cnml-app-preview__cta {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.cnml-app-preview__inner {
     position: relative;
     z-index: 1;
     max-width: 48rem;

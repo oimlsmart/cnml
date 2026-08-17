@@ -21,7 +21,7 @@ function toggle() {
   <button
     @click="toggle"
     class="cnml-locale-toggle"
-    :aria-label="current === 'en' ? 'Switch to French' : 'Switch to English'"
+    :title="current === 'en' ? 'Switch language to French' : 'Switch language to English'"
   >
     <span :class="{ 'font-bold': current === 'en' }">EN</span>
     <span aria-hidden="true"> | </span>
