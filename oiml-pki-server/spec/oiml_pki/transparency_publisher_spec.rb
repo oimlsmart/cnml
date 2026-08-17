@@ -130,7 +130,7 @@ RSpec.describe OimlPki::TransparencyPublisher do
       proof = described_class.proof_for(1)
       expect(proof).to be_a(OimlPki::TransparencyProof)
       expect(proof.sequence).to eq(1)
-      expect(proof.leaf_hash).to eq(h2)
+      expect(proof.leaf_hash).to eq(OpenSSL::Digest::SHA256.digest("\x01" + h2))
       expect(proof.tree_size).to eq(3)
       expect(proof.log_root.bytesize).to eq(32)
 
