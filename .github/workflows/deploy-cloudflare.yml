@@ -44,7 +44,17 @@ jobs:
       - name: Test vectors (the verify gate)
         run: pnpm test
 
+      - name: Cloudflare credentials check
+        env:
+          CF_CONFIGURED: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+        if: env.CF_CONFIGURED != 'true'
+        run: |
+          echo "::notice::Cloudflare Pages publish SKIPPED: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets are not configured. Add them to enable the mirror deploy."
+
       - name: Publish to Cloudflare Pages
+        env:
+          CF_CONFIGURED: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+        if: env.CF_CONFIGURED == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
