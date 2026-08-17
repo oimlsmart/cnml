@@ -60,6 +60,21 @@ The signed XML contains:
 
 ## Composite signatures (post-quantum)
 
+
+## Co-signatures (multi-dimensional attestation)
+
+A certificate may carry independent co-signatures on the same
+canonical payload, each attesting a trust dimension. The certified
+tester's key co-signs the certificate they evaluated (the person
+dimension), and a calibration authority may co-sign the environment
+dimension. Every signature, primary and co-signed, covers the same
+canonical payload: the document minus all signature-bearing
+elements, exclusive C14N canonicalized, so third-party XMLDSig
+verifiers interoperate unchanged. The API is
+`signCnmlXmlWithCosignatures(xml, primary, cosigners)`, and the
+verification pipeline records each verified dimension in the
+coverage report. See [Verification pipeline](/docs/implementation/verification-pipeline).
+
 For post-quantum readiness, CNML supports composite signatures
 combining Ed25519 with ML-DSA-65:
 

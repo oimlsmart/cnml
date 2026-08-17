@@ -9,6 +9,15 @@ CNML is a cryptographically signed, machine-verifiable digital certificate forma
 
 ## The five-tier certificate hierarchy
 
+
+In SIGNATIF terms, the tiers instantiate the framework's four-level
+delegation model: the BIML Root is the root trust authority; the IA,
+test laboratory, and manufacturer-model tiers are delegated trust
+authorities; the certified tester and instance credentials are end
+certificates; and the signed measurements are trusted artifacts. The
+mapping, with the conformance classes CNML claims against each, is in
+the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 CNML organizes signing authority into a five-tier hierarchy. Each tier holds its own threshold parameters and its own signing key material, and each tier's signatures chain cryptographically to the tier above. The thresholds at the upper tiers distribute signing authority across multiple independent parties, so that no single individual can produce a CA-level signature. The thresholds at the lower tiers remain single-party, since the volume of instance-level signing would make threshold coordination impractical.
 
 ![System architecture](/diagrams/architecture.svg)
