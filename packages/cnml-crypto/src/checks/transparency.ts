@@ -85,6 +85,11 @@ export interface TransparencyProof {
   otsProof?: Uint8Array;
   /** Bitcoin block height the log root is anchored to (optional). */
   bitcoinHeight?: number;
+  /** Operator signature over the tree head (P-1363 hex), when the
+   *  proof carries a signed head (spec §inclusion-proof). */
+  headSignature?: string;
+  /** The signed head timestamp (ISO-8601). */
+  headTimestamp?: string;
 }
 
 /**
@@ -133,6 +138,8 @@ export function parseTransparencyProof(xml: string): TransparencyProof | null {
   const treeSizeText = textOf(proofEl, "cnml:tree_size");
   const otsB64 = textOf(proofEl, "cnml:ots_proof");
   const btcHeightText = textOf(proofEl, "cnml:bitcoin_height");
+  const headSignature = textOf(proofEl, "cnml:head_signature");
+  const headTimestamp = textOf(proofEl, "cnml:head_timestamp");
 
   if (!leafHashHex || !rootHex) return null;
 
@@ -164,6 +171,8 @@ export function parseTransparencyProof(xml: string): TransparencyProof | null {
     treeSize: treeSizeText ? parseInt(treeSizeText, 10) : undefined,
     otsProof: otsB64 ? fromBase64(otsB64) : undefined,
     bitcoinHeight: btcHeightText ? parseInt(btcHeightText, 10) : undefined,
+    headSignature: headSignature ?? undefined,
+    headTimestamp: headTimestamp ?? undefined,
   };
 }
 
@@ -199,10 +208,12 @@ export const transparencyCheck: Check = {
       };
     }
 
-    // Compute the leaf hash from the cert content (the entire CNML XML,
-    // canonicalized) and compare to the proof's leafHash. This binds the
-    // proof to the CNML bytes being verified.
-    const certHash = await sha256(encodeText(xml));
+    // Compute the leaf from the CANONICAL PAYLOAD (XML-native: the
+    // document minus Signature/coSignature/tlog_proof, exclusive
+    // C14N — the same form every signature covers) and compare to the
+    // proof's leafHash. No string surgery on the XML.
+    const { canonicalPayloadHash } = await import("../xml/canonical-payload.ts");
+    const certHash = await canonicalPayloadHash(xml);
     const expectedLeaf = await hashLeaf(certHash);
 
     const leafMatches = constantTimeEqual(expectedLeaf, proof.leafHash);
@@ -221,6 +232,28 @@ export const transparencyCheck: Check = {
         status: "fail",
         reason: "Merkle inclusion proof does not resolve to the claimed log root",
       };
+    }
+
+    // Signed tree head (spec §inclusion-proof): when the proof embeds
+    // the operator head signature and the verifier holds the operator
+    // key, the head is verified before the proof is trusted.
+    if (proof.headSignature && proof.headTimestamp && ctx.logOperatorPublicKeyPem) {
+      const { verifySignedHead } = await import("./transparency-consistency.ts");
+      const headOk = await verifySignedHead({
+        size: proof.treeSize ?? 0,
+        root: toHex(proof.logRoot),
+        timestamp: proof.headTimestamp,
+        operator: proof.logOperator,
+        signature: proof.headSignature,
+        public_key: ctx.logOperatorPublicKeyPem,
+      });
+      if (!headOk) {
+        return {
+          checkId: "transparency",
+          status: "fail",
+          reason: "the embedded tree-head signature does not verify against the log operator key",
+        };
+      }
     }
 
     const anchored = !!proof.bitcoinHeight;

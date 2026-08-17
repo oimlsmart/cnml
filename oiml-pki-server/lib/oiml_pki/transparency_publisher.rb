@@ -299,10 +299,12 @@ module OimlPki
   # Public proof structure, serializable for embedding in CNML XML.
   class TransparencyProof
     attr_reader :sequence, :leaf_hash, :inclusion_proof, :log_root,
-                :log_operator, :tree_size, :bitcoin_height
+                :log_operator, :tree_size, :bitcoin_height,
+                :head_signature, :head_timestamp
 
     def initialize(sequence:, leaf_hash:, inclusion_proof:, log_root:,
-                   log_operator:, tree_size:, bitcoin_height: nil)
+                   log_operator:, tree_size:, bitcoin_height: nil,
+                   head_signature: nil, head_timestamp: nil)
       @sequence         = sequence
       @leaf_hash        = leaf_hash
       @inclusion_proof  = inclusion_proof
@@ -310,6 +312,8 @@ module OimlPki
       @log_operator     = log_operator
       @tree_size        = tree_size
       @bitcoin_height   = bitcoin_height
+      @head_signature   = head_signature
+      @head_timestamp   = head_timestamp
     end
 
     def to_h
@@ -321,6 +325,8 @@ module OimlPki
         "tree_size"       => @tree_size,
         "bitcoin_height"  => @bitcoin_height,
         "inclusion_proof" => @inclusion_proof.map(&:to_h),
+        "head_signature"  => @head_signature,
+        "head_timestamp"  => @head_timestamp,
       }
     end
   end
@@ -347,13 +353,33 @@ module OimlPki
       end
     end
 
+    # Log a CNML artifact by its CANONICAL PAYLOAD hash (XML-native:
+    # the document minus Signature/coSignature/tlog_proof, exclusive
+    # C14N). This is the leaf verifiers recompute from any formatting
+    # of the same document.
+    # @return [Integer] the assigned sequence number
+    def record_artifact(cnml_xml)
+      record(CanonicalPayload.hash(cnml_xml))
+    end
+
     # Build an inclusion proof for a leaf at the given sequence.
-    def proof_for(sequence, log_operator: default_log_operator)
+    def proof_for(sequence, log_operator: default_log_operator, operator_key: nil)
       with_persistent_log do |tree|
         raise ArgumentError, "sequence out of range" if sequence >= tree.length
 
-        leaf_hash = tree.entries[sequence]
+        entry     = tree.entries[sequence]
+        # The leaf hash carried in proofs is the RFC 6962 leaf NODE
+        # hash SHA-256(0x01 || entry), not the raw entry — matching
+        # the audit-path convention verifiers walk from.
+        leaf_hash = OpenSSL::Digest::SHA256.digest("\x01" + entry)
         steps     = tree.inclusion_proof(sequence)
+        head_signature = nil
+        head_timestamp = nil
+        if operator_key
+          head = signed_head(tree, operator_key, log_operator: log_operator)
+          head_signature = head[:signature]
+          head_timestamp = head[:timestamp]
+        end
         TransparencyProof.new(
           sequence:        sequence,
           leaf_hash:       leaf_hash,
@@ -361,6 +387,8 @@ module OimlPki
           log_root:        tree.root,
           log_operator:    log_operator,
           tree_size:       tree.length,
+          head_signature:  head_signature,
+          head_timestamp:  head_timestamp,
         )
       end
     end
@@ -368,11 +396,23 @@ module OimlPki
     # Embed a <cnml:tlog_proof> element into CNML XML. Returns the
     # modified XML string.
     def embed_proof(cnml_xml, proof)
-      # Parse, find root, insert proof element before </...:cnml> or root close.
-      # Lightweight string insertion — full XML parse would require Nokogiri.
-      proof_xml = render_proof_element(proof)
-      # Insert before the closing root tag.
-      cnml_xml.sub(%r{</[^>]+cnml[^>]*>\s*$}m) { "#{proof_xml}#{Regexp.last_match(0)}" }
+      # XML-native insertion: parse, append the proof element as the
+      # root's last child, serialize. Never string surgery.
+      require "nokogiri"
+      doc = Nokogiri::XML(cnml_xml) { |c| c.norecover.strict }
+      raise ArgumentError, "not well-formed XML" unless doc.errors.empty? && doc.root
+
+      proof_doc = Nokogiri::XML(render_proof_element(proof))
+      proof_el = proof_doc.root
+      proof_el = proof_doc.remove_namespaces! && proof_doc.root unless proof_el
+      raise ArgumentError, "rendered proof is not an element" unless proof_el
+
+      # Preserve the cnml prefix binding: adopt the node into the
+      # document's namespace context.
+      doc.root.add_child(proof_el)
+      # AS_XML: no reformatting — the payload text nodes keep their
+      # original bytes so the canonical payload is unchanged.
+      doc.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
     end
 
     def default_log_operator
@@ -465,12 +505,17 @@ module OimlPki
         %(      <cnml:step index="0"><cnml:sibling>#{step.sibling.unpack1('H*')}</cnml:sibling><cnml:side>#{step.side}</cnml:side></cnml:step>)
       end.join("\n")
 
+      signed_head_xml = if proof.head_signature
+                          %(    <cnml:head_timestamp>#{proof.head_timestamp}</cnml:head_timestamp>
+    <cnml:head_signature algorithm="ECDSA-P256-SHA256">#{proof.head_signature}</cnml:head_signature>)
+                        end
       %(  <cnml:tlog_proof algorithm="RFC6962">
     <cnml:log_operator>#{proof.log_operator}</cnml:log_operator>
     <cnml:sequence>#{proof.sequence}</cnml:sequence>
     <cnml:leaf_hash algorithm="SHA-256">#{proof.leaf_hash.unpack1('H*')}</cnml:leaf_hash>
     <cnml:log_root algorithm="SHA-256">#{proof.log_root.unpack1('H*')}</cnml:log_root>
     <cnml:tree_size>#{proof.tree_size}</cnml:tree_size>
+#{signed_head_xml}
     <cnml:inclusion_proof>
 #{steps_xml}
     </cnml:inclusion_proof>
