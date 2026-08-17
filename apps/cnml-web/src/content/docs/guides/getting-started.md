@@ -45,7 +45,7 @@ evaluation:
    the evaluation results, and sign the CNML XML.
 
 3. **Verify a certificate** at `/verify`. Drop a `.cnml.xml` file
-   onto the verifier. The seven-check pipeline runs entirely in your
+   onto the verifier. The nine-check pipeline runs entirely in your
    browser.
 
 ## Run the test vectors
@@ -59,6 +59,14 @@ pnpm vectors:verify   # verify all 22 round-trip
 ```
 
 ## Next steps
+
+
+The framework-level conformance documents orient deeper work: the
+[CNML profile of SIGNATIF](/docs/specifications/signatif-profile)
+(the claimed classes), the
+[conformance test mapping](/docs/specifications/signatif-test-mapping)
+(which suite exercises which requirement), and the
+[verification pipeline](/docs/implementation/verification-pipeline).
 
 - [Signing a certificate](/docs/guides/signing-a-certificate) for the
   issuance flow.

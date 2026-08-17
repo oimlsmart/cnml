@@ -4,6 +4,8 @@ lede: 'CNML is a five-tier certificate hierarchy with threshold signing at the u
 coord: 'ABOUT / 03'
 ---
 
+CNML is specified as a domain profile of the SIGNATIF trust-infrastructure framework (ISO/TC 154 working draft); the conformance claims are in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 CNML organizes certificate authority into five tiers. Each tier binds a narrower scope to a signature produced by a broader authority. The hierarchy runs from the OIML Root CA at the top to a per-device instance certificate at the bottom, and every link in the chain is verifiable by any holder of the file.
 
 ## The five-tier hierarchy

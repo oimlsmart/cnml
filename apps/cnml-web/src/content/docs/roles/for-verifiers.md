@@ -59,6 +59,15 @@ A terminal deployed in a fully air-gapped environment (a customs post, a market-
 
 ## What the verifier confirms
 
+
+The outcome is three-staged per the framework: a coverage report
+records objectively what was verified, which trust dimensions are
+attested, and which algorithms were observed; a scheme-declared
+classification label grades the report; and the acceptance policy,
+configured by the verifier, decides whether the label suffices for
+the decision at hand. A customs inspection may demand a higher label
+than a routine spot check.
+
 The CNML verifier confirms the following properties of a certificate. The certificate was signed by a key that chains to a trusted root. The certificate's recommendation identifier falls within the scope of the issuing IA. The certificate has not been revoked. The certificate was signed at a time that falls within its validity period, as confirmed by the embedded timestamp proof. The certificate appears in the public transparency log.
 
 The verifier does not confirm the following. The verifier does not confirm the legal validity of the certificate, which is a separate regulatory question. The verifier does not confirm that the physical instrument matches the certificate, which is a separate physical-inspection question. The verifier does not confirm that the IA's evaluation decision was correct, which is an institutional question for the DoMC framework.

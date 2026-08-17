@@ -19,6 +19,12 @@ NIST's broader post-quantum cryptography standardization effort, which produced 
 
 ## What CNML adopts
 
+
+The same constructions instantiate the SIGNATIF framework's threshold
+requirements (quorum-in-delegation, aggregate-key continuity,
+ceremony records, and the audit algorithm); the mapping is in the
+[CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 CNML adopts the following threshold techniques surveyed by NIST.
 
 **Threshold signature at the BIML Root tier.** The BIML Root signing key is held as a threshold secret shared among the OIML directors. Producing a root-tier signature requires a configured quorum of directors to participate in a threshold signing protocol. The protocol CNML uses is a FROST-style construction (Flexible Round-Optimized Schnorr Threshold signatures) over the Ed25519 curve, with hybrid composite signatures support for ML-DSA-65 on the post-quantum branch. The threshold property prevents a single director from producing a root-tier signature and prevents a compromise of fewer than the threshold number of directors from producing one.

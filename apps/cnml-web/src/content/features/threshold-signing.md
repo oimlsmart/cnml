@@ -20,6 +20,14 @@ Director rotation preserves the aggregate public key. When a director departs an
 
 ## Why this design
 
+
+Per the framework's threshold requirements: a threshold child's
+delegation certificate carries its quorum definition (T, N) as an
+X.509 extension; member rotation preserves the aggregate key; and
+every ceremony produces a complete, auditable transcript
+(participants, quorum, payload hash, aggregate signature, and the
+transparency-log entry for the result).
+
 A multisig script could in principle express the same K-of-N authorization policy. The threshold approach was chosen because the signature on the issued certificate is a standard single-key signature. The threshold property is invisible to verifiers, who need no special software and no awareness of the signing configuration. This keeps the verification pipeline simple and keeps the trust model aligned with established X.509 semantics.
 
 Re-sharing without changing the public key is the second reason. Institutional leadership rotates on multi-year cycles. A scheme that required re-issuing every certificate on each director change would be unworkable for an instrument fleet with a multi-decade service lifetime.
