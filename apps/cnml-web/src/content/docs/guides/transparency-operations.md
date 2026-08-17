@@ -9,9 +9,9 @@ This guide is for the people who run the infrastructure: the log
 operator (BIML or its designate), independent mirror operators, and
 the scheme officer who performs the algorithm-registry signing
 ceremony. The verifier side is covered in the
-[verification pipeline](../implementation/verification-pipeline);
+[verification pipeline](/docs/implementation/verification-pipeline);
 the conformance claims live in the
-[CNML profile of SIGNATIF](../specifications/signatif-profile).
+[CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
 
 Everything below is one command per responsibility. The software
 verifies first and refuses on mismatch: operators never have to
@@ -87,7 +87,7 @@ where available). The command verifies its own output before
 writing. Verifiers check the signature when present and may be
 configured to require a signed registry; deprecation then downgrades
 affected artifacts one classification label and retirement
-hard-fails them, per the [algorithm agility](../specifications/signatif-profile)
+hard-fails them, per the [algorithm agility](/docs/specifications/signatif-profile)
 policy.
 
 

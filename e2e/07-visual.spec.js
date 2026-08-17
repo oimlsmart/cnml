@@ -13,7 +13,15 @@
 // separate test captures the home page in dark mode so the dark
 // theme is also locked.
 
+const fs = await import("node:fs");
 const { test, expect } = await import("@playwright/test");
+
+// Baselines are per-platform and regenerated locally (see the header).
+// Skip the suite on machines that have none for this platform (CI)
+// instead of failing on "snapshot doesn't exist".
+const SNAPSHOT_DIR = new URL("./07-visual.spec.js-snapshots/", import.meta.url).pathname;
+const hasBaselines = fs.existsSync(SNAPSHOT_DIR)
+  && fs.readdirSync(SNAPSHOT_DIR).some((f) => f.includes(`chromium-${process.platform}`));
 
 const BASE = "http://127.0.0.1:4455/cnml";
 
@@ -31,6 +39,7 @@ for (const page of PAGES) {
   for (const width of page.widths) {
     const suffix = width === 1280 ? "desktop" : width === 375 ? "mobile" : `w${width}`;
     test(`visual: ${page.name} (${suffix})`, async ({ browser }) => {
+      test.skip(!hasBaselines, `no ${process.platform} baselines (generate locally with --update-snapshots)`);
       const context = await browser.newContext({
         viewport: { width, height: 800 },
         deviceScaleFactor: 1,
@@ -56,6 +65,7 @@ for (const page of PAGES) {
 }
 
 test("visual: home (dark)", async ({ browser }) => {
+  test.skip(!hasBaselines, `no ${process.platform} baselines (generate locally with --update-snapshots)`);
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 1,

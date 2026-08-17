@@ -307,7 +307,7 @@ describe("Units resolver", () => {
     assert.equal(resolveUnitId("kg"), "u:kilogram");
     assert.equal(resolveUnitId("V"), "u:volt");
     assert.equal(resolveUnitId("°C"), "u:degree_Celsius");
-    assert.equal(resolveUnitId("m/min"), undefined || "u:meter_per_minute"); // local or none
+    assert.equal(resolveUnitId("m/min"), "u:meter_per_minute");
   });
 
   test("resolves prefixed units", async () => {

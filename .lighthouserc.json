@@ -1,10 +1,12 @@
 {
   "ci": {
     "collect": {
+      "startServerCommand": "sh -c 'rm -rf /tmp/lh-stage && mkdir -p /tmp/lh-stage/cnml && cp -r apps/cnml-web/dist/* /tmp/lh-stage/cnml/ && npx --yes http-server /tmp/lh-stage -p 4321'",
+      "startServerReadyPattern": "Available on|Started",
       "url": [
-        "http://localhost:4321/",
-        "http://localhost:4321/docs/why-cnml",
-        "http://localhost:4321/verify"
+        "http://127.0.0.1:4321/cnml/",
+        "http://127.0.0.1:4321/cnml/docs/why-cnml",
+        "http://127.0.0.1:4321/cnml/verify"
       ],
       "numberOfRuns": 1,
       "settings": {
@@ -13,10 +15,30 @@
     },
     "assert": {
       "assertions": {
-        "categories:performance": ["warn", { "minScore": 0.85 }],
-        "categories:accessibility": ["error", { "minScore": 0.95 }],
-        "categories:best-practices": ["warn", { "minScore": 0.9 }],
-        "categories:seo": ["error", { "minScore": 1.0 }]
+        "categories:performance": [
+          "warn",
+          {
+            "minScore": 0.85
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 0.95
+          }
+        ],
+        "categories:best-practices": [
+          "warn",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:seo": [
+          "error",
+          {
+            "minScore": 1.0
+          }
+        ]
       }
     },
     "upload": {

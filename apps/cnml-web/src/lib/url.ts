@@ -42,9 +42,6 @@ export function prefixHtmlLinks(html: string, currentDir: string): string {
       } else if (!resolved.startsWith('/') && !resolved.startsWith('#')) {
         // Bare slug or relative path — resolve against the page's directory.
         resolved = baseDir + resolved;
-      } else {
-        // Absolute path.
-        resolved = resolved;
       }
       const prefixed = `${BASE}${resolved.replace(/^\//, '')}`;
       return `${attr}="${prefixed}"`;

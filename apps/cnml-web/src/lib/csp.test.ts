@@ -5,11 +5,13 @@ import { buildCsp } from "./csp.ts";
 test("both dev and production CSPs allow unsafe-inline for scripts", () => {
   // Astro generates inline scripts for island hydration on static
   // hosting (no nonce support). Both modes must allow 'unsafe-inline'.
+  // Production also allows 'unsafe-eval' for AJV schema compilation
+  // (new Function) on the verify page.
   const prod = buildCsp({ dev: false });
   const dev = buildCsp({ dev: true });
   const match = (csp: string) => csp.match(/script-src '[^']*'(?: '[^']*')*/);
-  assert.equal(match(prod)?.[0], "script-src 'self' 'unsafe-inline'");
-  assert.equal(match(dev)?.[0], "script-src 'self' 'unsafe-inline'");
+  assert.equal(match(prod)?.[0], "script-src 'self' 'unsafe-inline' 'unsafe-eval'");
+  assert.equal(match(dev)?.[0], "script-src 'self' 'unsafe-inline' 'unsafe-eval'");
 });
 
 test("both CSPs omit frame-ancestors (unenforceable via meta)", () => {
