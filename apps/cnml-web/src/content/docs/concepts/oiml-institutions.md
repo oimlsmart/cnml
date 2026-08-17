@@ -7,6 +7,8 @@ description: The institutional structure of OIML and how the OIML-CS framework, 
 
 CNML is a component of the OIML SMART programme, and its governance is grounded in the institutional structure of the International Organization of Legal Metrology (OIML). This page provides the institutional context a reader needs before engaging with the cryptographic and operational documentation. It is written for member-state delegates, Issuing Authority staff, and readers new to OIML institutional structure. The documentation set as a whole is a proposal to OIML from the OIML SMART programme, not an adopted specification.
 
+In the CNML architecture, these institutions instantiate the SIGNATIF framework's delegation model: OIML/BIML operates the root trust authority, CIML's member states host the delegated Issuing Authorities, and the OIML-CS Declaration of Mutual Confidence defines the scope each delegation carries.
+
 ![OIML institutional architecture](/diagrams/institutional-architecture.svg)
 
 ## OIML and its treaty basis

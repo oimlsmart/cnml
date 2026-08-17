@@ -4,6 +4,8 @@ lede: 'No existing public-key infrastructure meets the combination of requiremen
 coord: 'ABOUT / 02'
 ---
 
+CNML is specified as a domain profile of the SIGNATIF trust-infrastructure framework (ISO/TC 154 working draft): the delegation hierarchy, dimensional attestations, transparency, and verification follow the framework's normative structure, instantiated for legal metrology. The conformance claims are in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 The existing OIML-CS certificate of conformity is a PDF document. A PDF is reproducible with consumer-grade image editing software. The widespread availability of generative image models has increased the realism of forged documents. A verifier of a paper or PDF certificate cannot distinguish an original from a reproduction without contacting the issuer, and the contact step is rarely available to a market-surveillance inspector in the field. The certificate format is the weak point of the present system.
 
 CNML replaces the unforgeable-document problem with the cryptographic-signature problem. A CNML file carries a signature that no party can reproduce without access to a threshold quorum of private keys. Verification is a computation that any browser can perform in milliseconds. The question "is this certificate authentic" becomes "does this signature validate against this public key", which is a question with a deterministic answer.
