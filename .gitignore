@@ -57,3 +57,4 @@ TODO.chrontif/
 
 # Playwright visual baselines (regenerated per platform)
 e2e/*-snapshots/
+.lighthouseci/
