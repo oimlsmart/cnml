@@ -538,6 +538,57 @@ The remaining open items are listed last.
   [composition document](composition).
 - **EU DPP composition**: closed. See the
   [composition document](composition).
+- **Leafless consistency verification**: closed. A verifier holding
+  only the two signed heads and the audit path recomputes both
+  roots; exhaustive agreement with the log generator.
+- **Gossip quorum**: closed. t-of-n independent sources must agree
+  on a tree head before inclusion proofs are accepted against it.
+- **Multi-log attestation machinery**: closed. M-of-K policy with
+  per-log independent validation and quorum evaluation.
+- **Manifest-declared classification policy**: closed. The
+  [classification] section parsed by both manifest ports and built
+  into the verification policy.
+- **Signed algorithm registry machinery**: closed. Canonical
+  registry string, operator signature, verification on load;
+  signing awaits the scheme ceremony.
+- **Single-use challenge nonces**: closed. The verifier's nonce
+  registry rejects a second response for the same nonce.
+- **Co-signer scope enforcement**: closed. The tester credential's
+  scope extension must cover the artifact's Recommendation.
+- **Verification result typing**: closed. The spec-shaped result
+  carries classified_grade, paths, dimensional_coverage, typed
+  failures, and downgrades.
+- **State index publication + CRL anchoring**: closed. Per-artifact
+  state bindings recorded and published; every issued CRL is
+  recorded in the log.
+- **VC emission**: closed. Type-approval and instance certificates
+  emit as W3C Verifiable Credentials with the co-signature proof
+  set.
+- **Singleton-set normalization**: closed. Narrowing normalizes
+  {x} to x before comparison, per the spec's step 1.
+- **Co-signature replay binding**: closed. Co-signatures carry the
+  artifact's unique identifier (root id or log sequence).
+- **The mirror**: closed in software. TransparencyMirror validates
+  each consecutive pair of tree heads and rejects a head that
+  fails; a rewritten log is refused.
+- **Registry signing ceremony tooling**: closed. The operator signs
+  the registry; verifiers check the signature, optionally requiring
+  it.
+- **Ceremony transcript completeness**: closed. Transcripts carry
+  quorum parameters, the payload hash, the aggregate threshold
+  signature, and the log cross-reference; the audit algorithm
+  verifies all of it.
+- **Requirement-level audit (all 113 requirements)**: closed. The
+  machine-readable requirement classes walked end to end; closures
+  include the schema major-version gate, the offline CRL
+  grace-period policy, independent-root-count and multi-log status
+  in the coverage report, the operator-signed tree head embedded
+  in the inclusion proof, deployment-manifest signing (both ports,
+  cross-language fixture), the recognized-logs and multi-log
+  manifest declaration, the (T, N) quorum extension on threshold
+  delegation certificates, the ceremony audit algorithm, passport
+  scope and validity period, and the canonical-payload leaf
+  contract (exclusive C14N on both sides, XML-native end to end).
 
 ### Federated trust authority evaluation
 
