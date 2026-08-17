@@ -51,6 +51,19 @@ The threshold-encryption path uses an ElGamal-based construction over the NIST P
 
 ## The asynchronous coordinator model
 
+
+## The framework's threshold requirements
+
+The SIGNATIF framework places four requirements on threshold
+operation, all instantiated here: a threshold child's delegation
+certificate carries its quorum definition (T, N) as an X.509
+extension; member rotation preserves the aggregate key so existing
+delegations remain valid without re-issuance; every ceremony
+produces a complete transcript (participants, quorum parameters,
+payload hash, aggregate signature, and the transparency-log
+cross-reference); and the audit algorithm verifies all of it. The
+claims are in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 The directors at the BIML Root tier and the officers at the IA Intermediate tier are distributed across time zones. They cannot coordinate synchronously. CNML uses a coordinator service that buffers protocol messages, allowing each signer to participate when convenient. The coordinator is honest-but-curious. It can observe encrypted protocol messages and can log their existence, but it cannot reconstruct the signing key, forge a signer's commitment, or trigger a signing session without signer participation.
 
 The coordinator operates under the threshold property. A compromise of the coordinator can delay signing sessions or drop messages, producing a denial-of-service condition, but cannot produce a valid threshold signature. The signing key material never leaves the signers' hardware. The protocol messages that the coordinator relays are individually authenticated by each signer's identity key and do not reveal the signing key.
