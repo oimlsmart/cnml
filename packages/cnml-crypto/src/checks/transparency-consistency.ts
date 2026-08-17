@@ -235,13 +235,17 @@ export async function verifySignedHead(
   let verifyKey = key;
   if (!verifyKey) {
     if (!head.public_key) return false;
-    verifyKey = await crypto.subtle.importKey(
-      "spki",
-      pemToBytes(head.public_key),
-      { name: "ECDSA", namedCurve: "P-256" },
-      true,
-      ["verify"],
-    );
+    try {
+      verifyKey = await crypto.subtle.importKey(
+        "spki",
+        pemToBytes(head.public_key),
+        { name: "ECDSA", namedCurve: "P-256" },
+        true,
+        ["verify"],
+      );
+    } catch {
+      return false;
+    }
   }
   const sig = fromHex(head.signature);
   return crypto.subtle.verify(
