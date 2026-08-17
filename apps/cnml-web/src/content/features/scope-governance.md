@@ -6,6 +6,10 @@ coord: FEAT / 03
 
 # Scope governance
 
+## Formal narrowing and conditions
+
+Delegation scope satisfies the monotonic narrowing invariant: a child scope is a subset of the parent on every dimension (recommendation, model, serial, tester), with wildcard, set, and single-value semantics defined formally. A scope may also carry conditions: executable predicates evaluated at verification time against the artifact content, such as a measured temperature falling inside an approved range. A widened scope or an unsatisfied condition is a hard verification failure. See the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 ## Mechanism
 
 Each Issuing Authority certificate carries an X.509 v3 extension that enumerates the OIML Recommendations the IA is authorized to issue certificates for. The extension is a structured OID-identified field in the certificate's `extensions` sequence. An IA scoped to OIML R60 (load cells) cannot produce a valid certificate under OIML R117 (measuring systems for liquids other than water) because the scope extension on the IA's certificate does not list R117.

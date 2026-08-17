@@ -11,7 +11,10 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 ## A
 
-**Accuracy class.** A category assigned to a measuring instrument type that reflects its performance under specified conditions. OIML Recommendations define accuracy-class enumerations per instrument category. For load cells (OIML R60), the accuracy classes are A, B, C, and D. For non-automatic weighing instruments (OIML R76), the accuracy classes are I, II, III, and IIII.
+**Accuracy class.**)
+
+**Acceptance policy.** The verifier's own decision layer in the SIGNATIF three-stage model: which classification labels the verifier accepts, which trust dimensions it requires, and how fresh its state must be. The scheme does not set it. See [Verification pipeline](/docs/implementation/verification-pipeline).
+ A category assigned to a measuring instrument type that reflects its performance under specified conditions. OIML Recommendations define accuracy-class enumerations per instrument category. For load cells (OIML R60), the accuracy classes are A, B, C, and D. For non-automatic weighing instruments (OIML R76), the accuracy classes are I, II, III, and IIII.
 
 **Algorithmic agility.** The ability to migrate from one cryptographic algorithm to another without reissuing every certificate. CNML uses composite signatures so that a hash algorithm can weaken without breaking historical verification.
 
@@ -29,6 +32,15 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 ## C
 
+**Ceremony transcript.** The signed record of a threshold ceremony: who participated, the quorum parameters, the payload hash signed, the aggregate signature produced, and the transparency-log entry for the resulting certificate. An incomplete transcript is not accepted as evidence.
+
+**Classification policy.** The scheme-declared mapping from a coverage report to a trust label (A+ through F). Declared in the deployment manifest so every conforming verifier grades identically.
+
+**Consistency proof.** An RFC 6962 proof that one signed tree head of a transparency log is a prefix of a later head: the log has not removed or rewritten history. A mirror rejects any head that fails the check.
+
+**Co-signature.** An independent signature on the same canonical payload as the primary signature, from a different signer attesting a different trust dimension (a certified tester for person, a calibration authority for environment). Each is independently verifiable.
+
+**Coverage report.** The deterministic, objective record of what a verification established: check results, verification paths, attested trust dimensions, algorithms observed. The first stage of the SIGNATIF verification model.
 **CA.** Certificate Authority. The entity that issues certificates. In CNML, the CAs are the BIML Root, the Issuing Authorities, and (for test reports) the test laboratories.
 
 **Certificate.** The signed document that proves an instrument type has been approved. In CNML, the certificate is an XML file signed with XMLDSig.
@@ -73,6 +85,7 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 ## G
 
+**Gossip.** The protocol by which mirrors and verifiers cross-check their views of a transparency log by comparing signed tree heads. A quorum of independent sources must agree on a head before inclusion proofs are trusted against it.
 **Governance.** The rules and processes by which a public-key infrastructure is operated. In CNML, CIML sets policy, BIML operates the infrastructure, and the transparency log publishes every privileged action for public audit.
 
 **Gossip protocol.** A replication protocol where each log mirror exchanges updates with its peers. Gossip detects divergent log views.
@@ -107,6 +120,7 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 ## M
 
+**Mirror.** An independent operator's replica of a transparency log. The mirror validates the consistency proof between consecutive tree heads and refuses to publish a head that fails, so a rewritten log is detectable.
 **Manifest.** The TOML file describing a CNML deployment, including tiers, quorums, transparency-log endpoints, and asynchronous-signing defaults.
 
 **Merkle tree.** A tree of hashes where every leaf is a hash of data and every internal node is a hash of its two children. Inclusion proofs demonstrate that a leaf exists in the tree. CNML uses RFC 6962-style Merkle trees with domain-separated SHA-256.
@@ -148,6 +162,9 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 ## S
 
+**SIGNATIF.** The trust-infrastructure framework under development in ISO/TC 154 that specifies hierarchical, threshold-secured, transparency-logged certificate infrastructures. CNML is specified as a domain profile of the framework. See [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
+**Signed tree head.** The log operator's signature over a tree root, size, and timestamp. Proofs are trusted against a head only after its signature verifies.
 **Scope (of an IA certificate).** The set of OIML Recommendations that an IA is authorized to issue certificates for. Scope is enforced cryptographically through the `oimlAuthorizedRecommendations` X.509 v3 extension.
 
 **Shamir's Secret Sharing.** A threshold secret-sharing scheme over a prime field. CNML uses Shamir's Secret Sharing as an air-gapped fallback for ceremonies where the FROST protocol cannot be used.
@@ -156,6 +173,7 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 ## T
 
+**Trust dimension.** An independently attested aspect of an artifact in the SIGNATIF model: data, person, time, authorization, identity, environment, location. The coverage report records which are attested; the classification policy may require specific ones.
 **Threshold cryptography.** Cryptographic operations that require T of N shares to complete. No single party can act unilaterally.
 
 **Threshold (T).** The minimum number of shares required to perform a threshold operation. For the BIML Root, T is five. For each IA, T is two.

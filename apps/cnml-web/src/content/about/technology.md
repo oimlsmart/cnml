@@ -6,6 +6,10 @@ coord: 'ABOUT / 04'
 
 CNML is built on recognized international standards. Every cryptographic and structural component traces to a published specification. The implementation extends these standards for legal metrology rather than replacing them, and the per-Recommendation schema model is the only part of the system that is OIML-specific.
 
+## Trust-infrastructure framework
+
+CNML is a domain profile of the SIGNATIF trust-infrastructure framework (ISO/TC 154 working draft). The framework specifies the delegation model, multi-dimensional attestations, transparency, and the coverage-report model for verification; CNML instantiates those requirements for OIML type approvals. Conformance is claimed per class, with test-mapped evidence, in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 ## Certificate format
 
 The certificate format is X.509 v3 as specified in RFC 5280. This is the same standard format used by web TLS, extended with an OIML-specific scope extension that uses the standard X.509 v3 extension mechanism. The scope extension carries the OIML Recommendation identifiers that the certificate is authorized to issue for. The extension is enforced at four layers: at signing time in the CA, at verification time in the pipeline, at the schema layer in the per-Recommendation JSON Schema, and at the transparency log layer in the inclusion proof.

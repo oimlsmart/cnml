@@ -127,6 +127,10 @@ The codebase enforces several code quality rules that apply across the TypeScrip
 
 Two architectural patterns dominate the codebase and are developed in dedicated documentation pages. The schema-driven design pattern renders every Recommendation form from declarative JSON Schema YAML, and adding a new Recommendation requires only a new YAML file and a regeneration step. The verification pipeline pattern renders every check from a module that conforms to a uniform interface, and adding a new check requires only a new file and one entry in the registry array. Contributors should read [Schema-driven design](/docs/implementation/schema-driven-design) and [Verification pipeline](/docs/implementation/verification-pipeline) before working on the schema layer or the verification layer.
 
+## Conformance documents
+
+The verification library's behavior is pinned by the SIGNATIF conformance documents: the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile) (claimed classes), the [conformance test mapping](/docs/specifications/signatif-test-mapping) (which suite exercises which requirement), and the [verification pipeline](/docs/implementation/verification-pipeline) (the check registry and the three-stage model). Changes to check semantics update those documents in the same change.
+
 ## See also
 
 - [Schema-driven design](/docs/implementation/schema-driven-design) describes the open/closed pattern for the schema layer.

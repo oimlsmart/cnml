@@ -46,6 +46,8 @@ CNML builds on established international standards: X.509 v3 certificates, W3C X
 
 CNML is complementary to the Digital Calibration Certificate: CNML operates at the type-approval tier, the DCC operates at the calibration tier. An instrument typically holds both.
 
+CNML is specified as a domain profile of the SIGNATIF trust-infrastructure framework (ISO/TC 154 working draft): the delegation hierarchy, the dimensional attestation model, the transparency requirements, and the verification pipeline follow the framework's normative structure, instantiated for legal metrology. The claimed conformance classes and their evidence are in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 ## Further reading
 
 - [Why CNML](why-cnml): the case for adopting the format.

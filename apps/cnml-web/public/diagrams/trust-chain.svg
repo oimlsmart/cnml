@@ -32,7 +32,7 @@
   <!-- Issuer 1 -->
   <g>
     <rect x="80" y="200" width="220" height="80" rx="10" class="issuer"/>
-    <text x="190" y="225" text-anchor="middle" font-weight="700" class="label">NMi Certin B.V. (NL1)</text>
+    <text x="190" y="225" text-anchor="middle" font-weight="700" class="label">Issuing Authority B (IA-B)</text>
     <text x="190" y="245" text-anchor="middle" class="muted">intermediate CA cert</text>
     <text x="190" y="262" text-anchor="middle" class="muted">signed by OIML Root</text>
     <text x="190" y="278" text-anchor="middle" class="muted">scope: R60, R76, R117, ...</text>
@@ -41,7 +41,7 @@
   <!-- Issuer 2 -->
   <g>
     <rect x="340" y="200" width="220" height="80" rx="10" class="issuer"/>
-    <text x="450" y="225" text-anchor="middle" font-weight="700" class="label">PTB (DE1)</text>
+    <text x="450" y="225" text-anchor="middle" font-weight="700" class="label">Issuing Authority A (IA-A)</text>
     <text x="450" y="245" text-anchor="middle" class="muted">intermediate CA cert</text>
     <text x="450" y="262" text-anchor="middle" class="muted">signed by OIML Root</text>
     <text x="450" y="278" text-anchor="middle" class="muted">scope: all R</text>
@@ -50,7 +50,7 @@
   <!-- Issuer 3 -->
   <g>
     <rect x="600" y="200" width="220" height="80" rx="10" class="issuer"/>
-    <text x="710" y="225" text-anchor="middle" font-weight="700" class="label">NIM China (CN2)</text>
+    <text x="710" y="225" text-anchor="middle" font-weight="700" class="label">Issuing Authority C (IA-C)</text>
     <text x="710" y="245" text-anchor="middle" class="muted">intermediate CA cert</text>
     <text x="710" y="262" text-anchor="middle" class="muted">signed by OIML Root</text>
     <text x="710" y="278" text-anchor="middle" class="muted">scope: R51, R117, ...</text>

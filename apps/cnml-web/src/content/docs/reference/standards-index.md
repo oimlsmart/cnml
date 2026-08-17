@@ -51,6 +51,12 @@ OIML D 11:2013, *General requirements for electronic measuring instruments*, def
 
 The OIML B-document series covers the operational framework of the OIML-CS. CNML operates within this framework and is designed as the digital form of the OIML-CS certificate of conformity. The DoMC (Declaration of Mutual Confidence) is the B-document framework under which Issuing Authorities mutually recognize each other's type approvals.
 
+## Trust-infrastructure framework
+
+### SIGNATIF
+
+The SIGNATIF trust-infrastructure framework (ISO/TC 154 working draft) is the general framework for hierarchical, threshold-secured, transparency-logged certificate infrastructures. CNML is specified as a domain profile of SIGNATIF: the delegation model, the dimensional attestation model, the transparency requirements, and the verification pipeline are instantiated from the framework for legal metrology. The conformance claims and their evidence are in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile). The framework draft is developed at [signatif.github.io](https://signatif.github.io).
+
 ## ISO and IEC standards
 
 ### ISO/IEC 17025

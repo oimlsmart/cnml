@@ -72,22 +72,22 @@
     <text x="240" y="22" text-anchor="middle" class="lbl">OIML Root CA</text>
     <text x="240" y="38" text-anchor="middle" class="lbl-sm">(BIML-controlled, air-gapped)</text>
 
-    <!-- Intermediate NMi -->
+    <!-- Intermediate the IA -->
     <rect x="0" y="80" width="220" height="60" rx="6" class="box-cnml"/>
-    <text x="110" y="100" text-anchor="middle" class="lbl">NMi Intermediate (NL1)</text>
+    <text x="110" y="100" text-anchor="middle" class="lbl">IA-B Intermediate</text>
     <text x="110" y="116" text-anchor="middle" class="lbl-sm">scope:</text>
     <text x="110" y="132" text-anchor="middle" class="lbl-mono">R76, R60, R117</text>
 
-    <!-- Intermediate PTB -->
+    <!-- Intermediate the IA -->
     <rect x="260" y="80" width="220" height="60" rx="6" class="box-cnml"/>
-    <text x="370" y="100" text-anchor="middle" class="lbl">PTB Intermediate (DE1)</text>
+    <text x="370" y="100" text-anchor="middle" class="lbl">IA-A Intermediate</text>
     <text x="370" y="116" text-anchor="middle" class="lbl-sm">scope:</text>
     <text x="370" y="132" text-anchor="middle" class="lbl-mono">R60, R76, R111</text>
 
     <line x1="110" y1="50" x2="110" y2="80" stroke="#004996" stroke-width="1.5"/>
     <line x1="370" y1="50" x2="370" y2="80" stroke="#004996" stroke-width="1.5"/>
 
-    <!-- NMi-signed certs -->
+    <!-- IA-B-signed certs -->
     <rect x="0" y="170" width="100" height="50" rx="6" class="box-scope-ok"/>
     <text x="50" y="192" text-anchor="middle" class="lbl-mono">R76 cert</text>
     <text x="50" y="208" text-anchor="middle" class="lbl-sm">✓ in scope</text>
@@ -99,7 +99,7 @@
     <line x1="50" y1="140" x2="50" y2="170" stroke="#15803D" stroke-width="1.5"/>
     <line x1="170" y1="140" x2="170" y2="170" stroke="#15803D" stroke-width="1.5"/>
 
-    <!-- PTB out-of-scope attempt -->
+    <!-- IA-A out-of-scope attempt -->
     <rect x="260" y="170" width="100" height="50" rx="6" class="box-scope-ok"/>
     <text x="310" y="192" text-anchor="middle" class="lbl-mono">R60 cert</text>
     <text x="310" y="208" text-anchor="middle" class="lbl-sm">✓ in scope</text>
@@ -111,7 +111,7 @@
     <line x1="310" y1="140" x2="310" y2="170" stroke="#15803D" stroke-width="1.5"/>
     <line x1="430" y1="140" x2="430" y2="170" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4 3"/>
 
-    <text x="430" y="240" text-anchor="middle" class="note">PTB not authorized for R117</text>
+    <text x="430" y="240" text-anchor="middle" class="note">IA-A not authorized for R117</text>
     <text x="430" y="255" text-anchor="middle" class="note">(no DoMC recognition for fuel dispensers)</text>
 
     <!-- Verifier check -->
