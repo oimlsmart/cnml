@@ -109,6 +109,9 @@ post "/csr/sign" do
     params[:validity].to_i, params[:role], passphrase,
     scope: scope
   )
+  # SIGNATIF §mandatory-inclusion: every issued certificate is
+  # recorded in the transparency log at issuance.
+  OimlPki::TransparencyPublisher.record_cert(cert.to_der)
   OimlPki::AuditLog.append("csr.sign", details: {
     csr_subject: cert.subject.to_s,
     ca_id:       params[:ca_id],
@@ -163,6 +166,7 @@ post "/api/enroll" do
     (body["validity_years"] || 1).to_i, role, passphrase,
     scope: scope
   )
+  OimlPki::TransparencyPublisher.record_cert(cert.to_der)
   OimlPki::AuditLog.append("api.enroll", details: {
     csr_subject: cert.subject.to_s,
     ca_id: body["ca_id"],

@@ -1,0 +1,18 @@
+{
+  "cert_pem": "-----BEGIN CERTIFICATE-----\nMIIBHzCBxqADAgECAgEBMAoGCCqGSM49BAMCMA8xDTALBgNVBAMMBFJvb3QwHhcN\nMjYwODE3MDI1MTM3WhcNMjcwODE3MDI1MjM3WjAPMQ0wCwYDVQQDDARSb290MFkw\nEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3i/BzwO3Tx6LHeO9zEZZRweyZpT7CQoq\nAb7TR+M8tgSxwORBdSRQoaX62L4eyg2zkUwBmQE4Wzr6Ci1ybSKOwqMTMBEwDwYD\nVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNIADBFAiAlfwEqmtIZtVxa8d8WAkRj\np/DoguVAZZ19XwacAHWWIwIhAMSmuxuIiaY9O6eP0H+4cb4DQdnSAu2BmM6xtWlu\nB5Bz\n-----END CERTIFICATE-----\n",
+  "head": {
+    "root": "1f22c8e521329c8a893ed1fee834398c39ec0b93959d1b4403aab46f3f01f4e3",
+    "size": 1,
+    "timestamp": "2026-08-17T02:52:37Z",
+    "operator": "BIML"
+  },
+  "files": {
+    "by-hash/5b3e76604bd2bb9cdd2baa32f44556a0b7abf2ea29ecc7836367e6c9090a1342.json": "{\n  \"sequence\": 0\n}\n",
+    "consistency/0.json": "{\n  \"old_size\": 0,\n  \"new_size\": 1,\n  \"nodes\": []\n}\n",
+    "consistency/1.json": "{\n  \"old_size\": 1,\n  \"new_size\": 1,\n  \"nodes\": []\n}\n",
+    "head.json": "{\n  \"root\": \"1f22c8e521329c8a893ed1fee834398c39ec0b93959d1b4403aab46f3f01f4e3\",\n  \"size\": 1,\n  \"timestamp\": \"2026-08-17T02:52:37Z\",\n  \"operator\": \"BIML\"\n}\n",
+    "leaf/0": "Wz52YEvSu5zdK6oy9EVWoLer8uop7MeDY2fmyQkKE0I=",
+    "proof/0.json": "{\n  \"sequence\": 0,\n  \"leaf_hash\": \"1f22c8e521329c8a893ed1fee834398c39ec0b93959d1b4403aab46f3f01f4e3\",\n  \"log_root\": \"1f22c8e521329c8a893ed1fee834398c39ec0b93959d1b4403aab46f3f01f4e3\",\n  \"tree_size\": 1,\n  \"inclusion_proof\": []\n}\n",
+    "state-index.json": "{\n  \"aa\": [\n    0,\n    1,\n    2\n  ],\n  \"bb\": [\n    1\n  ]\n}\n"
+  }
+}

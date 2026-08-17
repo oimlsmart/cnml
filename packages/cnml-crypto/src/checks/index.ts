@@ -53,6 +53,8 @@ export { buildSpecResult } from "./result.ts";
 // signed tree heads, fork detection. Cross-verifies with the Ruby
 // TransparencyPublisher.
 export type { SignedTreeHead } from "./transparency-consistency.ts";
+export { confirmCertInclusion, confirmChainInclusion } from "./cert-inclusion.ts";
+export type { CertInclusionResult } from "./cert-inclusion.ts";
 export {
   verifyConsistency,
   verifyConsistencyHeads,
