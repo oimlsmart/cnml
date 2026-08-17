@@ -58,6 +58,14 @@ export interface CheckContext {
   /** Explicit values for scope-condition evaluation (Phase 6); merged
    *  over the values extracted from the artifact itself. */
   scopeConditionValues?: Record<string, unknown>;
+  /** Offline CRL grace period in ms (spec §revocation-offline): a
+   *  stale CRL within the window downgrades; beyond it, check 6 fails. */
+  crlGracePeriodMs?: number;
+  /** Multi-log quorum status, set when a policy applies (§coverage-report). */
+  multiLogStatus?: { met: boolean; count: number; m: number; k: number };
+  /** The log operator public key (SPKI PEM) for embedded tree-head
+   *  signature verification (spec §inclusion-proof). */
+  logOperatorPublicKeyPem?: string;
 }
 
 export interface Check {

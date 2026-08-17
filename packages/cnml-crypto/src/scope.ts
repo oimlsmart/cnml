@@ -87,6 +87,59 @@ export function isRecommendationInScope(
   return scope.includes(rId);
 }
 
+/** Quorum-parameters extension OID (T, N on a threshold delegation). */
+export const OIML_QUORUM_OID = "1.3.6.1.4.1.99999.1.2";
+
+/**
+ * Read the quorum parameters (T, N) off a threshold delegation
+ * certificate (spec §threshold-signing/quorum-in-delegation).
+ * Returns null when the cert carries no quorum extension.
+ */
+export async function readQuorumFromCert(certPem: string): Promise<{ t: number; n: number } | null> {
+  const asn1js = await import("asn1js");
+  const der = pemToDer(certPem);
+  const parsed = asn1js.fromBER(der);
+  if (parsed.offset === -1 || !parsed.result) return null;
+
+  const certSeq = parsed.result as { valueBlock?: { value?: unknown[] } };
+  const tbs = certSeq.valueBlock?.value?.[0] as
+    | { valueBlock?: { value?: unknown[] } }
+    | undefined;
+  const children = (tbs?.valueBlock?.value ?? []) as {
+    idBlock?: { tagClass?: number; tagNumber?: number };
+    valueBlock?: { value?: unknown[] };
+  }[];
+  const extWrapper = children.find(
+    (c) => c.idBlock?.tagClass === 3 && c.idBlock?.tagNumber === 3,
+  );
+  const extSeq = extWrapper?.valueBlock?.value?.[0] as
+    | { valueBlock?: { value?: unknown[] } }
+    | undefined;
+
+  for (const raw of extSeq?.valueBlock?.value ?? []) {
+    const ext = raw as {
+      valueBlock?: { value?: { idBlock?: { tagNumber?: number }; valueBlock?: { valueHexView?: Uint8Array; toString?: () => string } }[] };
+    };
+    const parts = ext.valueBlock?.value ?? [];
+    const oid = parts[0]?.valueBlock?.toString?.();
+    if (oid !== OIML_QUORUM_OID) continue;
+    const octet = parts.find((p) => p.idBlock?.tagNumber === 4);
+    const view = octet?.valueBlock?.valueHexView;
+    if (!view) return null;
+    try {
+      const buf = view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength);
+      const seq = asn1js.fromBER(buf as ArrayBuffer);
+      const ints = (seq.result as { valueBlock?: { value?: { valueBlock?: { valueDec?: number } }[] } })
+        ?.valueBlock?.value ?? [];
+      if (ints.length !== 2) return null;
+      return { t: ints[0].valueBlock!.valueDec!, n: ints[1].valueBlock!.valueDec! };
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
 /** Compare two scope sources (X.509 extension vs manifest JSON). They
  *  must agree for the cert to be trustworthy. A mismatch indicates
  *  either manifest tampering or cert forgery. */

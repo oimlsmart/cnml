@@ -74,6 +74,8 @@ module OimlPki
   autoload :TransparencyPublisher, "oiml_pki/transparency_publisher"
   autoload :TransparencyMirror,    "oiml_pki/transparency_mirror"
   autoload :AlgorithmRegistry,     "oiml_pki/algorithm_registry"
+  autoload :ManifestSigning,       "oiml_pki/manifest_signing"
+  autoload :CanonicalPayload,     "oiml_pki/canonical_payload"
   autoload :CeremonyTranscript,   "oiml_pki/ceremony_transcript"
   autoload :UpdateIntegrity,      "oiml_pki/update_integrity"
   autoload :FileLock,             "oiml_pki/file_lock"

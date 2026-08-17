@@ -416,13 +416,16 @@ module OimlPki
 
   # Transparency log configuration.
   class TransparencyConfig
-    attr_reader :log_operator, :anchors, :gossip, :public_mirror_urls
+    attr_reader :log_operator, :anchors, :gossip, :public_mirror_urls,
+                :logs, :multi_log
 
     def initialize(hash)
       @log_operator      = hash["log_operator"]
       @anchors           = hash["anchors"] || []
       @gossip            = hash["gossip"]
       @public_mirror_urls = hash["public_mirror_urls"] || []
+      @logs              = hash["logs"] || []
+      @multi_log         = hash["multi_log"]
     end
   end
 

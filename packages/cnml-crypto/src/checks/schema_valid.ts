@@ -1,6 +1,9 @@
 import type { Check, CheckResult } from "./types.ts";
 import { ensureCoreSchemasRegistered, getRecommendationSchema } from "./core_schemas.ts";
 
+/** The maximum CNML schema major version this verifier supports. */
+export const SUPPORTED_SCHEMA_MAJOR = 1;
+
 /** Check 2: CNML schema validity. Parses via parseCnmlXml and runs
  *  ajv validation against the per-R schema (looked up by recommendation
  *  id from the parsed cert). Sets ctx.parsedCert and ctx.recommendationId
@@ -13,6 +16,23 @@ export const schemaValidCheck: Check = {
   id: "schema-valid",
   label: "2. CNML schema valid",
   run: async (xml, ctx): Promise<CheckResult> => {
+    // Semantic version compatibility (spec §artifact-format): major
+    // version changes are breaking and rejected when above the
+    // supported maximum; minor changes are compatible. Read from the
+    // DOM — never regex over XML.
+    const versionDoc = new DOMParser().parseFromString(xml, "application/xml");
+    const declaredVersion = versionDoc.documentElement?.getAttribute("schemaVersion");
+    if (declaredVersion) {
+      const major = parseInt(declaredVersion.split(".")[0] ?? "", 10);
+      if (Number.isFinite(major) && major > SUPPORTED_SCHEMA_MAJOR) {
+        return {
+          checkId: "schema-valid",
+          status: "fail",
+          reason: `schemaVersion ${declaredVersion} exceeds the supported major version ${SUPPORTED_SCHEMA_MAJOR} — breaking version, rejected`,
+        };
+      }
+    }
+
     const { parseCnmlXml } = await import("@oiml/cnml-xml");
     let parsed: unknown;
     try {

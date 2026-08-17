@@ -102,10 +102,22 @@ export const crlCheck: Check = {
       };
     }
     if (isCrlStale(crl)) {
+      // Offline grace period (spec §revocation-offline): a stale CRL
+      // within the configured grace window downgrades the label; beyond
+      // it, revocation state cannot be asserted and the check fails.
+      const graceMs = ctx.crlGracePeriodMs ?? 0;
+      const expiredFor = crl.nextUpdate ? Date.now() - crl.nextUpdate.getTime() : 0;
+      if (expiredFor > graceMs) {
+        return {
+          checkId: "crl",
+          status: "fail",
+          reason: `CRL expired ${(expiredFor / 86_400_000).toFixed(1)} days ago, beyond the ${graceMs / 86_400_000}-day grace period — revocation state cannot be asserted`,
+        };
+      }
       return {
         checkId: "crl",
         status: "warn",
-        reason: "CRL is past its nextUpdate — refresh recommended",
+        reason: "CRL is past its nextUpdate but within the offline grace period — accepted at a downgraded label",
       };
     }
     return { checkId: "crl", status: "pass" };

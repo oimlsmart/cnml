@@ -152,3 +152,48 @@ test("chainFrom returns empty for unknown tier", () => {
   const m = parseManifestHash(makeValidManifest());
   assert.deepEqual(chainFrom(m, "ghost"), []);
 });
+
+// ─── manifest signature (round 4, mirrors Ruby ManifestSigning) ──
+
+import { manifestCanonicalString, verifyManifestSignature, type Manifest } from "./manifest.ts";
+
+const UNSIGNED: Manifest = {
+  deployment: { name: "T", operator: "O", manifestVersion: 1 },
+  mode: "certificate_pki",
+  tiers: [
+    { name: "root", role: "RTA", threshold: { t: 5, n: 7 } },
+    { name: "ia", role: "DTA", threshold: { t: 2, n: 3 }, delegatedBy: "root" },
+  ],
+  quorums: [{ name: "q1", threshold: { t: 2, n: 3 }, coordinator: "c1" }],
+};
+
+test("manifestCanonicalString matches the Ruby canonical form", () => {
+  assert.equal(
+    manifestCanonicalString(UNSIGNED),
+    "CNML-MANIFEST-v1|T|O|certificate_pki|root:RTA:t=5:n=7;ia:DTA:t=2:n=3:by=root|q1:c1",
+  );
+});
+
+test("unsigned manifests fail verification", async () => {
+  assert.equal(await verifyManifestSignature(UNSIGNED), false);
+});
+
+test("a tampered signed manifest fails verification", async () => {
+  // A signature that does not cover the (modified) content fails.
+  const tampered = {
+    ...UNSIGNED,
+    tiers: [{ ...UNSIGNED.tiers[0], threshold: { t: 6, n: 7 } }],
+    signature: { algorithm: "ECDSA-P256-SHA256", value: "ab".repeat(64), public_key: "not a pem" },
+  };
+  assert.equal(await verifyManifestSignature(tampered), false);
+});
+
+test("a Ruby-signed manifest verifies in TS (cross-language)", async () => {
+  const signed = (await import("./checks/__fixtures__/signed-manifest.json", { with: { type: "json" } })).default;
+  const manifest: Manifest = parseManifestHash(signed);
+  const withSig = { ...manifest, signature: signed.signature };
+  assert.equal(await verifyManifestSignature(withSig), true);
+  // Tampering after signing breaks it.
+  const tampered = { ...withSig, tiers: [{ ...withSig.tiers[0], threshold: { t: 6, n: 7 } }] };
+  assert.equal(await verifyManifestSignature(tampered), false);
+});

@@ -43,11 +43,28 @@ export interface DeploymentHeader {
 }
 
 /** Transparency log config. */
+export interface RecognizedLog {
+  readonly name: string;
+  readonly endpoint?: string;
+  /** SPKI PEM of the log operator's signing key. */
+  readonly publicKey?: string;
+  readonly mirror?: boolean;
+}
+
+export interface MultiLogPolicy {
+  readonly m: number;
+  readonly k: number;
+}
+
 export interface TransparencyConfig {
   readonly logOperator?: string;
   readonly anchors?: readonly string[];
   readonly gossip?: boolean;
   readonly publicMirrorUrls?: readonly string[];
+  /** Recognized logs and mirrors with endpoints and keys (§manifest-transparency). */
+  readonly logs?: readonly RecognizedLog[];
+  /** Multi-log attestation policy: at least m of k recognized logs. */
+  readonly multiLog?: MultiLogPolicy;
 }
 
 /** Async signing defaults. */
@@ -277,6 +294,20 @@ function parseTransparency(raw: unknown): TransparencyConfig | undefined {
     anchors: obj.anchors as readonly string[] | undefined,
     gossip: obj.gossip as boolean | undefined,
     publicMirrorUrls: (obj.public_mirror_urls ?? obj.publicMirrorUrls) as readonly string[] | undefined,
+    logs: Array.isArray(obj.logs)
+      ? (obj.logs as readonly Record<string, unknown>[]).map((l) => ({
+          name: l.name as string,
+          endpoint: (l.endpoint ?? l.url) as string | undefined,
+          publicKey: (l.public_key ?? l.publicKey) as string | undefined,
+          mirror: l.mirror as boolean | undefined,
+        }))
+      : undefined,
+    multiLog: obj.multi_log && typeof obj.multi_log === "object"
+      ? {
+          m: (obj.multi_log as Record<string, unknown>).m as number,
+          k: (obj.multi_log as Record<string, unknown>).k as number,
+        }
+      : undefined,
   };
 }
 
@@ -342,6 +373,67 @@ function parsePqcMigration(raw: unknown): PqcMigrationPlan | undefined {
     target2027: (obj.target_2027 ?? obj.target2027) as string | undefined,
     target2029: (obj.target_2029 ?? obj.target2029) as string | undefined,
   };
+}
+
+/** The manifest's [signature] section (§manifest-format). */
+export interface ManifestSignature {
+  algorithm: string;
+  /** P-1363 raw r||s hex over manifestCanonicalString(). */
+  value: string;
+  /** SPKI PEM of the root authority's signing key. */
+  public_key: string;
+}
+
+/** The canonical string covered by a manifest signature — deployment
+ *  header, mode, tier structure (with thresholds and delegation),
+ *  and quorum registry. Mirrors the Ruby ManifestSigning module. */
+export function manifestCanonicalString(manifest: Manifest & { signature?: ManifestSignature }): string {
+  const d = manifest.deployment;
+  const tiers = manifest.tiers.map((t) => {
+    const parts = [t.name, t.role];
+    if (t.threshold) {
+      parts.push(`t=${t.threshold.t}`);
+      parts.push(`n=${t.threshold.n}`);
+    }
+    if (t.delegatedBy) parts.push(`by=${t.delegatedBy}`);
+    return parts.join(":");
+  });
+  const quorums = manifest.quorums.map((q) => `${q.name}:${q.coordinator}`);
+  return `CNML-MANIFEST-v1|${d.name}|${d.operator}|${manifest.mode}|${tiers.join(";")}|${quorums.join(";")}`;
+}
+
+/** Verify a manifest's root-authority signature (WebCrypto ECDSA). */
+export async function verifyManifestSignature(
+  manifest: Manifest & { signature?: ManifestSignature },
+): Promise<boolean> {
+  const sig = manifest.signature;
+  if (!sig?.value || !sig.public_key) return false;
+  const b64 = sig.public_key
+    .replace(/-----BEGIN [A-Z0-9 ]+-----/g, "")
+    .replace(/-----END [A-Z0-9 ]+-----/g, "")
+    .replace(/\s+/g, "");
+  const spki = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  let key: CryptoKey;
+  try {
+    key = await crypto.subtle.importKey(
+      "spki",
+      spki,
+      { name: "ECDSA", namedCurve: "P-256" },
+      true,
+      ["verify"],
+    );
+  } catch {
+    return false;
+  }
+  const sigBytes = Uint8Array.from(
+    sig.value.match(/.{2}/g)?.map((h) => parseInt(h, 16)) ?? [],
+  );
+  return crypto.subtle.verify(
+    { name: "ECDSA", hash: "SHA-256" },
+    key,
+    sigBytes,
+    new TextEncoder().encode(manifestCanonicalString(manifest)),
+  );
 }
 
 /** Find the first tier with the given role. */
