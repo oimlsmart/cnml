@@ -18,6 +18,13 @@ Scanning the QR code with any smartphone camera opens the passport URL in the de
 
 ## Why this design
 
+
+The passport carries the certificate identifier, the device
+identity, the certificate chain summary, the scope summary (the
+Recommendation), the validity period, and the revocation status, in
+HTML for people and JSON-LD for machines, satisfying the framework's
+passport requirements.
+
 The QR code path exists because the installed fleet of legal-metrology instruments is not uniformly SMART-capable. A load cell installed in a weighbridge, a measuring element sealed inside a fuel dispenser, or a pressure gauge built into an industrial assembly has no network interface and will not acquire one. The certificate still needs to be reachable at the instrument. The QR code is the bridge between the digital certificate and the physical device.
 
 The passport endpoint, rather than a direct link to the signed XML, separates the inspector-facing summary from the cryptographer-facing file. An inspector scanning a QR code on a weighbridge at a grain elevator needs the validity status in one screen. The signed XML and the verification pipeline are one click further, available to anyone who needs the full check.
