@@ -72,6 +72,42 @@ module OimlPki
       @participants.all? { |p| p.signature && p.signed_payload }
     end
 
+    # The ceremony audit algorithm (spec §ceremony): verify each member
+    # participation signature, confirm the transcript is complete
+    # (quorum parameters, payload hash, aggregate signature, log
+    # cross-reference), and confirm at least T of N participated.
+    # @param resolver [#call] participant name -> OpenSSL::PKey
+    # @return [Hash] valid:, checks:, reasons:
+    def audit(resolver)
+      reasons = []
+      signatures_ok = begin
+        verify_signatures(resolver)
+      rescue StandardError
+        false
+      end
+      reasons << "member participation signatures failed" unless signatures_ok
+
+      quorum_ok = quorum.is_a?(Hash) && quorum["contributed"].to_i >= quorum["t"].to_i && quorum["t"].to_i <= quorum["n"].to_i
+      reasons << "quorum not met" unless quorum_ok
+
+      complete_ok = complete?
+      reasons << "transcript incomplete" unless complete_ok
+
+      log_ok = !log_sequence.nil?
+      reasons << "no transparency-log cross-reference" unless log_ok
+
+      {
+        valid: reasons.empty?,
+        checks: {
+          member_signatures: signatures_ok,
+          quorum: quorum_ok,
+          completeness: complete_ok,
+          log_cross_reference: log_ok,
+        },
+        reasons: reasons,
+      }
+    end
+
     # Verify every participant signature against the provided public key
     # resolver. Returns true if all signatures verify; false otherwise.
     # @param resolver [#call] receives participant name → returns OpenSSL::PKey

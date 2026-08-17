@@ -29,7 +29,7 @@ module OimlPki
     # Sign a CSR. The `ca_key_or_provider` arg accepts:
     #   - String (PEM) → wrapped as KeyProvider::Software (back-compat)
     #   - KeyProvider::Base instance → used directly (Yubikey/HSM)
-    def sign_csr(csr_pem, ca_key_or_provider, ca_cert_pem, validity_years, role, passphrase, scope: [])
+    def sign_csr(csr_pem, ca_key_or_provider, ca_cert_pem, validity_years, role, passphrase, scope: [], quorum: nil)
       csr = OpenSSL::X509::Request.new(csr_pem)
       raise "CSR signature invalid" unless csr.verify(csr.public_key)
 
@@ -39,6 +39,9 @@ module OimlPki
       cert = create_cert(csr.subject.to_s, ca_cert, csr.public_key, validity_years)
       cert = role == "intermediate" ? add_ca_extensions(cert, ca_cert) : add_ee_extensions(cert, ca_cert)
       cert = add_scope_extension(cert, scope) unless scope.empty?
+      # §threshold-signing/quorum-in-delegation: a threshold child's
+      # delegation certificate carries the quorum definition (T, N).
+      cert = add_quorum_extension(cert, quorum) if quorum
       sign_cert_with_provider(cert, ca_provider)
 
       entry_id = "signed-#{cert.serial.to_s(16)}"
@@ -186,6 +189,23 @@ module OimlPki
     end
 
     # Embed the OIML-authorized-Recommendations scope as a non-critical
+    # Quorum parameters (T, N) extension for threshold delegations
+    # (§threshold-signing/quorum-in-delegation). ASN.1 SEQUENCE of two
+    # INTEGERs. OID 1.3.6.1.4.1.99999.1.2 (placeholder PEN family).
+    OIML_QUORUM_OID = "1.3.6.1.4.1.99999.1.2"
+
+    def add_quorum_extension(cert, quorum)
+      t = quorum[:t] || quorum["t"]
+      n = quorum[:n] || quorum["n"]
+      raise ArgumentError, "quorum requires t and n" unless t && n
+      value = OpenSSL::ASN1::Sequence.new([
+        OpenSSL::ASN1::Integer.new(t),
+        OpenSSL::ASN1::Integer.new(n),
+      ]).to_der
+      cert.add_extension(OpenSSL::X509::Extension.new(OIML_QUORUM_OID, value, false))
+      cert
+    end
+
     # X.509 v3 extension. Value is ASN.1 SEQUENCE OF UTF8String.
     def add_scope_extension(cert, scope)
       asn1_value = OpenSSL::ASN1::Sequence.new(

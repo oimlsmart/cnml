@@ -62,6 +62,10 @@ export interface CoverageReport {
   dimensions: DimensionCoverage[];
   /** Signature algorithms observed, with registry status (Phase 5). */
   algorithms: { id: string; status: string }[];
+  /** Distinct root anchors across all valid paths (§coverage-report). */
+  independent_root_count: number;
+  /** Multi-log quorum status when a policy applies (§coverage-report). */
+  multi_log?: { met: boolean; count: number; m: number; k: number };
 }
 
 export const HARD_CHECK_IDS = new Set([
@@ -159,5 +163,7 @@ export async function buildCoverageReport(
     paths,
     dimensions,
     algorithms: ctx.algorithmStatuses ?? [],
+    independent_root_count: new Set(paths.map((p) => p.root_anchor_fingerprint)).size,
+    multi_log: ctx.multiLogStatus,
   };
 }

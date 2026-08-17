@@ -1,0 +1,38 @@
+{
+  "deployment": {
+    "name": "T",
+    "operator": "O",
+    "manifest_version": 1
+  },
+  "mode": "certificate_pki",
+  "tiers": [
+    {
+      "name": "root",
+      "role": "RTA",
+      "threshold": {
+        "t": 5,
+        "n": 7
+      }
+    },
+    {
+      "name": "ia",
+      "role": "DTA",
+      "threshold": {
+        "t": 2,
+        "n": 3
+      },
+      "delegated_by": "root"
+    }
+  ],
+  "quorums": [
+    {
+      "name": "q1",
+      "coordinator": "c1"
+    }
+  ],
+  "signature": {
+    "algorithm": "ECDSA-P256-SHA256",
+    "value": "7c0d8b066586ddfddb8aaebf431c944d279b4250efa1be0cf4443d3d32fe94e003ce782235a6e8455fd186d5eeba17b1bd264b8a8cc0c2c4f3c0479c335ca041",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE2DXoGfT+C1ssMdgg4L/Ja3YXLzPy\nJ1hRvYo0y6Xda56Acm7zlFHNQCQgwfJEZ2Yuk2P7VbPstj522jJl7eawcQ==\n-----END PUBLIC KEY-----\n"
+  }
+}

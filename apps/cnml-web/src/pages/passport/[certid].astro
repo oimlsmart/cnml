@@ -55,6 +55,18 @@ const passportContext = PASSPORT_CONTEXT;
           <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Last checked</dt>
           <dd class="text-[var(--ink)] mt-1 font-mono">{statusCheckedAt}</dd>
         </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Valid from</dt>
+          <dd class="text-[var(--ink)] mt-1 font-mono">{passportJson.validity.notBefore ?? "—"}</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Valid until</dt>
+          <dd class="text-[var(--ink)] mt-1 font-mono">{passportJson.validity.notAfter ?? "—"}</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--ink-muted)]">Scope</dt>
+          <dd class="text-[var(--ink)] mt-1">{passportJson.scope.recommendation ? `${passportJson.scope.recommendation.id} — ${passportJson.scope.recommendation.title}` : "—"}</dd>
+        </div>
       </dl>
       <p class="text-xs text-[var(--ink-muted)] mt-3 leading-relaxed">
         The status reflects the CRL check against the issuing IA. For the

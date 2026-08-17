@@ -17,6 +17,9 @@ export interface DemoInstance {
   certId: string;
   device: PassportDevice;
   recommendationId: string;
+  /** Certificate validity period (ISO-8601 dates). */
+  issuedAt?: string;
+  expiresAt?: string;
 }
 
 export const DEMO_INSTANCES: readonly DemoInstance[] = [
@@ -28,6 +31,8 @@ export const DEMO_INSTANCES: readonly DemoInstance[] = [
       serial: null,
     },
     recommendationId: "R60",
+    issuedAt: "2026-01-15",
+    expiresAt: "2031-01-15",
   },
 ];
 

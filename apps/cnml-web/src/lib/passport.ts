@@ -38,7 +38,11 @@ export interface PassportDocument {
   certificateId: string;
   device: PassportDevice;
   recommendation?: PassportRecommendation;
+  /** The scope summary: the Recommendation the approval covers. */
+  scope: { recommendation?: PassportRecommendation };
   chain: PassportChainEntry[];
+  /** The validity period of the underlying certificate. */
+  validity: { notBefore: string | null; notAfter: string | null };
   status: "valid" | "revoked" | "expired";
   statusCheckedAt: string;
   verify: string;
@@ -70,12 +74,14 @@ export function passportDocumentFor(certId: string, statusCheckedAt: string): Pa
       serial: null,
     },
     ...(recommendation ? { recommendation } : {}),
+    scope: recommendation ? { recommendation } : {},
     chain: [
       { tier: 5, role: "instance", fingerprint: null },
       { tier: 4, role: "model", fingerprint: null },
       { tier: 3, role: "ia", fingerprint: null },
       { tier: 1, role: "biml-root", fingerprint: null },
     ],
+    validity: { notBefore: demo?.issuedAt ?? null, notAfter: demo?.expiresAt ?? null },
     status: "valid",
     statusCheckedAt,
     verify: passportVerifyUrl(certId),
