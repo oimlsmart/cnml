@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Mirror sync operator entry point (SIGNATIF §transparency-mirrors).
+#
+# Replicates the log operator's published tree into this mirror's
+# directory: rebuilds the tree from the published leaves, confirms the
+# operator head, validates the consistency proof between this mirror's
+# previously observed head and the new head, and republishes with an
+# observation record. A rejected head leaves the mirror serving its
+# last good state.
+#
+# Usage:
+#   bin/mirror-sync OPERATOR_DIR MIRROR_DIR [MIRROR_NAME]
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "oiml_pki"
+
+if ARGV.length < 2
+  warn "usage: bin/mirror-sync OPERATOR_DIR MIRROR_DIR [MIRROR_NAME]"
+  exit 64
+end
+
+operator_dir, mirror_dir, mirror_name = ARGV
+mirror_name ||= "mirror-1"
+
+begin
+  observation = OimlPki::TransparencyMirror.sync(operator_dir, mirror_dir, mirror_name: mirror_name)
+  puts "synced: size=#{observation['size']} root=#{observation['root'][0, 16]}…" \
+       " prior=#{observation['prior_size'].inspect} mirror=#{mirror_name}"
+rescue OimlPki::TransparencyMirror::MirrorRejected => e
+  warn "REJECTED: #{e.message}"
+  warn "The mirror keeps serving its last verified state. Investigate before manual override."
+  exit 1
+end

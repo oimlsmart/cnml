@@ -44,10 +44,12 @@ module OimlPki
     # Verify a registry document's signature against its embedded key.
     # @return [Boolean]
     def verified?(registry)
-      return false unless registry["signature"] && registry["public_key"]
+      # Flattened shape (the cross-language contract): top-level
+      # "signature" hex + "public_key" PEM, as TS reads them.
+      return false unless registry["signature"].is_a?(String) && registry["public_key"]
       to_sign = canonical_string(registry["version"], registry["published"], registry["algorithms"])
-      pub = OpenSSL::PKey::EC.new(registry["public_key"])
-      der = TransparencyPublisherHelpers.p1363_to_der([registry["signature"]].pack("H*"))
+      pub = OpenSSL::PKey.read(registry["public_key"])
+      der = TransparencyPublisher.p1363_to_der([registry["signature"]].pack("H*"))
       pub.verify(OpenSSL::Digest::SHA256.new, der, to_sign)
     rescue StandardError
       false
