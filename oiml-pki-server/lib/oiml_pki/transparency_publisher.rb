@@ -362,6 +362,29 @@ module OimlPki
       record(CanonicalPayload.hash(cnml_xml))
     end
 
+    # Log an issued certificate by its DER hash (§mandatory-inclusion,
+    # §path-transparency-inclusion, §scope-in-transparency: the scope
+    # travels inside the logged certificate).
+    # @param cert_der [String, OpenSSL::X509::Certificate] DER bytes
+    # @return [Integer] the assigned sequence number
+    def record_cert(cert_der)
+      der = cert_der.is_a?(String) ? cert_der : cert_der.to_der
+      record(OpenSSL::Digest::SHA256.digest(der))
+    end
+
+    # The cert-hash index: hex DER hash -> sequence. Built from the
+    # leaf entries whose hashes correspond to logged certificates;
+    # written to by-hash/<hex>.json at publication time.
+    def cert_hash_index
+      with_persistent_log do |tree|
+        index = {}
+        tree.entries.each_with_index do |hash, seq|
+          index[hash.unpack1("H*")] = seq
+        end
+        index
+      end
+    end
+
     # Build an inclusion proof for a leaf at the given sequence.
     def proof_for(sequence, log_operator: default_log_operator, operator_key: nil)
       with_persistent_log do |tree|
@@ -598,6 +621,14 @@ module OimlPki
           File.write(File.join(dir, "state-index.json"), JSON.pretty_generate(state_index) + "\n")
         end
 
+        # by-hash index: cert/artifact hash -> sequence, so verifiers
+        # can confirm chain-certificate inclusion without scanning.
+        FileUtils.mkdir_p(File.join(dir, "by-hash"))
+        cert_hash_index.each do |hash_hex, seq|
+          File.write(File.join(dir, "by-hash", "#{hash_hex}.json"),
+                     JSON.pretty_generate({ "sequence" => seq }) + "\n")
+        end
+
         # Consistency proofs from every prior size to the current head:
         # a verifier holding head(N) fetches consistency/<N>.json to
         # check head(M) is a pure extension.
@@ -611,13 +642,15 @@ module OimlPki
           File.write(File.join(dir, "consistency", "#{prior}.json"), JSON.pretty_generate(doc) + "\n")
         end
 
-        tree.entries.each_with_index do |leaf_hash, seq|
-          File.binwrite(File.join(dir, "leaf", seq.to_s), leaf_hash)
+        tree.entries.each_with_index do |entry, seq|
+          File.binwrite(File.join(dir, "leaf", seq.to_s), entry)
 
           steps = tree.inclusion_proof(seq)
           proof = {
             sequence: seq,
-            leaf_hash: leaf_hash.unpack1("H*"),
+            # RFC 6962 leaf node hash: SHA-256(0x01 || entry) — the
+            # form audit paths walk from.
+            leaf_hash: OpenSSL::Digest::SHA256.digest("\x01" + entry).unpack1("H*"),
             log_root: tree.root.unpack1("H*"),
             tree_size: tree.length,
             inclusion_proof: steps.map { |s|

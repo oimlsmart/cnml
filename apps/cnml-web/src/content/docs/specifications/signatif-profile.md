@@ -578,6 +578,12 @@ The remaining open items are listed last.
   quorum parameters, the payload hash, the aggregate threshold
   signature, and the log cross-reference; the audit algorithm
   verifies all of it.
+- **Certificate inclusion in the log**: closed. Every certificate
+  issued by the CA is recorded in the transparency log at issuance
+  (record_cert); the published by-hash index resolves a certificate
+  hash to its sequence, and the verifier confirms chain-certificate
+  inclusion via the index and the inclusion proof against the signed
+  head (cross-language fixture).
 - **Requirement-level audit (all 113 requirements)**: closed. The
   machine-readable requirement classes walked end to end; closures
   include the schema major-version gate, the offline CRL

@@ -14,7 +14,7 @@ Suite totals at publication:
 
 | Suite | Command | Tests |
 |---|---|---|
-| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 249 |
+| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 247 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
 | CA server (Ruby RSpec) | `bundle exec rspec` | 226 |
@@ -50,6 +50,10 @@ Suite totals at publication:
 | Gossip / fork detection | `checks/transparency-consistency.test.ts` (detectFork) |
 | Trust graph path enumeration | `trust-graph.test.ts` (linear, diamond, cross-recognition, cycles, pruning) |
 | Algorithm agility enforcement | `checks/algorithms.test.ts` (deprecated downgrade, retired hard fail, end-to-end) |
+| Schema version gate + CRL grace period | `schema_valid.test.ts`, `crl.test.ts` |
+| Manifest signing + recognized logs + multi-log declaration | `manifest.test.ts` (cross-language fixture), `round4_signatif_spec.rb` |
+| Quorum (T, N) on delegation certificates | `round4_signatif_spec.rb`, `checks/scope-narrowing.test.ts` (reader) |
+| Canonical-payload leaf (exclusive C14N, cross-language) | `embedded-proof.test.ts` (Ruby log to TS verifier) |
 
 
 ## /conf/issuing-authority
@@ -70,6 +74,7 @@ Suite totals at publication:
 | Deployment manifest generation + validation | `deployment_manifest_spec.rb` (14 + 13 examples, cross-port agreement) |
 | Manifest [algorithms] section | `deployment_manifest_spec.rb`, `manifest.test.ts` |
 | Ceremony records | `ceremony_transcript_spec.rb` |
+| Transcript completeness + audit algorithm | `round3_signatif_spec.rb` (completeness), `round4_signatif_spec.rb` (#audit) |
 | Trust anchor agreement | `trust_anchor_agreement.test.ts`, `trust_anchor_spec.rb` |
 
 
@@ -79,6 +84,10 @@ Suite totals at publication:
 |---|---|
 | Append-only Merkle log | `transparency_publisher_spec.rb` (append, root, inclusion) |
 | Inclusion proof issuance | `transparency_publisher_spec.rb`, `checks/transparency.test.ts` |
+| Mirror (consecutive heads, fork rejection) | `round3_signatif_spec.rb` (TransparencyMirror) |
+| Certificate inclusion (by-hash index + proof) | `record_cert_spec.rb`, `cert-inclusion.test.ts` (cross-language) |
+| Registry signing ceremony | `round3_signatif_spec.rb` (AlgorithmRegistry), `signed-registry.test.ts` |
+| State index + CRL anchoring | `transparency_publisher_spec.rb` (state index, publication) |
 | Consistency proofs (RFC 6962 §2.1.4) | `transparency_publisher_spec.rb` (exhaustive pairs to 17, doctored-proof and wrong-root rejection) |
 | Signed tree heads | `transparency_publisher_spec.rb` (sign + verify, publication, unsigned backward compatibility) |
 | Publication (leaf/, proof/, consistency/, head.json) | `transparency_publisher_spec.rb` (publishes a signed head and consistency proofs) |
@@ -91,6 +100,9 @@ Suite totals at publication:
 | Per-device key lifecycle | `keys/*.test.ts` (generate, store, import/export, composite) |
 | Artifact signing | `xml/sign-verify.test.ts`, `xml/cosign.test.ts` |
 | Challenge-response | `challenge.test.ts` (128-bit nonce, freshness window, replay rejection, nonce covered by signature) |
+| Single-use nonces | `challenge.test.ts` (replay registry) |
+| Co-signer scope enforcement + replay binding | `cosign.test.ts` (tester credential scope, artifact identifier) |
+| Narrowing normalization (singleton sets) | `checks/scope-narrowing.test.ts` |
 
 
 ## /conf/format-xmldsig
