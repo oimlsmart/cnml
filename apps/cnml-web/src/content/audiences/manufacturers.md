@@ -30,7 +30,7 @@ The SMART instrument path connects the instance certificate to the twin. The twi
 
 ## Proof
 
-The instance certificate chain validates end to end. The verify page at `/verify` runs the seven-check pipeline on an instance certificate, which includes the scope check that validates the manufacturer delegation and the IA authorization. The test vectors exercise the per-Recommendation schema coverage at the model tier. The QR code path and the passport endpoint are exercised by the e2e test suite.
+The instance certificate chain validates end to end. The verify page at `/verify` runs the nine-check pipeline on an instance certificate, which includes the scope check that validates the manufacturer delegation and the IA authorization. The test vectors exercise the per-Recommendation schema coverage at the model tier. The QR code path and the passport endpoint are exercised by the e2e test suite.
 
 ## Your next step
 

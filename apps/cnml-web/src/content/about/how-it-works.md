@@ -1,6 +1,6 @@
 ---
 title: 'How it works'
-lede: 'CNML is a five-tier certificate hierarchy with threshold signing at the upper tiers, a seven-check verification pipeline, and a public transparency log anchored to Bitcoin.'
+lede: 'CNML is a five-tier certificate hierarchy with threshold signing at the upper tiers, a nine-check verification pipeline, and a public transparency log anchored to Bitcoin.'
 coord: 'ABOUT / 03'
 ---
 
@@ -26,7 +26,7 @@ The coordinator is an untrusted role. A malicious coordinator can suppress the s
 
 ## The verification pipeline
 
-Verification runs in a browser. The verifier drops a CNML file onto the verify page and the pipeline runs seven checks in order. Earlier checks short-circuit later ones, so a file that fails XML well-formedness does not reach the signature check.
+Verification runs in a browser. The verifier drops a CNML file onto the verify page and the pipeline runs nine checks in order. Earlier checks short-circuit later ones, so a file that fails XML well-formedness does not reach the signature check. The check results feed a three-stage outcome: a deterministic coverage report of what was verified, a scheme-declared classification label, and the verifier's own acceptance decision.
 
 1. XML well-formedness. The file parses as XML.
 2. Schema validity. The file conforms to the CNML XSD and the per-Recommendation JSON Schema.
