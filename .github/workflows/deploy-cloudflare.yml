@@ -46,20 +46,20 @@ jobs:
 
       - name: Cloudflare credentials check
         env:
-          # The repository secrets carry the CLOUDFRONT_ prefix (both
+          # The repository secrets carry the CLOUDFLARE_ prefix (both
           # grant the oimlsmart.org account + zone).
-          CF_CONFIGURED: ${{ secrets.CLOUDFRONT_API_TOKEN != '' && secrets.CLOUDFRONT_ACCOUNT_ID != '' }}
+          CF_CONFIGURED: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
         if: env.CF_CONFIGURED != 'true'
         run: |
-          echo "::notice::Cloudflare Pages publish SKIPPED: CLOUDFRONT_API_TOKEN / CLOUDFRONT_ACCOUNT_ID secrets are not configured."
+          echo "::notice::Cloudflare Pages publish SKIPPED: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets are not configured."
 
       - name: Publish to Cloudflare Pages
         env:
-          CF_CONFIGURED: ${{ secrets.CLOUDFRONT_API_TOKEN != '' && secrets.CLOUDFRONT_ACCOUNT_ID != '' }}
+          CF_CONFIGURED: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
         if: env.CF_CONFIGURED == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFRONT_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFRONT_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # wrangler.toml at the repo root points at apps/cnml-web/dist.
           command: pages deploy apps/cnml-web/dist --project-name=cnml
