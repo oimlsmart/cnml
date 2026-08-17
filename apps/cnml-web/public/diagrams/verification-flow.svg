@@ -85,9 +85,9 @@
 
     <line x1="620" y1="325" x2="820" y2="325" stroke="#86efac"/>
     <text x="620" y="350" class="muted">Certificate details:</text>
-    <text x="620" y="370" class="muted">  R60/2021-A-NL1-26.12</text>
+    <text x="620" y="370" class="muted">  R60/2021-A-IA01-26.12</text>
     <text x="620" y="390" class="muted">  Issued: 2026-07-02</text>
-    <text x="620" y="410" class="muted">  Issuer: NMi Certin B.V.</text>
+    <text x="620" y="410" class="muted">  Issuer: Issuing Authority B</text>
     <text x="620" y="430" class="muted">  Recommendation: R60 (load cells)</text>
     <text x="620" y="450" class="muted">  Accuracy: C</text>
   </g>

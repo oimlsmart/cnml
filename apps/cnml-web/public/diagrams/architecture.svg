@@ -106,10 +106,10 @@
   <path d="M 455 330 L 455 380" class="arrow"/>
   <text x="465" y="360" class="muted">emits</text>
 
-  <!-- PTB DCC imports -->
+  <!-- DCC calibration imports -->
   <g>
     <rect x="640" y="380" width="230" height="80" rx="10" class="box"/>
-    <text x="755" y="405" text-anchor="middle" font-weight="700" class="label">PTB DCC files</text>
+    <text x="755" y="405" text-anchor="middle" font-weight="700" class="label">DCC files</text>
     <text x="755" y="425" text-anchor="middle" class="muted">*.dcc.xml (compatible)</text>
     <text x="755" y="442" text-anchor="middle" class="muted">import / export / verify</text>
   </g>

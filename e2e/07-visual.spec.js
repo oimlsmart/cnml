@@ -70,10 +70,19 @@ test("visual: home (dark)", async ({ browser }) => {
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 1,
   });
+  // Seed the stored theme before any script runs: the FOUC script
+  // sets the dark class pre-hydration and the theme island's mount
+  // then keeps it (a class added after load would be reset by the
+  // composable's prefers-color-scheme fallback).
+  await context.addInitScript(() => {
+    try { localStorage.setItem("cnml-theme", "dark"); } catch { /* ignore */ }
+  });
   const page = await context.newPage();
   await page.goto(`${BASE}/`, { waitUntil: "load" });
   await page.evaluate(() => {
-    document.documentElement.classList.add("dark");
+    const style = document.createElement("style");
+    style.textContent = "*, *::before, *::after { transition: none !important; animation: none !important; }";
+    document.head.appendChild(style);
   });
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot("home-dark.png", {

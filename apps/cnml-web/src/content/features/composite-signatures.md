@@ -6,6 +6,10 @@ coord: FEAT / 02
 
 # Composite signatures
 
+## Algorithm agility
+
+The recognized algorithms, their statuses (active, deprecated, retired), and the migration phases (classical-only, composite, post-quantum-only) are governed by a versioned algorithm registry published at a well-known URL and declared in the deployment manifest. A deprecated algorithm downgrades the verification label by one step; a retired algorithm hard-fails. The registry is signed by the scheme operator, and verifiers may require a signed registry. See the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 ## Mechanism
 
 CNML signs each certificate with a composite signature. A composite signature combines two independent signature algorithms over the same document, and verification requires both components to succeed. The construction uses AND semantics: the composite is valid if and only if both the classical and the post-quantum components verify.

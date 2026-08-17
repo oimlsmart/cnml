@@ -6,6 +6,10 @@ coord: FEAT / 04
 
 # Transparency
 
+## Implementation status
+
+Implemented: the append-only Merkle log with RFC 6962 inclusion proofs; signed tree heads; consistency proofs between consecutive heads; a mirror that validates the proof chain and rejects a rewritten log; the gossip quorum check; issuance-time logging of every certificate with a published by-hash index; and OpenTimestamps anchoring to Bitcoin. The operator procedures are in the [transparency operations runbook](/docs/guides/transparency-operations); the conformance claims are in the [CNML profile of SIGNATIF](/docs/specifications/signatif-profile).
+
 ## Mechanism
 
 Every CNML certificate issued under the production hierarchy is appended to a public append-only Merkle transparency log. The log is a hash-chained data structure: each entry is hashed, pairs of entries are hashed together, and the tree root commits to the entire history. An inclusion proof demonstrates that a specific certificate appears at a specific position in a specific tree, and the tree root is the cryptographic commitment.
