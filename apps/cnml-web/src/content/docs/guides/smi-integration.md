@@ -54,6 +54,18 @@ SMI imports these and builds:
 
 ## The twin GraphQL interface
 
+
+## Challenge-response (counterfeit detection)
+
+A verifier challenges the instrument with a fresh 128-bit nonce; the
+instrument answers with a signed measurement that includes the nonce
+and a fresh timestamp. The nonce is inside the canonical payload, so
+the instrument's signature covers it, and the verifier applies a
+freshness window: a replayed or static answer cannot satisfy the
+challenge, and each nonce is accepted once. The API is
+`generateChallenge`, `embedChallenge`, and
+`verifyChallengeResponse` in `@oiml/cnml-crypto`.
+
 A SMART Measuring Instrument exposes a digital twin at a `/twin`
 GraphQL endpoint. The twin carries:
 

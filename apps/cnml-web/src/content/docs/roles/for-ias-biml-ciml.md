@@ -103,6 +103,10 @@ The CIML is the policy-making body for CNML. It sets the rules under which cerem
 
 BIML operates the root CA, runs the transparency log, administers the coordinator service, manages director onboarding, and publishes the public artifacts (root certificates, CRLs, IA certificates, transparency-log heads). BIML staff are bound by role separation: the ceremony chair cannot sign on behalf of a director, the certificate team cannot trigger signing ceremonies, the infrastructure team cannot modify the audit log, and the auditor role is read-only by design.
 
+## Ceremony records and transparency operations
+
+Every threshold ceremony produces a complete transcript: the participating members with their signatures, the quorum parameters, the canonical payload hash signed, the aggregate threshold signature, and the transparency-log entry for the resulting certificate. An incomplete transcript is not accepted as evidence, and the audit algorithm verifies each element. Root operations publish through the transparency log; the operator procedures, including mirror operation and the registry signing ceremony, are in the [transparency operations runbook](/docs/guides/transparency-operations).
+
 ## See also
 
 - [OIML, BIML, CIML, and OIML-CS](/docs/concepts/oiml-institutions) provides the institutional context for the governance model described here.
