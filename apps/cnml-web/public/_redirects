@@ -6,3 +6,8 @@
 #   - Legacy URL aliases (e.g., /about → /about/what-is-cnml)
 #   - Country or language routing
 #   - Moved pages
+
+# The site is built with the /cnml base path (production lives at
+# www.oimlsmart.org/cnml/). On this root-served mirror, serve the
+# base-prefixed paths transparently so internal links resolve.
+/cnml/* /:splat 200
