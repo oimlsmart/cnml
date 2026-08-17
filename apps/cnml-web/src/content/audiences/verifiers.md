@@ -12,11 +12,11 @@ Market-surveillance inspection happens in the field. The inspector is at a facto
 
 ## What changes
 
-CNML moves verification from correspondence to computation. A verifier drops a CNML file onto the verify page and the seven-check pipeline runs in the browser. The result is deterministic and arrives in milliseconds. The pipeline validates XML well-formedness, schema validity, signature validity, scope validity, CRL status, timestamp validity, and transparency inclusion. Each check is a module, and the order matters: earlier checks short-circuit later ones.
+CNML moves verification from correspondence to computation. A verifier drops a CNML file onto the verify page and the nine-check pipeline runs in the browser. The result is deterministic and arrives in milliseconds. The pipeline validates XML well-formedness, schema validity, signature validity, dimensional co-signatures, scope validity, CRL status, evaluation-report binding, timestamp validity, and transparency inclusion. Each check is a module, and the order matters: earlier checks short-circuit later ones.
 
 The trust-anchor bundle is a static CDN download with no API surface and no usage limits. A verifier that has cached the bundle once can verify CNML certificates indefinitely without further network access. The bundle contains the OIML Root certificate, the IA intermediate certificates, the current CRLs, and the transparency log snapshots. The bundle is refreshed at the verifier's discretion.
 
-For instruments in the field, the verifier scans the QR code printed on the device body. The QR code encodes the passport URL. The passport endpoint serves the certificate chain, the revocation status, and a verification link. The verifier follows the link to the verify page, which runs the seven-check pipeline on the instance certificate.
+For instruments in the field, the verifier scans the QR code printed on the device body. The QR code encodes the passport URL. The passport endpoint serves the certificate chain, the revocation status, and a verification link. The verifier follows the link to the verify page, which runs the nine-check pipeline on the instance certificate.
 
 ## What it looks like in practice
 
@@ -28,7 +28,7 @@ A verifier that integrates CNML validation into an existing system uses the libr
 
 ## Proof
 
-The verify page runs the seven-check pipeline on any CNML file. The 22 pre-signed test vectors exercise the per-Recommendation schema coverage and round-trip through the signer and the verifier. The test vectors are regenerated with `the test vector generation scripts`. The passport endpoint is exercised by integration tests.
+The verify page runs the nine-check pipeline on any CNML file. The 22 pre-signed test vectors exercise the per-Recommendation schema coverage and round-trip through the signer and the verifier. The test vectors are regenerated with `the test vector generation scripts`. The passport endpoint is exercised by integration tests.
 
 The trust-anchor bundle is reproducible from the transparency log and the public certificates. A verifier that demands an independent bundle can construct one from the log.
 

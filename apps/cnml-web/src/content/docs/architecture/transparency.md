@@ -27,6 +27,8 @@ The anchoring provides long-term timestamp evidence. A CNML certificate signed t
 
 ## Gossip monitoring
 
+The log's integrity machinery is implemented end to end: every tree head is signed by the log operator, RFC 6962 consistency proofs demonstrate that each head extends the previous one, mirrors validate the proof chain and reject a rewritten log, and a gossip quorum requires independent sources to agree on a head before inclusion proofs are trusted against it. Every issued certificate is recorded in the log at issuance, and the published by-hash index lets a verifier confirm that each certificate on a verification path is included. The operator procedures are documented in the [transparency operations runbook](/docs/guides/transparency-operations).
+
 The transparency log is effective only if all verifiers see the same log. A log operator that could present different views to different verifiers could issue a certificate, show it to one verifier through an inclusion proof, and omit it from the view presented to other verifiers. The gossip protocol prevents this.
 
 Gossip works as follows. Verifiers and mirrors periodically exchange the tree heads they have observed. Each participant compares the tree heads it received from others against the tree heads it observed directly. If a participant received a tree head from the canonical log that differs from the tree head another participant received at the same sequence number, the divergence is flagged. A divergence indicates either a software bug or an attempt by the operator to present inconsistent views. Either case is investigated.

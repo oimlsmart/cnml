@@ -28,7 +28,7 @@ The IA manages its officer roster and its hardware tokens through the keys page 
 
 ## Proof
 
-The 22 pre-signed test vectors exercise the per-Recommendation schema coverage and round-trip through the signer and the verifier. Any contributor can regenerate the vectors with `the test vector generation scripts`. The verify page at `/verify` runs the seven-check pipeline on any CNML file dropped onto it, including the scope check that validates the IA's authorization for the Recommendation named in the certificate.
+The 22 pre-signed test vectors exercise the per-Recommendation schema coverage and round-trip through the signer and the verifier. Any contributor can regenerate the vectors with `the test vector generation scripts`. The verify page at `/verify` runs the nine-check pipeline on any CNML file dropped onto it, including the scope check that validates the IA's authorization for the Recommendation named in the certificate.
 
 ## Your next step
 
