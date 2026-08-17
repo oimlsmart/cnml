@@ -46,6 +46,7 @@ export const sections = [
       { slug: 'guides/signing-a-certificate', title: 'Signing a certificate', desc: 'Key generation, certificate creation, XMLDSig signing, and composite signatures.' },
       { slug: 'guides/verifying-a-certificate', title: 'Verifying a certificate', desc: 'The seven-check pipeline, how to run it, and how to add new checks.' },
       { slug: 'guides/qr-code-delivery', title: 'QR code delivery', desc: 'How instance certificates are delivered via QR codes and the passport endpoint.' },
+      { slug: 'guides/transparency-operations', title: 'Transparency operations', desc: 'The operator runbook: publishing the log, running a mirror with fork rejection, the registry signing ceremony, and multi-log policy.' },
       { slug: 'guides/smi-integration', title: 'SMI integration', desc: 'How CNML connects to the SMART Measuring Instrument ecosystem via the twin GraphQL interface.' },
       { slug: 'guides/internationalization', title: 'Internationalization', desc: 'The xml:lang model, locale switching, and the planned language tiers.' },
     ],

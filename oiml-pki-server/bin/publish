@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Transparency log publication entry point.
+#
+# Renders the log operator's published directory: head.json (signed
+# when an operator key is given), leaf/, proof/, consistency/,
+# by-hash/, and state-index.json.
+#
+# Usage:
+#   bin/publish LOG_DIR [OPERATOR_KEY_PEM]
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "oiml_pki"
+
+if ARGV.empty?
+  warn "usage: bin/publish LOG_DIR [OPERATOR_KEY_PEM]"
+  exit 64
+end
+
+log_dir, key_path = ARGV
+operator_key = key_path && OpenSSL::PKey.read(File.read(key_path))
+
+head = OimlPki::TransparencyPublisher.publish_to_directory(
+  log_dir, operator_key: operator_key
+)
+puts "published: size=#{head[:size]} root=#{head[:root][0, 16]}…" +
+     (operator_key ? " (signed head)" : " (unsigned head)")

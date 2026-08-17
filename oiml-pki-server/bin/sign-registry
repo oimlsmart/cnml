@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Algorithm registry signing ceremony entry point (SIGNATIF
+# §algorithm-agility).
+#
+# Signs the published algorithm registry with the scheme operator's
+# P-256 key, in place. The registry's signature is verified by
+# conforming verifiers (optionally required).
+#
+# Usage:
+#   bin/sign-registry PATH_TO_ALGORITHMS_JSON KEY_PEM_PATH
+#
+# The key never leaves the operator; use the ceremony machine's key
+# (HSM-backed where available — pass a public-key-holding KPI as
+# needed for production).
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "oiml_pki"
+
+if ARGV.length != 2
+  warn "usage: bin/sign-registry PATH_TO_ALGORITHMS_JSON KEY_PEM_PATH"
+  exit 64
+end
+
+registry_path, key_path = ARGV
+
+key = OpenSSL::PKey::EC.new(File.read(key_path))
+signed = OimlPki::AlgorithmRegistry.sign_file(registry_path, key)
+
+unless OimlPki::AlgorithmRegistry.verified?(signed)
+  warn "signature did not verify after signing — aborting"
+  exit 1
+end
+
+puts "signed: #{registry_path} (version #{signed['version']}, #{signed['algorithms'].length} algorithms)"

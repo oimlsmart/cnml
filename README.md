@@ -96,7 +96,7 @@ A signer opens the web app's Create page. The data-driven form renders fields fr
 
 ### Verification flow
 
-A verifier opens the web app's Verify page and drops a `.cnml.xml` file. The verify pipeline runs a sequence of checks in order, short-circuiting on the first hard failure. The current pipeline runs XML well-formed, schema valid, signature, scope, CRL, timestamp, transparency, and evaluation-report binding. Each check populates a context object that subsequent checks can read. The final result is a list of check outcomes plus a trust grade derived from which checks passed.
+A verifier opens the web app's Verify page and drops a `.cnml.xml` file. The verify pipeline runs a sequence of checks in order, short-circuiting on the first hard failure. The current pipeline runs nine checks: XML well-formed, schema valid, signature, dimensional co-signatures, scope, CRL, evaluation-report binding, timestamp, and transparency. Each check populates a context object that subsequent checks can read. The result is the SIGNATIF three-stage model: a deterministic coverage report (objective facts, verified trust dimensions, verification paths), a scheme-declared classification label, and the verifier acceptance decision.
 
 ### Threshold signing flow
 
@@ -167,6 +167,11 @@ Every CA operation appends an entry to an append-only JSONL log. Each entry incl
 | WCAG 2.2 AA accessibility | shipped |
 | Coordinator-mediated asynchronous threshold signing | shipped |
 | Transparency-log inclusion proof with gossip-based mirror agreement | shipped |
+| RFC 6962 consistency proofs + signed tree heads | shipped |
+| Transparency mirror with fork rejection (`bin/mirror-sync`) | shipped |
+| Signed algorithm registry ceremony (`bin/sign-registry`) | shipped |
+| Deployment-manifest signing by the root authority | shipped |
+| Certificate inclusion in the log (by-hash index) | shipped |
 | Threshold encryption of confidential test-report sections | shipped |
 
 ## Validation
@@ -185,7 +190,7 @@ Open `http://localhost:4321/cnml/` in your browser. The app provides:
 - `/cnml/app` landing page listing all certificate operations
 - `/cnml/keys` generate and manage signing keys (stored in IndexedDB)
 - `/cnml/create/r60` create a CNML certificate from the R60 schema (schema-driven form)
-- `/cnml/verify` drop a `.cnml.xml` file to run the seven-check verification pipeline
+- `/cnml/verify` drop a `.cnml.xml` file to run the nine-check verification pipeline
 - `/cnml/qr-code` generate a QR code linking to a passport page
 - `/cnml/issue/manufacturer-instance` sign a per-device instance certificate
 - `/cnml/passport/CNML-DEMO-INSTANCE` view the demo passport page
