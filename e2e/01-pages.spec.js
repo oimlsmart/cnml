@@ -1,7 +1,6 @@
 
 import { test, expect } from "@playwright/test";
-import { readFileSync, readdirSync } from "node:fs";
-import path from "node:path";
+import {readdirSync} from "node:fs";
 
 /**
  * Smoke tests — every page loads without console errors or uncaught exceptions.

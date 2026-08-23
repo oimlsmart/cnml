@@ -8,7 +8,7 @@
 
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { styleguideLint, type Rule } from "./styleguide-lint-rules.ts";
+import {styleguideLint} from "./styleguide-lint-rules.ts";
 
 describe("styleguide-lint — fixture posture", () => {
   test("clean prose produces zero findings", () => {

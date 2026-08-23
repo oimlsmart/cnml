@@ -11,10 +11,10 @@
  * truth. Adjust the limits there, not in code.
  */
 
-import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
-import { join, basename, relative } from "node:path";
+import {readFileSync, existsSync} from "node:fs";
+import {join} from "node:path";
 import { fileURLToPath } from "node:url";
-import { execSync } from "node:child_process";
+
 import { gzipSize } from "./_gzip.ts";
 
 const here = fileURLToPath(new URL(".", import.meta.url));

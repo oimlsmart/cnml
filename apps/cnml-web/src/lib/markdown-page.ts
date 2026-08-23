@@ -17,7 +17,7 @@
 
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { join, dirname } from "node:path";
+import {join} from "node:path";
 import { marked } from "marked";
 import { prefixHtmlLinks } from "./url.ts";
 import { highlightExistingPre } from "./code-highlight.ts";
@@ -178,11 +178,6 @@ export function readMarkdownPage(input: MarkdownPageInput): MarkdownPageResult {
 export async function renderMarkdownBody(html: string): Promise<string> {
   const highlighted = await highlightExistingPre(html);
   return linkGlossaryTerms(highlighted);
-}
-
-async function highlightPreTags(html: string): Promise<string> {
-  const { highlightExistingPre } = await import("./code-highlight.ts");
-  return highlightExistingPre(html);
 }
 
 /**

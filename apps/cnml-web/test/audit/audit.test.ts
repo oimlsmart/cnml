@@ -115,7 +115,7 @@ describe("Page rendering sanity", () => {
       const m = html.match(/<script[^>]+application\/ld\+json[^>]*>([^<]+)</);
       if (!m) { assert.fail(rel + " no JSON-LD"); continue; }
       let doc;
-      try { doc = JSON.parse(m[1] ?? ""); } catch (e) { assert.fail(rel + " JSON-LD parse"); continue; }
+      try { doc = JSON.parse(m[1] ?? ""); } catch { assert.fail(rel + " JSON-LD parse"); continue; }
       assert.equal(doc["@context"], "https://schema.org", rel + " wrong @context");
       const exp = expectedType(rel);
       if (exp) assert.equal(doc["@type"], exp, rel + " wrong @type: " + doc["@type"]);

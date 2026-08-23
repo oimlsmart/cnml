@@ -8,7 +8,6 @@ import assert from "node:assert/strict";
 import {
   checkCrossChannelAgreement,
   verifyAgainstPrintFingerprint,
-  type AgreementResult,
 } from "./trust_anchor_agreement.ts";
 import {
   validateTrustAnchorSet,

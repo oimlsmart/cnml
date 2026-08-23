@@ -11,7 +11,7 @@
  */
 
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
-import { join, extname, dirname } from "node:path";
+import {join, dirname} from "node:path";
 import { fileURLToPath } from "node:url";
 import { walkDir } from "./_fs.ts";
 

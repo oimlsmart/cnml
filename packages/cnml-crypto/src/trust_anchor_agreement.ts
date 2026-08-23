@@ -17,7 +17,6 @@
 
 import {
   loadTrustAnchors,
-  validateTrustAnchorSet,
   currentRoot,
   TrustAnchorError,
   type TrustAnchorSet,

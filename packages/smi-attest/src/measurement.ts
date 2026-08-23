@@ -150,23 +150,6 @@ export async function verifyMeasurement(
 /**
  * Import an ECDSA P-256 public key from a PEM-encoded X.509 certificate.
  */
-async function importPublicKeyFromPem(pem: string): Promise<CryptoKey> {
-  const der = pemToDer(pem);
-  // Use the browser's X509Certificate if available, otherwise parse manually.
-  // For Node.js / environments without X509Certificate:
-  // We use pkijs or asn1js in the full implementation. Here we provide
-  // a simplified path that works when the public key is extractable.
-  // The real implementation delegates to @oiml/cnml-crypto's cert parsing.
-  const spki = await extractSpkiFromCertDer(der);
-  return crypto.subtle.importKey(
-    "spki",
-    spki,
-    { name: "ECDSA", namedCurve: "P-256" },
-    false,
-    ["verify"],
-  );
-}
-
 // --- Utility functions ---
 
 function b64encode(bytes: Uint8Array): string {

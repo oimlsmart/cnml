@@ -10,7 +10,7 @@
  * 2.4.3, and 4.1.2.
  */
 
-import { watch, onUnmounted, type Ref, type DeepReadonly } from "vue";
+import {watch, onUnmounted, type Ref} from "vue";
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';

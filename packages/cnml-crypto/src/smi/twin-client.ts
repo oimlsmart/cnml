@@ -79,14 +79,6 @@ const QUERY_PROVENANCE = `
   }
 `;
 
-const SUBSCRIPTION_STATE = `
-  subscription WatchState {
-    stateChanged {
-      status
-      lastChangedAt
-    }
-  }
-`;
 
 export class TwinClient {
   private endpoint: string;

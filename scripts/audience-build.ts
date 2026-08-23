@@ -11,7 +11,7 @@
  *
  * Usage: node scripts/audience-build.ts
  */
-import { cpSync, mkdirSync, existsSync, writeFileSync, readdirSync } from "node:fs";
+import {cpSync, existsSync, writeFileSync, readdirSync} from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { readFileSync } from "node:fs";

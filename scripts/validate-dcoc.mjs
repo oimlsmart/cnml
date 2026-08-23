@@ -7,7 +7,7 @@ globalThis.document = new DOMImplementation().createDocument(null, "html", null)
 
 import { readFileSync } from "node:fs";
 import yaml from "yaml";
-import { certToDcoc, dcocToRdfXml, DCOC_NS } from "../packages/cnml-dcoc/src/index.ts";
+import {certToDcoc, dcocToRdfXml} from "../packages/cnml-dcoc/src/index.ts";
 
 const cert = yaml.parse(readFileSync("./packages/cnml-schemas/src/samples/r60-sample.yaml", "utf8"));
 const dcoc = certToDcoc(cert);

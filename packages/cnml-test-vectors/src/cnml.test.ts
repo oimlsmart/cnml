@@ -12,7 +12,7 @@
  *
  * Run: pnpm --filter @oiml/cnml-test-vectors test
  */
-import { test, describe, before, after } from "node:test";
+import {test, describe} from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
