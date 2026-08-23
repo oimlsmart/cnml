@@ -62,20 +62,36 @@ export interface OtsOptions {
 }
 
 // ── the XML embed / strip / extract ──────────────────────────────────
+//
+// The timestamp block is located by plain string scans (indexOf slicing),
+// never by backtracking regexes over document text: the CodeQL ReDoS
+// alerts on the lazy-quantifier forms were right to be nervous — the
+// scans below are linear and total.
 
 /** The embed block as this module writes it (one contiguous element —
  *  the strip and the upgrade replace match it exactly). */
-const EMBED_RE = /<ds:Object><cnml:timestamp>[\s\S]*?<\/cnml:timestamp><\/ds:Object>/;
+const EMBED_OPEN = "<ds:Object><cnml:timestamp>";
+const EMBED_CLOSE = "</cnml:timestamp></ds:Object>";
 /** The pre-2026 sibling form (a cnml:timestamp element outside the
  *  signature container) — stripped under the same commitment rule so a
  *  legacy document still verifies against its proof. */
-const LEGACY_TIMESTAMP_RE = /<cnml:timestamp>[\s\S]*?<\/cnml:timestamp>/;
+const LEGACY_OPEN = "<cnml:timestamp>";
+const LEGACY_CLOSE = "</cnml:timestamp>";
+
+/** Cut the first open…close span from the string (both literal). */
+function cutSpan(text: string, open: string, close: string): string {
+  const start = text.indexOf(open);
+  if (start < 0) return text;
+  const end = text.indexOf(close, start + open.length);
+  if (end < 0) return text;
+  return text.slice(0, start) + text.slice(end + close.length);
+}
 
 /** The commitment rule: the signed document bytes WITHOUT the timestamp
  *  element. Both the embed forms (the ds:Object unsigned property and
  *  the legacy sibling) are removed. */
 export function stripTimestampElement(xml: string): string {
-  return xml.replace(EMBED_RE, "").replace(LEGACY_TIMESTAMP_RE, "");
+  return cutSpan(cutSpan(xml, EMBED_OPEN, EMBED_CLOSE), LEGACY_OPEN, LEGACY_CLOSE);
 }
 
 /**
@@ -97,15 +113,31 @@ export function embedTimestampInXml(xml: string, otsProofBase64: string, service
   return stripped.slice(0, sigClose) + tsElement + stripped.slice(sigClose);
 }
 
+/** The text between the first <tag…> and its close, located by scans. */
+function elementText(xml: string, openPrefix: string, closeTag: string): string | null {
+  const start = xml.indexOf(openPrefix);
+  if (start < 0) return null;
+  const tagEnd = xml.indexOf(">", start);
+  if (tagEnd < 0) return null;
+  const end = xml.indexOf(closeTag, tagEnd + 1);
+  if (end < 0) return null;
+  return xml.slice(tagEnd + 1, end);
+}
+
 /** Extract the embedded OTS proof, if present. */
 export function extractTimestampFromXml(xml: string): { proof: string; service: string } | null {
-  const match = xml.match(/<cnml:otsProof[^>]*>([^<]+)<\/cnml:otsProof>/);
-  if (!match) return null;
-  const serviceMatch = xml.match(/<cnml:timestampService>([^<]+)<\/cnml:timestampService>/);
-  return {
-    proof: match[1]!,
-    service: serviceMatch?.[1] ?? "unknown",
-  };
+  const proof = elementText(xml, "<cnml:otsProof", "</cnml:otsProof>");
+  if (!proof) return null;
+  const service = elementText(xml, "<cnml:timestampService>", "</cnml:timestampService>");
+  return { proof, service: service ?? "unknown" };
+}
+
+/** Trailing slashes off a base URL (a loop — no backtracking regex over
+ *  remote-supplied text). */
+function trimTrailingSlashes(url: string): string {
+  let out = url;
+  while (out.endsWith("/")) out = out.slice(0, -1);
+  return out;
 }
 
 export class OtsError extends Error {}
@@ -136,7 +168,7 @@ export async function stampDigest(digest: Uint8Array, opts?: OtsOptions): Promis
   const answered: string[] = [];
   await Promise.all(
     calendars.map(async (calendar) => {
-      const base = calendar.replace(/\/+$/, "");
+      const base = trimTrailingSlashes(calendar);
       try {
         const res = await fetchImpl(`${base}/digest`, {
           method: "POST",
@@ -193,7 +225,7 @@ export async function fetchCalendarUpgrade(
 ): Promise<Uint8Array | null> {
   const impl = fetchImpl ?? fetch;
   try {
-    const res = await impl(`${calendarUrl.replace(/\/+$/, "")}/timestamp/${digestHex}`);
+    const res = await impl(`${trimTrailingSlashes(calendarUrl)}/timestamp/${digestHex}`);
     if (!res.ok) return null;
     return new Uint8Array(await res.arrayBuffer());
   } catch {
