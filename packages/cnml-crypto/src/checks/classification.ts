@@ -144,6 +144,14 @@ export function classify(
         "soft-skip",
         r.reason ? `${r.checkId}: ${r.reason}` : undefined,
       );
+    } else if (r.status === "pending" && isSoft) {
+      // The attestation is in flight: neither a pass nor a fail — the
+      // grade impact of the not-yet-anchored leg is the soft-skip one.
+      cap(
+        policy.soft_skip_grade[r.checkId] ?? "A",
+        "soft-pending",
+        r.reason ? `${r.checkId}: ${r.reason}` : undefined,
+      );
     }
   }
 

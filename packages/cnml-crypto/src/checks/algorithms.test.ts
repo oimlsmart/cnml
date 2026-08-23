@@ -30,7 +30,18 @@ async function signedSample(): Promise<string> {
     ["sign", "verify"],
   );
   const cert = await issueSelfSignedCert(kp.publicKey, kp.privateKey, "CN=IA");
-  return signCnmlXml(SAMPLE_XML, kp.privateKey, cert);
+  const signed = await signCnmlXml(SAMPLE_XML, kp.privateKey, cert);
+  // The post-mandate shape: time attestation is required, so the sample
+  // carries a pending OTS proof (the stub calendar's, never anchored) —
+  // its grade impact is the soft-skip one, keeping these tests about the
+  // ALGORITHM registry, not the timestamp leg.
+  const { embedTimestampInXml } = await import("../opentimestamps.ts");
+  const { buildDetachedProof, pendingTimestamp, sha256Bytes } = await import("../ots-format.ts");
+  const digest = await sha256Bytes(new TextEncoder().encode(signed));
+  const proof = buildDetachedProof(digest, pendingTimestamp(digest, "https://ots-stub.test/calendar"));
+  let bin = "";
+  for (const b of proof) bin += String.fromCharCode(b);
+  return embedTimestampInXml(signed, btoa(bin));
 }
 
 test("registry statuses are readable", () => {

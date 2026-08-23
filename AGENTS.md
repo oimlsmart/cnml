@@ -45,7 +45,7 @@ Issuing Authority CA (per-IA hardware key)
 Per-cert Signer (browser IndexedDB, AES-GCM with PBKDF2)
     │ signs CNML XML (XMLDSig enveloped with Exclusive C14N)
     ▼
-Signed CNML (XMLDSig with optional OpenTimestamps proof)
+Signed CNML (XMLDSig with the required OpenTimestamps proof)
     │ verified by any party
     ▼
 Verifier (browser, multi-check pipeline)

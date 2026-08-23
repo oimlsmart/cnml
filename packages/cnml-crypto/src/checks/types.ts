@@ -6,7 +6,7 @@
  * checks (so it can short-circuit or read parsed data).
  */
 
-export type CheckStatus = "pass" | "fail" | "warn" | "skip";
+export type CheckStatus = "pass" | "fail" | "warn" | "skip" | "pending";
 
 export interface CheckResult {
   /** ID of the check that produced this result. */
@@ -39,6 +39,21 @@ export interface CheckContext {
   issuerScope?: string[] | null;
   /** Whether the timestamp check found an embedded OTS proof. */
   hasTimestamp?: boolean;
+  /** The timestamp leg's posture (CNML: time attestation is REQUIRED):
+   *  "required" (the default) fails a proof-less document; "legacy" —
+   *  for a record signed before the mandate — marks it as the honest
+   *  legacy state instead. */
+  timestampPosture?: "required" | "legacy";
+  /** The timestamp relay's verify endpoint (the smart instance's
+   *  /api/cnml/timestamp/verify): the pending leg's upgrade query + the
+   *  attested leg's block-time resolution run through it. Undeclared,
+   *  the leg classifies locally (a pending proof stays pending; an
+   *  attested proof passes with the block height, the block time left
+   *  to a networked verifier). */
+  otsVerifyUrl?: string;
+  /** The fetch implementation for the check pipeline's network seams
+   *  (tests stub it; the default is globalThis.fetch). */
+  fetchImpl?: typeof fetch;
   /** Whether the transparency check found an embedded tlog proof. */
   hasTransparencyProof?: boolean;
   /** SHA-256 fingerprint (hex) of the signer's cert, set by the signature check. */

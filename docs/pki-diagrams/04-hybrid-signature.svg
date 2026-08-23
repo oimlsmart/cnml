@@ -58,7 +58,7 @@
 
   <!-- Timestamp -->
   <rect x="460" y="340" width="350" height="50" rx="6" class="ts"/>
-  <text x="635" y="360" text-anchor="middle" class="label">OpenTimestamps Proof (optional)</text>
+  <text x="635" y="360" text-anchor="middle" class="label">OpenTimestamps Proof (required)</text>
   <text x="635" y="378" text-anchor="middle" class="small">Bitcoin blockchain anchor — proves WHEN</text>
 
   <!-- Arrows from content to signatures -->
