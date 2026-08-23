@@ -2,6 +2,7 @@
 import { test, expect } from "@playwright/test";
 import { waitForIslandButton } from "./lib/hydration.js";
 import { wipeIndexedDB } from "./lib/db.js";
+import { stubOtsCalendars, OTS_STUB_URI } from "./lib/ots-stub.js";
 
 /**
  * Full sign + verify round-trip test in the browser.
@@ -28,6 +29,12 @@ const waitForKeyManager = (page) => waitForIslandButton(page, /Generate keypair|
 const waitForSchemaForm = (page) => waitForIslandButton(page, /Fill demo data/);
 
 test("full sign + verify round-trip", async ({ page, context }) => {
+  // The required time attestation, hermetically: the sign flow always
+  // stamps now (never an opt-in); the suite's stub calendar answers the
+  // POST /digest leg with a syntactically valid PENDING timestamp from
+  // the reserved-TLD origin ots-stub.test — never a live calendar.
+  await stubOtsCalendars(context);
+
   // ─── Pre-step: create the signing key in the SAME context so IndexedDB
   // persists across pages. (browser.newPage() creates a new context —
   // IndexedDB is per-context, not per-browser.)
@@ -79,6 +86,12 @@ test("full sign + verify round-trip", async ({ page, context }) => {
 
   expect(signedXml).toMatch(/<ds:Signature/);
   expect(signedXml).toMatch(/<ds:SignatureValue>/);
+  // The required time attestation: the pending OTS proof embeds inside
+  // the signature container (a ds:Object — the enveloped reference never
+  // digests it), committing to the signed bytes with the timestamp
+  // element stripped.
+  expect(signedXml).toMatch(/<ds:Object><cnml:timestamp>/);
+  expect(signedXml).toMatch(/<cnml:otsProof/);
   // X509Certificate is only embedded when certPem is set (via the
   // Generate-new or Import flow). For "Use existing" without a cert,
   // the signature is still valid — just no cert in KeyInfo.
@@ -108,6 +121,13 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // also appears in the reason callout, which would violate strict mode).
   const signatureTile = verifyPage.locator(".cnml-tile", { hasText: /^3\. Signature valid/ });
   await expect(signatureTile).toContainText(/[✓?]/, { timeout: 30_000 });
+
+  // The timestamp leg is a real verdict now: the fresh proof reads as
+  // PENDING (the clock glyph — the attestation is in flight against the
+  // stub calendar), never ✗, never skipped-as-optional.
+  const timestampTile = verifyPage.locator(".cnml-tile", { hasText: /Blockchain timestamp/ });
+  await expect(timestampTile).toContainText("◷", { timeout: 30_000 });
+  await expect(verifyPage.getByText(/ots-stub\.test/).first()).toBeVisible();
 
   fs.unlinkSync(tmpPath);
 });

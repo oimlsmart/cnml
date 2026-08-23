@@ -29,7 +29,12 @@ export function buildCsp(opts: CspOptions): string {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "connect-src 'self' https://www.oimlsmart.org",
+    "connect-src 'self' https://www.oimlsmart.org https://alice.btc.calendar.opentimestamps.org https://finney.calendar.opentimestamps.org",
+    // The two OTS calendar origins: the CNML time attestation (required)
+    // stamps the signed document's digest from the browser — the calendar
+    // protocol's POST /digest + the upgrade's GET /timestamp/<hex>. A
+    // digest submission is never a custody event; the origins are exactly
+    // the calendars, nothing wider.
     "base-uri 'self'",
     "form-action 'self'",
     "object-src 'none'",
