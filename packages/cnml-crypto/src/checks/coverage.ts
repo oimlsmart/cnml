@@ -15,7 +15,6 @@
 
 import type { CheckContext, CheckResult, CheckStatus } from "./types.ts";
 import { sha256Hex } from "../hash.ts";
-import type { Grade } from "../trust_grade.ts";
 
 export interface HardCheckResult {
   check_id: string;
@@ -124,7 +123,6 @@ export async function buildCoverageReport(
   const sigStatus = statusOf(results, "signature");
   const tsStatus = statusOf(results, "timestamp");
   const scopeStatus = statusOf(results, "scope");
-  const crlStatus = statusOf(results, "crl");
 
   const signer = ctx.signerFingerprint ?? "";
   const dimensions: DimensionCoverage[] = [

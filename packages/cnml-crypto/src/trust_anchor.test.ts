@@ -9,8 +9,6 @@ import {
   validateTrustAnchorSet,
   findAnchor,
   currentRoot,
-  pinAnchor,
-  clearPinnedAnchor,
   getPinnedAnchor,
   verifyPinnedAnchor,
   setAnchorStorage,

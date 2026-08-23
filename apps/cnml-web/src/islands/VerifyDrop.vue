@@ -7,8 +7,10 @@ import {
 } from "@oiml/cnml-crypto";
 import {
   verifyArtifact, CHECKS, runConfiumVerifyCheck,
+  confirmChainInclusion, verifySignedHead,
   type CheckResult, type CheckContext,
   type CoverageReport, type ClassificationResult, type AcceptanceResult,
+  type CertInclusionResult,
 } from "@oiml/cnml-crypto/checks";
 import ErrorCallout from "./widgets/ErrorCallout.vue";
 import { useAsyncAction } from "../composables/useAsyncAction";
@@ -23,6 +25,37 @@ const checkResults = ref<CheckResult[]>([]);
 const coverage = ref<CoverageReport | null>(null);
 const classification = ref<ClassificationResult | null>(null);
 const acceptance = ref<AcceptanceResult | null>(null);
+
+// Verifier configuration (the SIGNATIF acceptance policy + the
+// transparency posture): the minimum label this verifier accepts, the
+// log operator's public key for signed-head verification, and the log
+// endpoint for chain-certificate inclusion. Persisted so a verifier
+// configures once.
+const CONFIG_KEY = "cnml-verifier-config";
+type MinLabel = "A+" | "A" | "B" | "C";
+const configLoaded = (() => {
+  try {
+    const raw = localStorage.getItem(CONFIG_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+})();
+const minLabel = ref<MinLabel>(configLoaded?.minLabel ?? "C");
+const operatorKeyPem = ref<string>(configLoaded?.operatorKeyPem ?? "");
+const logEndpoint = ref<string>(configLoaded?.logEndpoint ?? "");
+function persistConfig() {
+  try {
+    localStorage.setItem(CONFIG_KEY, JSON.stringify({
+      minLabel: minLabel.value,
+      operatorKeyPem: operatorKeyPem.value,
+      logEndpoint: logEndpoint.value,
+    }));
+  } catch { /* storage unavailable: session-only config */ }
+}
+
+// Transparency posture from the configured log: the published head and
+// per-certificate inclusion on the verification path.
+const logHead = ref<{ size: number; root: string; signed: boolean; headOk: boolean } | null>(null);
+const chainInclusion = ref<CertInclusionResult[] | null>(null);
 // Optional Confium WASM enhanced verification status. Populated after
 // the main pipeline completes. Silent on unavailability.
 const confiumStatus = ref<"idle" | "available" | "skipped">("idle");
@@ -49,12 +82,57 @@ async function handleUpload(uploadedFile: File) {
       trustedEntries.map((t) => cryptoKeyFromTrustedKey(t).catch(() => null)),
     )).filter((k): k is CryptoKey => k !== null);
 
-    const ctx: CheckContext = { trustedKeys: trustedCryptoKeys };
-    const outcome = await verifyArtifact(xml.value, ctx);
+    const ctx: CheckContext = {
+      trustedKeys: trustedCryptoKeys,
+      ...(operatorKeyPem.value.trim()
+        ? { logOperatorPublicKeyPem: operatorKeyPem.value.trim() }
+        : {}),
+    };
+    const outcome = await verifyArtifact(xml.value, ctx, {
+      acceptance: {
+        minimum_label: minLabel.value,
+        require_transparency: false,
+        require_timestamp: false,
+        freshness_window_ms: 0,
+        required_dimensions: [],
+      },
+    });
     checkResults.value = outcome.results;
     coverage.value = outcome.coverage;
     classification.value = outcome.classification;
     acceptance.value = outcome.acceptance;
+
+    // Transparency posture against the configured log: fetch the
+    // published head, verify its signature when the operator key is
+    // set, then confirm every embedded chain certificate's inclusion
+    // via the by-hash index. Network failures are a posture, never a
+    // verdict: the block reports what could and could not be checked.
+    logHead.value = null;
+    chainInclusion.value = null;
+    const endpoint = logEndpoint.value.trim().replace(/\/+$/, "");
+    if (endpoint) {
+      try {
+        const res = await fetch(`${endpoint}/head.json`);
+        if (res.ok) {
+          const head = await res.json();
+          const headOk = head.signature
+            ? await verifySignedHead({
+                size: head.size,
+                root: head.root,
+                timestamp: head.timestamp,
+                operator: head.operator ?? "unknown",
+                signature: head.signature,
+                public_key: head.public_key ?? (operatorKeyPem.value.trim() || undefined),
+              })
+            : true; // unsigned head: reported as such, not a failure
+          logHead.value = { size: head.size, root: head.root, signed: Boolean(head.signature), headOk };
+          const chain = ctx.trustedCerts ?? [];
+          if (chain.length > 0) {
+            chainInclusion.value = await confirmChainInclusion(chain, endpoint, head.root);
+          }
+        }
+      } catch { /* unreachable log: posture only */ }
+    }
 
     // Stash parsed cert for the cert-details panel (if check 2 got far enough).
     cert.value = (ctx.parsedCert as Certificate) ?? null;
@@ -114,6 +192,8 @@ function reset() {
   coverage.value = null;
   classification.value = null;
   acceptance.value = null;
+  logHead.value = null;
+  chainInclusion.value = null;
   confiumStatus.value = "idle";
   confiumVersion.value = "";
   confiumDetail.value = "";
@@ -223,6 +303,26 @@ function statusGlyph(r: CheckResult): string {
         </div>
         <div v-else-if="classification.reasons.length" class="text-sm text-[var(--ink-muted)] mt-2">
           {{ classification.reasons.join('; ') }}
+        </div>
+
+        <!-- Transparency posture against the configured log -->
+        <div v-if="logHead || chainInclusion" class="border-t border-[var(--rule)] mt-3 pt-3 text-sm">
+          <div class="cnml-label mb-1">Transparency log</div>
+          <div v-if="logHead" class="flex flex-wrap items-center gap-x-4 gap-y-1 mb-1">
+            <span class="font-mono text-xs">head size {{ logHead.size }} · root {{ logHead.root.slice(0, 16) }}…</span>
+            <span v-if="logHead.signed && logHead.headOk" class="text-[#0a6b2c]">signed head verified ✓</span>
+            <span v-else-if="logHead.signed" class="text-[#a00000]">head signature FAILED</span>
+            <span v-else class="text-[var(--ink-muted)]">head unsigned</span>
+          </div>
+          <ul v-if="chainInclusion" class="list-none p-0 m-0">
+            <li v-for="(c, i) in chainInclusion" :key="i" class="font-mono text-xs">
+              cert {{ c.certHash.slice(0, 16) }}… —
+              <span v-if="c.status === 'included'" class="text-[#0a6b2c]">in the log (seq {{ c.sequence }}) ✓</span>
+              <span v-else-if="c.status === 'not-found'" class="text-[#a00000]">NOT in the log</span>
+              <span v-else-if="c.status === 'invalid-proof'" class="text-[#a00000]">inclusion proof invalid</span>
+              <span v-else class="text-[var(--ink-muted)]">{{ c.status }} ({{ c.reason }})</span>
+            </li>
+          </ul>
         </div>
       </div>
 

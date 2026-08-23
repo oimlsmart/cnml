@@ -54,7 +54,7 @@ test("buildCsrPem embeds the subject DN", async () => {
 test("buildCsrPem CSR signature verifies (proof of possession)", async () => {
   const kp = await freshKeyPair();
   const pem = await buildCsrPem(kp.publicKey, kp.privateKey, "CN=Test, O=Proof");
-  const { csr, pki } = await parseCsr(pem);
+  const {csr} = await parseCsr(pem);
   // pkcs10.verify checks the self-signature against the embedded public key.
   const ok = await csr.verify();
   assert.ok(ok, "CSR self-signature verification failed");

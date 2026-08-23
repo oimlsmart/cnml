@@ -15,8 +15,6 @@ if (!(globalThis as any).subtle) {
 }
 
 // Minimal DOM polyfill for DOMParser/XMLSerializer (XML tests run in browser;
-// in Node we skip XML tests and only test crypto math)
-const canParseXml = typeof DOMParser !== "undefined";
 
 describe("CNML crypto round-trip", async () => {
   test("WebCrypto is available", () => {

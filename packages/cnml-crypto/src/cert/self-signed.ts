@@ -9,8 +9,6 @@
 
 import { derToPem } from "../pem.ts";
 
-import { SUBTLE } from "../shared/crypto.ts";
-
 /**
  * Issue a self-signed X.509 v3 certificate wrapping the given ECDSA P-256
  * public key. This is the certificate that goes into

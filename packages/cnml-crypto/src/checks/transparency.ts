@@ -14,10 +14,9 @@
  * fails (could be a fabricated log view).
  */
 
-import type { Check, CheckContext, CheckResult } from "./types.ts";
+import type { Check, CheckResult } from "./types.ts";
 import { toHex, fromHex } from "../shared/hex.ts";
 import { base64ToBytes } from "../shared/base64.ts";
-import { encodeText } from "../shared/crypto.ts";
 
 /** SHA-256 over (0x01 || data) — leaf domain separator per RFC 6962. */
 async function hashLeaf(data: Uint8Array): Promise<Uint8Array> {

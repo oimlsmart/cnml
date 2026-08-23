@@ -3,10 +3,10 @@ import { ref, computed, watch } from "vue";
 import { certToCnmlXml } from "@oiml/cnml-xml";
 import {
   generateKey, encryptPrivateKey, storeKey, listKeys, getKey,
-  loadCryptoKey, signCnmlXml, pemToDer, sha256Hex,
+  loadCryptoKey, signCnmlXml, signCnmlXmlWithCosignatures, pemToDer, sha256Hex,
   importPublic, issueSelfSignedCert,
   timestampCnml, embedTimestampInXml,
-  type StoredKey, type KeyAlgorithm,
+  type StoredKey, type KeyAlgorithm, type CosignerSpec,
 } from "@oiml/cnml-crypto";
 import { useFocusTrap } from "../composables/useFocusTrap";
 import ErrorCallout from "./widgets/ErrorCallout.vue";
@@ -56,6 +56,21 @@ const keyFingerprint = ref("");
 // A failed stamp fails the signing honestly; nothing unsigned-by-time
 // is presented as done.
 const timestampStatus = ref<"idle" | "embedded">("idle");
+
+// Co-signatures (multi-dimensional attestation): independent signers on
+// the SAME canonical payload, each attesting a trust dimension. The
+// person dimension is the certified tester who evaluated; the
+// environment dimension is the calibration authority.
+const CO_SIGN_DIMENSIONS = [
+  { id: "person", label: "person", role: "Certified Tester" },
+  { id: "environment", label: "environment", role: "Calibration Authority" },
+] as const;
+const coSignEnabled = ref<Record<string, boolean>>({});
+const coSignKeyIds = ref<Record<string, string | null>>({});
+const coSignPassphrases = ref<Record<string, string>>({});
+const coSignCount = computed(() =>
+  CO_SIGN_DIMENSIONS.filter((d) => coSignEnabled.value[d.id] && coSignKeyIds.value[d.id]).length,
+);
 
 const xmlPreview = computed(() => props.cert ? certToCnmlXml(props.cert) : "");
 
@@ -237,7 +252,37 @@ async function sign() {
     if (!stored) throw new Error("Key not found in store.");
     const privateKey = await loadCryptoKey(stored, unlockPassphrase.value);
     const xml = certToCnmlXml(props.cert);
-    let signed = await signCnmlXml(xml, privateKey, certPem.value || undefined);
+
+    // Resolve the enabled co-signers: unlock each key with its own
+    // passphrase and auto-issue its role certificate.
+    const cosigners: CosignerSpec[] = [];
+    for (const dim of CO_SIGN_DIMENSIONS) {
+      if (!coSignEnabled.value[dim.id]) continue;
+      const keyId = coSignKeyIds.value[dim.id];
+      if (!keyId) continue;
+      const coStored = await getKey(keyId);
+      if (!coStored) throw new Error(`Co-signing key (${dim.label}) not found in store.`);
+      const pass = coSignPassphrases.value[dim.id] ?? "";
+      if (!pass) throw new Error(`Enter the passphrase for the ${dim.label} co-signing key.`);
+      const coPriv = await loadCryptoKey(coStored, pass);
+      const coPub = await importPublic(coStored.publicKeyPem);
+      const coCert = await issueSelfSignedCert(
+        coPub, coPriv,
+        `O=CNML Web, CN=${coStored.alias} (${dim.role}), C=NL`,
+      );
+      cosigners.push({ dimension: dim.id, privateKey: coPriv, certPem: coCert });
+    }
+
+    // Co-sign FIRST, then stamp: every signature covers the same
+    // canonical payload (the document minus all signature-bearing
+    // elements), and the attestation commits to exactly those bytes.
+    let signed = cosigners.length > 0
+      ? await signCnmlXmlWithCosignatures(
+          xml,
+          { privateKey, certPem: certPem.value || undefined },
+          cosigners,
+        )
+      : await signCnmlXml(xml, privateKey, certPem.value || undefined);
 
     // Time attestation (required): the signed CNML's SHA-256 goes to the
     // public OpenTimestamps calendars; the pending proof embeds inside
@@ -417,9 +462,57 @@ function download() {
           </div>
         </div>
 
-        <!-- Step 2: Unlock + sign -->
+        <!-- Step 2: Co-signatures (optional, multi-dimensional) -->
         <div v-if="selectedKeyId" class="pt-4 border-t border-[var(--rule)]">
-          <div class="cnml-label mb-3">Step 2 — Unlock and sign</div>
+          <div class="cnml-label mb-1">Step 2 — Co-signatures <span class="normal-case font-normal text-[var(--ink-muted)]">(optional)</span></div>
+          <p class="text-xs text-[var(--ink-muted)] mb-3">
+            Each co-signature is an independent attestation on the same
+            canonical payload: the person dimension is the certified
+            tester who evaluated; the environment dimension is the
+            calibration authority.
+          </p>
+          <div class="space-y-3 mb-2">
+            <div v-for="dim in CO_SIGN_DIMENSIONS" :key="dim.id" class="p-3 rounded-md border border-[var(--rule)]">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  :checked="coSignEnabled[dim.id]"
+                  @change="coSignEnabled[dim.id] = ($event.target as HTMLInputElement).checked"
+                  class="accent-[var(--accent)]"
+                />
+                <span class="text-sm font-medium">Add the {{ dim.label }} co-signature</span>
+                <span class="text-xs text-[var(--ink-muted)]">({{ dim.role }})</span>
+              </label>
+              <template v-if="coSignEnabled[dim.id]">
+                <label class="block mt-2">
+                  <span class="cnml-label">Co-signing key</span>
+                  <select v-model="coSignKeyIds[dim.id]" class="cnml-input">
+                    <option :value="null" disabled>Select a key…</option>
+                    <option v-for="k in existingKeys" :key="k.id" :value="k.id">
+                      {{ k.alias }} · {{ k.fingerprint.slice(0, 16) }}…
+                    </option>
+                  </select>
+                </label>
+                <label class="block mt-2">
+                  <span class="cnml-label">Passphrase (unlocks the co-signing key)</span>
+                  <input
+                    v-model="coSignPassphrases[dim.id]"
+                    type="password"
+                    autocomplete="current-password"
+                    class="cnml-input"
+                  />
+                </label>
+                <p class="text-xs text-[var(--ink-muted)] mt-1">
+                  A role certificate is auto-issued for the co-signature.
+                </p>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Unlock + sign -->
+        <div v-if="selectedKeyId" class="pt-4 border-t border-[var(--rule)]">
+          <div class="cnml-label mb-3">Step 3 — Unlock and sign</div>
           <label class="block mb-4">
             <span class="cnml-label">Passphrase (to unlock the selected key)</span>
             <input
@@ -453,6 +546,7 @@ function download() {
         <!-- Success + download -->
         <div v-if="status === 'done'" role="status" aria-live="polite" class="cnml-callout cnml-callout--success mt-4">
           ✓ CNML XML signed with key <span class="font-mono">{{ keyFingerprint.slice(0, 24) }}…</span>
+          <span v-if="coSignCount > 0">+ {{ coSignCount }} co-signature(s) on the same canonical payload</span>
         </div>
 
         <div v-if="status === 'done' && timestampStatus === 'embedded'" class="cnml-callout cnml-callout--info mt-2">

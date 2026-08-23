@@ -1,7 +1,7 @@
 
 import { test, expect } from "@playwright/test";
-import { readFileSync } from "node:fs";
 import path from "node:path";
+
 import { waitForIslandElement } from "./lib/hydration.js";
 
 /**

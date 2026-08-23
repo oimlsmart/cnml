@@ -11,7 +11,6 @@ import type { StoredKey } from "./types.ts";
 import { sha256Hex } from "../hash.ts";
 import { derToPem, pemToDer } from "../pem.ts";
 import { encryptPrivateKey, decryptPrivateKey } from "./encryption.ts";
-import type { TrustedPublicKey } from "../trust/store.ts";
 
 import { SUBTLE } from "../shared/crypto.ts";
 

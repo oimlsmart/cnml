@@ -58,7 +58,6 @@ test("issueSelfSignedCert respects validityDays", async () => {
     "CN=Test",
     100,
   );
-  const after = new Date();
   const { Certificate } = await import("pkijs");
   const { fromBER } = await import("asn1js");
   const b64 = pem.replace(/-----[A-Z ]+-----/g, "").replace(/\s/g, "");

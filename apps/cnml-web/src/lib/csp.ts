@@ -22,7 +22,7 @@ export interface CspOptions {
   dev: boolean;
 }
 
-export function buildCsp(opts: CspOptions): string {
+export function buildCsp(_opts: CspOptions): string {
   return [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'",

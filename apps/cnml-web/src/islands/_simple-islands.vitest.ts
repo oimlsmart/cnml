@@ -10,7 +10,7 @@
  * dedicated test files once the simpler islands prove the harness.
  */
 
-import { describe, test, expect, beforeEach, vi, nextTick } from "vitest";
+import {describe, test, expect} from "vitest";
 import { mount } from "@vue/test-utils";
 
 describe("Counter.vue (mount + interaction)", () => {
