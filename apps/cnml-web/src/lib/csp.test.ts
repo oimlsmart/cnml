@@ -29,10 +29,15 @@ test("both CSPs set object-src 'none' and base-uri 'self'", () => {
 
 test("both CSPs restrict connect-src to self + oimlsmart.org + the two OTS calendars", () => {
   const prod = buildCsp({ dev: false });
-  assert.match(prod, /connect-src 'self' https:\/\/www\.oimlsmart\.org/);
-  // The required CNML time attestation stamps from the browser — the
-  // connect-src names exactly the two public OTS calendars it posts
-  // digests to (never a wider allowlist).
-  assert.ok(prod.includes("https://alice.btc.calendar.opentimestamps.org"));
-  assert.ok(prod.includes("https://finney.calendar.opentimestamps.org"));
+  // The exact origin set, parsed — never a substring match on
+  // URL-shaped text: the connect-src is exactly these four tokens, in
+  // order (the required CNML time attestation stamps from the browser;
+  // the two public OTS calendars it posts digests to, nothing wider).
+  const connectSrc = prod.split("; ").find((d) => d.startsWith("connect-src ")) ?? "";
+  assert.deepEqual(connectSrc.slice("connect-src ".length).split(" "), [
+    "'self'",
+    "https://www.oimlsmart.org",
+    "https://alice.btc.calendar.opentimestamps.org",
+    "https://finney.calendar.opentimestamps.org",
+  ]);
 });
