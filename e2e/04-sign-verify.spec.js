@@ -127,7 +127,7 @@ test("full sign + verify round-trip", async ({ page, context }) => {
   // stub calendar), never ✗, never skipped-as-optional.
   const timestampTile = verifyPage.locator(".cnml-tile", { hasText: /Blockchain timestamp/ });
   await expect(timestampTile).toContainText("◷", { timeout: 30_000 });
-  await expect(verifyPage.getByText(/ots-stub\.test/).first()).toBeVisible();
+  await expect(verifyPage.getByText(OTS_STUB_URI).first()).toBeVisible();
 
   fs.unlinkSync(tmpPath);
 });
