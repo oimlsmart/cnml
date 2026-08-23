@@ -54,26 +54,39 @@ The key-storage backend is open and closed. Software keys, PKCS#11 hardware keys
 
 ### npm packages
 
-The TypeScript packages are published under the `@oiml` scope on npm. External integrators can install them without forking the repository:
+The TypeScript packages are published under the `@oimlsmart` scope on npm (ADR-0007). External integrators can install them without forking the repository:
 
 ```bash
-npm install @oiml/cnml-crypto     # the verification pipeline
-npm install @oiml/cnml-schemas    # per-Recommendation JSON Schemas
-npm install @oiml/cnml-xml        # CNML XML parser
+npm install @oimlsmart/cnml-crypto     # the verification pipeline
+npm install @oimlsmart/cnml-schemas    # per-Recommendation JSON Schemas
+npm install @oimlsmart/cnml-xml        # CNML XML parser
 ```
 
 The full package list:
 
 | Package | Purpose |
 |---|---|
-| `@oiml/cnml-crypto` | Check pipeline, composite signatures, SMI twin client |
-| `@oiml/cnml-schemas` | Per-Recommendation JSON Schemas |
-| `@oiml/cnml-types` | Generated TypeScript types |
-| `@oiml/cnml-xml` | XML parser and canonicalization |
-| `@oiml/cnml-units` | Unit resolver (UnitsDB to BIPM Digital SI) |
-| `@oiml/cnml-dcoc` | D-CoC output (RDF/XML and JSON-LD) |
-| `@oiml/cnml-xsd` | XML Schema Definition for CNML |
-| `@oiml/ptb-dcc-compat` | PTB DCC compatibility layer |
+| `@oimlsmart/cnml-crypto` | Check pipeline, composite signatures, SMI twin client, OpenTimestamps |
+| `@oimlsmart/cnml-schemas` | Per-Recommendation JSON Schemas |
+| `@oimlsmart/cnml-types` | Generated TypeScript types |
+| `@oimlsmart/cnml-xml` | XML parser and canonicalization |
+| `@oimlsmart/cnml-units` | Unit resolver (UnitsDB to BIPM Digital SI) |
+| `@oimlsmart/cnml-dcoc` | D-CoC output (RDF/XML and JSON-LD) |
+| `@oimlsmart/cnml-xsd` | XML Schema Definition for CNML |
+| `@oimlsmart/cnml-test-vectors` | The signed test-vector corpus |
+| `@oimlsmart/ptb-dcc-compat` | PTB DCC compatibility layer |
+| `@oimlsmart/smi-attest` | SMI measurement and calibration attestations (reference copy) |
+
+#### Releasing
+
+All ten packages share one version line; every release bumps and publishes all ten together. The first publish is **1.0.0 at the CNML v1 freeze** (the freeze trigger is the demo nightly producing an attested record). Nothing is on the registry before that first publish, so install commands like the ones above start working at the freeze.
+
+Steady state, per release:
+
+1. Open a PR that bumps `version` to the same new value in every `packages/*/package.json`. Merge on green.
+2. On `main` at the merge commit: `git tag v<x.y.z>` and push the tag.
+3. The **Release** workflow (`.github/workflows/release.yml`) refuses the tag unless it equals every package's version, runs the full CI battery, then publishes all ten packages in dependency order with `pnpm publish --provenance --access public` through npm trusted publishing (no stored npm token).
+4. A package that is not registered on npm yet is skipped green with a notice, so a tag pushed before the one-time manual first publish still proves the gates. The bootstrap runbook is `docs/deployment/npm-releases.md` in the smart repository.
 
 ## Roles
 

@@ -2,6 +2,9 @@
 
 ## Status
 
+Superseded by ADR-0007 (2026-08-23). The packages never reached the
+registry under this scope; they publish under `@oimlsmart` instead.
+
 Accepted (2026-08-06).
 
 ## Context
