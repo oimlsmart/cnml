@@ -378,7 +378,7 @@ The check-to-SIGNATIF-pipeline mapping.
 
 | 8. Blockchain timestamp
 | Time anchor
-| Soft
+| Soft (missing proof fails to C; a declared legacy posture skips)
 
 | 9. Transparency log entry
 | Transparency inclusion

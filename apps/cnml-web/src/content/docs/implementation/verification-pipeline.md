@@ -31,7 +31,7 @@ The current pipeline runs nine checks in the following order.
 
 **CRL status.** The certificate's serial number must not appear on the Certificate Revocation List published by the issuing IA. The verifier fetches the CRL, validates its signature, and checks the serial number against the revoked set. A certificate that has been revoked before its natural expiration fails this check.
 
-**Timestamp anchoring.** The certificate must carry an OpenTimestamps proof or an RFC 3161 time-stamp token that binds the signing time to an external time authority. The verifier validates the timestamp proof and confirms that the signing time falls within the certificate's validity period.
+**Timestamp anchoring.** Time attestation is required in CNML: a signed document carries its OpenTimestamps proof inside the signature container. A proof that commits to a different digest fails, because the document changed after attestation or the proof was transplanted. A pending proof (the attestation is in flight toward a Bitcoin confirmation) reports as pending, naming the calendars; the verifier may mature it on the spot through the calendar upgrade query. Records signed before the mandate are marked legacy: the verifier declares the posture explicitly, and the legacy record skips with a re-sign recommendation rather than failing.
 
 **Transparency-log inclusion.** The certificate must appear in the public Merkle transparency log. The verifier checks the inclusion proof against the current log head. A certificate that is not in the log may be a forgery, since every legitimately issued certificate is appended to the log at issuance time.
 
