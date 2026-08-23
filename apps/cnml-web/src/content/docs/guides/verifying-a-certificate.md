@@ -32,7 +32,7 @@ there is no point checking the signature.
 ## Running the pipeline
 
 ```typescript
-import { runChecks } from "@oiml/cnml-crypto/checks";
+import { runChecks } from "@oimlsmart/cnml-crypto/checks";
 
 const results = await runChecks(xmlString, {
   trustedKeys: [cryptoKey],

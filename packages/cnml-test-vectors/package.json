@@ -1,6 +1,6 @@
 {
-  "name": "@oiml/cnml-test-vectors",
-  "version": "0.1.0",
+  "name": "@oimlsmart/cnml-test-vectors",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "test": "node --test --experimental-strip-types --no-warnings src/cnml.test.ts src/scope-crl.test.ts src/er-binding.test.ts src/sign-external.test.ts src/pipeline.test.ts src/version.test.ts",
@@ -8,11 +8,16 @@
     "verify": "node --experimental-strip-types --no-warnings src/verify-vectors.ts"
   },
   "dependencies": {
-    "@oiml/cnml-schemas": "workspace:*",
-    "@oiml/cnml-xml": "workspace:*",
-    "@oiml/cnml-crypto": "workspace:*",
-    "@oiml/cnml-units": "workspace:*",
+    "@oimlsmart/cnml-schemas": "workspace:*",
+    "@oimlsmart/cnml-xml": "workspace:*",
+    "@oimlsmart/cnml-crypto": "workspace:*",
+    "@oimlsmart/cnml-units": "workspace:*",
     "@xmldom/xmldom": "^0.9.10",
     "yaml": "^2.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oimlsmart/cnml",
+    "directory": "packages/cnml-test-vectors"
   }
 }

@@ -10,7 +10,7 @@
  *   6. Units resolver: resolveUnit covers the OIML corpus
  *   7. Schema validation: 880 real certs validate against per-R schemas
  *
- * Run: pnpm --filter @oiml/cnml-test-vectors test
+ * Run: pnpm --filter @oimlsmart/cnml-test-vectors test
  */
 import {test, describe} from "node:test";
 import assert from "node:assert/strict";
@@ -282,7 +282,7 @@ describe("Test vector corpus", () => {
     const vectorsDir = path.resolve(__dirname, "vectors");
     if (!existsSync(vectorsDir)) {
       // Vectors not generated yet — skip with message
-      console.warn("⚠ No test vectors; run `pnpm --filter @oiml/cnml-test-vectors gen` first.");
+      console.warn("⚠ No test vectors; run `pnpm --filter @oimlsmart/cnml-test-vectors gen` first.");
       return;
     }
     const files = readdirSync(vectorsDir).filter((f) => f.endsWith(".cnml.xml"));

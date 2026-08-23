@@ -9,7 +9,7 @@
  *   binding absent                 → skip (pre-leg certificate — the
  *                                      honest migration posture)
  *
- * Run: pnpm --filter @oiml/cnml-test-vectors test
+ * Run: pnpm --filter @oimlsmart/cnml-test-vectors test
  */
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";

@@ -1,6 +1,11 @@
 {
-  "name": "@oiml/smi-attest",
-  "version": "0.1.0",
+  "name": "@oimlsmart/smi-attest",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oimlsmart/cnml",
+    "directory": "packages/smi-attest"
+  },
   "description": "Signed measurement and calibration attestation formats for OIML SMART Measuring Instruments",
   "type": "module",
   "main": "src/index.ts",
@@ -13,6 +18,6 @@
     "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts"
   },
   "dependencies": {
-    "@oiml/cnml-crypto": "workspace:*"
+    "@oimlsmart/cnml-crypto": "workspace:*"
   }
 }

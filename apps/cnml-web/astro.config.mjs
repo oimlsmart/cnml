@@ -81,12 +81,12 @@ export default defineConfig({
       // processes them through the regular plugin pipeline (YAML plugin
       // for cnml-schemas, TS transform for the rest).
       exclude: [
-        "@oiml/cnml-schemas",
-        "@oiml/cnml-xml",
-        "@oiml/cnml-crypto",
-        "@oiml/cnml-units",
-        "@oiml/cnml-dcoc",
-        "@oiml/ptb-dcc-compat",
+        "@oimlsmart/cnml-schemas",
+        "@oimlsmart/cnml-xml",
+        "@oimlsmart/cnml-crypto",
+        "@oimlsmart/cnml-units",
+        "@oimlsmart/cnml-dcoc",
+        "@oimlsmart/ptb-dcc-compat",
       ],
     },
     server: {

@@ -1,4 +1,4 @@
-# @cnml/cnml-test-vectors
+# @oimlsmart/cnml-test-vectors
 
 Test corpus + roundtrip checks for CNML.
 

@@ -27,7 +27,7 @@ Forces in play:
   authorities. A single global log operated by BIML centralizes
   trust in a way that conflicts with the IA-autonomy model.
 - **Verifier complexity.** Federated logs require the verifier to
-  track N logs. The `@oiml/cnml-crypto` check pipeline absorbs this
+  track N logs. The `@oimlsmart/cnml-crypto` check pipeline absorbs this
   complexity once.
 - **Gossip protocol.** RFC 6962 §6 describes gossip between
   independent monitors. Federated logs are a natural fit; a single

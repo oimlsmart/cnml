@@ -1,6 +1,6 @@
 {
-  "name": "@oiml/cnml-schemas",
-  "version": "0.1.0",
+  "name": "@oimlsmart/cnml-schemas",
+  "version": "1.0.0",
   "type": "module",
   "main": "src/index.ts",
   "exports": {
@@ -14,6 +14,11 @@
     "./samples/*": "./src/samples/*.yaml",
     "./schemas/*": "./src/schemas/*",
     "./R*": "./src/schemas/R*.yaml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oimlsmart/cnml",
+    "directory": "packages/cnml-schemas"
   },
   "description": "Per-Recommendation JSON Schemas for the CNML certificate format"
 }

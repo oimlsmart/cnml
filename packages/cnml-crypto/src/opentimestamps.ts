@@ -43,7 +43,7 @@ import {
 } from "./ots-format.ts";
 
 // The codec rides this module's public surface (one home for the whole
-// OTS leg — the smart instance's relay imports '@cnml/cnml-crypto/ots').
+// OTS leg — the smart instance's relay imports '@oimlsmart/cnml-crypto/ots').
 export * from "./ots-format.ts";
 export { bytesToBase64, base64ToBytes } from "./shared/base64.ts";
 

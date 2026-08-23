@@ -1,9 +1,9 @@
-# @oiml/smi-attest
+# @oimlsmart/smi-attest
 
 > **Note:** This package's canonical home is the SMI project at
 > `~/src/oimlsmart/smi/`. The copy here is a reference implementation
 > placed during the initial design (see ADR-0006). When the SMI
-> project publishes `@oiml/smi-attest` from its own repo, this copy
+> project publishes `@oimlsmart/smi-attest` from its own repo, this copy
 > will be removed.
 
 Signed measurement and calibration attestation formats for OIML SMART
@@ -19,13 +19,13 @@ defines the formats and the signing/verification APIs.
 ## Install
 
 ```bash
-npm install @oiml/smi-attest
+npm install @oimlsmart/smi-attest
 ```
 
 ## Signed measurements
 
 ```typescript
-import { signMeasurement, verifyMeasurement } from "@oiml/smi-attest/measurement";
+import { signMeasurement, verifyMeasurement } from "@oimlsmart/smi-attest/measurement";
 
 // The instrument signs a measurement:
 const signed = await signMeasurement(
@@ -52,7 +52,7 @@ console.log(result.valid); // true
 ## Calibration attestation
 
 ```typescript
-import { calibrationHash, isCalibrationRevoked } from "@oiml/smi-attest/calibration";
+import { calibrationHash, isCalibrationRevoked } from "@oimlsmart/smi-attest/calibration";
 
 const hash = await calibrationHash(calibrationPayload);
 console.log(hash); // sha256 hex string

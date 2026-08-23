@@ -21,7 +21,7 @@ about names live in `docs/adr/`.
   international body that publishes OIML Recommendations and
   operates the OIML-CS framework.
 - **OIML SMART** — the OIML programme that develops CNML and the
-  wider digital metrology infrastructure. Owner of the `@oiml/*`
+  wider digital metrology infrastructure. Owner of the `@oimlsmart/*`
   npm namespace.
 - **BIML** — Bureau International de Métrologie Légale. The
   permanent secretariat of OIML, headquartered in Paris. Operates
@@ -64,7 +64,7 @@ about names live in `docs/adr/`.
 - **CNML test-vectors** — the 22-vector corpus at
   `packages/cnml-test-vectors/`. Generates and verifies the corpus.
 - **CNML TS packages** — the workspace packages under
-  `packages/cnml-*`. Published to npm as `@oiml/cnml-*`.
+  `packages/cnml-*`. Published to npm as `@oimlsmart/cnml-*`.
 - **Passport endpoint** — the machine-readable certificate view at
   `/passport/[certid].json`. Returns JSON-LD.
 - **Check pipeline** — the seven-check verification pipeline at

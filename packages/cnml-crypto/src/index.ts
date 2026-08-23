@@ -1,5 +1,5 @@
 /**
- * @oiml/cnml-crypto — Cryptographic operations for CNML
+ * @oimlsmart/cnml-crypto — Cryptographic operations for CNML
  *
  * Browser-native (WebCrypto + IndexedDB + xmldsigjs for spec-compliant
  * XMLDSig).

@@ -1,4 +1,4 @@
-# @oiml/cnml-crypto
+# @oimlsmart/cnml-crypto
 
 The CNML cryptographic verification pipeline, composite signature
 primitives, and SMI twin client.
@@ -6,7 +6,7 @@ primitives, and SMI twin client.
 ## Install
 
 ```bash
-npm install @oiml/cnml-crypto
+npm install @oimlsmart/cnml-crypto
 ```
 
 ## Check pipeline
@@ -16,7 +16,7 @@ is a module in `src/checks/`. Adding a check is one file plus one
 line in the `CHECKS` array.
 
 ```typescript
-import { runChecks, CHECKS } from "@oiml/cnml-crypto/checks";
+import { runChecks, CHECKS } from "@oimlsmart/cnml-crypto/checks";
 
 const results = await runChecks(xmlString, {
   trustedCerts: [pemString],
@@ -40,7 +40,7 @@ The default pipeline runs 7 checks in order:
 ## Composite signatures
 
 ```typescript
-import { compositeSign, compositeVerify } from "@oiml/cnml-crypto";
+import { compositeSign, compositeVerify } from "@oimlsmart/cnml-crypto";
 ```
 
 Composite signatures combine Ed25519 (classical) with ML-DSA-65
@@ -50,7 +50,7 @@ signature independently.
 ## SMI twin client
 
 ```typescript
-import { TwinClient } from "@oiml/cnml-crypto/smi/twin-client";
+import { TwinClient } from "@oimlsmart/cnml-crypto/smi/twin-client";
 
 const client = new TwinClient("http://localhost:8787/twin");
 await client.connect();

@@ -12,7 +12,7 @@
  * + instance cert store.
  */
 
-import { getRecommendation } from "@oiml/cnml-schemas";
+import { getRecommendation } from "@oimlsmart/cnml-schemas";
 import { findDemoInstance } from "./demo-instances";
 
 export interface PassportDevice {

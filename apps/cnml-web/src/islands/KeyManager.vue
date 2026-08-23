@@ -5,7 +5,7 @@ import {
   exportPublicKeyPem, exportPrivateKeyPem, importPrivateKeyFromPem,
   listTrustedKeys, deleteTrustedKey, importPublicKeyFromPem, storeTrustedKey,
   type StoredKey, type TrustedPublicKey,
-} from "@oiml/cnml-crypto";
+} from "@oimlsmart/cnml-crypto";
 import { useAsyncAction } from "../composables/useAsyncAction";
 import { fingerprintShort } from "./shared/display";
 import { downloadBlob, triggerFileUpload } from "./shared/dom";

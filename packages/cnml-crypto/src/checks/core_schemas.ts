@@ -10,7 +10,7 @@
  * UNITS_LOCAL + MODULES on the shared ajv instance, once per process.
  */
 
-import { registerSchema } from "@oiml/cnml-xml/validate";
+import { registerSchema } from "@oimlsmart/cnml-xml/validate";
 
 interface SchemasPackage {
   CORE: unknown;
@@ -26,10 +26,10 @@ interface SchemasPackage {
 
 async function loadSchemasPackage(): Promise<SchemasPackage> {
   try {
-    return (await import("@oiml/cnml-schemas")) as unknown as SchemasPackage;
+    return (await import("@oimlsmart/cnml-schemas")) as unknown as SchemasPackage;
   } catch {
     // Plain node (no YAML loader): the generated JSON twin.
-    return (await import("@oiml/cnml-schemas/node")) as unknown as SchemasPackage;
+    return (await import("@oimlsmart/cnml-schemas/node")) as unknown as SchemasPackage;
   }
 }
 

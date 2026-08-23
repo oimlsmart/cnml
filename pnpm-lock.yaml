@@ -108,22 +108,22 @@ importers:
       '@fontsource/ibm-plex-sans':
         specifier: ^5.3.0
         version: 5.3.0
-      '@oiml/cnml-crypto':
+      '@oimlsmart/cnml-crypto':
         specifier: workspace:*
         version: link:../../packages/cnml-crypto
-      '@oiml/cnml-dcoc':
+      '@oimlsmart/cnml-dcoc':
         specifier: workspace:*
         version: link:../../packages/cnml-dcoc
-      '@oiml/cnml-schemas':
+      '@oimlsmart/cnml-schemas':
         specifier: workspace:*
         version: link:../../packages/cnml-schemas
-      '@oiml/cnml-units':
+      '@oimlsmart/cnml-units':
         specifier: workspace:*
         version: link:../../packages/cnml-units
-      '@oiml/cnml-xml':
+      '@oimlsmart/cnml-xml':
         specifier: workspace:*
         version: link:../../packages/cnml-xml
-      '@oiml/ptb-dcc-compat':
+      '@oimlsmart/ptb-dcc-compat':
         specifier: workspace:*
         version: link:../../packages/ptb-dcc-compat
       '@types/qrcode':
@@ -169,10 +169,10 @@ importers:
 
   packages/cnml-crypto:
     dependencies:
-      '@oiml/cnml-schemas':
+      '@oimlsmart/cnml-schemas':
         specifier: workspace:*
         version: link:../cnml-schemas
-      '@oiml/cnml-xml':
+      '@oimlsmart/cnml-xml':
         specifier: workspace:*
         version: link:../cnml-xml
       asn1js:
@@ -198,16 +198,16 @@ importers:
 
   packages/cnml-test-vectors:
     dependencies:
-      '@oiml/cnml-crypto':
+      '@oimlsmart/cnml-crypto':
         specifier: workspace:*
         version: link:../cnml-crypto
-      '@oiml/cnml-schemas':
+      '@oimlsmart/cnml-schemas':
         specifier: workspace:*
         version: link:../cnml-schemas
-      '@oiml/cnml-units':
+      '@oimlsmart/cnml-units':
         specifier: workspace:*
         version: link:../cnml-units
-      '@oiml/cnml-xml':
+      '@oimlsmart/cnml-xml':
         specifier: workspace:*
         version: link:../cnml-xml
       '@xmldom/xmldom':
@@ -236,7 +236,7 @@ importers:
 
   packages/smi-attest:
     dependencies:
-      '@oiml/cnml-crypto':
+      '@oimlsmart/cnml-crypto':
         specifier: workspace:*
         version: link:../cnml-crypto
 
@@ -2393,6 +2393,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'

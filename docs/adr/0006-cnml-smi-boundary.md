@@ -49,7 +49,7 @@ The boundary is the certificate itself:
 
 ### What CNML exports FOR SMI
 
-CNML's `@oiml/cnml-crypto` package provides the APIs SMI needs:
+CNML's `@oimlsmart/cnml-crypto` package provides the APIs SMI needs:
 - `verifyCnmlXml()` — verify a signed CNML document
 - `runChecks()` — the full 7-check pipeline
 - The check registry (extensible for SMI-specific checks)
@@ -76,7 +76,7 @@ SMI imports these and builds its measurement verification on top.
 **Harder:**
 - Cross-project coordination: SMI depends on CNML's published types.
   A CNML breaking change requires an SMI update.
-- The `@oiml/smi-attest` npm package should be published from the SMI
+- The `@oimlsmart/smi-attest` npm package should be published from the SMI
   project, not from CNML. The CNML copy is a reference.
 
 ## The `packages/smi-attest/` package
@@ -85,7 +85,7 @@ The code at `packages/smi-attest/` (TODOs 79-80) was placed in CNML
 for convenience during the initial design. Its canonical home is the
 SMI project. The CNML copy stays as a reference implementation and
 is marked as such in its README. When the SMI project publishes
-`@oiml/smi-attest` from its own repo, the CNML copy is removed.
+`@oimlsmart/smi-attest` from its own repo, the CNML copy is removed.
 
 ## References
 
