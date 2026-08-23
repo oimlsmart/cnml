@@ -23,7 +23,7 @@ iterates the `CHECKS` array and renders results generically.
 | 5 | Scope valid | The signer's IA is authorized for the Recommendation on the cert, and scope conditions hold |
 | 6 | CRL status | The certificate is not on a revocation list, and no bound authority state is revoked |
 | 7 | Evaluation report bound | The evaluation report digest matches the certificate's binding |
-| 8 | Timestamp | An OpenTimestamps proof anchors the cert to Bitcoin |
+| 8 | Timestamp | An OpenTimestamps proof (required) anchors the cert to Bitcoin; pending reports in-flight; a declared legacy posture skips |
 | 9 | Transparency | The cert appears in the public Merkle transparency log |
 
 Earlier checks short-circuit later ones. If the XML is malformed,

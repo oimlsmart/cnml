@@ -61,6 +61,18 @@ The signed XML contains:
 ## Composite signatures (post-quantum)
 
 
+## Time attestation (the OpenTimestamps stamp)
+
+Signing includes the OpenTimestamps step: the document digest is
+stamped through a calendar (`stampDigest`), and the returned proof is
+embedded inside the `ds:Signature` container, so the enveloped
+signature covers it. A fresh proof is pending (the attestation is in
+flight toward a Bitcoin confirmation) and matures later; verifiers
+read the block height and attestation time from the proof, and the
+calendar upgrade query can mature a pending proof on the spot. The
+stamp and codec surface is importable as `@oiml/cnml-crypto/ots` for
+relays and offline tools.
+
 ## Co-signatures (multi-dimensional attestation)
 
 A certificate may carry independent co-signatures on the same
