@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./checks": "./src/checks/index.ts",
-    "./smi/twin-client": "./src/smi/twin-client.ts"
+    "./smi/twin-client": "./src/smi/twin-client.ts",
+    "./ots": "./src/opentimestamps.ts"
   },
   "scripts": {
     "test": "node --test --experimental-strip-types --no-warnings src/*.test.ts src/cert/*.test.ts src/checks/*.test.ts src/smi/*.test.ts src/keys/*.test.ts src/xml/*.test.ts"
