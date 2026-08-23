@@ -11,10 +11,11 @@ but the context, the alternatives, and the consequences.
 |---|---|---|
 | [0001](0001-monorepo-with-sharp-seams.md) | Monorepo with sharp internal seams | Accepted |
 | [0002](0002-cloudflare-pages-for-static-site.md) | Cloudflare Pages for the static site | Superseded by ADR-0004 |
-| [0003](0003-npm-namespace-oiml.md) | npm namespace `@oiml/cnml-*` | Accepted |
+| [0003](0003-npm-namespace-oiml.md) | npm namespace `@oiml/cnml-*` | Superseded by ADR-0007 |
 | [0004](0004-stay-on-github-pages.md) | Stay on GitHub Pages until a concrete trigger fires | Accepted |
 | [0005](0005-federated-transparency-logs.md) | Federated transparency logs with cross-anchoring | Accepted |
 | [0006](0006-cnml-smi-boundary.md) | CNML and SMI responsibility boundary | Accepted |
+| [0007](0007-npm-namespace-oimlsmart.md) | npm namespace `@oimlsmart` | Accepted |
 
 ## Format
 
