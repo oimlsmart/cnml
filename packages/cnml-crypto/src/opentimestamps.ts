@@ -42,6 +42,11 @@ import {
   type OtsTimestamp,
 } from "./ots-format.ts";
 
+// The codec rides this module's public surface (one home for the whole
+// OTS leg — the smart instance's relay imports '@cnml/cnml-crypto/ots').
+export * from "./ots-format.ts";
+export { bytesToBase64, base64ToBytes } from "./shared/base64.ts";
+
 /** The public OpenTimestamps calendars (the default stamp upstreams;
  *  the first answers that arrive merge into one proof). */
 export const OTS_DEFAULT_CALENDARS = [
@@ -117,20 +122,13 @@ export interface OtsStampResult {
 }
 
 /**
- * Stamp a CNML document: SHA-256 over the given bytes, submitted to
- * every configured calendar; the answers merge into one detached proof.
- * The given XML must be the SIGNED document WITHOUT a timestamp element
- * (the commitment rule); callers embedding afterwards pass the fresh
- * signature's bytes.
- *
- * Throws only when EVERY calendar failed — the error names each
- * calendar's failure. Time attestation is required: the caller treats
- * this throw as a signing failure, never as a skip.
+ * Stamp a bare digest (the relay's shape: the client hashes, the server
+ * submits — the digest's submission is never a key-custody event).
+ * Same merge + error posture as stampCnml.
  */
-export async function stampCnml(xml: string, opts?: OtsOptions): Promise<OtsStampResult> {
+export async function stampDigest(digest: Uint8Array, opts?: OtsOptions): Promise<OtsStampResult> {
   const fetchImpl = opts?.fetchImpl ?? fetch;
   const calendars = opts?.calendars ?? OTS_DEFAULT_CALENDARS;
-  const digest = await sha256Bytes(encodeText(xml));
   const digestHex = bytesToHex(digest);
 
   const failures: string[] = [];
@@ -160,6 +158,21 @@ export async function stampCnml(xml: string, opts?: OtsOptions): Promise<OtsStam
     throw new OtsError(`every calendar refused the stamp — ${failures.join("; ")}`);
   }
   return { proof: bytesToBase64(buildDetachedProof(digest, merged)), calendars: answered, digestHex };
+}
+
+/**
+ * Stamp a CNML document: SHA-256 over the given bytes, submitted to
+ * every configured calendar; the answers merge into one detached proof.
+ * The given XML must be the SIGNED document WITHOUT a timestamp element
+ * (the commitment rule); callers embedding afterwards pass the fresh
+ * signature's bytes.
+ *
+ * Throws only when EVERY calendar failed — the error names each
+ * calendar's failure. Time attestation is required: the caller treats
+ * this throw as a signing failure, never as a skip.
+ */
+export async function stampCnml(xml: string, opts?: OtsOptions): Promise<OtsStampResult> {
+  return stampDigest(await sha256Bytes(encodeText(xml)), opts);
 }
 
 /** Stamp and answer with the proof only (the signing dialog's shape). */

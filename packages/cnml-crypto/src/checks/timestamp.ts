@@ -113,6 +113,10 @@ export const timestampCheck: Check = {
         checkId: "timestamp",
         status: "pass",
         reason: `Anchored to Bitcoin block ${height ?? "?"}${time}${via}${note}`,
+        details: {
+          ...(height !== undefined ? { blockHeight: height } : {}),
+          ...(answer?.attestedAt ? { attestedAt: answer.attestedAt } : {}),
+        },
       };
     }
 
@@ -126,7 +130,11 @@ export const timestampCheck: Check = {
         checkId: "timestamp",
         status: "pass",
         reason: `Anchored to Bitcoin block ${height ?? "?"}${time}${via} (the pending proof matured at verify time)`,
-        details: { upgradedProof: answer.upgradedProof },
+        details: {
+          upgradedProof: answer.upgradedProof,
+          ...(height !== undefined ? { blockHeight: height } : {}),
+          ...(answer.attestedAt ? { attestedAt: answer.attestedAt } : {}),
+        },
       };
     }
     const calendars = (answer?.calendars?.length ? answer.calendars : verdict.calendars).join(", ");
