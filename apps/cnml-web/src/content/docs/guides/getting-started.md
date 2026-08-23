@@ -10,13 +10,13 @@ install the packages, generate a sample certificate, and verify it.
 
 ## Install the packages
 
-CNML ships as npm packages under the `@oiml` scope. Install the ones
+CNML ships as npm packages under the `@oimlsmart` scope. Install the ones
 you need:
 
 ```bash
-npm install @oiml/cnml-crypto    # the verification pipeline
-npm install @oiml/cnml-schemas   # per-Recommendation JSON Schemas
-npm install @oiml/cnml-xml       # CNML XML parser and serializer
+npm install @oimlsmart/cnml-crypto    # the verification pipeline
+npm install @oimlsmart/cnml-schemas   # per-Recommendation JSON Schemas
+npm install @oimlsmart/cnml-xml       # CNML XML parser and serializer
 ```
 
 Or clone the repository for the full experience (web app, CA server,

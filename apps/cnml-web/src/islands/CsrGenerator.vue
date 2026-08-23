@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from "vue";
 import {
   listKeys, getKey, exportPublicKeyPem,
   type StoredKey,
-} from "@oiml/cnml-crypto";
+} from "@oimlsmart/cnml-crypto";
 import { fingerprintShort } from "./shared/display";
 import { useAsyncAction } from "../composables/useAsyncAction";
 import { downloadBlob } from "./shared/dom";

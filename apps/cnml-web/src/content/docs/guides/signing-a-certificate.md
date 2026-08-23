@@ -15,7 +15,7 @@ via WebCrypto. The private key is encrypted at rest with AES-256-GCM,
 using a PBKDF2-derived key from your passphrase.
 
 ```typescript
-import { generateKey, getKey, loadCryptoKey } from "@oiml/cnml-crypto";
+import { generateKey, getKey, loadCryptoKey } from "@oimlsmart/cnml-crypto";
 
 const { id, fingerprint } = await generateKey({
   alias: "My IA signing key",
@@ -37,8 +37,8 @@ The web app renders a schema-driven form from the per-Recommendation
 JSON Schema. Fill in the evaluation results, then sign:
 
 ```typescript
-import { certToCnmlXml } from "@oiml/cnml-xml";
-import { signCnmlXml, issueSelfSignedCert } from "@oiml/cnml-crypto";
+import { certToCnmlXml } from "@oimlsmart/cnml-xml";
+import { signCnmlXml, issueSelfSignedCert } from "@oimlsmart/cnml-crypto";
 
 // Build the CNML XML from the form data
 const xml = certToCnmlXml(certData);
@@ -70,7 +70,7 @@ signature covers it. A fresh proof is pending (the attestation is in
 flight toward a Bitcoin confirmation) and matures later; verifiers
 read the block height and attestation time from the proof, and the
 calendar upgrade query can mature a pending proof on the spot. The
-stamp and codec surface is importable as `@oiml/cnml-crypto/ots` for
+stamp and codec surface is importable as `@oimlsmart/cnml-crypto/ots` for
 relays and offline tools.
 
 ## Co-signatures (multi-dimensional attestation)
@@ -91,7 +91,7 @@ For post-quantum readiness, CNML supports composite signatures
 combining Ed25519 with ML-DSA-65:
 
 ```typescript
-import { generateCompositeKeyMaterial, compositeSign } from "@oiml/cnml-crypto";
+import { generateCompositeKeyMaterial, compositeSign } from "@oimlsmart/cnml-crypto";
 
 const material = await generateCompositeKeyMaterial(passphrase);
 const composite = await compositeSign(message, material);

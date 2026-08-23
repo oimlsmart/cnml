@@ -255,14 +255,14 @@ describe("Repo-level artifacts", () => {
     assert.ok(existsSync(join(ROOT, ".github/workflows/release-ca.yml")));
   });
 
-  test("npm namespace: every package is @oiml/*", () => {
+  test("npm namespace: every package is @oimlsmart/*", () => {
     const pkgsDir = join(ROOT, "packages");
     if (!existsSync(pkgsDir)) return;
     for (const name of readdirSync(pkgsDir)) {
       const p = join(pkgsDir, name, "package.json");
       if (!existsSync(p)) continue;
       const pkg = JSON.parse(readFileSync(p, "utf8"));
-      if (pkg.name) assert.ok(pkg.name.startsWith("@oiml/"), name + " not @oiml/*: " + pkg.name);
+      if (pkg.name) assert.ok(pkg.name.startsWith("@oimlsmart/"), name + " not @oimlsmart/*: " + pkg.name);
     }
   });
 

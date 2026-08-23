@@ -5,8 +5,8 @@ import {
   generateKey, getKey, loadCryptoKey, importPublic,
   issueSelfSignedCert, signCnmlXml, sha256Hex,
   type StoredKey,
-} from "@oiml/cnml-crypto";
-import { instanceCertToXml, type InstanceCertificate } from "@oiml/cnml-xml";
+} from "@oimlsmart/cnml-crypto";
+import { instanceCertToXml, type InstanceCertificate } from "@oimlsmart/cnml-xml";
 import { fingerprintShort } from "../shared/display";
 import { downloadBlob } from "../shared/dom";
 
@@ -83,7 +83,7 @@ const formValid = computed(() =>
 );
 
 function buildInstanceXml(): string {
-  // Serialize via @oiml/cnml-xml. The XML shape is driven by the
+  // Serialize via @oimlsmart/cnml-xml. The XML shape is driven by the
   // InstanceCertificate interface which mirrors _instance.yaml —
   // the schema is the specification.
   const data: InstanceCertificate = {

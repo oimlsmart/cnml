@@ -34,7 +34,7 @@ The foundational description of D-CoC in the OIML context appears in the OIML Bu
 
 ## How CNML produces D-CoC output
 
-CNML produces D-CoC output as a secondary serialization alongside its native XML format. The `@oiml/cnml-dcoc` package converts any CNML `Certificate` into a D-CoC object that the package then serializes to RDF/XML (`application/rdf+xml`) or JSON-LD (`application/ld+json`). A downstream consumer that operates a triple store or a JSON-LD-aware pipeline can ingest the D-CoC output without learning the OIML-specific CNML vocabulary.
+CNML produces D-CoC output as a secondary serialization alongside its native XML format. The `@oimlsmart/cnml-dcoc` package converts any CNML `Certificate` into a D-CoC object that the package then serializes to RDF/XML (`application/rdf+xml`) or JSON-LD (`application/ld+json`). A downstream consumer that operates a triple store or a JSON-LD-aware pipeline can ingest the D-CoC output without learning the OIML-specific CNML vocabulary.
 
 The D-CoC namespace is `https://oimlsmart.org/ns/dcoc/1.0#`. Standard RDF vocabularies are reused where appropriate: vcard for contact details, dcterms for generic metadata, and rdf and xsd for typing. The D-CoC elements map to CNML fields as follows.
 

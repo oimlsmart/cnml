@@ -1,5 +1,5 @@
 /**
- * @oiml/smi-attest — entry point.
+ * @oimlsmart/smi-attest — entry point.
  *
  * Signed measurement and calibration attestation formats for OIML
  * SMART Measuring Instruments. See:

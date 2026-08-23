@@ -64,7 +64,7 @@ the instrument's signature covers it, and the verifier applies a
 freshness window: a replayed or static answer cannot satisfy the
 challenge, and each nonce is accepted once. The API is
 `generateChallenge`, `embedChallenge`, and
-`verifyChallengeResponse` in `@oiml/cnml-crypto`.
+`verifyChallengeResponse` in `@oimlsmart/cnml-crypto`.
 
 A SMART Measuring Instrument exposes a digital twin at a `/twin`
 GraphQL endpoint. The twin carries:

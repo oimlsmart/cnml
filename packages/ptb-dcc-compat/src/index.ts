@@ -1,5 +1,5 @@
 /**
- * @oiml/ptb-dcc-compat — PTB Digital Calibration Certificate (DCC) importer/exporter
+ * @oimlsmart/ptb-dcc-compat — PTB Digital Calibration Certificate (DCC) importer/exporter
  *
  * Provides lossy conversion between PTB DCC XML (3.x) and the OIML CNML
  * Certificate core model. Round-trips administrative data, calibrated items,

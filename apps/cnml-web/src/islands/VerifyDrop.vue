@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { parseCnmlXml, type Certificate } from "@oiml/cnml-xml";
+import { parseCnmlXml, type Certificate } from "@oimlsmart/cnml-xml";
 import {
   verifyCnmlXml, listTrustedKeys, cryptoKeyFromTrustedKey,
   type VerificationResult,
-} from "@oiml/cnml-crypto";
+} from "@oimlsmart/cnml-crypto";
 import {
   verifyArtifact, CHECKS, runConfiumVerifyCheck,
   confirmChainInclusion, verifySignedHead,
   type CheckResult, type CheckContext,
   type CoverageReport, type ClassificationResult, type AcceptanceResult,
   type CertInclusionResult,
-} from "@oiml/cnml-crypto/checks";
+} from "@oimlsmart/cnml-crypto/checks";
 import ErrorCallout from "./widgets/ErrorCallout.vue";
 import { useAsyncAction } from "../composables/useAsyncAction";
 

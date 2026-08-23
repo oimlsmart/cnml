@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { TwinClient, type Indication, type TwinState, type Provenance, type ConnectionStatus } from "@oiml/cnml-crypto/smi/twin-client";
+import { TwinClient, type Indication, type TwinState, type Provenance, type ConnectionStatus } from "@oimlsmart/cnml-crypto/smi/twin-client";
 import ErrorCallout from "../widgets/ErrorCallout.vue";
 import { useAsyncAction } from "../../composables/useAsyncAction";
 

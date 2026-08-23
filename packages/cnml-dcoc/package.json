@@ -1,7 +1,12 @@
 {
-  "name": "@oiml/cnml-dcoc",
-  "version": "0.1.0",
+  "name": "@oimlsmart/cnml-dcoc",
+  "version": "1.0.0",
   "type": "module",
   "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oimlsmart/cnml",
+    "directory": "packages/cnml-dcoc"
+  },
   "description": "Digital Certificate of Conformity (D-CoC) output in RDF/XML and JSON-LD"
 }

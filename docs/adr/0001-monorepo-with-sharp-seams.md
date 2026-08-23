@@ -56,7 +56,7 @@ The CNML project stays in one Git repository. Each operationally
 distinct component is an independent workspace package with its
 own deploy workflow. The web app's deploy artifact is the web app
 only. The CA server ships as a release tarball via a separate
-workflow. The TS packages are published to npm under the `@oiml/*`
+workflow. The TS packages are published to npm under the `@oimlsmart/*`
 scope (see ADR-0003).
 
 Reject Shape A (split repos) until external contributors appear.

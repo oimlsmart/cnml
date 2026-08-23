@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
-import { certToCnmlXml } from "@oiml/cnml-xml";
+import { certToCnmlXml } from "@oimlsmart/cnml-xml";
 import {
   generateKey, encryptPrivateKey, storeKey, listKeys, getKey,
   loadCryptoKey, signCnmlXml, signCnmlXmlWithCosignatures, pemToDer, sha256Hex,
   importPublic, issueSelfSignedCert,
   timestampCnml, embedTimestampInXml,
   type StoredKey, type KeyAlgorithm, type CosignerSpec,
-} from "@oiml/cnml-crypto";
+} from "@oimlsmart/cnml-crypto";
 import { useFocusTrap } from "../composables/useFocusTrap";
 import ErrorCallout from "./widgets/ErrorCallout.vue";
 import { downloadBlob } from "./shared/dom";

@@ -1,10 +1,15 @@
 {
-  "name": "@oiml/cnml-xsd",
-  "version": "0.1.0",
+  "name": "@oimlsmart/cnml-xsd",
+  "version": "1.0.0",
   "type": "module",
   "exports": {
     ".": "./src/cnml-1.0.xsd",
     "./cnml-1.0.xsd": "./src/cnml-1.0.xsd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oimlsmart/cnml",
+    "directory": "packages/cnml-xsd"
   },
   "description": "XML Schema Definition (XSD) for the CNML certificate format"
 }

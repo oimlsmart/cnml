@@ -7,7 +7,7 @@
  * assembly inserts it as SignatureValue. The result verifies through
  * the same xmldsigjs path as a locally-signed document.
  *
- * Run: pnpm --filter @oiml/cnml-test-vectors test
+ * Run: pnpm --filter @oimlsmart/cnml-test-vectors test
  */
 import { test, describe, before } from "node:test";
 import assert from "node:assert/strict";

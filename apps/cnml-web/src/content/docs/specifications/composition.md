@@ -62,7 +62,7 @@ the proof.
 ### Emission
 
 The mapping is implemented: `certificateToVerifiableCredential()` and
-`instanceToVerifiableCredential()` (in `@oiml/cnml-crypto`) emit the
+`instanceToVerifiableCredential()` (in `@oimlsmart/cnml-crypto`) emit the
 VC JSON from a parsed certificate plus the coverage report's proof
 facts, with each verified co-signature landing in the proof set under
 its trust dimension.

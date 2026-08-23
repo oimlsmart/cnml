@@ -1,7 +1,12 @@
 {
-  "name": "@oiml/ptb-dcc-compat",
-  "version": "0.1.0",
+  "name": "@oimlsmart/ptb-dcc-compat",
+  "version": "1.0.0",
   "type": "module",
   "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oimlsmart/cnml",
+    "directory": "packages/ptb-dcc-compat"
+  },
   "description": "Compatibility layer for PTB Digital Calibration Certificate files"
 }

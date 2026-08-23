@@ -1,4 +1,4 @@
-# @cnml/cnml-schemas
+# @oimlsmart/cnml-schemas
 
 Full OIML certificate schema stack for the CNML web app.
 
@@ -31,7 +31,7 @@ cp ../../oiml-cs-certificates/schema/R*.yaml src/
 ## Usage
 
 ```typescript
-import { R60, CORE, RECOMMENDATIONS, getRecommendation } from "@cnml/cnml-schemas";
+import { R60, CORE, RECOMMENDATIONS, getRecommendation } from "@oimlsmart/cnml-schemas";
 
 const r60 = getRecommendation("R60");
 // r60.schema is the JSON Schema for R60

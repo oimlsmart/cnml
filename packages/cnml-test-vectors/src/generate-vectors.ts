@@ -6,7 +6,7 @@
  * testing against xmlsec1, SAML validators, or any spec-compliant
  * XMLDSig consumer.
  *
- * Run: pnpm --filter @oiml/cnml-test-vectors gen
+ * Run: pnpm --filter @oimlsmart/cnml-test-vectors gen
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";

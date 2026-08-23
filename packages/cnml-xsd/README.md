@@ -1,4 +1,4 @@
-# @cnml/cnml-xsd
+# @oimlsmart/cnml-xsd
 
 W3C XML Schema Definition (XSD) for CNML 1.0.
 
@@ -11,7 +11,7 @@ W3C XML Schema Definition (XSD) for CNML 1.0.
 Import the schema text directly:
 
 ```ts
-import xsd from "@cnml/cnml-xsd";
+import xsd from "@oimlsmart/cnml-xsd";
 // xsd is the XSD source as a string (with @rollup/plugin-yaml or a raw loader)
 ```
 

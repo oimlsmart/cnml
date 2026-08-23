@@ -1,4 +1,4 @@
-# @oiml/cnml-dcoc
+# @oimlsmart/cnml-dcoc
 
 Digital Certificate of Conformity (D-CoC) output for CNML.
 Converts a CNML certificate into a D-CoC object and serializes it
@@ -7,13 +7,13 @@ to RDF/XML or JSON-LD.
 ## Install
 
 ```bash
-npm install @oiml/cnml-dcoc
+npm install @oimlsmart/cnml-dcoc
 ```
 
 ## Usage
 
 ```typescript
-import { certToDcoc, dcocToRdfXml, dcocToJsonLd } from "@oiml/cnml-dcoc";
+import { certToDcoc, dcocToRdfXml, dcocToJsonLd } from "@oimlsmart/cnml-dcoc";
 
 const dcoc = certToDcoc(cnmlCertificate);
 const rdfXml = dcocToRdfXml(dcoc);   // application/rdf+xml

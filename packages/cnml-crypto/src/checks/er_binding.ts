@@ -39,7 +39,7 @@ export const erBindingCheck: Check = {
       er = (ctx.parsedCert as { evaluation_report?: EvaluationReportRefLike }).evaluation_report;
     } else {
       try {
-        const { parseCnmlXml } = await import("@oiml/cnml-xml");
+        const { parseCnmlXml } = await import("@oimlsmart/cnml-xml");
         er = parseCnmlXml(xml).evaluation_report;
       } catch (e) {
         return {

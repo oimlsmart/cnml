@@ -11,10 +11,10 @@ The OIML Bulletin article "[Digital Certificate of Conformity](https://www.oiml.
 
 ## Generation
 
-The `@oiml/cnml-dcoc` package converts a CNML certificate into a D-CoC object and serializes it to RDF/XML or JSON-LD. The conversion is deterministic: the same CNML certificate always produces the same D-CoC output.
+The `@oimlsmart/cnml-dcoc` package converts a CNML certificate into a D-CoC object and serializes it to RDF/XML or JSON-LD. The conversion is deterministic: the same CNML certificate always produces the same D-CoC output.
 
 ```ts
-import { certToDcoc, dcocToRdfXml, dcocToJsonLd } from "@oiml/cnml-dcoc";
+import { certToDcoc, dcocToRdfXml, dcocToJsonLd } from "@oimlsmart/cnml-dcoc";
 
 const dcoc = certToDcoc(cnmlCert);
 const rdfXml = dcocToRdfXml(dcoc);   // application/rdf+xml

@@ -1,11 +1,11 @@
 /**
- * @oiml/cnml-units — Unit symbol resolution for the browser
+ * @oimlsmart/cnml-units — Unit symbol resolution for the browser
  *
  * Port of `oiml-cs-certificates/lib/oiml_cert/normalizer.rb`'s unit resolver.
  * Built from the unitsdb gem data at package build time (sync script).
  *
  * Usage:
- *   import { resolveUnitId } from "@oiml/cnml-units";
+ *   import { resolveUnitId } from "@oimlsmart/cnml-units";
  *   resolveUnitId("V");        // → "u:volt"
  *   resolveUnitId("VAC");      // → "u:volt" (+ current_type: AC via stripUnitQualifiers)
  *   resolveUnitId("bar(g)");   // → "u:bar" (+ reference: gauge)

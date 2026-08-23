@@ -1,4 +1,4 @@
-# @cnml/cnml-xml
+# @oimlsmart/cnml-xml
 
 Browser-native TypeScript library for CNML XML serialization.
 
@@ -9,8 +9,8 @@ Browser-native TypeScript library for CNML XML serialization.
 ## Usage
 
 ```typescript
-import { certToCnmlXml, parseCnmlXml } from "@cnml/cnml-xml";
-import { R60_SAMPLE } from "@cnml/cnml-schemas/samples/r60-sample.yaml";
+import { certToCnmlXml, parseCnmlXml } from "@oimlsmart/cnml-xml";
+import { R60_SAMPLE } from "@oimlsmart/cnml-schemas/samples/r60-sample.yaml";
 
 const xml = certToCnmlXml(R60_SAMPLE);
 console.log(xml);

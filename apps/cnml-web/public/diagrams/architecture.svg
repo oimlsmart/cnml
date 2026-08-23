@@ -45,19 +45,19 @@
     <text x="455" y="132" text-anchor="middle" class="muted">(TypeScript · CNML web app)</text>
 
     <rect x="355" y="150" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
-    <text x="455" y="169" text-anchor="middle" class="label">@cnml/cnml-web (Astro + Vue)</text>
+    <text x="455" y="169" text-anchor="middle" class="label">cnml-web (Astro + Vue)</text>
 
     <rect x="355" y="185" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
-    <text x="455" y="204" text-anchor="middle" class="label">@cnml/cnml-schemas (schemas)</text>
+    <text x="455" y="204" text-anchor="middle" class="label">@oimlsmart/cnml-schemas (schemas)</text>
 
     <rect x="355" y="220" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
-    <text x="455" y="239" text-anchor="middle" class="label">@cnml/cnml-xml (XML serde)</text>
+    <text x="455" y="239" text-anchor="middle" class="label">@oimlsmart/cnml-xml (XML serde)</text>
 
     <rect x="355" y="255" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
-    <text x="455" y="274" text-anchor="middle" class="label">@cnml/cnml-xsd (XSD validator)</text>
+    <text x="455" y="274" text-anchor="middle" class="label">@oimlsmart/cnml-xsd (XSD validator)</text>
 
     <rect x="355" y="290" width="200" height="28" rx="6" fill="white" stroke="#93c5fd"/>
-    <text x="455" y="309" text-anchor="middle" class="label">@cnml/ptb-dcc-compat</text>
+    <text x="455" y="309" text-anchor="middle" class="label">@oimlsmart/ptb-dcc-compat</text>
   </g>
 
   <!-- Issuer keys -->
