@@ -33,6 +33,6 @@ test("both CSPs restrict connect-src to self + oimlsmart.org + the two OTS calen
   // The required CNML time attestation stamps from the browser — the
   // connect-src names exactly the two public OTS calendars it posts
   // digests to (never a wider allowlist).
-  assert.match(prod, /https:\/\/alice\.btc\.calendar\.opentimestamps\.org/);
-  assert.match(prod, /https:\/\/finney\.calendar\.opentimestamps\.org/);
+  assert.ok(prod.includes("https://alice.btc.calendar.opentimestamps.org"));
+  assert.ok(prod.includes("https://finney.calendar.opentimestamps.org"));
 });
