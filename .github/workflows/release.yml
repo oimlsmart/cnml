@@ -1,0 +1,96 @@
+name: Release
+
+# Publishes the ten @oimlsmart/* packages to npm on a version tag
+# (`v*`) via npm trusted publishing (GitHub Actions OIDC), the same
+# machinery as oiml-pubid and primmel-ts. No npm token is stored
+# anywhere: the runner exchanges its OIDC identity for a short-lived
+# publish credential, and each publish carries a provenance
+# attestation bound to this repository and this workflow file.
+#
+# The packages share one version line (ADR-0007): a tag `v<x.y.z>`
+# publishes all ten at `<x.y.z>`, in dependency order. The publish of
+# each package runs ONLY once that package is registered on npm.
+# Until the one-time manual first publish and the trusted-publisher
+# enrollment on npmjs.com (runbook: docs/deployment/npm-releases.md
+# in the smart repo), the job still builds and tests the tag, then
+# prints the note and skips the publish instead of failing red.
+#
+# This workflow supersedes publish.yml (the `pkgs-v*` + NPM_TOKEN
+# path): trusted publishing holds the credential inside the run.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verify the tag matches the workspace version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          count=0
+          for manifest in packages/*/package.json; do
+            name="$(node -p "require('./$manifest').name")"
+            version="$(node -p "require('./$manifest').version")"
+            count=$((count + 1))
+            case "$name" in
+              @oimlsmart/*) ;;
+              *) echo "Package $name is not under the @oimlsmart scope."; exit 1 ;;
+            esac
+            if [ "$version" != "$TAG" ]; then
+              echo "Tag ${GITHUB_REF_NAME} does not match $name@$version."
+              echo "All ten packages share one version line; bump them together."
+              exit 1
+            fi
+          done
+          echo "Tag ${GITHUB_REF_NAME} matches all $count package versions."
+
+      - name: Verify green
+        run: |
+          pnpm test
+          pnpm test:audit
+          pnpm test:crypto
+          pnpm test:vitest
+          pnpm lint:style
+          pnpm budget
+          pnpm build
+
+      - name: Publish the packages in dependency order
+        run: |
+          set -euo pipefail
+          # Derived from the workspace dependency graph:
+          #   tier 0 (no workspace deps): types, units, schemas, xsd, xml, dcoc, ptb-dcc-compat
+          #   tier 1: cnml-crypto (needs schemas + xml)
+          #   tier 2: cnml-test-vectors (needs schemas, xml, crypto, units), smi-attest (needs crypto)
+          for pkg in cnml-types cnml-units cnml-schemas cnml-xsd cnml-xml cnml-dcoc ptb-dcc-compat cnml-crypto cnml-test-vectors smi-attest; do
+            name="@oimlsmart/$pkg"
+            if npm view "$name" version > /dev/null 2>&1; then
+              echo "Publishing $name..."
+              pnpm publish "packages/$pkg" --provenance --access public --no-git-checks
+            else
+              echo "::notice::$name is not on the npm registry yet, the publish is skipped."
+              echo "Do the one-time manual publish and enroll the trusted publisher"
+              echo "(docs/deployment/npm-releases.md in the smart repo), then re-run this job."
+            fi
+          done
