@@ -25,7 +25,7 @@ export interface HardCheckResult {
 
 export interface SoftCheckResult {
   check_id: string;
-  status: "pass" | "fail" | "warn" | "skip";
+  status: "pass" | "fail" | "warn" | "skip" | "pending";
   reason?: string;
 }
 

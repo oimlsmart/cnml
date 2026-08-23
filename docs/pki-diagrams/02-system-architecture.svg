@@ -124,5 +124,5 @@
   <text x="790" y="484" text-anchor="middle" class="small">7. Sig valid?</text>
 
   <text x="450" y="520" text-anchor="middle" class="muted">Steps 3-6 fetch artifacts from the CDN (cached 24h). Step 7 verifies the dual Ed25519 + ML-DSA-65 XMLDSig.</text>
-  <text x="450" y="540" text-anchor="middle" class="muted">Browser also checks (optional) OpenTimestamps proof against the Bitcoin blockchain.</text>
+  <text x="450" y="540" text-anchor="middle" class="muted">Browser also verifies the required OpenTimestamps proof against the Bitcoin blockchain.</text>
 </svg>

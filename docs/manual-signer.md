@@ -53,7 +53,7 @@ demonstrate compliance.
 3. Click **Sign and download CNML**
 4. The browser signs the XML with your Ed25519 key
 5. Your X.509 certificate chain is embedded in the signature
-6. (optional) A blockchain timestamp is added via OpenTimestamps
+6. A blockchain timestamp proof (OpenTimestamps) is submitted and embedded — required, never optional; it verifies as pending until a calendar anchors it to a Bitcoin block
 7. Download the `.cnml.xml` file
 8. Upload it to the OIML-CS certificate database
 9. Send the file to the manufacturer

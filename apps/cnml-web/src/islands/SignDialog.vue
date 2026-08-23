@@ -50,9 +50,12 @@ const errorMessage = ref("");
 const signedXml = ref("");
 const keyFingerprint = ref("");
 
-// OpenTimestamps opt-in
-const anchorToBitcoin = ref(false);
-const timestampStatus = ref<"idle" | "embedded" | "failed">("idle");
+// OpenTimestamps time attestation — REQUIRED in CNML: every signature
+// submits the signed document's SHA-256 to the public OTS calendars and
+// embeds the (initially pending) proof inside the signature container.
+// A failed stamp fails the signing honestly; nothing unsigned-by-time
+// is presented as done.
+const timestampStatus = ref<"idle" | "embedded">("idle");
 
 const xmlPreview = computed(() => props.cert ? certToCnmlXml(props.cert) : "");
 
@@ -84,7 +87,6 @@ watch(() => props.open, (open) => {
     status.value = "idle";
     errorMessage.value = "";
     timestampStatus.value = "idle";
-    anchorToBitcoin.value = false;
   }
 });
 
@@ -237,18 +239,14 @@ async function sign() {
     const xml = certToCnmlXml(props.cert);
     let signed = await signCnmlXml(xml, privateKey, certPem.value || undefined);
 
-    // Optional: anchor the signed CNML's hash to the Bitcoin blockchain
-    // via OpenTimestamps. Free, takes a few seconds. Proves "this exact
-    // content existed at block N" — defeats back-dating attacks.
-    if (anchorToBitcoin.value) {
-      try {
-        const proofB64 = await timestampCnml(signed);
-        signed = embedTimestampInXml(signed, proofB64);
-        timestampStatus.value = "embedded";
-      } catch (e) {
-        timestampStatus.value = `failed: ${(e as Error).message}`;
-      }
-    }
+    // Time attestation (required): the signed CNML's SHA-256 goes to the
+    // public OpenTimestamps calendars; the pending proof embeds inside
+    // the signature container and matures to a Bitcoin attestation once
+    // a calendar anchors its aggregation. A failed stamp fails the
+    // signing — an unattested CNML is not issued.
+    const proofB64 = await timestampCnml(signed);
+    signed = embedTimestampInXml(signed, proofB64);
+    timestampStatus.value = "embedded";
 
     signedXml.value = signed;
     status.value = "done";
@@ -433,13 +431,11 @@ function download() {
             />
           </label>
 
-          <label class="flex items-center gap-2 text-sm mb-2">
-            <input type="checkbox" v-model="anchorToBitcoin" class="accent-[var(--accent)]" />
-            <span>Anchor to Bitcoin blockchain (free, ~5s)</span>
-          </label>
-          <p v-if="anchorToBitcoin" class="text-xs text-[var(--ink-muted)] mb-2">
-            Submits the CNML's SHA-256 to OpenTimestamps. Proves "this content
-            existed before block N" — defeats back-dating forgery.
+          <p class="text-xs text-[var(--ink-muted)] mb-2">
+            Signing also timestamps the document: its SHA-256 goes to the public
+            OpenTimestamps calendars, and the proof embeds in the signature. The
+            proof anchors to a Bitcoin block within hours — until then it verifies
+            as pending, honestly.
           </p>
 
           <button
@@ -460,12 +456,8 @@ function download() {
         </div>
 
         <div v-if="status === 'done' && timestampStatus === 'embedded'" class="cnml-callout cnml-callout--info mt-2">
-          ⛓ Timestamp anchored to Bitcoin blockchain via OpenTimestamps.
-          Proof embedded in the XML.
-        </div>
-        <div v-if="status === 'done' && timestampStatus.startsWith('failed')" class="cnml-callout cnml-callout--warning mt-2">
-          ⚠ Timestamp submission failed ({{ timestampStatus }}).
-          The CNML is signed but has no blockchain proof.
+          ⛓ Timestamp proof embedded (OpenTimestamps). Pending until a calendar
+          anchors it to a Bitcoin block — then it verifies as attested.
         </div>
 
         <details v-if="signedXml" class="mt-4">

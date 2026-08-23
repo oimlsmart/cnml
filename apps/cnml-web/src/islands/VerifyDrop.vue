@@ -130,6 +130,7 @@ function tileClass(r: CheckResult): string {
     case "pass": return "cnml-tile--pass";
     case "fail": return "cnml-tile--fail";
     case "warn": return "cnml-tile--warn";
+    case "pending": return "cnml-tile--warn";
     case "skip": return "cnml-tile--warn";
   }
 }
@@ -139,6 +140,7 @@ function statusGlyph(r: CheckResult): string {
     case "pass": return "✓";
     case "fail": return "✗";
     case "warn": return "?";
+    case "pending": return "◷";
     case "skip": return "—";
   }
 }
@@ -227,7 +229,7 @@ function statusGlyph(r: CheckResult): string {
       <!-- Reasons for non-pass checks -->
       <div v-for="r in checkResults.filter(r => r.reason && r.status !== 'pass')" :key="'reason-' + r.checkId" class="cnml-callout mb-2" :class="{
         'cnml-callout--error': r.status === 'fail',
-        'cnml-callout--warning': r.status === 'warn' || r.status === 'skip',
+        'cnml-callout--warning': r.status === 'warn' || r.status === 'skip' || r.status === 'pending',
       }">
         <strong>{{ labelFor(r.checkId) }}:</strong> {{ r.reason }}
       </div>

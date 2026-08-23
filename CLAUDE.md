@@ -60,7 +60,7 @@ Issuing Authority CA (per-IA Yubikey/HSM)
 Per-cert Signer (browser IndexedDB, AES-GCM + PBKDF2)
     │ signs CNML XML (XMLDSig enveloped + Exclusive C14N)
     ▼
-Signed CNML (XMLDSig + optional OpenTimestamps proof)
+Signed CNML (XMLDSig + the required OpenTimestamps proof)
     │ verified by anyone
     ▼
 Verifier (browser, 7-check pipeline)
