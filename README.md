@@ -79,7 +79,7 @@ The full package list:
 
 #### Releasing
 
-All ten packages share one version line; every release bumps and publishes all ten together. The first publish is **1.0.0 at the CNML v1 freeze** (the freeze trigger is the demo nightly producing an attested record). Nothing is on the registry before that first publish, so install commands like the ones above start working at the freeze.
+All ten packages share one version line; every release bumps and publishes all ten together. **CNML v1 is frozen (2026-08-24):** the freeze trigger (the demo nightly producing an attested record) landed, and the first publish is live — every package is at **1.0.0** on npm. From the freeze, v1 changes are additive only (v1.x never breaks a v1 reader).
 
 Steady state, per release:
 
