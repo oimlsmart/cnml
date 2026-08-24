@@ -1,6 +1,6 @@
 {
   "name": "@oimlsmart/cnml-test-vectors",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "test": "node --test --experimental-strip-types --no-warnings src/cnml.test.ts src/scope-crl.test.ts src/er-binding.test.ts src/sign-external.test.ts src/pipeline.test.ts src/version.test.ts",
