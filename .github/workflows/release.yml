@@ -68,13 +68,13 @@ jobs:
 
       - name: Verify green
         run: |
+          pnpm build
           pnpm test
           pnpm test:audit
           pnpm test:crypto
           pnpm test:vitest
           pnpm lint:style
           pnpm budget
-          pnpm build
 
       - name: Publish the packages in dependency order
         run: |
