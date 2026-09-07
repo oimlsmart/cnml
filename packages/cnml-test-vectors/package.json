@@ -8,11 +8,11 @@
     "verify": "node --experimental-strip-types --no-warnings src/verify-vectors.ts"
   },
   "dependencies": {
-    "@oimlsmart/cnml-schemas": "workspace:*",
-    "@oimlsmart/cnml-xml": "workspace:*",
     "@oimlsmart/cnml-crypto": "workspace:*",
+    "@oimlsmart/cnml-schemas": "workspace:*",
     "@oimlsmart/cnml-units": "workspace:*",
-    "@xmldom/xmldom": "^0.9.10",
+    "@oimlsmart/cnml-xml": "workspace:*",
+    "@xmldom/xmldom": "^0.9.12",
     "yaml": "^2.6.0"
   },
   "repository": {
