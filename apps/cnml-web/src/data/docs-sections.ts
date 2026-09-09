@@ -15,7 +15,7 @@ export const sections = [
       { slug: 'concepts/cnml-and-dcc', title: 'CNML and PTB DCC', desc: "How CNML complements PTB's Digital Calibration Certificate, which operates at the calibration tier while CNML operates at the type-approval tier." },
       { slug: 'concepts/fair-and-dcoc', title: 'FAIR principles and D-CoC', desc: 'The FAIR principles applied to legal-metrology certificates, and the D-CoC framework described in the OIML Bulletin.' },
       { slug: 'concepts/bipm-digital-si', title: 'BIPM Digital SI and measurement units in CNML', desc: 'The authority chain from BIPM Digital SI through UnitsDB and UnitsML into CNML XML.' },
-      { slug: 'concepts/cnml-and-verifiable-credentials', title: 'CNML and verifiable credentials', desc: 'How CNML relates to W3C Verifiable Credentials and registered-entity trust technologies: two models of trust, and why legal metrology requires delegated authority.' },
+      { slug: 'concepts/cnml-and-verifiable-credentials', title: 'CNML and verifiable credentials', desc: 'How CNML differs from, improves on, and for legal metrology surpasses the verifiable-credentials and registered-entity trust models: better guarantee by guarantee, and decisive in principle.' },
     ],
   },
   {
