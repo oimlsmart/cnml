@@ -32,6 +32,7 @@ Suite totals at publication:
 | Signature validity | `xml/sign-verify.test.ts`, `checks/signature.test.ts` |
 | Scope narrowing + conditions | `checks/scope.test.ts`, `checks/scope-narrowing.test.ts` (narrowing invariant, condition language) |
 | Revocation status + propagation | `checks/crl.test.ts`, `checks/state-binding.test.ts` |
+| Status-list surface (VC composition) | `status-list.test.ts` (entry parsing, unset/revoked/suspended, index independence, unknown never a clean pass, live reference list), `vc.test.ts` (emission carries the entry, round-trip through the reader) |
 | Offline operation | Playwright `e2e/*.spec.js` (the verify page runs with no network), `checks/transparency.test.ts` |
 | Deterministic coverage report | `checks/coverage.test.ts` (artifact id determinism, hard/soft partition) |
 
@@ -101,6 +102,7 @@ Suite totals at publication:
 | Artifact signing | `xml/sign-verify.test.ts`, `xml/cosign.test.ts` |
 | Challenge-response | `challenge.test.ts` (128-bit nonce, freshness window, replay rejection, nonce covered by signature) |
 | Single-use nonces | `challenge.test.ts` (replay registry) |
+| Credential exchange: identifier-control challenge | `challenge.test.ts` (the fresh-nonce construction the exchange clause specifies; the stateful exchange endpoint is open) |
 | Co-signer scope enforcement + replay binding | `cosign.test.ts` (tester credential scope, artifact identifier) |
 | Narrowing normalization (singleton sets) | `checks/scope-narrowing.test.ts` |
 
