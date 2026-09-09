@@ -23,6 +23,14 @@ export interface VerifiableCredential {
   credentialSubject: Record<string, unknown>;
   proof: VcProof;
   proofSet?: VcProof[];
+  /**
+   * What the credential AUTHORIZES, as distinct from what it
+   * attests. A type approval attests evaluation; the legal
+   * permission to place an instrument on the market comes only
+   * from the competent authority of each jurisdiction.
+   */
+  legalEffect: "none" | "national" | "regional";
+  legalEffectNote?: string;
 }
 
 /** The CNML view shape produced by parseCnmlXml (duck-typed here so
@@ -88,6 +96,13 @@ export function certificateToVerifiableCredential(
     ),
     proof: primaryProof,
   };
+
+  vc.legalEffect = "none";
+  vc.legalEffectNote =
+    "This credential is type-evaluation evidence under the OIML certification system. " +
+    "It confers no legal permission to place the instrument on the market or put it into " +
+    "use in any jurisdiction; legal effect comes only from the competent authority of " +
+    "that jurisdiction.";
 
   if (proofFacts.coSignatures.length > 0) {
     vc.proofSet = [

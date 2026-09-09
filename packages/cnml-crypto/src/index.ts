@@ -74,6 +74,8 @@ export type { CosignerSpec } from "./xml/cosign.ts";
 export { embedStateBinding, extractStateBindings, bareHash } from "./xml/state-binding.ts";
 export type { BoundState, StateInput } from "./xml/state-binding.ts";
 export { buildStateIndex, propagate, isBoundToRevoked } from "./revocation.ts";
+export { parseStatusListEntry, readCredentialStatus } from "./status-list.ts";
+export type { StatusListEntry, StatusListCredential, CredentialStatus } from "./status-list.ts";
 export type { StateIndexEntry, StateIndex, PropagationHit } from "./revocation.ts";
 export { generateChallenge, embedChallenge, verifyChallengeResponse, readChallengeResponse, createChallengeRegistry } from "./challenge.ts";
 export type { ChallengePolicy, ChallengeResult, ChallengeRegistry } from "./challenge.ts";
