@@ -56,3 +56,9 @@ test("instance certificate emits an instrument-instance VC", () => {
   assert.equal(vc.credentialSubject.serialNumber, "SN-0042");
   assert.equal(vc.credentialSubject.firmwareHash, "beef");
 });
+
+test("emission carries the honest legal-effect fields", () => {
+  const vc = certificateToVerifiableCredential(CERT, { ...FACTS, coSignatures: [] }, "did:web:x");
+  assert.equal(vc.legalEffect, "none");
+  assert.match(vc.legalEffectNote ?? "", /competent authority/);
+});
