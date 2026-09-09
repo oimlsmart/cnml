@@ -462,6 +462,15 @@ identifies every artifact bound to that hash, and verification
 (check 6) fails any artifact whose binding intersects the revoked
 set. Revocation reaches measurements.
 
+Per the framework's status-list clause, a status list and a CRL are
+alternative surfaces for the same decision, and the scheme states
+which it operates. CNML's native surface is the CRL (the X.509
+chains); where a deployment composes with verifiable credentials,
+the VC emission carries a W3C Bitstring Status List entry and the
+same package reads it back (cross-validated against a reference
+deployment's live list). Propagation applies identically to either
+surface.
+
 
 ## Challenge-response
 
@@ -584,9 +593,9 @@ The remaining open items are listed last.
   hash to its sequence, and the verifier confirms chain-certificate
   inclusion via the index and the inclusion proof against the signed
   head (cross-language fixture).
-- **Requirement-level audit (all 113 requirements)**: closed. The
-  machine-readable requirement classes walked end to end; closures
-  include the schema major-version gate, the offline CRL
+- **Requirement-level audit (the requirement classes as of the
+  audit walk)**: closed. The machine-readable requirement classes
+  walked end to end; closures include the schema major-version gate, the offline CRL
   grace-period policy, independent-root-count and multi-log status
   in the coverage report, the operator-signed tree head embedded
   in the inclusion proof, deployment-manifest signing (both ports,
@@ -595,6 +604,19 @@ The remaining open items are listed last.
   delegation certificates, the ceremony audit algorithm, passport
   scope and validity period, and the canonical-payload leaf
   contract (exclusive C14N on both sides, XML-native end to end).
+  Framework clauses added after the walk are recorded below with
+  their own closure status.
+- **Status-list surface**: closed. The framework's status-list
+  clause (a status list and a CRL as alternative surfaces for the
+  same decision) is implemented: the VC emission carries a
+  Bitstring Status List entry, and the reader (expansion-encoded,
+  2-bit statuses, multibase-aware) is tested against a reference
+  deployment's live list. Unknown is never a clean pass.
+- **Credential-exchange challenge construction**: closed. The
+  framework's identifier-control challenge (prove control of the
+  key behind an identifier by signing a fresh nonce) is the same
+  construction as the device-signer challenge, which is implemented
+  with single-use nonces and a freshness window.
 
 ### Federated trust authority evaluation
 
@@ -622,6 +644,11 @@ adopted then.
   published registry is signed when the scheme operator runs it.
 - **Location dimension.** Not required for the legal-metrology use
   case; the co-signature format supports it if needed.
+- **Exchange endpoint.** The framework's credential-exchange clause
+  names a two-turn holder-initiated protocol whose identifier-control
+  challenge is implemented (above); the stateful exchange endpoint
+  itself is not operated. Certificate delivery today is holder
+  collection via the passport and QR delivery.
 
 
 ## References

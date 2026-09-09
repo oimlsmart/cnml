@@ -123,9 +123,10 @@ with exactly this shape: see
 
 **Compact status surfaces.** A status list packs the revocation
 state of every issued credential into one signed, compactly encoded
-bitstring a verifier fetches once. CNML verifies status lists
-alongside certificate revocation lists: either surface answers the
-revocation question, and the scheme declares which it operates.
+bitstring a verifier fetches once. The CRL is CNML's native surface
+for the X.509 chains; the VC emission carries a Bitstring Status
+List entry, and CNML verifies either: both surfaces answer the same
+revocation decision, and the scheme declares which it operates.
 
 **Honest legal semantics.** The strongest explorations in the
 quality-infrastructure space distinguish what a document attests

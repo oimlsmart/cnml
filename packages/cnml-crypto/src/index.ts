@@ -80,7 +80,7 @@ export type { StateIndexEntry, StateIndex, PropagationHit } from "./revocation.t
 export { generateChallenge, embedChallenge, verifyChallengeResponse, readChallengeResponse, createChallengeRegistry } from "./challenge.ts";
 export type { ChallengePolicy, ChallengeResult, ChallengeRegistry } from "./challenge.ts";
 export { certificateToVerifiableCredential, instanceToVerifiableCredential } from "./vc.ts";
-export type { VerifiableCredential, VcProof, CnmlCertificateView, CnmlProofFacts } from "./vc.ts";
+export type { VerifiableCredential, VcProof, CnmlCertificateView, CnmlProofFacts, StatusListBinding } from "./vc.ts";
 export { registryString, verifyAlgorithmRegistry } from "./algorithms.ts";
 export type { AlgorithmRegistry, RegistryVerification } from "./algorithms.ts";
 export { findAllPaths, anchorBundle, rootDiversity, strongestPathFor } from "./trust-graph.ts";
