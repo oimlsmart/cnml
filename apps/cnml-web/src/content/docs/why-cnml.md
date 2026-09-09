@@ -60,6 +60,7 @@ CNML adoption proceeds through three phases. In the pilot phase, BIML issues a t
 ## See also
 
 - [CNML and PTB DCC](/docs/concepts/cnml-and-dcc) develops the complementarity with PTB's Digital Calibration Certificate.
+- [CNML and verifiable credentials](/docs/concepts/cnml-and-verifiable-credentials) makes the case for delegated authority over recognition-credential trust models.
 - [Threshold cryptography in CNML](/docs/concepts/threshold-cryptography) introduces the cryptographic substrate.
 - [CNML architecture choices](/docs/architecture/cnml-architecture-choices) describes CNML on its own terms.
 - [Transparency and audit](/docs/architecture/transparency) develops the accountability model.
