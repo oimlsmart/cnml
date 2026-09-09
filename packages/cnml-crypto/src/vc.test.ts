@@ -62,3 +62,37 @@ test("emission carries the honest legal-effect fields", () => {
   assert.equal(vc.legalEffect, "none");
   assert.match(vc.legalEffectNote ?? "", /competent authority/);
 });
+
+test("emission carries a status-list entry only when a binding is given", () => {
+  const withStatus = certificateToVerifiableCredential(CERT, FACTS, "did:web:ia.example.org", {
+    statusListCredential: "https://ia.example.org/status/certificates",
+    statusListIndex: 4,
+  });
+  assert.deepEqual(withStatus.credentialStatus, {
+    type: "BitstringStatusListEntry",
+    statusListCredential: "https://ia.example.org/status/certificates",
+    statusListIndex: "4",
+    statusPurpose: "revocation",
+  });
+  const withoutStatus = certificateToVerifiableCredential(CERT, FACTS, "did:web:ia.example.org");
+  assert.equal(withoutStatus.credentialStatus, undefined);
+});
+
+test("emitted status entry round-trips through the status-list reader", async () => {
+  const { parseStatusListEntry, readCredentialStatus } = await import("./status-list.ts");
+  const { gzipSync } = await import("node:zlib");
+  const { bytesToBase64 } = await import("./shared/base64.ts");
+
+  const vc = certificateToVerifiableCredential(CERT, FACTS, "did:web:ia.example.org", {
+    statusListCredential: "https://ia.example.org/status/certificates",
+    statusListIndex: 1,
+  });
+  const entry = parseStatusListEntry(vc.credentialStatus);
+  assert.ok(entry);
+
+  // bitstring: index 1 revoked (bit set), index 0 unset
+  const gz = gzipSync(new Uint8Array([0b0000_0100]));
+  const encodedList = bytesToBase64(gz).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const st = await readCredentialStatus(entry, { encodedList });
+  assert.deepEqual(st, { kind: "revoked" });
+});

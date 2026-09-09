@@ -65,7 +65,11 @@ The mapping is implemented: `certificateToVerifiableCredential()` and
 `instanceToVerifiableCredential()` (in `@oimlsmart/cnml-crypto`) emit the
 VC JSON from a parsed certificate plus the coverage report's proof
 facts, with each verified co-signature landing in the proof set under
-its trust dimension.
+its trust dimension. When the scheme operates a status list, the
+emission carries a W3C Bitstring Status List entry (`credentialStatus`)
+naming the credential's slot; the same package reads it back
+(`readCredentialStatus`), so the VC-native revocation surface and the
+X.509 CRL surface answer the same decision.
 
 ### What CNML adds over a bare VC
 

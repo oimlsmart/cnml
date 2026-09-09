@@ -15,6 +15,21 @@ export interface VcProof {
   dimension?: string;
 }
 
+/**
+ * The status list this credential occupies: the VC-native revocation
+ * surface (SIGNATIF §revocation status lists). The CRL remains the
+ * native surface for the X.509 chains; a scheme operating both
+ * reconciles them through the transparency log.
+ */
+export interface StatusListBinding {
+  /** The status list credential's id (URL). */
+  statusListCredential: string;
+  /** This credential's slot in the list. */
+  statusListIndex: number;
+  /** revocation (default) | suspension | message. */
+  statusPurpose?: string;
+}
+
 export interface VerifiableCredential {
   "@context": string[];
   type: string[];
@@ -23,6 +38,13 @@ export interface VerifiableCredential {
   credentialSubject: Record<string, unknown>;
   proof: VcProof;
   proofSet?: VcProof[];
+  /** BitstringStatusListEntry when the scheme operates a status list. */
+  credentialStatus?: {
+    type: "BitstringStatusListEntry";
+    statusListCredential: string;
+    statusListIndex: string;
+    statusPurpose: string;
+  };
   /**
    * What the credential AUTHORIZES, as distinct from what it
    * attests. A type approval attests evaluation; the legal
@@ -67,6 +89,7 @@ export function certificateToVerifiableCredential(
   cert: CnmlCertificateView,
   proofFacts: CnmlProofFacts,
   issuerId: string,
+  status?: StatusListBinding,
 ): VerifiableCredential {
   const subject: Record<string, unknown> = {
     type: "MeasuringInstrumentType",
@@ -104,6 +127,15 @@ export function certificateToVerifiableCredential(
     "use in any jurisdiction; legal effect comes only from the competent authority of " +
     "that jurisdiction.";
 
+  if (status) {
+    vc.credentialStatus = {
+      type: "BitstringStatusListEntry",
+      statusListCredential: status.statusListCredential,
+      statusListIndex: String(status.statusListIndex),
+      statusPurpose: status.statusPurpose ?? "revocation",
+    };
+  }
+
   if (proofFacts.coSignatures.length > 0) {
     vc.proofSet = [
       primaryProof,
@@ -127,8 +159,9 @@ export function instanceToVerifiableCredential(
   cert: CnmlCertificateView,
   proofFacts: CnmlProofFacts,
   issuerId: string,
+  status?: StatusListBinding,
 ): VerifiableCredential {
-  const vc = certificateToVerifiableCredential(cert, proofFacts, issuerId);
+  const vc = certificateToVerifiableCredential(cert, proofFacts, issuerId, status);
   vc.type = ["VerifiableCredential", "CNMLInstanceCertificate"];
   vc.credentialSubject = {
     type: "MeasuringInstrumentInstance",
