@@ -74,6 +74,16 @@ combines all the pieces:
 5. A QR code is generated encoding the passport URL
 6. The signed XML + cert PEM are bundled for download
 
+In the SIGNATIF framework's terms, this is holder-initiated
+delivery: the manufacturer collects the certificate it asked for,
+and the passport is the public projection a verifier can ask for.
+The framework's credential-exchange clause generalizes the pattern
+into a two-turn protocol whose identifier-control challenge, proving
+control of the key behind an identifier by signing a fresh nonce,
+is the same construction CNML uses for device challenges. The
+current state is recorded in
+[the CNML profile](/docs/specifications/signatif-profile).
+
 ## Next steps
 
 - [SMI integration](/docs/guides/smi-integration) for the SMART

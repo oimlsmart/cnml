@@ -53,6 +53,13 @@ a measurement was produced under is revoked. Caught by check 6
 payload, and the propagated state index flags every artifact bound
 to the revoked hash.
 
+**Keep presenting a credential revoked on the status-list surface.**
+A certificate composed as a verifiable credential is revoked in the
+scheme's status list, and someone keeps presenting it. Caught on the
+composition path: the credential's slot in the signed list reads
+revoked, and an unreadable or out-of-range slot reports unknown,
+never a clean pass (`status-list.test.ts`).
+
 **Issue outside the accredited Recommendation.** An IA scoped to
 R60 signs an R117 certificate. Caught by check 4 (scope): the X.509
 scope extension does not list R117; the four-layer enforcement model

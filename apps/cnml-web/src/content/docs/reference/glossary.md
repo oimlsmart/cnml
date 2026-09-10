@@ -154,6 +154,8 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 
 **R-id.** Recommendation identifier (for example, R60, R76, R117). An OIML Recommendation specifies the technical requirements for a category of measuring instruments.
 
+**Registered-entity model.** A trust model in which an anchor issues recognition credentials asserting that an organisation was recognised under an arrangement, and a verifier walks those links to decide whether to accept an issuer's credentials. The trust link is a claim about standing; CNML instead uses cryptographic delegation. See [CNML and verifiable credentials](/docs/concepts/cnml-and-verifiable-credentials).
+
 **Revocation.** Invalidating a certificate before its natural expiration. Revoked certificates are listed on the CRL.
 
 **Root CA.** The topmost certificate authority in a hierarchy. The root is self-signed and serves as the trust anchor for all subordinate certificates.
@@ -168,6 +170,8 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 **Scope (of an IA certificate).** The set of OIML Recommendations that an IA is authorized to issue certificates for. Scope is enforced cryptographically through the `oimlAuthorizedRecommendations` X.509 v3 extension.
 
 **Shamir's Secret Sharing.** A threshold secret-sharing scheme over a prime field. CNML uses Shamir's Secret Sharing as an air-gapped fallback for ceremonies where the FROST protocol cannot be used.
+
+**Status list.** A signed, compactly encoded bitstring in which each issued credential occupies an indexed slot, published by the revoking authority. A status list and a CRL are alternative surfaces for the same revocation decision; the W3C Bitstring Status List is the form used on the verifiable-credentials composition path.
 
 **Subordinate CA.** A certificate authority whose certificate is signed by another CA (not self-signed). In CNML, the IAs are subordinate to the BIML Root.
 
