@@ -37,6 +37,8 @@ The verifier caches the CRL locally. When the verifier encounters a certificate,
 
 The CRL refresh cadence is monthly. A verifier with internet connectivity fetches the current CRL from the IA's CRL distribution point (listed in the IA intermediate certificate) on a monthly schedule. A verifier operating in an air-gapped environment receives the updated CRL through the same USB-stick mechanism used for the trust-anchor bundle.
 
+The CRL is the native revocation surface for the X.509 chains. Where a deployment composes with verifiable credentials, the same decision is answered by the status-list surface: the emitted credential carries a W3C Bitstring Status List entry naming its slot, and `@oimlsmart/cnml-crypto` reads it back. The two surfaces are alternatives for one decision; the scheme declares which it operates. See [interoperability composition](/docs/specifications/composition).
+
 ## Library integration
 
 CNML verification is available through open-source libraries for verifiers that need to integrate certificate checking into their existing software.
