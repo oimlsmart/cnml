@@ -177,6 +177,7 @@ Every CA operation appends an entry to an append-only JSONL log. Each entry incl
 | Shamir's Secret Sharing for 2-of-2 root key splitting | shipped |
 | OpenTimestamps proof of existence anchored to Bitcoin | shipped |
 | CRL revocation status check | parser shipped, distribution pending |
+| W3C Bitstring Status List verification and VC emission with status entries | shipped |
 | WCAG 2.2 AA accessibility | shipped |
 | Coordinator-mediated asynchronous threshold signing | shipped |
 | Transparency-log inclusion proof with gossip-based mirror agreement | shipped |
