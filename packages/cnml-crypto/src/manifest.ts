@@ -67,6 +67,15 @@ export interface TransparencyConfig {
   readonly multiLog?: MultiLogPolicy;
 }
 
+/** Credential-exchange coordinator declaration (the delivery clause:
+ * a coordinator that runs exchanges operates a stateful endpoint,
+ * which the deployment manifest declares). */
+export interface ExchangeConfig {
+  readonly endpoint: string;
+  /** Seconds an identifier-control challenge stays answerable. */
+  readonly freshnessWindow?: number;
+}
+
 /** Async signing defaults. */
 export interface AsyncSigningConfig {
   readonly defaultUnlockWindowMinutes: number;
@@ -116,6 +125,7 @@ export interface Manifest {
   readonly tiers: readonly Tier[];
   readonly quorums: readonly Quorum[];
   readonly transparency?: TransparencyConfig;
+  readonly exchange?: ExchangeConfig;
   readonly asyncSigning?: AsyncSigningConfig;
   readonly archival?: ArchivalConfig;
   readonly pqcMigration?: PqcMigrationPlan;
@@ -203,6 +213,20 @@ export function validateManifest(parsed: unknown): ValidationReport {
     errors.push("tier chain has no root (no tier with delegated_by absent)");
   }
 
+  // Exchange coordinator declaration (optional; when present the
+  // stateful endpoint must be declared)
+  const exchange = obj.exchange;
+  if (exchange !== undefined) {
+    const ex = (typeof exchange === "object" && exchange !== null ? exchange : {}) as Record<string, unknown>;
+    if (typeof ex.endpoint !== "string" || ex.endpoint === "") {
+      errors.push("[exchange] section requires an endpoint");
+    }
+    const fw = ex.freshness_window ?? ex.freshnessWindow;
+    if (fw !== undefined && (typeof fw !== "number" || !Number.isInteger(fw) || fw <= 0)) {
+      errors.push("[exchange] freshness_window must be a positive integer");
+    }
+  }
+
   // Quorum warning
   const quorums = Array.isArray(obj.quorums) ? obj.quorums : [];
   const hasThresholdTier = tiers.some(t => {
@@ -262,11 +286,21 @@ function coerceToManifest(obj: Record<string, unknown>): Manifest {
       shareStorageBackend: (q.share_storage_backend ?? q.shareStorageBackend) as string | undefined,
     })),
     transparency: parseTransparency(obj.transparency),
+    exchange: parseExchange(obj.exchange),
     asyncSigning: parseAsyncSigning(obj.async_signing ?? obj.asyncSigning),
     archival: parseArchival(obj.archival),
     pqcMigration: parsePqcMigration(obj.pqc_migration ?? obj.pqcMigration),
     algorithms: parseAlgorithms(obj.algorithms),
     classification: parseClassificationConfig(obj.classification),
+  };
+}
+
+function parseExchange(raw: unknown): ExchangeConfig | undefined {
+  if (typeof raw !== "object" || raw === null) return undefined;
+  const obj = raw as Record<string, unknown>;
+  return {
+    endpoint: obj.endpoint as string,
+    freshnessWindow: (obj.freshness_window ?? obj.freshnessWindow) as number | undefined,
   };
 }
 

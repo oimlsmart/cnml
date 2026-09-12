@@ -78,6 +78,7 @@ module OimlPki
       validate_thresholds(tiers, report)
       validate_tier_chain(tiers, report)
       validate_quorum_references(tiers, parsed["quorums"] || [], report)
+      validate_exchange(parsed, report)
 
       report
     end
@@ -189,6 +190,26 @@ module OimlPki
       if (parsed["quorums"] || []).empty?
         report.add_error("pkcs11_replacement mode requires at least one [[quorums]] entry")
       end
+    end
+
+    # The exchange coordinator declaration (SIGNATIF delivery clause:
+    # a coordinator that runs exchanges operates a stateful endpoint,
+    # which the deployment manifest declares). Optional; when present
+    # the endpoint is mandatory.
+    def validate_exchange(parsed, report)
+      exchange = parsed["exchange"]
+      return if exchange.nil?
+
+      endpoint = exchange["endpoint"]
+      unless endpoint.is_a?(String) && !endpoint.empty?
+        report.add_error("[exchange] section requires an endpoint")
+      end
+
+      window = exchange["freshness_window"]
+      return unless window
+      return if window.is_a?(Integer) && window.positive?
+
+      report.add_error("[exchange] freshness_window must be a positive integer")
     end
 
     def validate_thresholds(tiers, report)

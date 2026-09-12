@@ -74,6 +74,24 @@ anchoring = "bitcoin"
 
 Tree roots are anchored to Bitcoin via OpenTimestamps.
 
+## Credential exchange
+
+A deployment that operates a credential-exchange coordinator (the
+two-turn, holder-initiated protocol whose identifier-control
+challenge proves the holder controls the key behind its identifier)
+declares the stateful endpoint in the manifest:
+
+```toml
+[exchange]
+endpoint = "http://localhost:4455/api/exchange"
+freshness_window = 300
+```
+
+The `endpoint` is mandatory when the section is present;
+`freshness_window` (seconds an identifier-control challenge stays
+answerable) must be a positive integer. A deployment that runs no
+coordinator omits the section.
+
 ## Validation
 
 The manifest is validated on load. The `DeploymentManifest.validate`
@@ -82,6 +100,7 @@ function checks:
 - Manifest version matches the expected version
 - The tier chain is complete (root to instance)
 - Quorum references resolve
+- An [exchange] section carries its mandatory endpoint
 - Signing algorithms are supported
 - PKCS#11 replacement tokens are not in production configs
 

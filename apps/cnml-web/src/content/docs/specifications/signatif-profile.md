@@ -624,7 +624,9 @@ The remaining open items are listed last.
   nonce, and the holder collects by signing the nonce with the key
   behind its identifier (the certificate it presents must name it).
   Freshness window, single use, replay rejection, spec'd end to
-  end. Operating the endpoint as a scheme service is a deployment
+  end. The deployment manifest declares the stateful endpoint
+  (`[exchange]`: endpoint, freshness_window), validated by both
+  ports. Operating the endpoint as a scheme service is a deployment
   step, as with the mirror.
 
 ### Federated trust authority evaluation
