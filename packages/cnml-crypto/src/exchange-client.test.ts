@@ -5,6 +5,10 @@
  * /api/exchange routes; the holder signs with WebCrypto (the P1363
  * form), and the server verifies the DER form with OpenSSL — the
  * exact wire format the Ruby coordinator expects.
+ *
+ * The coordinator pins the holder's certificate out-of-band (it
+ * knows the key behind the identifier; it does not take key
+ * material from the request).
  */
 
 import { test } from "node:test";
@@ -22,7 +26,7 @@ interface Coordinator {
   rejectNextCollect: string | null;
 }
 
-async function startCoordinator(): Promise<Coordinator> {
+async function startCoordinator(holder: { certificatePem: string }): Promise<Coordinator> {
   const coordinator: Coordinator = {
     server: null as unknown as http.Server,
     port: 0,
@@ -59,10 +63,10 @@ async function startCoordinator(): Promise<Coordinator> {
           coordinator.rejectNextCollect = null;
           return reply(400, { error: reason });
         }
-        const cert = new nodeCrypto.X509Certificate(json.certificate_pem);
-        if (!cert.subject.includes(`CN=${session.identifier}`)) {
-          return reply(400, { error: "the certificate does not name the holder" });
-        }
+        // The key behind the identifier is known out-of-band; key
+        // material never comes from the request (collect carries
+        // only the signature).
+        const cert = new nodeCrypto.X509Certificate(holder.certificatePem);
         const signature = Buffer.from(json.signature_b64, "base64");
         if (!nodeCrypto.verify("SHA256", session.nonce, cert.publicKey, signature)) {
           return reply(400, { error: "signature does not prove control of the key behind the identifier" });
@@ -85,13 +89,14 @@ async function stopCoordinator(coordinator: Coordinator): Promise<void> {
   await new Promise<void>((resolve) => coordinator.server.close(() => resolve()));
 }
 
-async function makeHolder(identifier: string): Promise<ExchangeHolder & { privateKey: CryptoKey }> {
+async function makeHolder(
+  identifier: string,
+): Promise<ExchangeHolder & { certificatePem: string }> {
   const kp = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]);
   const certificatePem = await issueSelfSignedCert(kp.publicKey, kp.privateKey, `CN=${identifier}`);
   return {
     identifier,
     certificatePem,
-    privateKey: kp.privateKey,
     sign: async (nonce: Uint8Array) =>
       derFromP1363(
         new Uint8Array(await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, kp.privateKey, nonce)),
@@ -100,13 +105,13 @@ async function makeHolder(identifier: string): Promise<ExchangeHolder & { privat
 }
 
 test("the holder collects its credential through the two-turn exchange", async () => {
-  const coordinator = await startCoordinator();
+  const identifier = "Example Instruments";
+  const holder = await makeHolder(identifier);
+  const coordinator = await startCoordinator(holder);
   try {
-    const identifier = "Example Instruments";
     const credential = { certificate_pem: "-----BEGIN CERTIFICATE-----" };
     coordinator.staged.set(identifier, credential);
 
-    const holder = await makeHolder(identifier);
     const collected = await runCredentialExchange(`http://127.0.0.1:${coordinator.port}`, holder);
     assert.deepEqual(collected, credential);
   } finally {
@@ -115,9 +120,9 @@ test("the holder collects its credential through the two-turn exchange", async (
 });
 
 test("nothing staged answers the typed nothing_staged failure", async () => {
-  const coordinator = await startCoordinator();
+  const holder = await makeHolder("Nobody");
+  const coordinator = await startCoordinator(holder);
   try {
-    const holder = await makeHolder("Nobody");
     await assert.rejects(
       runCredentialExchange(`http://127.0.0.1:${coordinator.port}`, holder),
       (e: unknown) => e instanceof ExchangeError && e.failure.kind === "nothing_staged",
@@ -128,11 +133,11 @@ test("nothing staged answers the typed nothing_staged failure", async () => {
 });
 
 test("a rejected collect surfaces the coordinator's reason", async () => {
-  const coordinator = await startCoordinator();
+  const holder = await makeHolder("Example Instruments");
+  const coordinator = await startCoordinator(holder);
   try {
     coordinator.staged.set("Example Instruments", {});
     coordinator.rejectNextCollect = "signature does not prove control of the key behind the identifier";
-    const holder = await makeHolder("Example Instruments");
     await assert.rejects(
       runCredentialExchange(`http://127.0.0.1:${coordinator.port}`, holder),
       (e: unknown) =>

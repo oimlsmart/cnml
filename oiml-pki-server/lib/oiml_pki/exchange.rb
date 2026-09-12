@@ -9,13 +9,19 @@
 # identifier); the coordinator verifies and delivers.
 #
 # Turns:
-#   stage(identifier, credential)   coordinator side: register the
-#                                   credential an identifier may collect
+#   stage(identifier, credential,   coordinator side: register the
+#            holder_certificate_pem) credential and pin the holder's
+#                                   certificate (the key behind the
+#                                   identifier, known out-of-band)
 #   request(identifier)             holder turn 1: ask -> single-use
 #                                   challenge (nonce)
-#   collect(id, cert_pem, sig)      holder turn 2: prove control of
+#   collect(id, sig)                holder turn 2: prove control of
 #                                   the key behind the identifier ->
 #                                   credential delivered
+#
+# Key material never comes from the request: collect verifies
+# against the certificate pinned at staging. A certificate that
+# merely claims the identifier names nothing.
 #
 # The nonce is 256-bit, single-use, and expires with the freshness
 # window. A coordinator that runs exchanges is a stateful endpoint.
@@ -29,7 +35,7 @@ module OimlPki
     # Seconds a challenge stays answerable.
     FRESHNESS_WINDOW = 300
 
-    Session = Struct.new(:id, :identifier, :nonce, :credential, :state, :created_at,
+    Session = Struct.new(:id, :identifier, :nonce, :credential, :holder_certificate, :state, :created_at,
                          keyword_init: true)
 
     class Coordinator
@@ -40,11 +46,18 @@ module OimlPki
       end
 
       # Coordinator side: register the credential destined for an
-      # identifier. Returns the identifier staged.
-      def stage(identifier, credential)
+      # identifier and pin the holder's certificate, known
+      # out-of-band. The certificate's subject CN must name the
+      # identifier; the pinned key is the key behind the identifier.
+      def stage(identifier, credential, holder_certificate_pem:)
         identifier = identifier.to_s
         raise Error, "identifier required" if identifier.empty?
-        @staged[identifier] = credential
+
+        cert = OpenSSL::X509::Certificate.new(holder_certificate_pem)
+        cn = cert.subject.to_a.assoc("CN")&.fetch(1)
+        raise Error, "the certificate does not name the holder" unless cn == identifier
+
+        @staged[identifier] = { credential: credential, certificate_pem: holder_certificate_pem }
         identifier
       end
 
@@ -55,11 +68,13 @@ module OimlPki
         identifier = identifier.to_s
         return nil unless @staged.key?(identifier)
 
+        staged = @staged[identifier]
         session = Session.new(
           id: SecureRandom.hex(16),
           identifier: identifier,
           nonce: SecureRandom.random_bytes(32),
-          credential: @staged[identifier],
+          credential: staged[:credential],
+          holder_certificate: OpenSSL::X509::Certificate.new(staged[:certificate_pem]),
           state: :challenge_issued,
           created_at: @clock.now,
         )
@@ -69,22 +84,15 @@ module OimlPki
 
       # Holder turn 2: prove control of the key behind the
       # identifier by signing the nonce, and collect the credential.
-      # The signature is verified against the public key of the
-      # certificate the holder presents, and the certificate must
-      # name the holder (subject CN equals the identifier).
-      def collect(session_id, certificate_pem:, signature:)
+      # The signature is verified against the key pinned at staging;
+      # nothing in the request supplies key material.
+      def collect(session_id, signature:)
         session = @sessions[session_id.to_s]
         raise Error, "unknown exchange" unless session
         raise Error, "exchange already completed" unless session.state == :challenge_issued
         raise Error, "challenge expired" if @clock.now - session.created_at > FRESHNESS_WINDOW
 
-        cert = OpenSSL::X509::Certificate.new(certificate_pem)
-        # Name#to_a entries are [type, value, encoding]; the value is
-        # at index 1.
-        cn = cert.subject.to_a.assoc("CN")&.fetch(1)
-        raise Error, "the certificate does not name the holder" unless cn == session.identifier
-
-        unless signature_valid?(cert.public_key, signature, session.nonce)
+        unless signature_valid?(session.holder_certificate.public_key, signature, session.nonce)
           raise Error, "signature does not prove control of the key behind the identifier"
         end
 

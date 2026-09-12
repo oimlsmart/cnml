@@ -23,12 +23,12 @@ export class ExchangeError extends Error {
   }
 }
 
-/** The holder: its identifier, its certificate, and a DER-signer for
- * the challenge nonce (WebCrypto callers wrap subtle.sign plus
- * derFromP1363). */
+/** The holder: its identifier and a DER-signer for the challenge
+ * nonce (WebCrypto callers wrap subtle.sign plus derFromP1363). The
+ * coordinator knows the key behind the identifier out-of-band; the
+ * holder never presents key material. */
 export interface ExchangeHolder {
   identifier: string;
-  certificatePem: string;
   sign: (nonce: Uint8Array) => Promise<Uint8Array>;
 }
 
@@ -72,7 +72,6 @@ export async function runCredentialExchange(
     `${baseEndpoint}/api/exchange/collect`,
     {
       exchange_id: ask.json.exchange_id,
-      certificate_pem: holder.certificatePem,
       signature_b64: bytesToBase64(signature),
     },
     fetchFn,

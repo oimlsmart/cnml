@@ -619,10 +619,12 @@ The remaining open items are listed last.
   with single-use nonces and a freshness window.
 - **Credential-exchange endpoint**: closed in software. The
   framework's two-turn holder-initiated protocol runs in the CA
-  server: the coordinator stages a credential for an identifier,
-  the holder asks, the coordinator answers with a fresh single-use
-  nonce, and the holder collects by signing the nonce with the key
-  behind its identifier (the certificate it presents must name it).
+  server: the coordinator stages a credential for an identifier and
+  pins the holder's certificate out-of-band (the key behind the
+  identifier; its CN must name the identifier), the holder asks,
+  the coordinator answers with a fresh single-use nonce, and the
+  holder collects by signature alone: no key material ever comes
+  from the request.
   Freshness window, single use, replay rejection, spec'd end to
   end. The deployment manifest declares the stateful endpoint
   (`[exchange]`: endpoint, freshness_window), validated by both
