@@ -41,11 +41,26 @@ export default [
   {
     rules: {
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        // The intentional-omit destructure idiom (rest-exclusion):
+        // const { x: _omit, ...rest } = obj.
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "warn",
       "no-var": "error",
       "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+
+  // CLI tooling: console is the interface (build scripts, smoke
+  // tests, generators, verifiers). Last so it wins over the
+  // catch-all above.
+  {
+    files: ["scripts/**", "packages/cnml-test-vectors/src/generate-vectors.ts", "packages/cnml-test-vectors/src/verify-vectors.ts"],
+    rules: {
+      "no-console": "off",
     },
   },
 ];
