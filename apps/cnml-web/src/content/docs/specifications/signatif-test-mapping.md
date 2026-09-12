@@ -17,7 +17,7 @@ Suite totals at publication:
 | Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 247 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
-| CA server (Ruby RSpec) | `bundle exec rspec` | 226 |
+| CA server (Ruby RSpec) | `bundle exec rspec` | 232 |
 | Web islands (Vitest) | `pnpm test:vitest` | 25 |
 | Markdown-page helpers | `pnpm test:web` | 12 |
 | End-to-end (Playwright) | `pnpm test:e2e` | 29 |
@@ -66,6 +66,7 @@ Suite totals at publication:
 | End certificate issuance | `api_sign_spec.rb` (local quorum attestation) |
 | Revocation | `api_crl_revoke_spec.rb` (revoke, reinstate, CRL serving) |
 | Concurrency integrity | `ca_store_concurrency_spec.rb` |
+| Credential exchange endpoint (stage, request, collect) | `exchange_spec.rb` (single-use nonce, freshness window, wrong-key and wrong-holder rejection, replay), `api_exchange_spec.rb` (two-turn round trip over HTTP) |
 
 
 ## /conf/root-authority
@@ -102,7 +103,7 @@ Suite totals at publication:
 | Artifact signing | `xml/sign-verify.test.ts`, `xml/cosign.test.ts` |
 | Challenge-response | `challenge.test.ts` (128-bit nonce, freshness window, replay rejection, nonce covered by signature) |
 | Single-use nonces | `challenge.test.ts` (replay registry) |
-| Credential exchange: identifier-control challenge | `challenge.test.ts` (the fresh-nonce construction the exchange clause specifies; the stateful exchange endpoint is open) |
+| Credential exchange: identifier-control challenge | `challenge.test.ts` (the fresh-nonce construction the exchange clause specifies) |
 | Co-signer scope enforcement + replay binding | `cosign.test.ts` (tester credential scope, artifact identifier) |
 | Narrowing normalization (singleton sets) | `checks/scope-narrowing.test.ts` |
 
