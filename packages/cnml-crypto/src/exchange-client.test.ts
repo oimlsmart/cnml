@@ -54,11 +54,10 @@ async function startCoordinator(holder: { certificatePem: string }): Promise<Coo
         return reply(200, { exchange_id: id, nonce: nonce.toString("base64") });
       }
 
-      if (req.url === "/api/exchange/collect" && req.method === "POST") {
-        // The exchange id is the protocol's own session key, so it is
-        // client-supplied by design; the verification key comes from
-        // the certificate pinned at startup, never from the request.
-        // codeql[js/user-controlled-bypass] — test-only coordinator.
+      // The exchange id is the protocol's own session key, so it is
+      // client-supplied by design; the verification key comes from
+      // the certificate pinned at startup, never from the request.
+      if (req.url === "/api/exchange/collect" && req.method === "POST") { // codeql[js/user-controlled-bypass]
         const session = coordinator.sessions.get(json.exchange_id);
         if (!session) return reply(400, { error: "unknown exchange" });
         if (session.used) return reply(400, { error: "exchange already completed" });
