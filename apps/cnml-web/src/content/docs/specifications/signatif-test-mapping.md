@@ -14,7 +14,7 @@ Suite totals at publication:
 
 | Suite | Command | Tests |
 |---|---|---|
-| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 284 |
+| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 289 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
 | CA server (Ruby RSpec) | `bundle exec rspec` | 232 |
@@ -103,7 +103,7 @@ Suite totals at publication:
 | Artifact signing | `xml/sign-verify.test.ts`, `xml/cosign.test.ts` |
 | Challenge-response | `challenge.test.ts` (128-bit nonce, freshness window, replay rejection, nonce covered by signature) |
 | Single-use nonces | `challenge.test.ts` (replay registry) |
-| Credential exchange: identifier-control challenge | `challenge.test.ts` (the fresh-nonce construction the exchange clause specifies) |
+| Credential exchange: identifier-control challenge | `challenge.test.ts` (the fresh-nonce construction the exchange clause specifies), `exchange-client.test.ts` (the holder side: live coordinator round trip, WebCrypto P1363 converted to the DER OpenSSL verifies) |
 | Co-signer scope enforcement + replay binding | `cosign.test.ts` (tester credential scope, artifact identifier) |
 | Narrowing normalization (singleton sets) | `checks/scope-narrowing.test.ts` |
 

@@ -626,8 +626,10 @@ The remaining open items are listed last.
   Freshness window, single use, replay rejection, spec'd end to
   end. The deployment manifest declares the stateful endpoint
   (`[exchange]`: endpoint, freshness_window), validated by both
-  ports. Operating the endpoint as a scheme service is a deployment
-  step, as with the mirror.
+  ports. The holder side ships in `@oimlsmart/cnml-crypto`
+  (`runCredentialExchange`), converting WebCrypto's P1363 signatures
+  to the DER OpenSSL verifies. Operating the endpoint as a scheme
+  service is a deployment step, as with the mirror.
 
 ### Federated trust authority evaluation
 

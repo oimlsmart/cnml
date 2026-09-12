@@ -78,6 +78,8 @@ export { parseStatusListEntry, readCredentialStatus } from "./status-list.ts";
 export type { StatusListEntry, StatusListCredential, CredentialStatus } from "./status-list.ts";
 export type { StateIndexEntry, StateIndex, PropagationHit } from "./revocation.ts";
 export { generateChallenge, embedChallenge, verifyChallengeResponse, readChallengeResponse, createChallengeRegistry } from "./challenge.ts";
+export { runCredentialExchange, derFromP1363, ExchangeError } from "./exchange-client.ts";
+export type { ExchangeFailure, ExchangeHolder } from "./exchange-client.ts";
 export type { ChallengePolicy, ChallengeResult, ChallengeRegistry } from "./challenge.ts";
 export { certificateToVerifiableCredential, instanceToVerifiableCredential } from "./vc.ts";
 export type { VerifiableCredential, VcProof, CnmlCertificateView, CnmlProofFacts, StatusListBinding } from "./vc.ts";
