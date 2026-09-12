@@ -81,7 +81,9 @@ The framework's credential-exchange clause generalizes the pattern
 into a two-turn protocol whose identifier-control challenge, proving
 control of the key behind an identifier by signing a fresh nonce,
 is the same construction CNML uses for device challenges. The
-current state is recorded in
+coordinator runs in the CA server, the holder-side client ships in
+`@oimlsmart/cnml-crypto` (`runCredentialExchange`), and the current
+state is recorded in
 [the CNML profile](/docs/specifications/signatif-profile).
 
 ## Next steps
