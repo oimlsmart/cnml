@@ -187,6 +187,7 @@ Every CA operation appends an entry to an append-only JSONL log. Each entry incl
 | Deployment-manifest signing by the root authority | shipped |
 | Certificate inclusion in the log (by-hash index) | shipped |
 | Threshold encryption of confidential test-report sections | shipped |
+| Credential exchange: two-turn holder-initiated endpoint with identifier-control challenge | shipped |
 
 ## Validation
 
