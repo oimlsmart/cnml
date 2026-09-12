@@ -11,6 +11,14 @@ record of what each phase delivered and the tests that pin it is the
 claims are the [profile](signatif-profile). This document stands as
 the design record.
 
+Post-plan closures (2026-09): the requirement-level audit walk over
+the machine-readable classes, the status-list surface (verification,
+emission, glossary and curriculum reach), the credential-exchange
+endpoint with its manifest declaration and holder-side client, and
+the framework annexes (status lists, credential exchange, the
+agreement annex, the two-trust-models comparison). The [profile](signatif-profile)
+records current closure status; this plan is not extended.
+
 ## Goal state
 
 CNML claims every SIGNATIF conformance class that applies to legal
