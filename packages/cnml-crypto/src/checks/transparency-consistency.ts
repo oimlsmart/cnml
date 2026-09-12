@@ -264,7 +264,7 @@ export async function verifySignedHead(
 export function detectFork(heads: SignedTreeHead[]): { fork: boolean; conflicting: SignedTreeHead[] } {
   const bySize = new Map<number, Map<string, SignedTreeHead>>();
   for (const h of heads) {
-    let roots = bySize.get(h.size) ?? new Map<string, SignedTreeHead>();
+    const roots = bySize.get(h.size) ?? new Map<string, SignedTreeHead>();
     roots.set(h.root, h);
     bySize.set(h.size, roots);
   }

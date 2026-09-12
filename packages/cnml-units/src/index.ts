@@ -95,7 +95,7 @@ export function resolveUnitId(symbol: string): string | null {
 }
 
 function stripQualifiers(symbol: string): Partial<ResolvedUnit> & { base?: string } {
-  let s = symbol.replace(/\s+/g, "");
+  const s = symbol.replace(/\s+/g, "");
 
   // bar(g), bar(a), barg, bara, MPa(g), PSI(g) ...
   const pressureMatch = s.match(/^(bar|Pa|kPa|MPa|mbar|psi|PSI)((?:\(g\)|\(a\)|\(d\)|g|a|G|A))?$/i);
