@@ -31,6 +31,7 @@ module TestKeystore
       OimlPki::CaStore.lock_file_override  = File.join(dir, "keystore.lock")
       OimlPki::AuditLog.log_file_override  = File.join(dir, "audit.log")
       OimlPki::AuditLog.head_file_override = File.join(dir, "audit.log.head")
+      OimlPki::Exchange.staged_store_override = File.join(dir, "exchange_staged.json")
       yield dir, passphrase
     end
   ensure
@@ -39,6 +40,7 @@ module TestKeystore
     OimlPki::CaStore.lock_file_override  = nil
     OimlPki::AuditLog.log_file_override  = nil
     OimlPki::AuditLog.head_file_override = nil
+    OimlPki::Exchange.staged_store_override = nil
   end
 end
 

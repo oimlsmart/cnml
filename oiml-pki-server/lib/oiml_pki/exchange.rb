@@ -39,9 +39,15 @@ module OimlPki
                          keyword_init: true)
 
     class Coordinator
-      def initialize(clock: Time)
+      # Staged deliveries persist to +store_path+ (the staged queue
+      # survives a restart); single-use sessions are short-lived and
+      # stay in memory.
+      attr_reader :store_path
+
+      def initialize(clock: Time, store_path: nil)
         @clock = clock
-        @staged = {}
+        @store_path = store_path
+        @staged = load_staged
         @sessions = {}
       end
 
@@ -57,7 +63,8 @@ module OimlPki
         cn = cert.subject.to_a.assoc("CN")&.fetch(1)
         raise Error, "the certificate does not name the holder" unless cn == identifier
 
-        @staged[identifier] = { credential: credential, certificate_pem: holder_certificate_pem }
+        @staged[identifier] = { "credential" => credential, "certificate_pem" => holder_certificate_pem }
+        persist!
         identifier
       end
 
@@ -73,8 +80,8 @@ module OimlPki
           id: SecureRandom.hex(16),
           identifier: identifier,
           nonce: SecureRandom.random_bytes(32),
-          credential: staged[:credential],
-          holder_certificate: OpenSSL::X509::Certificate.new(staged[:certificate_pem]),
+          credential: staged["credential"],
+          holder_certificate: OpenSSL::X509::Certificate.new(staged["certificate_pem"]),
           state: :challenge_issued,
           created_at: @clock.now,
         )
@@ -100,7 +107,23 @@ module OimlPki
         session.credential
       end
 
-      private
+      def load_staged
+        return {} if store_path.nil? || !File.exist?(store_path)
+
+        JSON.parse(File.read(store_path))
+      rescue JSON::ParserError
+        raise Error, "the staged exchange store is corrupt"
+      end
+
+      # Atomic write: a restart never sees a half-written store.
+      def persist!
+        return if store_path.nil?
+
+        FileUtils.mkdir_p(File.dirname(store_path))
+        tmp = "#{store_path}.tmp"
+        File.write(tmp, JSON.pretty_generate(@staged))
+        File.rename(tmp, store_path)
+      end
 
       # ECDSA/RSA sign the nonce with SHA-256; Ed25519 signs it
       # directly.
@@ -116,11 +139,20 @@ module OimlPki
     end
 
     class << self
-      # The process-wide coordinator the API routes use. In-memory:
-      # the stateful exchange endpoint a deployment declares in its
-      # manifest.
+      # Test seam, same idiom as CaStore/AuditLog overrides.
+      attr_accessor :staged_store_override
+
+      # The process-wide coordinator the API routes use: the stateful
+      # exchange endpoint a deployment declares in its manifest. The
+      # staged queue persists under OUTPUT_DIR; rebuilt when the
+      # override flips (the test keystore) so each context sees its
+      # own store.
       def coordinator
-        @coordinator ||= Coordinator.new
+        path = staged_store_override || File.join(OUTPUT_DIR, "exchange_staged.json")
+        if @coordinator.nil? || @coordinator.store_path.to_s != path.to_s
+          @coordinator = Coordinator.new(store_path: path)
+        end
+        @coordinator
       end
     end
   end

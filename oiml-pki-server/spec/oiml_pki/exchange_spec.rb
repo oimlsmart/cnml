@@ -118,6 +118,27 @@ RSpec.describe OimlPki::Exchange::Coordinator do
     end.to raise_error(OimlPki::Exchange::Error, /unknown exchange/)
   end
 
+  it "keeps staged deliveries across a restart" do
+    require "tmpdir"
+    path = File.join(Dir.mktmpdir, "exchange_staged.json")
+    first = described_class.new(store_path: path)
+    first.stage(identifier, credential, holder_certificate_pem: cert.to_pem)
+
+    # A new coordinator over the same store: the staged delivery
+    # survives, the collect path runs end to end.
+    second = described_class.new(store_path: path)
+    session = second.request(identifier)
+    expect(second.collect(session.id, signature: signed_nonce(session))).to eq(credential)
+  end
+
+  it "refuses to start on a corrupt staged store" do
+    require "tmpdir"
+    path = File.join(Dir.mktmpdir, "exchange_staged.json")
+    File.write(path, "{not json")
+    expect { described_class.new(store_path: path) }
+      .to raise_error(OimlPki::Exchange::Error, /corrupt/)
+  end
+
   it "rejects a challenge answered after the freshness window" do
     clock = ExchangeClock.new(Time.now)
     slow_coordinator = described_class.new(clock: clock)
