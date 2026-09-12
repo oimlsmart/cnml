@@ -242,7 +242,13 @@ post "/api/exchange/stage" do
   body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
   identifier = body["identifier"].to_s
   halt(400, { error: "identifier required" }.to_json) if identifier.empty?
-  OimlPki::Exchange.coordinator.stage(identifier, body["credential"])
+  holder_certificate_pem = body["holder_certificate_pem"].to_s
+  halt(400, { error: "holder_certificate_pem required" }.to_json) if holder_certificate_pem.empty?
+  begin
+    OimlPki::Exchange.coordinator.stage(identifier, body["credential"], holder_certificate_pem: holder_certificate_pem)
+  rescue OimlPki::Exchange::Error => e
+    halt(400, { error: e.message }.to_json)
+  end
   OimlPki::AuditLog.append("api.exchange.stage", details: { identifier: identifier })
   { staged: true }.to_json
 end
@@ -266,7 +272,6 @@ post "/api/exchange/collect" do
   begin
     credential = OimlPki::Exchange.coordinator.collect(
       exchange_id,
-      certificate_pem: body["certificate_pem"].to_s,
       signature: Base64.strict_decode64(body["signature_b64"].to_s),
     )
   rescue OimlPki::Exchange::Error => e
