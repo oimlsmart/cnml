@@ -192,6 +192,41 @@ RSpec.describe OimlPki::DeploymentManifest do
       expect(report.errors).to include(/unsupported manifest version/)
     end
 
+    it "accepts an [exchange] section declaring the stateful endpoint" do
+      hash = {
+        "deployment" => { "name" => "X", "operator" => "Y", "manifest_version" => 1 },
+        "mode" => "certificate_pki",
+        "tiers" => [{ "name" => "root", "role" => "root" }],
+        "exchange" => { "endpoint" => "http://localhost:4455/api/exchange", "freshness_window" => 300 },
+      }
+      report = described_class.validate(hash)
+      expect(report).to be_valid
+    end
+
+    it "requires an endpoint when the [exchange] section is present" do
+      hash = {
+        "deployment" => { "name" => "X", "operator" => "Y", "manifest_version" => 1 },
+        "mode" => "certificate_pki",
+        "tiers" => [{ "name" => "root", "role" => "root" }],
+        "exchange" => { "freshness_window" => 300 },
+      }
+      report = described_class.validate(hash)
+      expect(report).not_to be_valid
+      expect(report.errors).to include(/\[exchange\] section requires an endpoint/)
+    end
+
+    it "rejects a non-positive exchange freshness window" do
+      hash = {
+        "deployment" => { "name" => "X", "operator" => "Y", "manifest_version" => 1 },
+        "mode" => "certificate_pki",
+        "tiers" => [{ "name" => "root", "role" => "root" }],
+        "exchange" => { "endpoint" => "http://localhost:4455/api/exchange", "freshness_window" => 0 },
+      }
+      report = described_class.validate(hash)
+      expect(report).not_to be_valid
+      expect(report.errors).to include(/freshness_window must be a positive integer/)
+    end
+
     it "warns when threshold tiers exist but no quorums defined" do
       hash = {
         "deployment" => { "name" => "X", "operator" => "Y", "manifest_version" => 1 },

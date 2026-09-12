@@ -14,7 +14,7 @@ Suite totals at publication:
 
 | Suite | Command | Tests |
 |---|---|---|
-| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 247 |
+| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 284 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
 | CA server (Ruby RSpec) | `bundle exec rspec` | 232 |
@@ -73,7 +73,7 @@ Suite totals at publication:
 
 | Requirement | CNML tests |
 |---|---|
-| Deployment manifest generation + validation | `deployment_manifest_spec.rb` (14 + 13 examples, cross-port agreement) |
+| Deployment manifest generation + validation (incl. [exchange] declaration) | `deployment_manifest_spec.rb` (36 examples, cross-port agreement), `manifest.test.ts` ([exchange] validates both ports) |
 | Manifest [algorithms] section | `deployment_manifest_spec.rb`, `manifest.test.ts` |
 | Ceremony records | `ceremony_transcript_spec.rb` |
 | Transcript completeness + audit algorithm | `round3_signatif_spec.rb` (completeness), `round4_signatif_spec.rb` (#audit) |

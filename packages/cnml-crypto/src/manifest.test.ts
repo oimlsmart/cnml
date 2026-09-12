@@ -197,3 +197,35 @@ test("a Ruby-signed manifest verifies in TS (cross-language)", async () => {
   const tampered = { ...withSig, tiers: [{ ...withSig.tiers[0], threshold: { t: 6, n: 7 } }] };
   assert.equal(await verifyManifestSignature(tampered), false);
 });
+
+test("an [exchange] section declaring the stateful endpoint validates", () => {
+  const m = makeValidManifest();
+  m.exchange = { endpoint: "http://localhost:4455/api/exchange", freshness_window: 300 };
+  const report = validateManifest(m);
+  assert.ok(report.valid, JSON.stringify(report.errors));
+  const parsed = parseManifestHash(m);
+  assert.equal(parsed.exchange?.endpoint, "http://localhost:4455/api/exchange");
+  assert.equal(parsed.exchange?.freshnessWindow, 300);
+});
+
+test("[exchange] without an endpoint is rejected", () => {
+  const m = makeValidManifest();
+  m.exchange = { freshness_window: 300 };
+  const report = validateManifest(m);
+  assert.ok(!report.valid);
+  assert.ok(report.errors.some((e) => e.includes("[exchange] section requires an endpoint")));
+});
+
+test("[exchange] with a non-positive freshness window is rejected", () => {
+  const m = makeValidManifest();
+  m.exchange = { endpoint: "http://localhost:4455/api/exchange", freshness_window: 0 };
+  const report = validateManifest(m);
+  assert.ok(!report.valid);
+  assert.ok(report.errors.some((e) => e.includes("freshness_window must be a positive integer")));
+});
+
+test("a manifest without an [exchange] section stays valid", () => {
+  const report = validateManifest(makeValidManifest());
+  assert.ok(report.valid);
+  assert.equal(parseManifestHash(makeValidManifest()).exchange, undefined);
+});
