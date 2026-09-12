@@ -79,6 +79,23 @@ Asynchronous signing sessions are the day-to-day mechanism for producing root-ti
 
 Each participant authenticates to the coordinator using their hardware identity key, reviews the signing payload, and submits their threshold share. The coordinator buffers the shares and aggregates them once the quorum threshold is reached. The session transcript (commitments, shares, and the final signature) is recorded in the hash-chained audit log. Participants may submit their shares at different times, accommodating directors distributed across time zones.
 
+## Machine endpoints
+
+The CA server exposes a small machine API for the flows above; every call is recorded in the hash-chained audit log.
+
+| Endpoint | What it does |
+|---|---|
+| `/api/enroll` | Signs a CSR and answers the certificate and chain (the machine enrollment path). |
+| `/api/sign` | Produces a threshold signature over bytes, with the quorum attestation. |
+| `/api/crl/revoke` | Records a revocation and re-issues the CRL; every CRL issued is recorded in the transparency log. |
+| `/api/exchange/stage` | Registers a credential for an identifier and pins the holder's certificate (the key behind the identifier). |
+| `/api/exchange/request` | Holder turn one: answers a fresh single-use challenge nonce. |
+| `/api/exchange/collect` | Holder turn two: delivers the credential after the nonce signature verifies against the pinned key. |
+
+The exchange endpoint is declared in the deployment manifest's
+`[exchange]` section. The demo server runs an open posture; an API-key
+scheme replaces it in production.
+
 ## Operational cadence
 
 The CNML operational cadence is as follows.

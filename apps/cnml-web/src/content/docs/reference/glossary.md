@@ -41,6 +41,8 @@ CNML is a proposal for OIML from the OIML SMART programme. The definitions here 
 **Co-signature.** An independent signature on the same canonical payload as the primary signature, from a different signer attesting a different trust dimension (a certified tester for person, a calibration authority for environment). Each is independently verifiable.
 
 **Coverage report.** The deterministic, objective record of what a verification established: check results, verification paths, attested trust dimensions, algorithms observed. The first stage of the SIGNATIF verification model.
+
+**Credential exchange.** The two-turn, holder-initiated delivery protocol: the holder asks for a credential, the coordinator challenges it to sign a fresh nonce with the key behind its identifier (an identifier-control challenge), then delivers. The coordinator pins the holder's certificate out-of-band; the request never carries key material.
 **CA.** Certificate Authority. The entity that issues certificates. In CNML, the CAs are the BIML Root, the Issuing Authorities, and (for test reports) the test laboratories.
 
 **Certificate.** The signed document that proves an instrument type has been approved. In CNML, the certificate is an XML file signed with XMLDSig.
