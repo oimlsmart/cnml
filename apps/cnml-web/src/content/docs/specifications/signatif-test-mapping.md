@@ -14,12 +14,12 @@ Suite totals at publication:
 
 | Suite | Command | Tests |
 |---|---|---|
-| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 289 |
+| Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 290 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
-| CA server (Ruby RSpec) | `bundle exec rspec` | 232 |
-| Web islands (Vitest) | `pnpm test:vitest` | 25 |
-| Markdown-page helpers | `pnpm test:web` | 12 |
+| CA server (Ruby RSpec) | `bundle exec rspec` | 243 |
+| Web islands (Vitest) | `pnpm test:vitest` | 27 |
+| Markdown-page helpers | `pnpm test:web` | 13 |
 | End-to-end (Playwright) | `pnpm test:e2e` | 29 |
 
 

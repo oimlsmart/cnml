@@ -90,6 +90,31 @@ RSpec.describe "the credential exchange API" do
     expect(JSON.parse(last_response.body)["error"]).to match(/holder_certificate_pem required/)
   end
 
+  it "answers 400 when staging something that is not a certificate" do
+    post_json("/api/exchange/stage", {
+      identifier: identifier,
+      credential: credential,
+      holder_certificate_pem: "not a pem",
+    })
+    expect(last_response.status).to eq(400)
+    expect(JSON.parse(last_response.body)["error"]).to match(/not a certificate/)
+  end
+
+  it "answers the CORS preflight with 204 and allow headers" do
+    options "/api/exchange/request", nil,
+            "HTTP_HOST" => "localhost:4455",
+            "HTTP_ORIGIN" => "http://localhost:4323",
+            "HTTP_ACCESS_CONTROL_REQUEST_METHOD" => "POST"
+    expect(last_response.status).to eq(204)
+    expect(last_response.headers["Access-Control-Allow-Origin"]).to eq("*")
+    expect(last_response.headers["Access-Control-Allow-Headers"]).to include("Content-Type")
+  end
+
+  it "carries the cross-origin allow header on machine API responses" do
+    post_json("/api/exchange/request", { identifier: identifier })
+    expect(last_response.headers["Access-Control-Allow-Origin"]).to eq("*")
+  end
+
   it "answers 400 when staging a certificate that names another holder" do
     other_cert = holder_certificate("Someone Else", holder_key)
     post_json("/api/exchange/stage", {

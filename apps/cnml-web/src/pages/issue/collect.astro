@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import CollectCredential from '../../islands/issuing/CollectCredential.vue';
+import ErrorBoundary from '../../islands/widgets/ErrorBoundary.vue';
+import { url } from '../../lib/url';
+---
+
+<Base title="Collect a staged credential">
+  <section class="mx-auto max-w-3xl px-6 py-12">
+    <a href={url('/app')} class="text-sm text-[var(--ink-soft)] hover:text-[var(--accent)]">&larr; Back to app</a>
+    <h1 class="font-serif text-3xl font-semibold text-[var(--accent)] mt-4 mb-2">Credential exchange</h1>
+    <p class="text-[var(--ink-soft)] mb-8">
+      The holder-initiated delivery protocol: prove control of the key behind an
+      identifier and collect the credential staged for it.
+    </p>
+    <ErrorBoundary client:idle>
+      <CollectCredential client:idle />
+    </ErrorBoundary>
+  </section>
+</Base>

@@ -27,6 +27,12 @@ test("both CSPs set object-src 'none' and base-uri 'self'", () => {
   assert.match(prod, /base-uri 'self'/);
 });
 
+test("dev connect-src adds the demo CA origin; production stays pinned", () => {
+  const dev = buildCsp({ dev: true });
+  const connectSrc = dev.split("; ").find((d) => d.startsWith("connect-src ")) ?? "";
+  assert.ok(connectSrc.includes("http://localhost:4455"));
+});
+
 test("both CSPs restrict connect-src to self + oimlsmart.org + the two OTS calendars", () => {
   const prod = buildCsp({ dev: false });
   // The exact origin set, parsed — never a substring match on

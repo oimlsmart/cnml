@@ -32,9 +32,31 @@ def build_subject(params)
   parts.join(", ")
 end
 
+# ─── Cross-origin machine API (demo posture) ────────────────────────
+# The web app calls the machine API from its own origin in the demo
+# deployment (for example, the credential-exchange collect flow).
+# Production pins OIML_ALLOWED_ORIGIN to the web app's origin and
+# fronts the API behind an authenticating proxy.
+set :allowed_origin, ENV.fetch("OIML_ALLOWED_ORIGIN", "*")
+
+# json_csrf rejects JSON responses whose referer is another origin,
+# which is precisely the machine API's browser callers; http_origin
+# likewise rejects cross-origin POSTs by design.
+set :protection, except: %i[json_csrf http_origin]
+
 before do
   content_type :html
   response.headers["Cache-Control"] = "no-cache"
+  if request.path_info.start_with?("/api/")
+    response.headers["Access-Control-Allow-Origin"] = settings.allowed_origin
+    response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+  end
+end
+
+# The browser's JSON POSTs preflight.
+options "/api/*" do
+  204
 end
 
 # ─── Routes ────────────────────────────────────────────────────────────
@@ -248,6 +270,8 @@ post "/api/exchange/stage" do
     OimlPki::Exchange.coordinator.stage(identifier, body["credential"], holder_certificate_pem: holder_certificate_pem)
   rescue OimlPki::Exchange::Error => e
     halt(400, { error: e.message }.to_json)
+  rescue OpenSSL::X509::CertificateError
+    halt(400, { error: "holder_certificate_pem is not a certificate" }.to_json)
   end
   OimlPki::AuditLog.append("api.exchange.stage", details: { identifier: identifier })
   { staged: true }.to_json
