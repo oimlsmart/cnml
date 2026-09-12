@@ -22,14 +22,22 @@ export interface CspOptions {
   dev: boolean;
 }
 
-export function buildCsp(_opts: CspOptions): string {
+/** The demo CA server origin: the machine API the browser calls in the
+ * demo deployment (the credential-exchange collect flow). Dev/demo
+ * only; production's connect-src stays pinned to the exact set. */
+const DEMO_CA_ORIGIN = "http://localhost:4455";
+
+export function buildCsp(opts: CspOptions): string {
+  const connectSrc = opts.dev
+    ? `connect-src 'self' ${DEMO_CA_ORIGIN} https://www.oimlsmart.org https://alice.btc.calendar.opentimestamps.org https://finney.calendar.opentimestamps.org`
+    : "connect-src 'self' https://www.oimlsmart.org https://alice.btc.calendar.opentimestamps.org https://finney.calendar.opentimestamps.org";
   return [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "connect-src 'self' https://www.oimlsmart.org https://alice.btc.calendar.opentimestamps.org https://finney.calendar.opentimestamps.org",
+    connectSrc,
     // The two OTS calendar origins: the CNML time attestation (required)
     // stamps the signed document's digest from the browser — the calendar
     // protocol's POST /digest + the upgrade's GET /timestamp/<hex>. A

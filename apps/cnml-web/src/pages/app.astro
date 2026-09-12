@@ -33,6 +33,13 @@ const operations = [
   },
   {
     role: 'Manufacturer',
+    title: 'Collect a staged credential',
+    desc: 'Run the holder side of the credential exchange: ask the coordinator for the credential staged for your identifier, answer the identifier-control challenge by signing the fresh nonce with your delegated key, and collect.',
+    href: url('/issue/collect'),
+    cta: 'Open exchange',
+  },
+  {
+    role: 'Manufacturer',
     title: 'Generate a QR code',
     desc: 'Generate a QR code encoding the passport URL for a CNML instance certificate. The QR code is printed on the device body and resolves to the public passport page when scanned.',
     href: url('/qr-code'),

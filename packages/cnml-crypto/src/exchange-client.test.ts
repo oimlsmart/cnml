@@ -13,7 +13,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import http from "node:http";
 import nodeCrypto from "node:crypto";
-import { runCredentialExchange, derFromP1363, ExchangeError, type ExchangeHolder } from "./exchange-client.ts";
+import { runCredentialExchange, derFromP1363, webCryptoHolder, ExchangeError, type ExchangeHolder } from "./exchange-client.ts";
 import { issueSelfSignedCert } from "./index.ts";
 
 interface Coordinator {
@@ -173,6 +173,18 @@ test("derFromP1363 encodes minimal DER INTEGERs", () => {
     Array.from(derFromP1363(new Uint8Array([0x00, 0x80, 0x00, 0x01]))),
     [0x30, 0x07, 0x02, 0x02, 0x00, 0x80, 0x02, 0x01, 0x01],
   );
+});
+
+test("webCryptoHolder produces the DER OpenSSL verifies over the challenge nonce", async () => {
+  const kp = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]);
+  const nonce = nodeCrypto.randomBytes(32);
+  const holder = webCryptoHolder("Example Instruments", kp.privateKey);
+  assert.equal(holder.identifier, "Example Instruments");
+  const der = await holder.sign(new Uint8Array(nonce));
+
+  const spki = new Uint8Array(await crypto.subtle.exportKey("spki", kp.publicKey));
+  const publicKey = nodeCrypto.createPublicKey({ key: Buffer.from(spki), format: "der", type: "spki" });
+  assert.equal(nodeCrypto.verify("SHA256", nonce, publicKey, Buffer.from(der)), true);
 });
 
 test("WebCrypto P1363 signatures convert to the DER OpenSSL verifies", async () => {

@@ -86,6 +86,19 @@ export async function runCredentialExchange(
   return collect.json.credential;
 }
 
+/** Build an ExchangeHolder from a WebCrypto ECDSA P-256 private key
+ * (subtle.sign answers the P1363 raw form; converted to DER so the
+ * OpenSSL-side coordinator verifies it). */
+export function webCryptoHolder(identifier: string, privateKey: CryptoKey): ExchangeHolder {
+  return {
+    identifier,
+    sign: async (nonce) =>
+      derFromP1363(
+        new Uint8Array(await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, privateKey, nonce)),
+      ),
+  };
+}
+
 /** WebCrypto ECDSA answers IEEE P1363 raw (r||s); OpenSSL expects a
  * DER SEQUENCE of two INTEGERs. This converts. */
 export function derFromP1363(signature: Uint8Array): Uint8Array {
