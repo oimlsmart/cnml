@@ -78,6 +78,7 @@ module OimlPki
   autoload :CanonicalPayload,     "oiml_pki/canonical_payload"
   autoload :CeremonyTranscript,   "oiml_pki/ceremony_transcript"
   autoload :UpdateIntegrity,      "oiml_pki/update_integrity"
+  autoload :Exchange,             "oiml_pki/exchange"
   autoload :FileLock,             "oiml_pki/file_lock"
 
   # SHA-256 hex digest with the "sha256:" prefix used across the

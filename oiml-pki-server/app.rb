@@ -230,6 +230,54 @@ post "/api/crl/revoke" do
   { revoked: revoked.map { |r| r["serial"] }, crl_url: crl_url_for(ca), revoked_count: revoked.length }.to_json
 end
 
+# ─── Credential exchange (SIGNATIF delivery: the two-turn,
+# holder-initiated protocol) ────────────────────────────────────────
+# The coordinator stages a credential for an identifier; the holder
+# asks for it and proves control of the key behind its identifier by
+# signing the fresh nonce; the coordinator delivers. Same dev posture
+# as /api/enroll: no API-key scheme in the air-gapped demo.
+
+post "/api/exchange/stage" do
+  content_type :json
+  body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
+  identifier = body["identifier"].to_s
+  halt(400, { error: "identifier required" }.to_json) if identifier.empty?
+  OimlPki::Exchange.coordinator.stage(identifier, body["credential"])
+  OimlPki::AuditLog.append("api.exchange.stage", details: { identifier: identifier })
+  { staged: true }.to_json
+end
+
+post "/api/exchange/request" do
+  content_type :json
+  body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
+  identifier = body["identifier"].to_s
+  halt(400, { error: "identifier required" }.to_json) if identifier.empty?
+  session = OimlPki::Exchange.coordinator.request(identifier)
+  halt(404, { error: "nothing staged for that identifier" }.to_json) unless session
+  OimlPki::AuditLog.append("api.exchange.request", details: { identifier: identifier })
+  { exchange_id: session.id, nonce: Base64.strict_encode64(session.nonce) }.to_json
+end
+
+post "/api/exchange/collect" do
+  content_type :json
+  body = JSON.parse(request.body.read) rescue halt(400, { error: "invalid JSON" }.to_json)
+  exchange_id = body["exchange_id"].to_s
+  halt(400, { error: "exchange_id required" }.to_json) if exchange_id.empty?
+  begin
+    credential = OimlPki::Exchange.coordinator.collect(
+      exchange_id,
+      certificate_pem: body["certificate_pem"].to_s,
+      signature: Base64.strict_decode64(body["signature_b64"].to_s),
+    )
+  rescue OimlPki::Exchange::Error => e
+    halt(400, { error: e.message }.to_json)
+  rescue ArgumentError
+    halt(400, { error: "signature_b64 is not valid base64" }.to_json)
+  end
+  OimlPki::AuditLog.append("api.exchange.collect", details: { exchange_id: exchange_id })
+  { credential: credential }.to_json
+end
+
 # ─── Threshold signing (the quorum at issuance) ───────────────────
 # The quorum signs arbitrary bytes via the CA's threshold KeyProvider
 # (FROST: no single party holds the key). The deployment registers its

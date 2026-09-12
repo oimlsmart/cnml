@@ -617,6 +617,15 @@ The remaining open items are listed last.
   key behind an identifier by signing a fresh nonce) is the same
   construction as the device-signer challenge, which is implemented
   with single-use nonces and a freshness window.
+- **Credential-exchange endpoint**: closed in software. The
+  framework's two-turn holder-initiated protocol runs in the CA
+  server: the coordinator stages a credential for an identifier,
+  the holder asks, the coordinator answers with a fresh single-use
+  nonce, and the holder collects by signing the nonce with the key
+  behind its identifier (the certificate it presents must name it).
+  Freshness window, single use, replay rejection, spec'd end to
+  end. Operating the endpoint as a scheme service is a deployment
+  step, as with the mirror.
 
 ### Federated trust authority evaluation
 
@@ -644,11 +653,6 @@ adopted then.
   published registry is signed when the scheme operator runs it.
 - **Location dimension.** Not required for the legal-metrology use
   case; the co-signature format supports it if needed.
-- **Exchange endpoint.** The framework's credential-exchange clause
-  names a two-turn holder-initiated protocol whose identifier-control
-  challenge is implemented (above); the stateful exchange endpoint
-  itself is not operated. Certificate delivery today is holder
-  collection via the passport and QR delivery.
 
 
 ## References
