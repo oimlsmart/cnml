@@ -47,7 +47,7 @@ async function postJson(
   } catch (e) {
     throw new ExchangeError({ kind: "network", reason: (e as Error).message });
   }
-  const json = res.status === 204 ? null : await res.json().catch(() => null);
+  const json = await res.json().catch(() => null);
   return { status: res.status, json: json as Record<string, unknown> | null };
 }
 
