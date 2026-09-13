@@ -1,0 +1,28 @@
+{
+  "sequence": 8,
+  "leaf_hash": "1e5659b8e64a3cee0f593fbfb3214464b2058622a585cbdde9b5d2dadd032081",
+  "log_root": "cab7a4deb5afb90875db046d64deeb84f376dfe5efe3a64455cc98b65c3c4285",
+  "tree_size": 22,
+  "inclusion_proof": [
+    {
+      "sibling": "ee7fa52911ee301313c6917127da548c399b37677da0eda0794cdf5177ec6eac",
+      "side": "right"
+    },
+    {
+      "sibling": "d5e882a654650b0a6ad341c98f683f8cf1bab0c21710e406c6b61aee2aa07945",
+      "side": "right"
+    },
+    {
+      "sibling": "a86855bddb845a39d9f923d56998d76caeb93f784b6706a7fd4387ed3f8fa8f2",
+      "side": "right"
+    },
+    {
+      "sibling": "52a9eb093db9b16eecbfc3303eb77c2fa32dee00bc2abe11b3982dde30ec0bc1",
+      "side": "left"
+    },
+    {
+      "sibling": "630490db7d067f5888784bc8d2f7130a1591b175ebd8e22262ba9cd7c50f3494",
+      "side": "right"
+    }
+  ]
+}
