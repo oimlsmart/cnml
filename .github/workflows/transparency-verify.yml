@@ -19,6 +19,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
+          ruby-version: '3.4'
           working-directory: oiml-pki-server
           bundler-cache: true
 
