@@ -5,7 +5,8 @@
  *
  * Output:
  *   dist/
- *     signer/    ← /create, /keys, /csr, /verify + signer manual
+ *     signer/    ← /create, /keys, /csr, /app, /issue (instance +
+ *                   collect), /qr-code, /verify + signer manual
  *     verifier/  ← /verify only + verifier manual
  *     public/    ← everything (full read-only site)
  *
@@ -32,7 +33,7 @@ const audiences: AudienceConfig[] = [
   {
     name: "signer",
     dir: "signer",
-    pages: ["create", "keys", "verify", "certs", "schemas", "docs"],
+    pages: ["create", "keys", "csr", "app", "issue", "qr-code", "verify", "certs", "schemas", "docs"],
     assets: true,
     manual: path.resolve(ROOT, "docs", "manual-signer.md"),
   },
@@ -123,6 +124,6 @@ for (const audience of audiences) {
 }
 
 console.log("\n✓ All audience builds complete");
-console.log("  dist/signer/    — for CNML signers (create + sign + keys + verify)");
+console.log("  dist/signer/    — for CNML signers (create + issue + keys + csr + qr-code + verify)");
 console.log("  dist/verifier/  — for verifiers (verify only)");
 console.log("  dist/public/    — full site (read-only)");
