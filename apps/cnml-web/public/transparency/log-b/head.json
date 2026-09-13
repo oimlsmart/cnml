@@ -1,0 +1,8 @@
+{
+  "root": "cab7a4deb5afb90875db046d64deeb84f376dfe5efe3a64455cc98b65c3c4285",
+  "size": 22,
+  "timestamp": "2026-09-13T12:11:30Z",
+  "operator": "BIML-demo-B",
+  "signature": "cb3bffdd708a476ef23bc57b552f054b111272ce97c4daf201caf92bc118ea8310aabeb64dcdfd93875cdca1e0d8cddd2dd5cf010c7439c67797add589a39581",
+  "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEpVhJ4JWek2FWFlS4rOWU8/gwpjZ4\np2e0JSmPFhvW1wRxFUn3C6mkyd1iHDqsUd3ND7fLq6Bxy33yDOwNoZyanQ==\n-----END PUBLIC KEY-----\n"
+}

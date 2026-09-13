@@ -1,0 +1,259 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Demo transparency-deployment operator (SIGNATIF §transparency).
+#
+# Operates the two committed demo logs and the public mirror from the
+# pre-signed test vectors:
+#
+#   log    (operator "BIML-demo")  apps/cnml-web/public/transparency/log
+#   log-b  (operator "BIML-demo-B") .../transparency/log-b   [second log
+#          for the M-of-K multi-log policy]
+#   mirror (cnml-site-mirror)      .../transparency/mirror
+#
+# The leaves are the canonical payload hashes of the 22 test vectors:
+# a verifier recomputes the leaf from any formatting of the same
+# document. The artifacts are COMMITTED and only ever extended — the
+# append-only story is the git history itself; rewriting it is a force
+# push, and the mirror's committed observation chain must extend.
+#
+# Usage:
+#   bin/build-demo-transparency            extend (new vectors only) + mirror
+#   bin/build-demo-transparency --verify   verify the committed state (CI)
+#   bin/build-demo-transparency URL        verify the live deployment at URL
+#                                         (scheduled; e.g. the production
+#                                         /cnml/transparency base)
+#
+# Demo material: the operator keys under demo/ are demo keys (generated,
+# committed), not the scheme's registry-signing ceremony.
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "oiml_pki"
+require "json"
+require "fileutils"
+
+ROOT = File.expand_path("../..", __dir__)
+WEB_PUBLIC = File.join(ROOT, "apps", "cnml-web", "public", "transparency")
+DEMO = File.join(File.dirname(__dir__), "demo")
+VECTORS = File.join(ROOT, "packages", "cnml-test-vectors", "src", "vectors")
+
+LOGS = [
+  {
+    name: "log", operator: "BIML-demo",
+    key: File.join(DEMO, "log-operator-a.pem"),
+    pub: File.join(DEMO, "log-operator-a.pub.pem"),
+    dir: File.join(WEB_PUBLIC, "log"),
+  },
+  {
+    name: "log-b", operator: "BIML-demo-B",
+    key: File.join(DEMO, "log-operator-b.pem"),
+    pub: File.join(DEMO, "log-operator-b.pub.pem"),
+    dir: File.join(WEB_PUBLIC, "log-b"),
+  },
+].freeze
+MIRROR_DIR = File.join(WEB_PUBLIC, "mirror")
+
+def ensure_demo_keys!
+  LOGS.each do |log|
+    next if File.exist?(log[:key]) && File.exist?(log[:pub])
+
+    key = OpenSSL::PKey::EC.generate("prime256v1")
+    FileUtils.mkdir_p(DEMO)
+    File.write(log[:key], key.to_pem)
+    File.write(log[:pub], key.public_to_pem)
+    warn "generated demo operator key #{File.basename(log[:key])} (commit it)"
+  end
+end
+
+def vector_hashes
+  Dir[File.join(VECTORS, "*.cnml.xml")].sort.map do |path|
+    OimlPki::CanonicalPayload.hash(File.read(path))
+  end
+end
+
+def published_entries(dir)
+  Dir[File.join(dir, "leaf", "*")].sort_by { |f| File.basename(f).to_i }
+                                  .map { |f| File.binread(f) }
+end
+
+def rebuild(entries)
+  tree = OimlPki::MerkleTree.new
+  entries.each { |e| tree.append(e) }
+  tree
+end
+
+def write_manifest!
+  manifest = {
+    "logs" => LOGS.map do |log|
+      { "name" => log[:name], "operator" => log[:operator], "operator_key" => "operator_pub.pem" }
+    end,
+    "mirror" => { "name" => "cnml-site-mirror" },
+    "multi_log" => { "m" => 2, "k" => 2 },
+  }
+  File.write(File.join(WEB_PUBLIC, "manifest.json"), JSON.pretty_generate(manifest) + "\n")
+  LOGS.each { |log| FileUtils.cp(log[:pub], File.join(log[:dir], "operator_pub.pem")) }
+end
+
+def extend!
+  ensure_demo_keys!
+  hashes = vector_hashes
+  changed = {}
+
+  LOGS.each do |log|
+    existing = published_entries(log[:dir])
+    new = hashes - existing
+    changed[log[:name]] = !new.empty?
+    next if new.empty?
+
+    # Seed the publisher's persistent state with the published leaves,
+    # append the new ones, and republish the full layout. The state
+    # lives under demo/ (operator material), not the published site.
+    FileUtils.mkdir_p(File.join(DEMO, "state"))
+    state = File.join(DEMO, "state", "#{log[:name]}.bin")
+    FileUtils.rm_f(state)
+    OimlPki::TransparencyPublisher.log_file_override = state
+    (existing + new).each { |h| OimlPki::TransparencyPublisher.record(h) }
+    OimlPki::TransparencyPublisher.publish_to_directory(
+      log[:dir], log_operator: log[:operator],
+      operator_key: OpenSSL::PKey.read(File.read(log[:key])),
+    )
+    OimlPki::TransparencyPublisher.log_file_override = nil
+  end
+
+  # The mirror syncs log (the primary): it validates the consistency
+  # proof from its previously observed head before republishing.
+  if changed["log"]
+    observation = OimlPki::TransparencyMirror.sync(
+      LOGS[0][:dir], MIRROR_DIR, mirror_name: "cnml-site-mirror",
+    )
+    puts "mirror synced: size=#{observation['size']} root=#{observation['root'][0, 16]}…"
+  end
+
+  write_manifest!
+  LOGS.each do |log|
+    puts "#{log[:name]}: #{changed[log[:name]] ? 'extended' : 'unchanged'} " \
+         "(#{published_entries(log[:dir]).length} leaves)"
+  end
+end
+
+# Verify a set of log directories. locations: name => {dir:, pub:}.
+def verify_locations!(locations)
+  failure = ->(msg) { abort "VERIFY FAILED: #{msg}" }
+  hashes = vector_hashes
+
+  locations.each do |name, loc|
+    entries = published_entries(loc[:dir])
+    tree = rebuild(entries)
+    head = JSON.parse(File.read(File.join(loc[:dir], "head.json")))
+
+    failure.call("#{name}: leaves do not match the published vectors") if entries != hashes
+    failure.call("#{name}: head does not match the leaves") unless
+      head["size"] == tree.length && head["root"] == tree.root.unpack1("H*")
+
+    # The signed head verifies under the operator's public key.
+    to_sign = "CNML-TLOG-HEAD-v1|#{head['operator']}|#{head['size']}|#{head['root']}|#{head['timestamp']}"
+    raw = [head["signature"]].pack("H*")
+    der = OimlPki::TransparencyPublisher.p1363_to_der(raw)
+    pub = OpenSSL::PKey.read(File.read(loc[:pub]))
+    failure.call("#{name}: head signature invalid") unless
+      pub.verify(OpenSSL::Digest::SHA256.new, der, to_sign)
+
+    # Every published consistency proof verifies.
+    (0..tree.length).each do |prior|
+      doc = JSON.parse(File.read(File.join(loc[:dir], "consistency", "#{prior}.json")))
+      old_root = prior.zero? ? ("\x00" * 32) : rebuild(entries[0, prior]).root
+      failure.call("#{name}: consistency #{prior}->#{tree.length} invalid") unless
+        tree.verify_consistency_heads(
+          prior, old_root, tree.length, tree.root,
+          doc["nodes"].map { |h| [h].pack("H*") },
+        )
+    end
+
+    # Every published inclusion proof resolves to the head root.
+    entries.each_with_index do |entry, seq|
+      doc = JSON.parse(File.read(File.join(loc[:dir], "proof", "#{seq}.json")))
+      steps = doc["inclusion_proof"].map do |s|
+        OimlPki::MerkleTree::ProofStep.new([s["sibling"]].pack("H*"), s["side"].to_sym)
+      end
+      failure.call("#{name}: inclusion proof #{seq} invalid") unless
+        tree.verify_inclusion(entry, steps, tree.root)
+      by_hash_dir = File.join(loc[:dir], "by-hash")
+      if File.directory?(by_hash_dir) # committed layout; remote fetch omits it
+        by_hash = File.join(by_hash_dir, "#{entry.unpack1('H*')}.json")
+        failure.call("#{name}: by-hash entry #{seq} missing") unless File.exist?(by_hash)
+      end
+    end
+
+    puts "#{name}: #{tree.length} leaves, head signed by #{head['operator']}, " \
+         "root #{head['root'][0, 16]}…"
+  end
+end
+
+def verify!
+  locations = LOGS.to_h { |l| [l[:name], { dir: l[:dir], pub: l[:pub] }] }
+  verify_locations!(locations)
+
+  mirror_head = JSON.parse(File.read(File.join(MIRROR_DIR, "head.json")))
+  log_head = JSON.parse(File.read(File.join(LOGS[0][:dir], "head.json")))
+  abort "VERIFY FAILED: mirror does not observe the log's head" unless
+    mirror_head["root"] == log_head["root"] && mirror_head["size"] == log_head["size"]
+
+  manifest = JSON.parse(File.read(File.join(WEB_PUBLIC, "manifest.json")))
+  abort "VERIFY FAILED: manifest does not declare both logs" unless manifest["logs"].length == 2
+  puts "mirror: observing size #{mirror_head['size']} (manifest: 2-of-2 multi-log)"
+  puts "OK"
+end
+
+def fetch(url)
+  require "net/http"
+  require "uri"
+  res = Net::HTTP.get_response(URI(url))
+  abort "VERIFY FAILED: GET #{url} answered #{res.code}" unless res.is_a?(Net::HTTPSuccess)
+  res.body
+end
+
+# Verify the LIVE deployment: download its published layout and run the
+# same verification. The operator keys come from the committed demo
+# material, so continuity with the deployed generation is checked, not
+# self-attested.
+def verify_remote!(base)
+  require "tmpdir"
+  base = base.sub(%r{/+$}, "")
+  locations = {}
+  Dir.mktmpdir do |tmp|
+    manifest = JSON.parse(fetch("#{base}/manifest.json"))
+    manifest["logs"].each do |entry|
+      dir = File.join(tmp, entry["name"])
+      FileUtils.mkdir_p([dir, File.join(dir, "leaf"), File.join(dir, "proof"),
+                         File.join(dir, "consistency")])
+      head = JSON.parse(fetch("#{base}/#{entry['name']}/head.json"))
+      File.write(File.join(dir, "head.json"), JSON.generate(head))
+      (0...head["size"]).each do |i|
+        File.binwrite(File.join(dir, "leaf", i.to_s), fetch("#{base}/#{entry['name']}/leaf/#{i}"))
+        File.write(File.join(dir, "proof", "#{i}.json"), fetch("#{base}/#{entry['name']}/proof/#{i}.json"))
+      end
+      (0..head["size"]).each do |i|
+        File.write(File.join(dir, "consistency", "#{i}.json"),
+                   fetch("#{base}/#{entry['name']}/consistency/#{i}.json"))
+      end
+      committed = LOGS.find { |l| l[:name] == entry["name"] }
+      abort "VERIFY FAILED: deployed log #{entry['name']} is not a declared demo log" unless committed
+      locations[entry["name"]] = { dir: dir, pub: committed[:pub] }
+    end
+    mirror_head = JSON.parse(fetch("#{base}/mirror/head.json"))
+    log_head = JSON.parse(fetch("#{base}/log/head.json"))
+    abort "VERIFY FAILED: live mirror does not observe the live log head" unless
+      mirror_head["root"] == log_head["root"] && mirror_head["size"] == log_head["size"]
+    puts "mirror (live): observing size #{mirror_head['size']}"
+    verify_locations!(locations)
+    puts "OK (remote)"
+  end
+end
+
+if ARGV.delete("--verify")
+  verify!
+elsif ARGV.length == 1
+  verify_remote!(ARGV[0])
+else
+  extend!
+end

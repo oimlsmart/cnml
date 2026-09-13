@@ -1,0 +1,27 @@
+name: transparency-verify
+
+# The operated mirror, continuously: verify the LIVE deployment's
+# transparency artifacts (heads, leaves, proofs, consistency proofs,
+# the mirror's observation) against the committed operator keys. A
+# failure here means the deployed log view changed inconsistently —
+# investigate before any manual override.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          working-directory: oiml-pki-server
+          bundler-cache: true
+
+      - name: Verify the production transparency deployment
+        working-directory: oiml-pki-server
+        run: bundle exec ruby bin/build-demo-transparency https://www.oimlsmart.org/cnml/transparency

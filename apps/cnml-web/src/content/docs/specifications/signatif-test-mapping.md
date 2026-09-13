@@ -17,7 +17,7 @@ Suite totals at publication:
 | Crypto (checks, XML, keys, trust) | `pnpm test:crypto` | 290 |
 | Integration vectors + pipeline | `pnpm test` | 84 |
 | Site audit (links, metadata, security) | `pnpm test:audit` | 25 |
-| CA server (Ruby RSpec) | `bundle exec rspec` | 243 |
+| CA server (Ruby RSpec) | `bundle exec rspec` | 246 |
 | Web islands (Vitest) | `pnpm test:vitest` | 27 |
 | Markdown-page helpers | `pnpm test:web` | 13 |
 | End-to-end (Playwright) | `pnpm test:e2e` | 29 |
@@ -93,6 +93,7 @@ Suite totals at publication:
 | Consistency proofs (RFC 6962 §2.1.4) | `transparency_publisher_spec.rb` (exhaustive pairs to 17, doctored-proof and wrong-root rejection) |
 | Signed tree heads | `transparency_publisher_spec.rb` (sign + verify, publication, unsigned backward compatibility) |
 | Publication (leaf/, proof/, consistency/, head.json) | `transparency_publisher_spec.rb` (publishes a signed head and consistency proofs) |
+| Operated deployment (two logs + mirror, committed) | `demo_transparency_spec.rb` (committed state verifies; extension idempotent; mirror refuses a tampered view) |
 
 
 ## /conf/device-signer

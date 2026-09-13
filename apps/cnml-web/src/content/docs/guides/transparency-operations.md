@@ -117,6 +117,43 @@ accepts the artifact only when at least M of the K recognized logs
 include it. Declare the policy when the second operator is stood up.
 
 
+## The demo deployment
+
+The website itself runs an operated transparency deployment, built and
+verified by `oiml-pki-server/bin/build-demo-transparency`:
+
+- **Two logs**, each holding the 22 pre-signed test vectors as leaves
+  (the leaves are canonical payload hashes: a verifier recomputes a
+  leaf from any formatting of the same document). The second log
+  exists for the M-of-K multi-log policy (2-of-2).
+- **The mirror** (`cnml-site-mirror`) replicates the primary log,
+  validating the consistency proof from its previously observed head
+  before republishing, with its observation record published beside
+  the replicated view.
+
+The artifacts are committed under `/transparency/` and only ever
+extended: the append-only story is the git history itself. Extension
+is idempotent: running the tool appends only vectors not yet logged,
+re-signs the heads, publishes consistency proofs for the new sizes,
+and syncs the mirror (which refuses a head that does not extend its
+prior observation).
+
+Continuous verification runs on three surfaces:
+
+1. Every test run: the RSpec suite verifies the committed state
+   (heads, every inclusion and consistency proof, the by-hash index,
+   the mirror's observation) and that extension is idempotent.
+2. Every push: the CI rspec job runs the same verification.
+3. Daily: the `transparency-verify` workflow downloads the LIVE
+   production artifacts and runs the same verification against the
+   committed operator keys, so a deployed view that diverges from a
+   consistent extension fails loudly.
+
+The demo operator keys (`oiml-pki-server/demo/`) are demo material,
+not the scheme's registry-signing ceremony. The verify page's log
+endpoint can point at either view: `/transparency/log` (the
+operator) or `/transparency/mirror` (the mirror's replicated copy).
+
 ## What each party must never do
 
 - Never publish a head that does not match the log's leaves: every

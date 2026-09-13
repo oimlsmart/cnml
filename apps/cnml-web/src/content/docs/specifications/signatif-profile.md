@@ -67,13 +67,16 @@ CNML claims the following SIGNATIF conformance classes.
   TransparencyPublisher implements these.
 
 | `/conf/mirror`
-| Not claimed
+| Claimed
 | The mirror is implemented (TransparencyMirror: rebuilds the tree
   from published leaves, validates the consistency proof between
   consecutive heads, rejects forks, republishes with an observation
   record) and the verifier-side machinery exists (signed-head
-  verification, fork detection, gossip quorum). Claimed when an
-  independent party operates one.
+  verification, fork detection, gossip quorum). A mirror is
+  operated on the deployment itself (cnml-site-mirror over the
+  committed demo log, verified continuously in CI and daily against
+  production); an independent second mirror remains the governance
+  next step.
 
 | `/conf/device-signer`
 | Claimed
@@ -650,11 +653,10 @@ adopted then.
 
 ### Open
 
-- **Mirror operation.** The mirror software and the verifier's
-  gossip machinery are complete and tested; `/conf/mirror` is
-  claimed when an independent party operates one.
-- **Multi-log operation.** The M-of-K policy and quorum evaluation
-  are implemented; a second log operator is not yet run.
+- **Independent mirror and second-log operation.** The demo
+  deployment operates a mirror and a second log (2-of-2) itself,
+  verified continuously; independence (a second party's mirror, a
+  second operator's log) is the governance step that remains.
 - **Registry signing.** The ceremony tooling is implemented; the
   published registry is signed when the scheme operator runs it.
 - **Location dimension.** Not required for the legal-metrology use

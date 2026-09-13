@@ -1,0 +1,21 @@
+{
+  "logs": [
+    {
+      "name": "log",
+      "operator": "BIML-demo",
+      "operator_key": "operator_pub.pem"
+    },
+    {
+      "name": "log-b",
+      "operator": "BIML-demo-B",
+      "operator_key": "operator_pub.pem"
+    }
+  ],
+  "mirror": {
+    "name": "cnml-site-mirror"
+  },
+  "multi_log": {
+    "m": 2,
+    "k": 2
+  }
+}
