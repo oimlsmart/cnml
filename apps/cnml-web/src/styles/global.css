@@ -33,6 +33,15 @@
 .dark .logo-light { display: none; }
 .dark .logo-dark { display: inline-block; }
 
+/* The shell footer's muted text (the description and the column
+   headings) pairs text-ink-muted with the bg-paper-deep surface, which
+   misses the 4.5:1 small-text contrast ratio (the lighthouse gate
+   caught it). Step up to ink-soft until the shell's token pairing
+   carries the fix. */
+footer .text-ink-muted {
+  color: var(--ink-soft);
+}
+
 /* ─── CNML component classes ────────────────────────────────────────── */
 @layer components {
   /* Cards — sharp, technical, with subtle shadow */
