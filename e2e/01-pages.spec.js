@@ -72,6 +72,20 @@ for (const p of PAGES) {
   });
 }
 
+test("proposal banner renders on the docs cone only", async ({ page }) => {
+  const banner = page.getByText("PROPOSAL · OIML SMART programme");
+  // Docs cone: the index and a nested doc page carry the callout.
+  for (const p of [`${BASE}/docs`, `${BASE}/docs/what-is-cnml`]) {
+    await page.goto(p, { waitUntil: "commit" });
+    await expect(banner, `banner present on ${p}`).toBeVisible();
+  }
+  // Outside the docs cone: no callout.
+  for (const p of [`${BASE}/`, `${BASE}/schemas`, `${BASE}/verify`]) {
+    await page.goto(p, { waitUntil: "commit" });
+    await expect(banner, `banner absent on ${p}`).toHaveCount(0);
+  }
+});
+
 test("home page shows hero + action cards", async ({ page }) => {
   await page.goto(`${BASE}/`, { waitUntil: "commit" });
   // The hero title is a functional description; the format name is
