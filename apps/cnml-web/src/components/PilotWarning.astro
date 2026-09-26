@@ -1,6 +1,10 @@
 ---
+// The docs-cone check is built from BASE_URL (the configured Astro base,
+// "/cnml/" in production and dev alike) rather than a literal "/docs"
+// prefix: the site serves under the base, so a literal prefix never
+// matches a deployed pathname and the callout never renders.
 const path = Astro.url.pathname;
-const isDocsPage = path.startsWith('/docs');
+const isDocsPage = path.startsWith(`${import.meta.env.BASE_URL}docs`);
 
 const title = 'PROPOSAL · OIML SMART programme';
 const body =
