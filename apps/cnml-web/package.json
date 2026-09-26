@@ -9,7 +9,9 @@
     "preview": "astro preview --host",
     "test": "node --test --experimental-strip-types --no-warnings src/lib/*.test.ts",
     "test:audit": "node --test --experimental-strip-types --no-warnings test/audit/audit.test.ts",
-    "test:vitest": "vitest run"
+    "test:vitest": "vitest run",
+    "check:nav": "node scripts/check-nav.mjs",
+    "check:shell-pin": "node scripts/check-shell-pin.mjs"
   },
   "dependencies": {
     "@oimlsmart/cnml-crypto": "workspace:*",
@@ -18,6 +20,7 @@
     "@oimlsmart/cnml-units": "workspace:*",
     "@oimlsmart/cnml-xml": "workspace:*",
     "@oimlsmart/ptb-dcc-compat": "workspace:*",
+    "@oimlsmart/site-shell": "0.2.0",
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource/fraunces": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",

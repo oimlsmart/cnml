@@ -38,6 +38,17 @@ jobs:
       - name: Build all audience sites
         run: pnpm build
 
+      # The same chrome gates as deploy.yml (TODO.ia/03): the shell pin
+      # is exact and current, and every nav-model href resolves to a
+      # real page in the built tree.
+      - name: The shell pin satisfies the published channel
+        working-directory: apps/cnml-web
+        run: pnpm run check:shell-pin
+
+      - name: Nav completeness gate
+        working-directory: apps/cnml-web
+        run: pnpm run check:nav
+
       - name: Audit (link integrity, page rendering, asset integrity)
         run: pnpm test:audit
 

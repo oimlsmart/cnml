@@ -34,6 +34,19 @@ jobs:
       - name: Build all audience sites
         run: pnpm build
 
+      # The shell-pin leg (TODO.ia/03): the dependency is an exact npm
+      # version and equals npm's latest published release, so a shell
+      # release lands here deliberately, never silently.
+      - name: The shell pin satisfies the published channel
+        working-directory: apps/cnml-web
+        run: pnpm run check:shell-pin
+
+      # The nav completeness gate: every href in the injected nav model
+      # resolves to a real page in the built tree.
+      - name: Nav completeness gate
+        working-directory: apps/cnml-web
+        run: pnpm run check:nav
+
       - name: Audit (link integrity, page rendering, asset integrity)
         run: pnpm test:audit
 

@@ -31,11 +31,19 @@ export function buildCsp(opts: CspOptions): string {
   const connectSrc = opts.dev
     ? `connect-src 'self' ${DEMO_CA_ORIGIN} https://www.oimlsmart.org https://alice.btc.calendar.opentimestamps.org https://finney.calendar.opentimestamps.org`
     : "connect-src 'self' https://www.oimlsmart.org https://alice.btc.calendar.opentimestamps.org https://finney.calendar.opentimestamps.org";
+  // The house shell's brand marks are front-door absolute (the shell
+  // contract: the logos resolve from any host). In production that IS
+  // 'self' (the site serves under www.oimlsmart.org/cnml/); on the dev
+  // server (http://127.0.0.1:4455) it is cross-origin, so dev names the
+  // front door explicitly or every page logs an img-src violation.
+  const imgSrc = opts.dev
+    ? "img-src 'self' data: https://www.oimlsmart.org"
+    : "img-src 'self' data:";
   return [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
+    imgSrc,
     "font-src 'self'",
     connectSrc,
     // The two OTS calendar origins: the CNML time attestation (required)

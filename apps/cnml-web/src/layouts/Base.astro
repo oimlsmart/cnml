@@ -5,6 +5,16 @@ import '../styles/global.css';
 // Astro bundles both into the static site, so no request leaves the
 // origin on first paint. The previous setup leaked every page view
 // to fonts.googleapis.com.
+//
+// That privacy decision is also why this layout mounts the shell's
+// SiteHeader / SiteFooter directly instead of the package's Base:
+// the package Base hardcodes a Google Fonts <link> ahead of the head
+// slot, before any CSP meta can land, and the audit gate (the "no
+// third-party font hosts" leg in test/audit) forbids third-party font
+// hosts in the built output. The chrome, the injected-config contract,
+// and the theme runtime still come from the package — only the html
+// shell (head, fonts, CSP, the OG/JSON-LD payload the package Base
+// does not carry) stays local.
 import '@fontsource/ibm-plex-sans/400.css';
 import '@fontsource/ibm-plex-sans/500.css';
 import '@fontsource/ibm-plex-sans/600.css';
@@ -16,20 +26,14 @@ import '@fontsource/fraunces/400.css';
 import '@fontsource/fraunces/500.css';
 import '@fontsource/fraunces/600.css';
 import '@fontsource/fraunces/700.css';
+import { SiteHeader, SiteFooter, THEME_BOOTSTRAP } from '@oimlsmart/site-shell';
 import PilotWarning from '../components/PilotWarning.astro';
-import NavDropdown from '../components/NavDropdown.vue';
-import MobileNav from '../components/MobileNav.vue';
-import ThemeToggle from '../components/ThemeToggle.vue';
 import LocaleToggle from '../components/LocaleToggle.vue';
+import { BRAND } from '../data/brand';
+import { NAV_MODEL } from '../data/nav-config';
+import { FOOTER } from '../data/footer';
 import { url } from '../lib/url';
 import { jsonLdForPage } from '../lib/jsonld';
-import {
-  aboutDropdown,
-  audiencesDropdown,
-  featuresDropdown,
-  flatLinks,
-  mobileItems,
-} from '../data/nav';
 
 interface Props {
   title?: string;
@@ -56,13 +60,6 @@ const {
 // passes the bare title "CNML" and gets no suffix.
 const pageTitle = title === 'CNML' ? title : `${title} · CNML`;
 
-const pathname = Astro.url.pathname;
-const isActive = (href: string) => {
-  const normalized = href.replace(/\/$/, '') || '/';
-  const current = pathname.replace(/\/$/, '') || '/';
-  return current === normalized || current.startsWith(`${normalized}/`);
-};
-
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
 const ogImagePath = ogImage ?? '/img/og-default.svg';
 const ogImageUrl = new URL(url(ogImagePath), Astro.site ?? Astro.url).toString();
@@ -79,8 +76,6 @@ const jsonLd = jsonLdForPage({
   article,
 });
 
-const dropdowns = [aboutDropdown, audiencesDropdown, featuresDropdown];
-
 // Content-Security-Policy — built by the CSP module (testable).
 // See lib/csp.ts for the dev/prod split rationale.
 import { buildCsp } from '../lib/csp';
@@ -95,6 +90,11 @@ const csp = buildCsp({ dev: import.meta.env.DEV });
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+
+    <!-- No OIML SMART site is indexed: the noindex rides the meta tag on
+         every page (the owner's standing directive — www, studio, recs,
+         and smi carry the same tag). -->
+    <meta name="robots" content="noindex, nofollow" />
 
     <!-- Favicon + theme color -->
     <link rel="icon" type="image/svg+xml" href={url('/img/favicon.svg')} />
@@ -145,82 +145,30 @@ const csp = buildCsp({ dev: import.meta.env.DEV });
          aggregators. -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
 
-    <!-- FOUC prevention: apply the saved theme before the stylesheet
-         paints. The script is synchronous and runs before <body> renders.
-         Reads localStorage; falls back to the OS preference. -->
-    <script is:inline>
-      (function () {
-        try {
-          var stored = localStorage.getItem('cnml-theme');
-          var dark = stored
-            ? stored === 'dark'
-            : window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (dark) document.documentElement.classList.add('dark');
-        } catch (e) { /* no-op */ }
-      })();
-    </script>
+    <!-- FOUC prevention: the shell's theme runtime owns dark-mode state
+         (the theme contract — one storage key, .dark on <html>). The
+         bootstrap is synchronous and runs before <body> renders. -->
+    <script is:inline set:html={THEME_BOOTSTRAP} />
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main"
        class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded focus:bg-[var(--ink)] focus:text-[var(--paper)]">
       Skip to content
     </a>
-    <header class="cnml-site-header bg-[var(--paper-soft)] border-b border-[var(--rule)] sticky top-0 z-10">
-      <div class="cnml-header-bar max-w-7xl mx-auto">
-        <a href={url('/')} class="cnml-brand">
-          <img src={url('/img/oiml-logo_cnml-box-light.svg')} alt="CNML" class="cnml-brand__logo cnml-brand__logo--light" />
-          <img src={url('/img/oiml-logo_cnml-box-dark.svg')} alt="" aria-hidden="true" class="cnml-brand__logo cnml-brand__logo--dark" />
-          <span>
-            <span class="block cnml-brand__title">CNML</span>
-            <span class="block cnml-brand__sub">Certificat Numérique de Métrologie Légale</span>
-          </span>
-        </a>
-        <nav class="cnml-nav cnml-nav--desktop" aria-label="Primary">
-          {dropdowns.map(d => (
-            <NavDropdown client:load config={d} currentPath={pathname} />
-          ))}
-          {flatLinks.map(item => (
-            <a href={item.href}
-               class="cnml-nav__link"
-               aria-current={isActive(item.href) ? 'page' : undefined}>
-              {item.label}
-            </a>
-          ))}
-          <ThemeToggle client:load />
-        </nav>
-        <div class="cnml-nav cnml-nav--mobile">
-          <ThemeToggle client:load />
-          <MobileNav client:load items={mobileItems} />
-        </div>
-      </div>
-    </header>
+    <!-- The chrome is the package's (one chrome SSOT, TODO.ia/03 item
+         5), fed this site's own injected config from src/data/. The
+         locale toggle rides the header's identity slot: the site has
+         no sign-in, so the slot carries it instead. -->
+    <SiteHeader brand={BRAND} nav={NAV_MODEL} hasSignin={true}>
+      <!-- The slot attribute rides a plain wrapper: on the island
+           itself it leaks into Vue's hydration attrs and mismatches
+           the server render. -->
+      <span slot="signin" class="inline-flex items-center"><LocaleToggle client:idle /></span>
+    </SiteHeader>
     <main id="main" class="flex-1">
       <PilotWarning />
       <slot />
     </main>
-    <footer class="border-t border-[var(--rule)] bg-[var(--paper-soft)]">
-      <div class="max-w-7xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-4">
-        <div class="cnml-colophon">
-          CNML · OIML SMART programme · 2026 edition (proposal)
-        </div>
-        <div class="cnml-colophon flex flex-wrap items-center gap-4">
-          <LocaleToggle client:idle />
-          <a href="https://github.com/oimlsmart/cnml">Source</a>
-          <a href="https://github.com/oimlsmart/styleguide/blob/main/WRITING_STYLE.md">Style guide</a>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter brand={BRAND} nav={NAV_MODEL} footer={FOOTER} />
   </body>
 </html>
-
-<style>
-  /* Desktop nav shows on md and up; mobile nav shows below md. The
-     MobileNav component's hamburger is hidden above 768px via its own
-     scoped styles; here we hide the desktop nav below 768px. */
-  @media (max-width: 768px) {
-    .cnml-nav--desktop { display: none; }
-  }
-  @media (min-width: 769px) {
-    .cnml-nav--mobile { display: none; }
-  }
-</style>
