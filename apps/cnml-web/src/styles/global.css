@@ -17,8 +17,30 @@
    ════════════════════════════════════════════════════════════════════ */
 
 @import "tailwindcss";
+/* The house chrome (@oimlsmart/site-shell 0.2.0) renders with the same
+   Metrological Blueprint tokens this file already defines; the @source
+   line puts the package's components on Tailwind's scan list so their
+   utility classes (bg-paper-soft, text-ink-soft, border-rule, …) are
+   generated. */
+@source "../../node_modules/@oimlsmart/site-shell/src/**/*.{astro,vue}";
 @import "./app.css";
 @import "./blueprint.css";
+
+/* The light/dark logo pair — the shell's theme contract: any component
+   rendering .logo-light/.logo-dark (the header, the footer, the mobile
+   overlay) inherits the swap. */
+.logo-dark { display: none; }
+.dark .logo-light { display: none; }
+.dark .logo-dark { display: inline-block; }
+
+/* The shell footer's muted text (the description and the column
+   headings) pairs text-ink-muted with the bg-paper-deep surface, which
+   misses the 4.5:1 small-text contrast ratio (the lighthouse gate
+   caught it). Step up to ink-soft until the shell's token pairing
+   carries the fix. */
+footer .text-ink-muted {
+  color: var(--ink-soft);
+}
 
 /* ─── CNML component classes ────────────────────────────────────────── */
 @layer components {
@@ -123,9 +145,7 @@
   /* Visible focus indicator for interactive controls.
      The 3:1 contrast against adjacent surfaces satisfies WCAG
      1.4.11 (Non-text Contrast) and 2.4.7 (Focus Visible). */
-  .cnml-btn:focus-visible,
-  .cnml-nav__link:focus-visible,
-  .cnml-brand:focus-visible {
+  .cnml-btn:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
@@ -244,75 +264,6 @@
   .cnml-tile--fail { background: var(--callout-error-bg);   border-color: var(--callout-error-border); }
   .cnml-tile--warn { background: var(--callout-warning-bg); border-color: var(--callout-warning-border); }
 
-  /* Header brand lockup */
-  .cnml-header-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.875rem 1.5rem;
-  }
-  .cnml-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--ink);
-  }
-  .cnml-brand:hover { text-decoration: none; }
-  .cnml-brand__logo {
-    height: 2.25rem;
-    width: auto;
-    display: block;
-  }
-  .cnml-brand__logo--dark {
-    display: none;
-  }
-  .dark .cnml-brand__logo--dark {
-    display: block;
-  }
-  .dark .cnml-brand__logo--light {
-    display: none;
-  }
-  .cnml-brand__title {
-    font-family: var(--font-serif);
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--ink);
-    line-height: 1.1;
-  }
-  .cnml-brand__sub {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    margin-top: 0.125rem;
-  }
-
-  /* Top nav links */
-  .cnml-nav {
-    display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-  }
-  .cnml-nav__link {
-    font-size: 0.875rem;
-    color: var(--ink-soft);
-    padding: 0.25rem 0;
-    border-bottom: 2px solid transparent;
-    transition: color var(--bp-transition-fast), border-color var(--bp-transition-fast);
-  }
-  .cnml-nav__link:hover {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-    text-decoration: none;
-  }
-  .cnml-nav__link[aria-current="page"] {
-    color: var(--ink);
-    border-bottom-color: var(--ink);
-    font-weight: 500;
-  }
-
   /* Page hero */
   .cnml-hero {
     padding: 4rem 1.5rem 3rem;
@@ -397,7 +348,7 @@
   }
 }
 
-/* ─── Seal and colophon patterns ───────────────────────────────────── */
+/* ─── Seal pattern ─────────────────────────────────────────────────── */
 
 @layer components {
   /* The seal container sizes and centers the SVG seal. */
@@ -411,22 +362,6 @@
     max-width: 280px;
     margin: 0 auto;
   }
-
-  /* The colophon is a typeset imprint at the foot of a page. */
-  .cnml-colophon {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.05em;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-  }
-  .cnml-colophon a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .cnml-colophon a:hover {
-    text-decoration: underline;
-  }
 }
 
 /* ── Print stylesheet (TODO.cnml/60) ────────────────────────────────
@@ -435,8 +370,7 @@
    text in parentheses. Code blocks avoid breaking mid-line.
    ────────────────────────────────────────────────────────────────── */
 @media print {
-  .cnml-site-header,
-  .cnml-nav,
+  header.site-nav,
   footer,
   .cnml-reading-progress,
   .cnml-back-to-top,

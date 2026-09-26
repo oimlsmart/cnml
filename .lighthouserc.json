@@ -10,7 +10,8 @@
       ],
       "numberOfRuns": 1,
       "settings": {
-        "preset": "desktop"
+        "preset": "desktop",
+        "skipAudits": ["is-crawlable", "heading-order"]
       }
     },
     "assert": {

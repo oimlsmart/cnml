@@ -33,6 +33,18 @@ test("dev connect-src adds the demo CA origin; production stays pinned", () => {
   assert.ok(connectSrc.includes("http://localhost:4455"));
 });
 
+test("dev img-src names the front door (the shell's absolute brand marks); production stays 'self'", () => {
+  // The house shell renders the brand logos front-door absolute
+  // (https://www.oimlsmart.org/cnml/img/…). Production serves the site
+  // under that very origin, so 'self' covers it; the dev server is a
+  // different origin, so dev names the front door explicitly.
+  const dev = buildCsp({ dev: true });
+  const prod = buildCsp({ dev: false });
+  const imgSrc = (csp: string) => csp.split("; ").find((d) => d.startsWith("img-src ")) ?? "";
+  assert.equal(imgSrc(dev), "img-src 'self' data: https://www.oimlsmart.org");
+  assert.equal(imgSrc(prod), "img-src 'self' data:");
+});
+
 test("both CSPs restrict connect-src to self + oimlsmart.org + the two OTS calendars", () => {
   const prod = buildCsp({ dev: false });
   // The exact origin set, parsed — never a substring match on
