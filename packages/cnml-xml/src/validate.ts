@@ -10,6 +10,12 @@
  */
 
 import Ajv from "ajv/dist/2019.js";
+// The precompiled validators (the Worker-safe posture, 2026-10-10):
+// generated at author time (scripts/gen-validators.mjs), keyed by
+// Recommendation id (R60…) — the runtime resolves the schema's $id to
+// that key. A hit means NO runtime codegen; the fallback compiles on
+// demand (node/dev, or a schema the generator skipped).
+import { PRECOMPILED } from "./compiled-validators";
 import draft7MetaSchema from "ajv/dist/refs/json-schema-draft-07.json" with { type: "json" };
 import type { ValidateFunction } from "ajv";
 
@@ -71,7 +77,11 @@ export function validateAgainstSchema(
   const schemaObj = schema as { $id?: string; title?: string };
   const cacheKey = schemaObj?.$id ?? schemaObj?.title ?? JSON.stringify(schema).slice(0, 64);
 
-  let validator = VALIDATOR_CACHE.get(cacheKey);
+  // The precompiled map first (its key: the Recommendation id parsed
+  // out of the schema's $id — …/schemas/R60.yaml → R60).
+  const precompiledKey = /([A-Za-z][A-Za-z0-9]*)\.yaml$/.exec(cacheKey)?.[1]
+  let validator = VALIDATOR_CACHE.get(cacheKey)
+    ?? (precompiledKey !== undefined ? PRECOMPILED[precompiledKey] : undefined)
   if (!validator) {
     try {
       validator = ajv.compile(schema as any);
