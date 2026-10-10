@@ -73,7 +73,6 @@ export function validateAgainstSchema(
   cert: unknown,
   schema: unknown,
 ): ValidationResult {
-  const ajv = ajvInstance();
   const schemaObj = schema as { $id?: string; title?: string };
   const cacheKey = schemaObj?.$id ?? schemaObj?.title ?? JSON.stringify(schema).slice(0, 64);
 
@@ -84,6 +83,10 @@ export function validateAgainstSchema(
     ?? (precompiledKey !== undefined ? PRECOMPILED[precompiledKey] : undefined)
   if (!validator) {
     try {
+      // Lazy to the last instantiation: even CONSTRUCTING the Ajv (its
+      // addMetaSchema) eagerly compiles the meta-schema's own refs with
+      // new Function. The fallback branch is the only place it may live.
+      const ajv = ajvInstance()
       flushPendingSchemas(ajv)
       validator = ajv.compile(schema as any);
       VALIDATOR_CACHE.set(cacheKey, validator);
