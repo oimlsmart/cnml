@@ -84,6 +84,7 @@ export function validateAgainstSchema(
     ?? (precompiledKey !== undefined ? PRECOMPILED[precompiledKey] : undefined)
   if (!validator) {
     try {
+      flushPendingSchemas(ajv)
       validator = ajv.compile(schema as any);
       VALIDATOR_CACHE.set(cacheKey, validator);
     } catch (e) {
@@ -116,9 +117,25 @@ export function validateAgainstSchema(
  *
  * @param schema Schema document (with $id set)
  */
+// The pending registry (the Worker-safe posture, 2026-10-10): Ajv's
+// addSchema EAGERLY COMPILES (new Function) — forbidden in runtimes
+// that bar code-from-strings at request time. Schemas register lazily:
+// they flush into the Ajv instance only when a validation actually
+// needs a runtime compile (the fallback path — a schema the precompiled
+// map does not carry). The precompiled path never touches Ajv at all.
+const PENDING_SCHEMAS: unknown[] = []
+let flushed = false
+
 export function registerSchema(schema: unknown): void {
-  const ajv = ajvInstance();
-  ajv.addSchema(schema as any);
+  PENDING_SCHEMAS.push(schema)
+}
+
+function flushPendingSchemas(ajv: Ajv): void {
+  if (flushed) return
+  flushed = true
+  for (const schema of PENDING_SCHEMAS) {
+    try { ajv.addSchema(schema as any) } catch { /* already registered */ }
+  }
 }
 
 /** Clear the validator cache. Used by tests. */
