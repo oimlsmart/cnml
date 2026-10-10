@@ -294,4 +294,4 @@ allOf:
           contains: { properties: { test_id: { const: d011_t09_damp_heat_cyclic } } }
 x-oiml-category: Weighing
 x-oiml-short-title: Non-automatic weighing instruments
-x-oiml-cert-count: 100
+x-oiml-cert-count: 1996

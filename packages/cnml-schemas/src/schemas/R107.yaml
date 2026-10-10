@@ -207,4 +207,4 @@ definitions:
       notes: { type: string }
 x-oiml-category: Weighing
 x-oiml-short-title: Discontinuous totalizing instruments
-x-oiml-cert-count: 3
+x-oiml-cert-count: 9

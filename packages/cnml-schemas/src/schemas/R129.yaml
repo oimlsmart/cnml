@@ -192,4 +192,4 @@ definitions:
       notes: { type: string }
 x-oiml-category: Length & Dimension
 x-oiml-short-title: Multidimensional measuring instruments
-x-oiml-cert-count: 3
+x-oiml-cert-count: 82
