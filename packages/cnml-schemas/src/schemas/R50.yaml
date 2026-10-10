@@ -210,4 +210,4 @@ definitions:
       notes: { type: string }
 x-oiml-category: Weighing
 x-oiml-short-title: Continuous totalizing automatic weighing
-x-oiml-cert-count: 5
+x-oiml-cert-count: 9

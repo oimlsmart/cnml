@@ -257,4 +257,4 @@ definitions:
       notes: { type: string }
 x-oiml-category: Water & Liquid
 x-oiml-short-title: Water meters for cold potable water
-x-oiml-cert-count: 4
+x-oiml-cert-count: 487

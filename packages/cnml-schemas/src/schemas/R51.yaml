@@ -431,4 +431,4 @@ allOf:
               - properties: { test_id: { const: d011_t41_load_dump } }
 x-oiml-category: Weighing
 x-oiml-short-title: Automatic catchweighing instruments
-x-oiml-cert-count: 100
+x-oiml-cert-count: 249

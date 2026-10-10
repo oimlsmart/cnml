@@ -435,4 +435,4 @@ allOf:
               test_id: { const: d011_t37_road_vehicle_battery_voltage_variation }
 x-oiml-category: Fuel & Flow
 x-oiml-short-title: CNG & hydrogen dispensers
-x-oiml-cert-count: 39
+x-oiml-cert-count: 50

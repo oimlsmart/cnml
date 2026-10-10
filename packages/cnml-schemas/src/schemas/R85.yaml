@@ -397,4 +397,4 @@ allOf:
           contains: { properties: { test_id: { const: d011_t09_damp_heat_cyclic } } }
 x-oiml-category: Length & Dimension
 x-oiml-short-title: Automatic level gauges
-x-oiml-cert-count: 99
+x-oiml-cert-count: 127
