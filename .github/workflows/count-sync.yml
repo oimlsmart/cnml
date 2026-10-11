@@ -1,0 +1,62 @@
+name: count-sync
+
+# The per-family certificate counts in the synced schema copies are facts the
+# certificates-data repository owns; this keeps them current after each weekly
+# scrape (which runs Mondays 03:17 UTC on certificates-data; this follows an
+# hour later). Deterministic: fetches certificates-data main's stats raw files
+# and rewrites x-oiml-cert-count where it moved. Opens a PR; auto-merges when
+# the repo allows.
+
+on:
+  schedule:
+    - cron: "27 4 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Refresh x-oiml-cert-count from certificates-data stats
+        run: |
+          python3 - <<'PY'
+          import json, re, urllib.request, pathlib
+          base = "https://raw.githubusercontent.com/oimlsmart/certificates-data/main/stats/"
+          changed = []
+          for f in pathlib.Path("packages/cnml-schemas/src/schemas").glob("R*.yaml"):
+              rid = f.stem
+              try:
+                  stats = urllib.request.urlopen(base + f"{rid}.yaml", timeout=30).read().decode()
+              except Exception:
+                  continue
+              m = re.search(r"^sample_size: (\d+)$", stats, re.M)
+              if not m:
+                  continue
+              count = m.group(1)
+              text = f.read_text()
+              new = re.sub(r"^x-oiml-cert-count: \d+$", f"x-oiml-cert-count: {count}", text, flags=re.M)
+              if new != text:
+                  f.write_text(new)
+                  changed.append(f"{rid}: {count}")
+          print("updated:", changed if changed else "nothing")
+          PY
+      - name: Open or update the PR
+        run: |
+          git config user.name "cnml count-sync"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet; then echo "counts current"; exit 0; fi
+          BR="ci/count-sync-auto"
+          git checkout -b "$BR" 2>/dev/null || git checkout "$BR"
+          git add packages/cnml-schemas/src/schemas
+          git commit -m "the per-family certificate counts refresh from certificates-data's stats (weekly, automated)" || true
+          git push origin "$BR" --force-with-lease
+          gh pr create --title "Certificate counts refresh (automated)" --body "Deterministic weekly refresh of x-oiml-cert-count from certificates-data main." --base main --head "$BR" || true
+          gh pr merge "$BR" --rebase || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
