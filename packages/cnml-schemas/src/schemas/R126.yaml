@@ -308,4 +308,4 @@ allOf:
               const: d011_t09_damp_heat_cyclic
 x-oiml-category: Other
 x-oiml-short-title: Evidential breath analyzers
-x-oiml-cert-count: 9
+x-oiml-cert-count: 10

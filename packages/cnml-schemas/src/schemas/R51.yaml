@@ -509,4 +509,4 @@ allOf:
                 const: d011_t41_load_dump
 x-oiml-category: Weighing
 x-oiml-short-title: Automatic catchweighing instruments
-x-oiml-cert-count: 249
+x-oiml-cert-count: 252

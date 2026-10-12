@@ -741,4 +741,4 @@ allOf:
               const: d011_t09_damp_heat_cyclic
 x-oiml-category: Weighing
 x-oiml-short-title: Automatic instruments for weighing road vehicles
-x-oiml-cert-count: 39
+x-oiml-cert-count: 40

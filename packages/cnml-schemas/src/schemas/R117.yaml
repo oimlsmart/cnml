@@ -737,4 +737,4 @@ definitions:
         type: string
 x-oiml-category: Fuel & Flow
 x-oiml-short-title: Fuel dispensers (liquids other than water)
-x-oiml-cert-count: 345
+x-oiml-cert-count: 350

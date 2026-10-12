@@ -395,4 +395,4 @@ allOf:
               const: d011_t09_damp_heat_cyclic
 x-oiml-category: Weighing
 x-oiml-short-title: Non-automatic weighing instruments
-x-oiml-cert-count: 1996
+x-oiml-cert-count: 2021

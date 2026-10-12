@@ -551,4 +551,4 @@ allOf:
               const: d011_t37_road_vehicle_battery_voltage_variation
 x-oiml-category: Other
 x-oiml-short-title: Taximeters
-x-oiml-cert-count: 42
+x-oiml-cert-count: 43

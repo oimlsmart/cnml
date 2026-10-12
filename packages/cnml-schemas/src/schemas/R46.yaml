@@ -844,4 +844,4 @@ allOf:
                 const: d011_t24_ac_mains_harmonics
 x-oiml-category: Electricity
 x-oiml-short-title: Active electrical energy meters
-x-oiml-cert-count: 98
+x-oiml-cert-count: 104
