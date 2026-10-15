@@ -18,6 +18,7 @@ export default [
       "**/*.config.{js,mjs,cjs}",
       "apps/cnml-web/dist/**",
       "packages/cnml-types/**",
+      "packages/cnml-xml/src/compiled-validators.ts",
     ],
   },
   {
