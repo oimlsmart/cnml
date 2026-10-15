@@ -98,7 +98,9 @@ export type ValueOrScalar = (("N/A" | number | boolean | string) | {
 /**
  * Structured unit reference. The unit_id is the canonical unitsml identifier
  * (closed enum from _units.yaml). Prefix, current_type, and reference
- * qualify the unit when applicable (e.g. kV AC, bar(g)).
+ * qualify the unit when applicable (e.g. kV AC, bar(g)). Currency carries
+ * the ISO 4217 code for monetary values (e.g. price per litre display
+ * ranges: unit_id u:liter, currency EUR).
  * 
  */
 export interface Unit {
@@ -115,6 +117,10 @@ export interface Unit {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 }
 
 /**
@@ -148,6 +154,10 @@ export interface StructuredValue {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -179,6 +189,10 @@ export interface StructuredValue {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 }
 
 /**
@@ -339,4 +353,19 @@ export interface MatrixTable {
   "marker": string;
   "text": string;
 }[];
+}
+
+export interface EvaluationReportRef {
+  /**
+   * The evaluation report entity id
+   */
+  "id": string;
+  /**
+   * The ER date (ISO-8601), when declared
+   */
+  "date"?: string;
+  /**
+   * sha256 over the ER entity canonical JSON (sorted keys)
+   */
+  "digest": string;
 }
