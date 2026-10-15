@@ -25,7 +25,7 @@ cp ../../oiml-cs-certificates/schema/_core.yaml src/
 cp ../../oiml-cs-certificates/schema/_units.yaml src/
 cp ../../oiml-cs-certificates/schema/_units_local.yaml src/
 cp ../../oiml-cs-certificates/schema/_modules/*.yaml src/modules/
-cp ../../oiml-cs-certificates/schema/R*.yaml src/
+cp ../../oiml-cs-certificates/schema/R*.yaml src/schemas/
 ```
 
 ## Usage
