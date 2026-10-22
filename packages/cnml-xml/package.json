@@ -8,6 +8,9 @@
     "./validate": "./src/validate.ts",
     "./version": "./src/version.ts"
   },
+  "scripts": {
+    "gen:validators": "node scripts/gen-validators.mjs"
+  },
   "dependencies": {
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1"

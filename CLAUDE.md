@@ -18,7 +18,7 @@ Workspace is pnpm + a Ruby gem. Run from repo root unless noted.
 pnpm install                              # install all deps
 pnpm dev                                  # Astro dev server, http://localhost:4321
 pnpm build                                # production build + audience-build + pagefind index
-pnpm gen                                  # regenerate schemas + TS types + glossary from YAML
+pnpm gen                                  # regenerate schemas + TS types + glossary + precompiled validators from YAML
 pnpm test                                 # integration vectors + pipeline (cnml-test-vectors)
 pnpm test:crypto                          # per-check unit tests (cnml-crypto)
 pnpm test:web                             # markdown-page helper tests (cnml-web)
@@ -87,7 +87,7 @@ All 22+ OIML Recommendation forms are rendered from JSON Schema YAML — there i
 **no bespoke per-R code**. To add a new Recommendation:
 
 1. Drop `packages/cnml-schemas/src/schemas/R<NN>.yaml` (with `x-oiml-*` metadata)
-2. Run `pnpm gen` → regenerates `packages/cnml-schemas/src/index.ts` and `packages/cnml-types/`
+2. Run `pnpm gen` → regenerates `packages/cnml-schemas/src/index.ts`, `index.node.mjs`, `packages/cnml-types/`, the glossary, and `packages/cnml-xml/src/compiled-validators.ts`
 3. The new R shows up in the UI, schemas page, and forms automatically
 
 Shared schema fragments live in `packages/cnml-schemas/src/_core.yaml`,
