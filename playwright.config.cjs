@@ -6,7 +6,11 @@ module.exports = defineConfig({
   timeout: 60_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
-  retries: 0,
+  // One CI retry: the r76 create-page body assertion has failed on
+  // transient dev-server cold starts with identical code (PR #85), and
+  // retries: 0 turned each stall into a red board. A genuine module
+  // death still fails both attempts.
+  retries: process.env.CI ? 1 : 0,
   workers: 1,
   reporter: process.env.CI ? "line" : "list",
   use: {
