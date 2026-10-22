@@ -718,6 +718,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "humidity_class"?: {
   "value"?: ("H1" | "H2" | "H3");
@@ -752,6 +756,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "mechanical_environment_class"?: {
   "value"?: ("M1" | "M2" | "M3");
@@ -786,6 +794,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electromagnetic_environment_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -820,6 +832,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electrical_disturbance_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -854,6 +870,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range"?: {
   "value"?: unknown;
@@ -888,6 +908,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_electronics"?: {
   "value"?: unknown;
@@ -922,6 +946,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_local_display"?: {
   "value"?: unknown;
@@ -956,6 +984,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits"?: {
   "value"?: unknown;
@@ -990,6 +1022,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "condensing_humidity"?: {
   /**
@@ -1063,6 +1099,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_humidity"?: {
   /**
@@ -1112,6 +1152,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_cdwxsb"?: {
   "value"?: unknown;
@@ -1146,6 +1190,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits_def_windshield_lpg"?: {
   "value"?: unknown;
@@ -1180,6 +1228,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits_igem_printer"?: {
   "value"?: unknown;
@@ -1214,6 +1266,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "liquids"?: {
   /**
@@ -1578,6 +1634,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "liquid_temperature_range"?: {
   "value"?: unknown;
@@ -1612,6 +1672,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "product_temperature_range_fuel"?: {
   "value"?: unknown;
@@ -1646,6 +1710,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "product_temperature_range_adblue"?: {
   "value"?: unknown;
@@ -1680,6 +1748,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_for_mass_measurement"?: {
   "value"?: unknown;
@@ -1714,6 +1786,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_for_density_and_volume_measurement"?: {
   "value"?: unknown;
@@ -1748,6 +1824,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass"?: {
   "value"?: unknown;
@@ -1782,6 +1862,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density"?: {
   "value"?: unknown;
@@ -1816,6 +1900,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_1_5"?: {
   "value"?: unknown;
@@ -1850,6 +1938,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_1_5"?: {
   "value"?: unknown;
@@ -1884,6 +1976,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_o"?: {
   "value"?: unknown;
@@ -1918,6 +2014,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_o"?: {
   "value"?: unknown;
@@ -1952,6 +2052,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_o_1_5"?: {
   "value"?: unknown;
@@ -1986,6 +2090,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_o_1_5"?: {
   "value"?: unknown;
@@ -2020,6 +2128,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_x"?: {
   "value"?: unknown;
@@ -2054,6 +2166,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_x"?: {
   "value"?: unknown;
@@ -2088,6 +2204,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_x_1_5"?: {
   "value"?: unknown;
@@ -2122,6 +2242,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_x_1_5"?: {
   "value"?: unknown;
@@ -2156,6 +2280,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_q"?: {
   "value"?: unknown;
@@ -2190,6 +2318,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_q"?: {
   "value"?: unknown;
@@ -2224,6 +2356,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_q_1_5"?: {
   "value"?: unknown;
@@ -2258,6 +2394,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_q_1_5"?: {
   "value"?: unknown;
@@ -2292,6 +2432,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "density_range"?: {
   /**
@@ -3076,6 +3220,10 @@ export interface Cert_R117 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "pattern_designation"?: {
   /**
@@ -3308,6 +3456,20 @@ export interface Cert_R117 {
   "test_level_index"?: number;
   "notes"?: string;
 }[];
+  "evaluation_report"?: {
+  /**
+   * The evaluation report entity id
+   */
+  "id": string;
+  /**
+   * The ER date (ISO-8601), when declared
+   */
+  "date"?: string;
+  /**
+   * sha256 over the ER entity canonical JSON (sorted keys)
+   */
+  "digest": string;
+};
 }
 
 /**
@@ -4114,6 +4276,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "humidity_class"?: {
   "value"?: ("H1" | "H2" | "H3");
@@ -4148,6 +4314,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "mechanical_environment_class"?: {
   "value"?: ("M1" | "M2" | "M3");
@@ -4182,6 +4352,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electromagnetic_environment_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -4216,6 +4390,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electrical_disturbance_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -4250,6 +4428,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range"?: {
   "value"?: unknown;
@@ -4284,6 +4466,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_electronics"?: {
   "value"?: unknown;
@@ -4318,6 +4504,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_local_display"?: {
   "value"?: unknown;
@@ -4352,6 +4542,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits"?: {
   "value"?: unknown;
@@ -4386,6 +4580,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "condensing_humidity"?: {
   /**
@@ -4459,6 +4657,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_humidity"?: {
   /**
@@ -4508,6 +4710,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_cdwxsb"?: {
   "value"?: unknown;
@@ -4542,6 +4748,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits_def_windshield_lpg"?: {
   "value"?: unknown;
@@ -4576,6 +4786,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits_igem_printer"?: {
   "value"?: unknown;
@@ -4610,6 +4824,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "liquids"?: {
   /**
@@ -4974,6 +5192,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "liquid_temperature_range"?: {
   "value"?: unknown;
@@ -5008,6 +5230,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "product_temperature_range_fuel"?: {
   "value"?: unknown;
@@ -5042,6 +5268,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "product_temperature_range_adblue"?: {
   "value"?: unknown;
@@ -5076,6 +5306,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_for_mass_measurement"?: {
   "value"?: unknown;
@@ -5110,6 +5344,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_for_density_and_volume_measurement"?: {
   "value"?: unknown;
@@ -5144,6 +5382,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass"?: {
   "value"?: unknown;
@@ -5178,6 +5420,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density"?: {
   "value"?: unknown;
@@ -5212,6 +5458,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_1_5"?: {
   "value"?: unknown;
@@ -5246,6 +5496,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_1_5"?: {
   "value"?: unknown;
@@ -5280,6 +5534,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_o"?: {
   "value"?: unknown;
@@ -5314,6 +5572,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_o"?: {
   "value"?: unknown;
@@ -5348,6 +5610,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_o_1_5"?: {
   "value"?: unknown;
@@ -5382,6 +5648,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_o_1_5"?: {
   "value"?: unknown;
@@ -5416,6 +5686,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_x"?: {
   "value"?: unknown;
@@ -5450,6 +5724,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_x"?: {
   "value"?: unknown;
@@ -5484,6 +5762,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_x_1_5"?: {
   "value"?: unknown;
@@ -5518,6 +5800,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_x_1_5"?: {
   "value"?: unknown;
@@ -5552,6 +5838,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_q"?: {
   "value"?: unknown;
@@ -5586,6 +5876,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_q"?: {
   "value"?: unknown;
@@ -5620,6 +5914,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_q_1_5"?: {
   "value"?: unknown;
@@ -5654,6 +5952,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_q_1_5"?: {
   "value"?: unknown;
@@ -5688,6 +5990,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "density_range"?: {
   /**
@@ -6472,6 +6778,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "pattern_designation"?: {
   /**
@@ -7301,6 +7611,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "humidity_class"?: {
   "value"?: ("H1" | "H2" | "H3");
@@ -7335,6 +7649,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "mechanical_environment_class"?: {
   "value"?: ("M1" | "M2" | "M3");
@@ -7369,6 +7687,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electromagnetic_environment_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -7403,6 +7725,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electrical_disturbance_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -7437,6 +7763,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range"?: {
   "value"?: unknown;
@@ -7471,6 +7801,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_electronics"?: {
   "value"?: unknown;
@@ -7505,6 +7839,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_local_display"?: {
   "value"?: unknown;
@@ -7539,6 +7877,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits"?: {
   "value"?: unknown;
@@ -7573,6 +7915,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "condensing_humidity"?: {
   /**
@@ -7646,6 +7992,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_humidity"?: {
   /**
@@ -7695,6 +8045,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_range_cdwxsb"?: {
   "value"?: unknown;
@@ -7729,6 +8083,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits_def_windshield_lpg"?: {
   "value"?: unknown;
@@ -7763,6 +8121,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ambient_temperature_limits_igem_printer"?: {
   "value"?: unknown;
@@ -7797,6 +8159,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "liquids"?: {
   /**
@@ -8161,6 +8527,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "liquid_temperature_range"?: {
   "value"?: unknown;
@@ -8195,6 +8565,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "product_temperature_range_fuel"?: {
   "value"?: unknown;
@@ -8229,6 +8603,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "product_temperature_range_adblue"?: {
   "value"?: unknown;
@@ -8263,6 +8641,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_for_mass_measurement"?: {
   "value"?: unknown;
@@ -8297,6 +8679,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_for_density_and_volume_measurement"?: {
   "value"?: unknown;
@@ -8331,6 +8717,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass"?: {
   "value"?: unknown;
@@ -8365,6 +8755,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density"?: {
   "value"?: unknown;
@@ -8399,6 +8793,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_1_5"?: {
   "value"?: unknown;
@@ -8433,6 +8831,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_1_5"?: {
   "value"?: unknown;
@@ -8467,6 +8869,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_o"?: {
   "value"?: unknown;
@@ -8501,6 +8907,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_o"?: {
   "value"?: unknown;
@@ -8535,6 +8945,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_o_1_5"?: {
   "value"?: unknown;
@@ -8569,6 +8983,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_o_1_5"?: {
   "value"?: unknown;
@@ -8603,6 +9021,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_x"?: {
   "value"?: unknown;
@@ -8637,6 +9059,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_x"?: {
   "value"?: unknown;
@@ -8671,6 +9097,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_x_1_5"?: {
   "value"?: unknown;
@@ -8705,6 +9135,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_x_1_5"?: {
   "value"?: unknown;
@@ -8739,6 +9173,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_q"?: {
   "value"?: unknown;
@@ -8773,6 +9211,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_q"?: {
   "value"?: unknown;
@@ -8807,6 +9249,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_mass_q_1_5"?: {
   "value"?: unknown;
@@ -8841,6 +9287,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range_liquid_density_q_1_5"?: {
   "value"?: unknown;
@@ -8875,6 +9325,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "density_range"?: {
   /**
@@ -9659,6 +10113,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "pattern_designation"?: {
   /**

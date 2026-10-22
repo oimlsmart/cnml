@@ -66,6 +66,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 }) | (unknown | null));
   "description"?: string;
 };
@@ -104,6 +108,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "classification_symbol"?: string;
   "humidity_class"?: {
@@ -139,6 +147,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range"?: {
   "value"?: unknown;
@@ -173,6 +185,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electromagnetic_environment_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -207,6 +223,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "mechanical_environment_class"?: {
   "value"?: ("M1" | "M2" | "M3");
@@ -241,6 +261,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "maximum_capacity"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -268,6 +292,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -299,6 +327,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "minimum_dead_load"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -326,6 +358,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -357,6 +393,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "maximum_number_of_load_cell_intervals_nlc"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -384,6 +424,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -415,6 +459,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ratio_y_emax_over_vmin"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -442,6 +490,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -473,6 +525,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ratio_z_emax_over_2dr"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -500,6 +556,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -531,6 +591,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "apportioning_factor_plc"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -558,6 +622,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -589,6 +657,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "rated_output"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -616,6 +688,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -647,6 +723,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "input_impedance"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -674,6 +754,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -705,6 +789,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "output_impedance"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -732,6 +820,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -763,6 +855,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "safe_overload"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -790,6 +886,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -821,6 +921,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "safe_overload_reference"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -848,6 +952,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -879,6 +987,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "recommended_excitation"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -906,6 +1018,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -937,6 +1053,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "excitation_maximum"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -964,6 +1084,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -995,6 +1119,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "transducer_material"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1022,6 +1150,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1053,6 +1185,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "atmospheric_protection"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1080,6 +1216,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1111,6 +1251,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "characterization_of_load_cell_capabilities"?: (("analog_passive" | "analog_active" | "digital_passive" | "digital_active" | "N/A") | {
   "value"?: ("analog_passive" | "analog_active" | "digital_passive" | "digital_active" | "N/A");
@@ -1145,6 +1289,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 });
   "number_of_counts_for_emax"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1172,6 +1320,10 @@ export interface Cert_R60 {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1203,6 +1355,10 @@ export interface Cert_R60 {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "software_identification"?: (string | {
   "version_number"?: string;
@@ -1368,6 +1524,20 @@ export interface Cert_R60 {
   "test_level_index"?: number;
   "notes"?: string;
 }[];
+  "evaluation_report"?: {
+  /**
+   * The evaluation report entity id
+   */
+  "id": string;
+  /**
+   * The ER date (ISO-8601), when declared
+   */
+  "date"?: string;
+  /**
+   * sha256 over the ER entity canonical JSON (sorted keys)
+   */
+  "digest": string;
+};
 }
 
 /**
@@ -1406,6 +1576,10 @@ export type AccuracyClass = {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
 
 /**
@@ -1447,6 +1621,10 @@ export type LoadCellCharacterization = (("analog_passive" | "analog_active" | "d
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 });
 
 /**
@@ -1497,6 +1675,10 @@ export type HumidityMarking = {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
 
 export interface CertifiedType {
@@ -1535,6 +1717,10 @@ export interface CertifiedType {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 }) | (unknown | null));
   "description"?: string;
 }
@@ -1574,6 +1760,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "classification_symbol"?: string;
   "humidity_class"?: {
@@ -1609,6 +1799,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range"?: {
   "value"?: unknown;
@@ -1643,6 +1837,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electromagnetic_environment_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -1677,6 +1875,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "mechanical_environment_class"?: {
   "value"?: ("M1" | "M2" | "M3");
@@ -1711,6 +1913,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "maximum_capacity"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1738,6 +1944,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1769,6 +1979,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "minimum_dead_load"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1796,6 +2010,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1827,6 +2045,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "maximum_number_of_load_cell_intervals_nlc"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1854,6 +2076,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1885,6 +2111,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ratio_y_emax_over_vmin"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1912,6 +2142,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -1943,6 +2177,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ratio_z_emax_over_2dr"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -1970,6 +2208,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2001,6 +2243,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "apportioning_factor_plc"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2028,6 +2274,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2059,6 +2309,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "rated_output"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2086,6 +2340,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2117,6 +2375,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "input_impedance"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2144,6 +2406,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2175,6 +2441,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "output_impedance"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2202,6 +2472,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2233,6 +2507,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "safe_overload"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2260,6 +2538,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2291,6 +2573,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "safe_overload_reference"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2318,6 +2604,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2349,6 +2639,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "recommended_excitation"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2376,6 +2670,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2407,6 +2705,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "excitation_maximum"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2434,6 +2736,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2465,6 +2771,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "transducer_material"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2492,6 +2802,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2523,6 +2837,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "atmospheric_protection"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2550,6 +2868,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2581,6 +2903,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "characterization_of_load_cell_capabilities"?: (("analog_passive" | "analog_active" | "digital_passive" | "digital_active" | "N/A") | {
   "value"?: ("analog_passive" | "analog_active" | "digital_passive" | "digital_active" | "N/A");
@@ -2615,6 +2941,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 });
   "number_of_counts_for_emax"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2642,6 +2972,10 @@ export interface Characteristics {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -2673,6 +3007,10 @@ export interface Characteristics {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "software_identification"?: (string | {
   "version_number"?: string;
@@ -2811,6 +3149,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "classification_symbol"?: string;
   "humidity_class"?: {
@@ -2846,6 +3188,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "temperature_range"?: {
   "value"?: unknown;
@@ -2880,6 +3226,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "electromagnetic_environment_class"?: {
   "value"?: ("E1" | "E2" | "E3");
@@ -2914,6 +3264,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "mechanical_environment_class"?: {
   "value"?: ("M1" | "M2" | "M3");
@@ -2948,6 +3302,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "maximum_capacity"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -2975,6 +3333,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3006,6 +3368,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "minimum_dead_load"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3033,6 +3399,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3064,6 +3434,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "maximum_number_of_load_cell_intervals_nlc"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3091,6 +3465,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3122,6 +3500,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ratio_y_emax_over_vmin"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3149,6 +3531,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3180,6 +3566,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "ratio_z_emax_over_2dr"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3207,6 +3597,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3238,6 +3632,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "apportioning_factor_plc"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3265,6 +3663,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3296,6 +3698,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "rated_output"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3323,6 +3729,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3354,6 +3764,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "input_impedance"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3381,6 +3795,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3412,6 +3830,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "output_impedance"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3439,6 +3861,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3470,6 +3896,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "safe_overload"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3497,6 +3927,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3528,6 +3962,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "safe_overload_reference"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3555,6 +3993,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3586,6 +4028,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "recommended_excitation"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3613,6 +4059,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3644,6 +4094,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "excitation_maximum"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3671,6 +4125,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3702,6 +4160,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "transducer_material"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3729,6 +4191,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3760,6 +4226,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "atmospheric_protection"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3787,6 +4257,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3818,6 +4292,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "characterization_of_load_cell_capabilities"?: (("analog_passive" | "analog_active" | "digital_passive" | "digital_active" | "N/A") | {
   "value"?: ("analog_passive" | "analog_active" | "digital_passive" | "digital_active" | "N/A");
@@ -3852,6 +4330,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 });
   "number_of_counts_for_emax"?: {
   "value"?: (("N/A" | number | boolean | string) | {
@@ -3879,6 +4361,10 @@ export interface TypeLevel {
    * Pressure reference qualifier (R117/R139/R137).
    */
   "reference"?: "gauge" | "absolute" | "differential" | null;
+  /**
+   * ISO 4217 alpha-3 code for monetary values (e.g. EUR).
+   */
+  "currency"?: (string | null);
 } | "N/A" | (unknown | null));
   /**
    * Display surface form (round-trip fidelity only; canonical reference is `unit`).
@@ -3910,6 +4396,10 @@ export interface TypeLevel {
    * Electrical current qualifier extracted from unit_symbol (e.g. V AC square wave yields current_type=AC).
    */
   "current_type"?: "AC" | "DC" | "AC_DC";
+  /**
+   * ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).
+   */
+  "currency"?: (string | null);
 };
   "software_identification"?: (string | {
   "version_number"?: string;

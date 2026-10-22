@@ -60,7 +60,37 @@ if (unitEnum && UNITS?.definitions) {
 
 // The cross-file $ref targets FIRST (each under its own $id — the refs
 // resolve against these), then every recommendation's schema.
-for (const schema of [CORE, unitsForCompile, UNITS_LOCAL, ...Object.values(MODULES)]) {
+// Upstream's $ref convention is schemas-root-relative for every file
+// (R → _modules/<name>.yaml and _modules/<name>.yaml → _core.yaml
+// alike), while ajv resolves by URI. A fragment therefore registers at
+// its nested URI (…/schemas/_modules/<name>.yaml) with its own refs
+// re-anchored to absolute — on a deep copy (the shared object is never
+// mutated; the units fill below follows the same discipline).
+function withAbsoluteRefs(schema, base) {
+  const clone = structuredClone(schema)
+  const walk = (node) => {
+    if (Array.isArray(node)) { node.forEach(walk); return }
+    if (!node || typeof node !== 'object') return
+    for (const [k, v] of Object.entries(node)) {
+      if (k === '$ref' && typeof v === 'string' && !v.startsWith('#') && !/^[a-z][a-z0-9+.-]*:/i.test(v)) {
+        node[k] = new URL(v, base).href
+      } else walk(v)
+    }
+  }
+  walk(clone)
+  return clone
+}
+const schemaBase = new URL('.', CORE.$id).href
+// _units.yaml carries no $id either, and the new tier's R schemas
+// $ref its shared Unit definition (_units.yaml#/definitions/Unit).
+const unitsSchema = (unitsForCompile && typeof unitsForCompile === 'object' && !unitsForCompile.$id)
+  ? { ...unitsForCompile, $id: new URL('_units.yaml', schemaBase).href }
+  : unitsForCompile
+const moduleSchemas = Object.entries(MODULES).map(([name, schema]) =>
+  (schema && typeof schema === 'object' && !schema.$id)
+    ? withAbsoluteRefs({ ...schema, $id: new URL(`_modules/${name}.yaml`, schemaBase).href }, schemaBase)
+    : schema)
+for (const schema of [CORE, unitsSchema, UNITS_LOCAL, ...moduleSchemas]) {
   if (schema && typeof schema === 'object' && schema.$id) {
     try { ajv.compile(schema) } catch (e) { console.warn(`${schema.$id}: skipped (${e.message})`) }
   }
@@ -100,8 +130,10 @@ function convertToEsm(esmCode) {
   const shimImports = new Map()
   kept = kept.replace(/const ([A-Za-z0-9_]+) = require\("([^"]+)"\)\.default;/g,
     (_m, ident, spec) => { shimImports.set(ident, spec); return '' })
+  // Node ESM resolves bare subpaths literally — the codegen's runtime
+  // requires must name the real .js files (same convention as ajv/dist/2019.js).
   const importLines = [...shimImports.entries()].map(([ident, spec]) =>
-    `import ${ident} from '${spec}'`).join('\n')
+    `import ${ident} from '${/\.m?js$/.test(spec) ? spec : `${spec}.js`}'`).join('\n')
   return { kept, entries: entries.join('\n'), importLines }
 }
 

@@ -141,7 +141,7 @@ export const CORE = {
    "$ref": "#/definitions/Value"
   },
   "Unit": {
-   "description": "Structured unit reference. The unit_id is the canonical unitsml identifier\n(closed enum from _units.yaml). Prefix, current_type, and reference\nqualify the unit when applicable (e.g. kV AC, bar(g)).\n",
+   "description": "Structured unit reference. The unit_id is the canonical unitsml identifier\n(closed enum from _units.yaml). Prefix, current_type, and reference\nqualify the unit when applicable (e.g. kV AC, bar(g)). Currency carries\nthe ISO 4217 code for monetary values (e.g. price per litre display\nranges: unit_id u:liter, currency EUR).\n",
    "type": "object",
    "properties": {
     "unit_id": {
@@ -180,6 +180,14 @@ export const CORE = {
       null
      ],
      "description": "Pressure reference qualifier (R117/R139/R137)."
+    },
+    "currency": {
+     "type": [
+      "string",
+      "null"
+     ],
+     "pattern": "^[A-Z]{3}$",
+     "description": "ISO 4217 alpha-3 code for monetary values (e.g. EUR)."
     }
    },
    "additionalProperties": false
@@ -255,6 +263,14 @@ export const CORE = {
       "DC",
       "AC_DC"
      ]
+    },
+    "currency": {
+     "description": "ISO 4217 alpha-3 currency code extracted from unit_symbol (e.g. EURO/L yields currency=EUR, unit_id u:liter).",
+     "type": [
+      "string",
+      "null"
+     ],
+     "pattern": "^[A-Z]{3}$"
     }
    },
    "additionalProperties": false
@@ -423,29 +439,6 @@ export const CORE = {
    "items": {
     "$ref": "#/definitions/TestReport"
    }
-  },
-  "EvaluationReportRef": {
-   "type": "object",
-   "required": [
-    "id",
-    "digest"
-   ],
-   "properties": {
-    "id": {
-     "type": "string",
-     "description": "The evaluation report's entity id"
-    },
-    "date": {
-     "type": "string",
-     "description": "The ER's date (ISO-8601 date), when declared"
-    },
-    "digest": {
-     "type": "string",
-     "pattern": "^sha256:[0-9a-f]{64}$",
-     "description": "sha256 over the ER entity's canonical JSON (sorted keys)"
-    }
-   },
-   "additionalProperties": false
   },
   "RevisionEntry": {
    "type": "object",
@@ -706,11 +699,33 @@ export const CORE = {
     }
    },
    "additionalProperties": false
+  },
+  "EvaluationReportRef": {
+   "type": "object",
+   "required": [
+    "id",
+    "digest"
+   ],
+   "properties": {
+    "id": {
+     "type": "string",
+     "description": "The evaluation report entity id"
+    },
+    "date": {
+     "type": "string",
+     "description": "The ER date (ISO-8601), when declared"
+    },
+    "digest": {
+     "type": "string",
+     "pattern": "^sha256:[0-9a-f]{64}$",
+     "description": "sha256 over the ER entity canonical JSON (sorted keys)"
+    }
+   },
+   "additionalProperties": false
   }
  }
 };
 export const UNITS = {
- "$id": "https://oimlsmart.org/schemas/_units.yaml",
  "_meta": {
   "source": "unitsdb v2.0.0",
   "source_path": "https://github.com/unitsml/unitsdb",
@@ -1311,6 +1326,16 @@ export const UNITS = {
    "u:erg",
    "u:table_kg_calorie",
    "u:thermo_kg_calorie",
+   "u:kilowatt",
+   "u:milliampere",
+   "u:kilopascal",
+   "u:degree",
+   "u:centimeter",
+   "u:megapascal",
+   "u:milligram",
+   "u:millivolt_per_volt",
+   "u:millimeter",
+   "u:percent",
    "u:kilowatt_hour",
    "u:watt_hour",
    "u:candela",
@@ -1885,7 +1910,7 @@ export const UNITS_LOCAL = {
      "power": 1,
      "unit_reference": {
       "type": "unitsml",
-      "id": "u:count"
+      "id": "u:pulse"
      }
     },
     {
@@ -1918,7 +1943,7 @@ export const UNITS_LOCAL = {
      "power": 1,
      "unit_reference": {
       "type": "unitsml",
-      "id": "u:count"
+      "id": "u:pulse"
      }
     },
     {
@@ -1960,7 +1985,7 @@ export const UNITS_LOCAL = {
      "power": 1,
      "unit_reference": {
       "type": "unitsml",
-      "id": "u:count"
+      "id": "u:pulse"
      }
     },
     {
@@ -2000,7 +2025,7 @@ export const UNITS_LOCAL = {
      "power": -1,
      "unit_reference": {
       "type": "unitsml",
-      "id": "u:count"
+      "id": "u:pulse"
      }
     }
    ]
@@ -2018,6 +2043,11 @@ export const UNITS_LOCAL = {
      "unicode": "μV/e",
      "ascii": "uV/e",
      "id": "uV_per_e"
+    },
+    {
+     "unicode": "μV/VSI",
+     "ascii": "uV/VSI",
+     "id": "uV_per_VSI"
     }
    ],
    "root_units": [
@@ -2113,7 +2143,14 @@ export const UNITS_LOCAL = {
      "power": 1,
      "unit_reference": {
       "type": "unitsml",
-      "id": "u:count"
+      "id": "u:pulse"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:revolution"
      }
     }
    ]
@@ -2166,6 +2203,220 @@ export const UNITS_LOCAL = {
      "id": "/degC"
     }
    ]
+  },
+  "u:liter_per_hour": {
+   "names": [
+    {
+     "value": "liter per hour",
+     "lang": "en"
+    },
+    {
+     "value": "litre per hour",
+     "lang": "en"
+    }
+   ],
+   "short": "liter_per_hour",
+   "symbols": [
+    {
+     "unicode": "L/h",
+     "ascii": "L/h",
+     "id": "L_per_h"
+    },
+    {
+     "unicode": "l/h",
+     "ascii": "l/h",
+     "id": "l_per_h"
+    },
+    {
+     "unicode": "ℓ/h",
+     "ascii": "l/h",
+     "id": "l_ell_per_h"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:liter"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:hour"
+     }
+    }
+   ],
+   "quantity_references": [
+    {
+     "type": "unitsml",
+     "id": "q:volume_flow_rate"
+    }
+   ]
+  },
+  "u:kilogram_per_minute": {
+   "names": [
+    {
+     "value": "kilogram per minute",
+     "lang": "en"
+    }
+   ],
+   "short": "kilogram_per_minute",
+   "symbols": [
+    {
+     "unicode": "kg/min",
+     "ascii": "kg/min",
+     "id": "kg_per_min"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:kilogram"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:minute"
+     }
+    }
+   ],
+   "quantity_references": [
+    {
+     "type": "unitsml",
+     "id": "q:mass_flow_rate"
+    }
+   ]
+  },
+  "u:kilogram_per_cubic_meter": {
+   "names": [
+    {
+     "value": "kilogram per cubic meter",
+     "lang": "en"
+    }
+   ],
+   "short": "kilogram_per_cubic_meter",
+   "symbols": [
+    {
+     "unicode": "kg/m³",
+     "ascii": "kg/m3",
+     "id": "kg_per_m3"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:kilogram"
+     }
+    },
+    {
+     "power": -3,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:meter"
+     }
+    }
+   ],
+   "quantity_references": [
+    {
+     "type": "unitsml",
+     "id": "q:mass_density"
+    }
+   ]
+  },
+  "u:impulse_per_liter": {
+   "names": [
+    {
+     "value": "impulse per liter",
+     "lang": "en"
+    }
+   ],
+   "short": "impulse_per_liter",
+   "symbols": [
+    {
+     "unicode": "imp/L",
+     "ascii": "imp/L",
+     "id": "imp_per_L"
+    },
+    {
+     "unicode": "impulse/L",
+     "ascii": "impulse/L",
+     "id": "impulse_per_L"
+    },
+    {
+     "unicode": "pulse/L",
+     "ascii": "pulse/L",
+     "id": "pulse_per_L"
+    },
+    {
+     "unicode": "pulses/L",
+     "ascii": "pulses/L",
+     "id": "pulses_per_L"
+    },
+    {
+     "unicode": "pulses/litre",
+     "ascii": "pulses/litre",
+     "id": "pulses_per_litre"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:pulse"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:liter"
+     }
+    }
+   ],
+   "notes": "OIML flow-meter pulse counts per volume unit; u:one per u:liter."
+  },
+  "u:ampere_hour": {
+   "names": [
+    {
+     "value": "ampere hour",
+     "lang": "en"
+    }
+   ],
+   "short": "ampere_hour",
+   "symbols": [
+    {
+     "unicode": "Ah",
+     "ascii": "Ah",
+     "id": "Ah"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:ampere"
+     }
+    },
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:second"
+     }
+    }
+   ],
+   "notes": "Battery capacity unit; the hour factor carries the 3600 scale in usage."
   }
  },
  "counts": {
@@ -2243,6 +2494,11 @@ export const UNITS_LOCAL = {
      "unicode": "packs/min",
      "ascii": "packs/min",
      "id": "packs_per_min"
+    },
+    {
+     "unicode": "packages/minute",
+     "ascii": "packages/minute",
+     "id": "packages_per_minute_word"
     }
    ],
    "notes": "R61 AGFI package throughput rate."
@@ -2260,6 +2516,27 @@ export const UNITS_LOCAL = {
      "unicode": "pieces/min",
      "ascii": "pieces/min",
      "id": "pieces_per_min"
+    },
+    {
+     "unicode": "pcs/min",
+     "ascii": "pcs/min",
+     "id": "pcs_per_min"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:piece"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:minute"
+     }
     }
    ]
   },
@@ -2344,11 +2621,376 @@ export const UNITS_LOCAL = {
      "id": "CU_per_km"
     }
    ]
+  },
+  "u:revolution": {
+   "names": [
+    {
+     "value": "revolution",
+     "lang": "en"
+    }
+   ],
+   "short": "revolution",
+   "symbols": [
+    {
+     "unicode": "rev",
+     "ascii": "rev",
+     "id": "rev"
+    },
+    {
+     "unicode": "revs",
+     "ascii": "revs",
+     "id": "revs"
+    }
+   ],
+   "notes": "Count of full turns (flow-meter driving units)."
+  },
+  "u:pulse": {
+   "names": [
+    {
+     "value": "pulse",
+     "lang": "en"
+    }
+   ],
+   "short": "pulse",
+   "symbols": [
+    {
+     "unicode": "pulse",
+     "ascii": "pulse",
+     "id": "pulse"
+    },
+    {
+     "unicode": "pulses",
+     "ascii": "pulses",
+     "id": "pulses"
+    },
+    {
+     "unicode": "impulse",
+     "ascii": "impulse",
+     "id": "impulse"
+    },
+    {
+     "unicode": "imp",
+     "ascii": "imp",
+     "id": "imp"
+    },
+    {
+     "unicode": "pul",
+     "ascii": "pul",
+     "id": "pul"
+    }
+   ],
+   "notes": "Flow-meter impulse count; the count noun behind imp/pulse symbols."
+  },
+  "u:piece": {
+   "names": [
+    {
+     "value": "piece",
+     "lang": "en"
+    }
+   ],
+   "short": "piece",
+   "symbols": [
+    {
+     "unicode": "pcs",
+     "ascii": "pcs",
+     "id": "pcs"
+    },
+    {
+     "unicode": "pieces",
+     "ascii": "pieces",
+     "id": "pieces"
+    }
+   ]
+  },
+  "u:diameter": {
+   "names": [
+    {
+     "value": "diameter",
+     "lang": "en"
+    }
+   ],
+   "short": "diameter",
+   "symbols": [
+    {
+     "unicode": "D",
+     "ascii": "D",
+     "id": "D"
+    }
+   ],
+   "notes": "Pipe-diameter multiple in installation straight-length requirements (R49/R117/R137: '3D' = three pipe diameters)."
+  },
+  "u:metric_ton_per_hour": {
+   "names": [
+    {
+     "value": "metric ton per hour",
+     "lang": "en"
+    }
+   ],
+   "short": "metric_ton_per_hour",
+   "symbols": [
+    {
+     "unicode": "t/h",
+     "ascii": "t/h",
+     "id": "t_per_h"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:metric_ton"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:hour"
+     }
+    }
+   ]
+  },
+  "u:kilogram_per_hour": {
+   "names": [
+    {
+     "value": "kilogram per hour",
+     "lang": "en"
+    }
+   ],
+   "short": "kilogram_per_hour",
+   "symbols": [
+    {
+     "unicode": "kg/h",
+     "ascii": "kg/h",
+     "id": "kg_per_h"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:kilogram"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:hour"
+     }
+    }
+   ]
+  },
+  "u:revolution_per_liter": {
+   "names": [
+    {
+     "value": "revolution per liter",
+     "lang": "en"
+    }
+   ],
+   "short": "revolution_per_liter",
+   "symbols": [
+    {
+     "unicode": "rev/l",
+     "ascii": "rev/l",
+     "id": "rev_per_l"
+    },
+    {
+     "unicode": "rev/L",
+     "ascii": "rev/L",
+     "id": "rev_per_L"
+    },
+    {
+     "unicode": "rev/liter",
+     "ascii": "rev/liter",
+     "id": "rev_per_liter"
+    },
+    {
+     "unicode": "rev/litre",
+     "ascii": "rev/litre",
+     "id": "rev_per_litre"
+    },
+    {
+     "unicode": "revs/litre",
+     "ascii": "revs/litre",
+     "id": "revs_per_litre"
+    },
+    {
+     "unicode": "revs/liter",
+     "ascii": "revs/liter",
+     "id": "revs_per_liter"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:revolution"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:liter"
+     }
+    }
+   ]
+  },
+  "u:liter_per_pulse": {
+   "names": [
+    {
+     "value": "liter per pulse",
+     "lang": "en"
+    }
+   ],
+   "short": "liter_per_pulse",
+   "symbols": [
+    {
+     "unicode": "L/pulse",
+     "ascii": "L/pulse",
+     "id": "L_per_pulse"
+    },
+    {
+     "unicode": "L/pul",
+     "ascii": "L/pul",
+     "id": "L_per_pul"
+    },
+    {
+     "unicode": "dm³/pulse",
+     "ascii": "dm3/pulse",
+     "id": "dm3_per_pulse"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:liter"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:pulse"
+     }
+    }
+   ]
+  },
+  "u:liter_per_revolution": {
+   "names": [
+    {
+     "value": "liter per revolution",
+     "lang": "en"
+    }
+   ],
+   "short": "liter_per_revolution",
+   "symbols": [
+    {
+     "unicode": "L/rev",
+     "ascii": "L/rev",
+     "id": "L_per_rev"
+    }
+   ],
+   "root_units": [
+    {
+     "power": 1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:liter"
+     }
+    },
+    {
+     "power": -1,
+     "unit_reference": {
+      "type": "unitsml",
+      "id": "u:revolution"
+     }
+    }
+   ]
   }
+ },
+ "aliases": {
+  "u:liter": [
+   "litre",
+   "liter"
+  ],
+  "u:minute": [
+   "minute"
+  ],
+  "u:hour": [
+   "hour"
+  ],
+  "u:second": [
+   "second"
+  ],
+  "u:us_gallon": [
+   "US gal"
+  ],
+  "u:inch": [
+   "inch"
+  ],
+  "u:lux": [
+   "lux"
+  ]
+ },
+ "disambiguation": [
+  {
+   "symbol": "d",
+   "r": [
+    "R61",
+    "R76",
+    "R134"
+   ],
+   "unit_id": "u:division",
+   "notes": "Weighing instruments: actual scale interval (d), sibling of the verification interval e."
+  },
+  {
+   "symbol": "D",
+   "r": [
+    "R49",
+    "R117",
+    "R137"
+   ],
+   "unit_id": "u:diameter",
+   "notes": "Fluid-meter installation: straight lengths in pipe diameters."
+  },
+  {
+   "symbol": "in",
+   "r": [
+    "R76",
+    "R51",
+    "R49",
+    "R117",
+    "R137"
+   ],
+   "unit_id": "u:inch",
+   "notes": "Display sizes and threaded connections: ordinary inch, not the US survey inch."
+  },
+  {
+   "symbol": "lb",
+   "r": [
+    "R76",
+    "R60"
+   ],
+   "unit_id": "u:av_pound",
+   "notes": "Imperial capacity columns: avoirdupois pound, not troy."
+  }
+ ],
+ "currencies": {
+  "EUR": [
+   "€",
+   "EURO",
+   "EUR"
+  ]
  }
 };
 export const MODULES = { d011_environmental: {
- "$id": "https://oimlsmart.org/schemas/_modules/d011_environmental.yaml",
  "_meta": {
   "source": "OIML D 11:2013 \"General requirements for electronic measuring instruments\"",
   "source_path": "mn-samples-oiml/sources/d011-e13/sections/",
@@ -2638,7 +3280,7 @@ export const MODULES = { d011_environmental: {
    "description": "D 11 §7.2 table 1 — climatic environment class.",
    "allOf": [
     {
-     "$ref": "../_core.yaml#/definitions/StructuredValue"
+     "$ref": "_core.yaml#/definitions/StructuredValue"
     },
     {
      "properties": {
@@ -2667,7 +3309,7 @@ export const MODULES = { d011_environmental: {
    "description": "D 11 §7.3 table 2 — mechanical environment class.",
    "allOf": [
     {
-     "$ref": "../_core.yaml#/definitions/StructuredValue"
+     "$ref": "_core.yaml#/definitions/StructuredValue"
     },
     {
      "properties": {
@@ -2696,7 +3338,7 @@ export const MODULES = { d011_environmental: {
    "description": "D 11 §7.4 table 3 — electromagnetic environment class.",
    "allOf": [
     {
-     "$ref": "../_core.yaml#/definitions/StructuredValue"
+     "$ref": "_core.yaml#/definitions/StructuredValue"
     },
     {
      "properties": {
@@ -2725,7 +3367,7 @@ export const MODULES = { d011_environmental: {
    "description": "Ambient operating temperature range, structured with unit.",
    "allOf": [
     {
-     "$ref": "../_core.yaml#/definitions/StructuredValue"
+     "$ref": "_core.yaml#/definitions/StructuredValue"
     },
     {
      "properties": {
@@ -2857,9 +3499,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -2928,6 +3567,9 @@ const SCHEMAS = {
      "test_id": "d011_t41_load_dump"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -3685,9 +4327,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -3747,6 +4386,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -4321,6 +4963,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -5390,9 +6035,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -5458,6 +6100,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -5930,7 +6575,7 @@ const SCHEMAS = {
  },
  "x-oiml-category": "Water & Liquid",
  "x-oiml-short-title": "Water meters for cold potable water",
- "x-oiml-cert-count": 4
+ "x-oiml-cert-count": 487
 },
   "R50": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6016,9 +6661,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -6087,6 +6729,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -6459,7 +7104,7 @@ const SCHEMAS = {
  },
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Continuous totalizing automatic weighing",
- "x-oiml-cert-count": 5
+ "x-oiml-cert-count": 9
 },
   "R51": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6536,9 +7181,6 @@ const SCHEMAS = {
   },
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
-  },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
@@ -6617,6 +7259,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -7194,7 +7839,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Automatic catchweighing instruments",
- "x-oiml-cert-count": 100
+ "x-oiml-cert-count": 249
 },
   "R60": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7294,9 +7939,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -7365,6 +8007,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -7890,7 +8535,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Load cells",
- "x-oiml-cert-count": 100
+ "x-oiml-cert-count": 1208
 },
   "R61": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7966,9 +8611,6 @@ const SCHEMAS = {
   },
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
-  },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
@@ -8075,6 +8717,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -8803,7 +9448,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Automatic gravimetric filling instruments",
- "x-oiml-cert-count": 12
+ "x-oiml-cert-count": 53
 },
   "R76": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8889,9 +9534,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -8960,6 +9602,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -9446,7 +10091,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Non-automatic weighing instruments",
- "x-oiml-cert-count": 100
+ "x-oiml-cert-count": 1996
 },
   "R85": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9520,9 +10165,6 @@ const SCHEMAS = {
   },
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
-  },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
@@ -9637,6 +10279,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -10328,7 +10973,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Length & Dimension",
  "x-oiml-short-title": "Automatic level gauges",
- "x-oiml-cert-count": 99
+ "x-oiml-cert-count": 127
 },
   "R99": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10415,9 +11060,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -10480,6 +11122,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -10872,9 +11517,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -10943,6 +11585,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -11334,9 +11979,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -11405,6 +12047,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -11870,7 +12515,7 @@ const SCHEMAS = {
  },
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Automatic rail weighbridges",
- "x-oiml-cert-count": 3
+ "x-oiml-cert-count": 9
 },
   "R107": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -11956,9 +12601,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -12027,6 +12669,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -12398,7 +13043,7 @@ const SCHEMAS = {
  },
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Discontinuous totalizing instruments",
- "x-oiml-cert-count": 3
+ "x-oiml-cert-count": 9
 },
   "R111": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -12484,9 +13129,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -12512,6 +13154,9 @@ const SCHEMAS = {
     "$ref": "#/definitions/D011TestReference"
    },
    "default": []
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -12922,9 +13567,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -12988,6 +13630,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -13905,7 +14550,7 @@ const SCHEMAS = {
  },
  "x-oiml-category": "Fuel & Flow",
  "x-oiml-short-title": "Fuel dispensers (liquids other than water)",
- "x-oiml-cert-count": 85
+ "x-oiml-cert-count": 345
 },
   "R126": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -13981,9 +14626,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -14052,6 +14694,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -14474,9 +15119,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -14545,6 +15187,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -14859,7 +15504,7 @@ const SCHEMAS = {
  },
  "x-oiml-category": "Length & Dimension",
  "x-oiml-short-title": "Multidimensional measuring instruments",
- "x-oiml-cert-count": 3
+ "x-oiml-cert-count": 82
 },
   "R134": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -14935,9 +15580,6 @@ const SCHEMAS = {
   },
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
-  },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
@@ -15053,6 +15695,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -16065,7 +16710,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Weighing",
  "x-oiml-short-title": "Automatic instruments for weighing road vehicles",
- "x-oiml-cert-count": 35
+ "x-oiml-cert-count": 39
 },
   "R136": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -16151,9 +16796,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -16222,6 +16864,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -16605,9 +17250,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -16682,6 +17324,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -17630,7 +18275,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Fuel & Flow",
  "x-oiml-short-title": "Dynamic measuring systems for gas",
- "x-oiml-cert-count": 99
+ "x-oiml-cert-count": 232
 },
   "R139": {
  "$schema": "http://json-schema.org/draft-07/schema#",
@@ -17712,9 +18357,6 @@ const SCHEMAS = {
   "test_reports": {
    "$ref": "_core.yaml#/definitions/TestReportList"
   },
-  "evaluation_report": {
-   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
-  },
   "revision_history": {
    "$ref": "_core.yaml#/definitions/RevisionHistory"
   },
@@ -17783,6 +18425,9 @@ const SCHEMAS = {
      "test_id": "d011_t35_electrostatic_discharges"
     }
    ]
+  },
+  "evaluation_report": {
+   "$ref": "_core.yaml#/definitions/EvaluationReportRef"
   }
  },
  "definitions": {
@@ -18491,7 +19136,7 @@ const SCHEMAS = {
  ],
  "x-oiml-category": "Fuel & Flow",
  "x-oiml-short-title": "CNG & hydrogen dispensers",
- "x-oiml-cert-count": 39
+ "x-oiml-cert-count": 50
 },
 };
 
@@ -18499,25 +19144,25 @@ export const RECOMMENDATIONS = [
   { id: "R21", title: "OIML R21 (Taximeters) Certificate Schema", shortTitle: "Taximeters", category: "Other", certCount: 42, schema: SCHEMAS["R21"] },
   { id: "R31", title: "OIML R31 (Diaphragm gas meters) Certificate Schema", shortTitle: "Diaphragm gas meters", category: "Fuel & Flow", certCount: 39, schema: SCHEMAS["R31"] },
   { id: "R46", title: "OIML R46 (Active Electrical Energy Meters) Certificate Schema", shortTitle: "Active electrical energy meters", category: "Electricity", certCount: 98, schema: SCHEMAS["R46"] },
-  { id: "R49", title: "OIML R49 (Water Meters) Certificate Schema", shortTitle: "Water meters for cold potable water", category: "Water & Liquid", certCount: 4, schema: SCHEMAS["R49"] },
-  { id: "R50", title: "OIML R50 (Continuous Totalising Automatic Weighing Instruments) Certificate Schema", shortTitle: "Continuous totalizing automatic weighing", category: "Weighing", certCount: 5, schema: SCHEMAS["R50"] },
-  { id: "R51", title: "OIML R51 (Automatic Catchweighing Instruments) Certificate Schema", shortTitle: "Automatic catchweighing instruments", category: "Weighing", certCount: 100, schema: SCHEMAS["R51"] },
-  { id: "R60", title: "OIML R60 (Load Cells) Certificate Schema", shortTitle: "Load cells", category: "Weighing", certCount: 100, schema: SCHEMAS["R60"] },
-  { id: "R61", title: "OIML R61 (Automatic gravimetric filling instruments) Certificate Schema", shortTitle: "Automatic gravimetric filling instruments", category: "Weighing", certCount: 12, schema: SCHEMAS["R61"] },
-  { id: "R76", title: "OIML R76 (Non-automatic weighing instruments) Certificate Schema", shortTitle: "Non-automatic weighing instruments", category: "Weighing", certCount: 100, schema: SCHEMAS["R76"] },
-  { id: "R85", title: "OIML R85 (Automatic level measuring instruments) Certificate Schema", shortTitle: "Automatic level gauges", category: "Length & Dimension", certCount: 99, schema: SCHEMAS["R85"] },
+  { id: "R49", title: "OIML R49 (Water Meters) Certificate Schema", shortTitle: "Water meters for cold potable water", category: "Water & Liquid", certCount: 487, schema: SCHEMAS["R49"] },
+  { id: "R50", title: "OIML R50 (Continuous Totalising Automatic Weighing Instruments) Certificate Schema", shortTitle: "Continuous totalizing automatic weighing", category: "Weighing", certCount: 9, schema: SCHEMAS["R50"] },
+  { id: "R51", title: "OIML R51 (Automatic Catchweighing Instruments) Certificate Schema", shortTitle: "Automatic catchweighing instruments", category: "Weighing", certCount: 249, schema: SCHEMAS["R51"] },
+  { id: "R60", title: "OIML R60 (Load Cells) Certificate Schema", shortTitle: "Load cells", category: "Weighing", certCount: 1208, schema: SCHEMAS["R60"] },
+  { id: "R61", title: "OIML R61 (Automatic gravimetric filling instruments) Certificate Schema", shortTitle: "Automatic gravimetric filling instruments", category: "Weighing", certCount: 53, schema: SCHEMAS["R61"] },
+  { id: "R76", title: "OIML R76 (Non-automatic weighing instruments) Certificate Schema", shortTitle: "Non-automatic weighing instruments", category: "Weighing", certCount: 1996, schema: SCHEMAS["R76"] },
+  { id: "R85", title: "OIML R85 (Automatic level measuring instruments) Certificate Schema", shortTitle: "Automatic level gauges", category: "Length & Dimension", certCount: 127, schema: SCHEMAS["R85"] },
   { id: "R99", title: "OIML R99 (Breath Analyzers / Exhaust Gas Analyzers) Certificate Schema", shortTitle: "Breath alcohol analyzers", category: "Other", certCount: 2, schema: SCHEMAS["R99"] },
   { id: "R105", title: "OIML R105 (Direct Mass Flow Measurement) Certificate Schema", shortTitle: "Direct mass flow measuring systems", category: "Other", certCount: 1, schema: SCHEMAS["R105"] },
-  { id: "R106", title: "OIML R106 (Automatic Rail-Weighbridges) Certificate Schema", shortTitle: "Automatic rail weighbridges", category: "Weighing", certCount: 3, schema: SCHEMAS["R106"] },
-  { id: "R107", title: "OIML R107 (Discontinuous Totalizing Automatic Weighing Instruments) Certificate Schema", shortTitle: "Discontinuous totalizing instruments", category: "Weighing", certCount: 3, schema: SCHEMAS["R107"] },
+  { id: "R106", title: "OIML R106 (Automatic Rail-Weighbridges) Certificate Schema", shortTitle: "Automatic rail weighbridges", category: "Weighing", certCount: 9, schema: SCHEMAS["R106"] },
+  { id: "R107", title: "OIML R107 (Discontinuous Totalizing Automatic Weighing Instruments) Certificate Schema", shortTitle: "Discontinuous totalizing instruments", category: "Weighing", certCount: 9, schema: SCHEMAS["R107"] },
   { id: "R111", title: "OIML R111 (Weights of Accuracy Classes E1, E2, F1, F2, M1, M2, M3) Certificate Schema", shortTitle: "Weights of accuracy classes E1..M3", category: "Weighing", certCount: 1, schema: SCHEMAS["R111"] },
-  { id: "R117", title: "OIML R117 (Dynamic Measuring Systems for Liquids Other than Water) Certificate Schema", shortTitle: "Fuel dispensers (liquids other than water)", category: "Fuel & Flow", certCount: 85, schema: SCHEMAS["R117"] },
+  { id: "R117", title: "OIML R117 (Dynamic Measuring Systems for Liquids Other than Water) Certificate Schema", shortTitle: "Fuel dispensers (liquids other than water)", category: "Fuel & Flow", certCount: 345, schema: SCHEMAS["R117"] },
   { id: "R126", title: "OIML R126 (Evidential breath analyzers) Certificate Schema", shortTitle: "Evidential breath analyzers", category: "Other", certCount: 9, schema: SCHEMAS["R126"] },
-  { id: "R129", title: "OIML R129 (Multidimensional Measuring Instruments) Certificate Schema", shortTitle: "Multidimensional measuring instruments", category: "Length & Dimension", certCount: 3, schema: SCHEMAS["R129"] },
-  { id: "R134", title: "OIML R134 (Automatic instruments for weighing road vehicles in motion) Certificate Schema", shortTitle: "Automatic instruments for weighing road vehicles", category: "Weighing", certCount: 35, schema: SCHEMAS["R134"] },
+  { id: "R129", title: "OIML R129 (Multidimensional Measuring Instruments) Certificate Schema", shortTitle: "Multidimensional measuring instruments", category: "Length & Dimension", certCount: 82, schema: SCHEMAS["R129"] },
+  { id: "R134", title: "OIML R134 (Automatic instruments for weighing road vehicles in motion) Certificate Schema", shortTitle: "Automatic instruments for weighing road vehicles", category: "Weighing", certCount: 39, schema: SCHEMAS["R134"] },
   { id: "R136", title: "OIML R136 (Liquid Other Than Water — Density Measurement) Certificate Schema", shortTitle: "Liquid density measuring instruments", category: "Other", certCount: 1, schema: SCHEMAS["R136"] },
-  { id: "R137", title: "OIML R137 (Dynamic Measuring Systems for Gases — Gas Meters) Certificate Schema", shortTitle: "Dynamic measuring systems for gas", category: "Fuel & Flow", certCount: 99, schema: SCHEMAS["R137"] },
-  { id: "R139", title: "OIML R139 (Compressed gaseous fuel dispensers — CNG and hydrogen) Certificate Schema", shortTitle: "CNG & hydrogen dispensers", category: "Fuel & Flow", certCount: 39, schema: SCHEMAS["R139"] },
+  { id: "R137", title: "OIML R137 (Dynamic Measuring Systems for Gases — Gas Meters) Certificate Schema", shortTitle: "Dynamic measuring systems for gas", category: "Fuel & Flow", certCount: 232, schema: SCHEMAS["R137"] },
+  { id: "R139", title: "OIML R139 (Compressed gaseous fuel dispensers — CNG and hydrogen) Certificate Schema", shortTitle: "CNG & hydrogen dispensers", category: "Fuel & Flow", certCount: 50, schema: SCHEMAS["R139"] },
 ];
 
 export function getRecommendation(id) {

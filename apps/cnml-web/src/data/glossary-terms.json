@@ -1,7 +1,7 @@
 [
   {
-    "term": "Accuracy class",
-    "anchor": "accuracy-class",
+    "term": "Acceptance policy",
+    "anchor": "acceptance-policy",
     "aliases": []
   },
   {
@@ -32,6 +32,36 @@
   {
     "term": "Bridge CA",
     "anchor": "bridge-ca",
+    "aliases": []
+  },
+  {
+    "term": "Ceremony transcript",
+    "anchor": "ceremony-transcript",
+    "aliases": []
+  },
+  {
+    "term": "Classification policy",
+    "anchor": "classification-policy",
+    "aliases": []
+  },
+  {
+    "term": "Consistency proof",
+    "anchor": "consistency-proof",
+    "aliases": []
+  },
+  {
+    "term": "Co-signature",
+    "anchor": "co-signature",
+    "aliases": []
+  },
+  {
+    "term": "Coverage report",
+    "anchor": "coverage-report",
+    "aliases": []
+  },
+  {
+    "term": "Credential exchange",
+    "anchor": "credential-exchange",
     "aliases": []
   },
   {
@@ -125,6 +155,11 @@
     "aliases": []
   },
   {
+    "term": "Gossip",
+    "anchor": "gossip",
+    "aliases": []
+  },
+  {
     "term": "Governance",
     "anchor": "governance",
     "aliases": []
@@ -182,6 +217,11 @@
   {
     "term": "LTS",
     "anchor": "lts",
+    "aliases": []
+  },
+  {
+    "term": "Mirror",
+    "anchor": "mirror",
     "aliases": []
   },
   {
@@ -245,6 +285,11 @@
     "aliases": []
   },
   {
+    "term": "Registered-entity model",
+    "anchor": "registered-entity-model",
+    "aliases": []
+  },
+  {
     "term": "Revocation",
     "anchor": "revocation",
     "aliases": []
@@ -260,6 +305,16 @@
     "aliases": []
   },
   {
+    "term": "SIGNATIF",
+    "anchor": "signatif",
+    "aliases": []
+  },
+  {
+    "term": "Signed tree head",
+    "anchor": "signed-tree-head",
+    "aliases": []
+  },
+  {
     "term": "Scope (of an IA certificate)",
     "anchor": "scope-of-an-ia-certificate",
     "aliases": []
@@ -270,8 +325,18 @@
     "aliases": []
   },
   {
+    "term": "Status list",
+    "anchor": "status-list",
+    "aliases": []
+  },
+  {
     "term": "Subordinate CA",
     "anchor": "subordinate-ca",
+    "aliases": []
+  },
+  {
+    "term": "Trust dimension",
+    "anchor": "trust-dimension",
     "aliases": []
   },
   {
