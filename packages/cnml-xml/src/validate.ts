@@ -15,7 +15,7 @@ import Ajv from "ajv/dist/2019.js";
 // Recommendation id (R60…) — the runtime resolves the schema's $id to
 // that key. A hit means NO runtime codegen; the fallback compiles on
 // demand (node/dev, or a schema the generator skipped).
-import { PRECOMPILED } from "./compiled-validators";
+import { PRECOMPILED } from "./compiled-validators.ts";
 import draft7MetaSchema from "ajv/dist/refs/json-schema-draft-07.json" with { type: "json" };
 import type { ValidateFunction } from "ajv";
 
